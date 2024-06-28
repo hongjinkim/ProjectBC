@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DBManager : MonoBehaviour
-{
-    
-    private void Awake()
-    {
-        
-    }
+{ 
+    [SerializeField] private List<DB.CharacterBaseData> charaterBaseData = DB.GameData.characterBaseDatas;
 }
