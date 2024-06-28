@@ -154,7 +154,7 @@ public class AudioManager : MonoBehaviour
     //}
 
     // event-handling methods
-    void OnSettingsUpdated(GameData gameData)
+    void OnSettingsUpdated(PlayerInfo gameData)
     {
         // use the gameData to set the music and sfx volume
         SetVolume(MusicGroup + Parameter, gameData.musicVolume / 100f);
