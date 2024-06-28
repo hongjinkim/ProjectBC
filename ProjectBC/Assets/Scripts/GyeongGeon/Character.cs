@@ -11,6 +11,13 @@ public abstract class Character : MonoBehaviour, IBehavior
         death
     }
 
+    public GameObject prefabHpBar;
+    public GameObject canvas;
+
+    RectTransform hpBar;
+    float height = 1f;
+
+
     public UnitState _unitState = UnitState.idle;
 
     public Character _target;
@@ -30,12 +37,13 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     protected virtual void Start()
     {
-        
+        hpBar = Instantiate(prefabHpBar, canvas.transform).GetComponent<RectTransform>();
     }
 
     protected virtual void Update()
     {
         CheckState();
+        HpBarPositionCal();
     }
 
     void OnCollisionEnter2D(Collision2D collision) 
@@ -68,9 +76,9 @@ public abstract class Character : MonoBehaviour, IBehavior
         OnMove();
     }
 
-    public void Damageable()
+    public void Damageable(Character target, float _damage)
     {
-
+        target.health -= _damage;
     }
 
     public bool Die()
@@ -156,8 +164,22 @@ public abstract class Character : MonoBehaviour, IBehavior
 
             findTimer = 0;
         }
+    }
 
+    bool CheckTarget()
+    {
+        bool value = true;
 
+        if(_target == null) value = false;
+        if(_target._unitState == UnitState.death) value = false;
+        if(!_target.gameObject.activeInHierarchy) value = false;
+
+        if(!value)
+        {
+            SetState(UnitState.idle);
+        }
+
+        return value;
     }
 
     void OnMove()
@@ -182,11 +204,6 @@ public abstract class Character : MonoBehaviour, IBehavior
         {
             // 애니메이션.transform.localScale = new Vector3(1,1,1)
         }
-    }
-
-    void OnAttck()
-    {
-        // 애니메이션 삽입
     }
 
     bool CheckDistance()
@@ -222,20 +239,24 @@ public abstract class Character : MonoBehaviour, IBehavior
         }
     }
 
-    bool CheckTarget()
+    void OnAttck()
     {
-        bool value = true;
-
-        if(_target == null) value = false;
-        if(_target._unitState == UnitState.death) value = false;
-        if(!_target.gameObject.activeInHierarchy) value = false;
-
-        if(!value)
-        {
-            SetState(UnitState.idle);
-        }
-
-        return value;
+        _dirVec = _tempDistance = (Vector2)(_target.transform.localPosition - transform.position).normalized;
+        SetDirection();
+        // 애니메이션 삽입
+        SetAttack();
     }
 
+    void SetAttack()
+    {
+        Damageable(_target, attackDamage);
+        Debug.Log(this.health);
+        Debug.Log(_target.health);
+    }
+
+    void HpBarPositionCal()
+    {
+        Vector3 _hpBarPos = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y + height, 0));
+        hpBar.position = _hpBarPos;
+    }
 }
