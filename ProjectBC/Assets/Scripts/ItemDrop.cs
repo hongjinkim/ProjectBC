@@ -5,9 +5,7 @@ using UnityEngine;
 public class ItemDrop : MonoBehaviour
 {
     [SerializeField] private GameObject itemPrefab;
-
-    public int itemNumber;
-
+    [SerializeField] private int itemNumber;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -15,15 +13,22 @@ public class ItemDrop : MonoBehaviour
 
         GameObject item = Instantiate(itemPrefab, transform.position, Quaternion.identity);
         ItemComponent itemComponent = item.GetComponent<ItemComponent>();
+        ItemDisplayer itemDisplayer = item.GetComponent<ItemDisplayer>();
+
         if (itemComponent != null)
         {
-            itemComponent.index = ItemNumber();
+            int index = ItemNumber();
+            itemComponent.index = index;
+            if (itemDisplayer != null)
+            {
+                itemDisplayer.itemIndex = index;
+                itemDisplayer.LoadFromCSV(index);
+            }
         }
         else
         {
             Debug.LogWarning("ItemComponent가 프리팹에 없습니다.");
         }
-
     }
 
     public int ItemNumber()
