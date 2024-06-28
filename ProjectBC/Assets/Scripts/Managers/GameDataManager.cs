@@ -4,11 +4,10 @@ using UnityEngine;
 using System;
 
 [RequireComponent(typeof(SaveManager))]
-
 public class GameDataManager : MonoBehaviour
 {
-    [SerializeField] private GameData _gameData;
-    public GameData gameData { set => _gameData = value; get => _gameData; }
+    [SerializeField] private PlayerInfo _playerinfo;
+    public PlayerInfo playerInfo { set => _playerinfo = value; get => _playerinfo; }
 
     private SaveManager _saveManager;
 

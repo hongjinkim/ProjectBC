@@ -12,7 +12,7 @@ public class SaveManager : MonoBehaviour
     [Tooltip("Show Debug messages.")]
     [SerializeField] private bool _debugValues;
 
-    public static event Action<GameData> GameDataLoaded;
+    public static event Action<PlayerInfo> GameDataLoaded;
 
     void Awake()
     {
@@ -32,27 +32,27 @@ public class SaveManager : MonoBehaviour
     {
 
     }
-    public GameData NewGame()
+    public PlayerInfo NewGame()
     {
-        return new GameData();
+        return new PlayerInfo();
     }
 
     public void LoadGame()
     {
         // load saved data from FileDataHandler
 
-        if (_gameDataManager.gameData == null)
+        if (_gameDataManager.playerInfo == null)
         {
             if (_debugValues)
             {
                 Debug.Log("GAME DATA MANAGER LoadGame: Initializing game data.");
             }
 
-            _gameDataManager.gameData = NewGame();
+            _gameDataManager.playerInfo = NewGame();
         }
         else if (FileManager.LoadFromFile(_saveFilename, out var jsonString))
         {
-            _gameDataManager.gameData.LoadJson(jsonString);
+            _gameDataManager.playerInfo.LoadJson(jsonString);
 
             if (_debugValues)
             {
@@ -61,15 +61,15 @@ public class SaveManager : MonoBehaviour
         }
 
         // notify other game objects 
-        if (_gameDataManager.gameData != null)
+        if (_gameDataManager.playerInfo != null)
         {
-            GameDataLoaded?.Invoke(_gameDataManager.gameData);
+            GameDataLoaded?.Invoke(_gameDataManager.playerInfo);
         }
     }
 
     public void SaveGame()
     {
-        string jsonFile = _gameDataManager.gameData.ToJson();
+        string jsonFile = _gameDataManager.playerInfo.ToJson();
 
         // save to disk with FileDataHandler
         if (FileManager.WriteToFile(_saveFilename, jsonFile) && _debugValues)
@@ -81,15 +81,15 @@ public class SaveManager : MonoBehaviour
     void OnSettingsShown()
     {
         // pass the GameData to the Settings Screen
-        if (_gameDataManager.gameData != null)
+        if (_gameDataManager.playerInfo != null)
         {
-            GameDataLoaded?.Invoke(_gameDataManager.gameData);
+            GameDataLoaded?.Invoke(_gameDataManager.playerInfo);
         }
     }
 
-    void OnSettingsUpdated(GameData gameData)
+    void OnSettingsUpdated(PlayerInfo playerInfo)
     {
-        _gameDataManager.gameData = gameData;
+        _gameDataManager.playerInfo = playerInfo;
         SaveGame();
     }
 }
