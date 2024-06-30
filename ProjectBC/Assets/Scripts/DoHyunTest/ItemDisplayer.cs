@@ -29,13 +29,14 @@ public class ItemDisplayer : MonoBehaviour
             return;
         }
 
-        if (itemNameText != null) itemNameText.text = item.itemName;
-        if (itemQualityText != null) itemQualityText.text = item.itemQuality;
-        if (itemDescriptionText != null) itemDescriptionText.text = item.itemDescription;
+        if (itemNameText != null) 
+            itemNameText.text = item.itemName;
+        if (itemQualityText != null) 
+            itemQualityText.text = item.itemQuality;
+        if (itemDescriptionText != null) 
+            itemDescriptionText.text = item.itemDescription;
         if (itemSpriteRenderer != null)
-        {
             itemSpriteRenderer.sprite = item.itemImage;
-        }
     }
 
     public void LoadFromCSV(int index)

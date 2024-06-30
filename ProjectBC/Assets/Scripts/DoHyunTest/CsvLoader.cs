@@ -28,6 +28,7 @@ public class CsvLoader : MonoBehaviour
 
     public List<ItemData> itemDataList = new List<ItemData>();
 
+
     private void LoadCSVData()
     {
         string csvFilePath = "CSVs/MaterialItemData";
