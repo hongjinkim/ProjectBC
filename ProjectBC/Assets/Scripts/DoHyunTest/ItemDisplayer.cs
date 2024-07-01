@@ -12,7 +12,6 @@ public class ItemDisplayer : MonoBehaviour
         public string itemQuality;
         [TextArea(3, 10)]
         public string itemDescription;
-        public Sprite itemImage;
     }
 
     public ItemData item;
@@ -20,7 +19,7 @@ public class ItemDisplayer : MonoBehaviour
     private Text itemNameText;
     private Text itemQualityText;
     private Text itemDescriptionText;
-    private SpriteRenderer itemSpriteRenderer;
+
 
     public void DisplayItem()
     {
@@ -28,15 +27,9 @@ public class ItemDisplayer : MonoBehaviour
         {
             return;
         }
-
-        if (itemNameText != null) 
-            itemNameText.text = item.itemName;
-        if (itemQualityText != null) 
-            itemQualityText.text = item.itemQuality;
-        if (itemDescriptionText != null) 
-            itemDescriptionText.text = item.itemDescription;
-        if (itemSpriteRenderer != null)
-            itemSpriteRenderer.sprite = item.itemImage;
+        itemNameText.text = item.itemName;
+        itemQualityText.text = item.itemQuality;
+        itemDescriptionText.text = item.itemDescription;
     }
 
     public void LoadFromCSV(int index)
@@ -56,19 +49,16 @@ public class ItemDisplayer : MonoBehaviour
                 itemName = csvItem.itemName,
                 itemQuality = csvItem.itemQuality,
                 itemDescription = csvItem.itemDescription,
-                itemImage = LoadItemSprite(index.ToString())
             };
+            ImgLoader();
             DisplayItem();
         }
     }
 
-    private Sprite LoadItemSprite(string itemId)
+    private void ImgLoader()
     {
-        Sprite sprite = Resources.Load<Sprite>($"MaterialItemImages/{itemId}");
-        if (sprite == null)
-        {
-            sprite = Resources.Load<Sprite>("MaterialItemImages/default");
-        }
-        return sprite;
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = Resources.Load<Sprite>("ItemImg/5");
     }
+
 }

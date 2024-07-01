@@ -17,6 +17,7 @@ public class MagicPropertie : MonoBehaviour
         type = "def";
         MagicCreate();
         MagicValue();
+        ImgLoader();
     }
 
     public void MagicCreate()
@@ -54,6 +55,12 @@ public class MagicPropertie : MonoBehaviour
             int rand = Random.Range(minStat, maxStat);
             magicPropertyStats[i] = rand;
         }
+    }
+
+    private void ImgLoader()
+    {
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = Resources.Load<Sprite>("ItemImg/1");
     }
 }
 
