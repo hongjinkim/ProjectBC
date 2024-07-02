@@ -22,8 +22,14 @@ public class PlayerStat : MonoBehaviour
     private int _attackRange;
     private int _expAmplification;
     private int _trueDamage;
-    private int _energy; 
+    private int _energy;
+    private int _fixedDamage; // 추가 고정 피해 추가
 
+    public int FixedDamage // 추가 고정 피해 속성 추가
+    {
+        get { return _fixedDamage; }
+        set { _fixedDamage = value; }
+    }
     public int HP
     {
         get { return _hp; }
