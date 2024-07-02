@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public abstract class Character : MonoBehaviour, IBehavior
 {
@@ -12,6 +13,16 @@ public abstract class Character : MonoBehaviour, IBehavior
         death
     }
 
+    public enum AttackType
+    {
+        melee,
+        Projectile
+    }
+
+    private IObjectPool<DamageText> DamageTextPool;
+
+    public GameObject projectilePrefab;
+
     public GameObject canvas;
     public GameObject PrefabDmgTxt;
     float height = 1f;
@@ -21,6 +32,7 @@ public abstract class Character : MonoBehaviour, IBehavior
     public Vector2 _tempDistance;
     public Vector2 _dirVec;
     public UnitState _unitState = UnitState.idle;
+    public AttackType attackType;
 
     public float maxHealth;
     public float currentHealth;
@@ -43,7 +55,7 @@ public abstract class Character : MonoBehaviour, IBehavior
         CheckState();
     }
 
-    void OnCollisionEnter2D(Collision2D collision) 
+    void OnTriggerEnter2D(Collider2D collision) 
     {
         string targetTag = "";
 
@@ -75,13 +87,26 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     public void Damageable(Character target, float _damage)
     {
-        InstantiateDmgTxtObj(_damage);
         target.currentHealth -= _damage;
+        InstantiateDmgTxtObj(_damage);
+
+        if(currentHealth <= 0)
+        {
+            Die();
+        }
     }
 
-    public bool Die()
+    public void Die()
     {
-        return currentHealth == 0;
+        switch (gameObject.tag)
+        {
+            case "Hero":
+                GameManager.Instance.dungeonManager._heroUnitList.Remove(this);
+                break;
+            case "Enemy":
+                GameManager.Instance.dungeonManager._enemyUnitList.Remove(this);
+                break;
+        }
     }
 
     public bool Alive()
@@ -239,7 +264,8 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     void OnAttck()
     {
-        _dirVec = _tempDistance = (Vector2)(_target.transform.localPosition - transform.position).normalized;
+        _dirVec = (Vector2)(_target.transform.localPosition - transform.position).normalized;
+        //_dirVec = _tempDistance = (Vector2)(_target.transform.localPosition - transform.position).normalized;
         SetDirection();
         // 애니메이션 삽입
         SetAttack();
@@ -247,6 +273,20 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     void SetAttack()
     {
+        if (AttackType.Projectile.Equals(attackType))
+        {
+            if (projectilePrefab != null && _target != null)
+            {
+                GameObject projectileInstance = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+                Projectile projectile = projectileInstance.GetComponent<Projectile>();
+
+                if (projectile != null)
+                {
+                    projectile.InitProjectileRotation(_target.transform.position);
+                }
+            }
+        }
+
         Damageable(_target, attackDamage);
     }
 
@@ -255,7 +295,7 @@ public abstract class Character : MonoBehaviour, IBehavior
         GameObject DamageTxtObj = Instantiate(PrefabDmgTxt, canvas.transform);
         DamageTxtObj.GetComponent<TextMeshProUGUI>().text = damage.ToString();
 
-        Vector3 damagetxtPos = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y + height, 0));
+        Vector3 damagetxtPos = Camera.main.WorldToScreenPoint(new Vector3(_target.transform.position.x, _target.transform.position.y + height, 0));
         DamageTxtObj.GetComponent<RectTransform>().position = damagetxtPos;
     }
 
