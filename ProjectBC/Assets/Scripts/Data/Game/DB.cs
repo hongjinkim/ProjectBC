@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class DB
 {
-
+    
     // Å¬·¡½º
     [System.Serializable]
     public class CharacterBaseData
@@ -36,48 +36,50 @@ public class DB
         public int criticalDamage;
         public float defensePenetration;
 
-        public CharacterBaseData(int idx, string name, CharacteristicType characteristicType, int hp , int attackDamage, int defense, int magigResistance, int strength,
-            int agility, int intelligence, int stamina, float attackSpeed, float healthRegen, float energyRegen,int attackRange, float expAmplification, int trueDamage,
-            int damageBlock, float lifeSteal, float damageAmplification, float damageReduction, float criticalChance ,int criticalDamage, float defensePenetration)
-        {
-            this.idx = idx;
-            this.name = name;
-            this.characteristicType = characteristicType;
-            this.hp = hp;
-            this.attackDamage = attackDamage;
-            this.defense = defense;
-            this.magigResistance = magigResistance;
-            this.strength = strength;
-            this.agility = agility;
-            this.intelligence = intelligence;
-            this.stamina = stamina;
-            this.attackSpeed = attackSpeed;
-            this.healthRegen = healthRegen;
-            this.energyRegen = energyRegen;
-            this.attackRange = attackRange;
-            this.expAmplification = expAmplification;
-            this.trueDamage = trueDamage;
-            this.damageBlock = damageBlock;
-            this.lifeSteal = lifeSteal;
-            this.damageAmplification = damageAmplification;
-            this.damageReduction = damageReduction;
-            this.criticalChance = criticalChance;
-            this.criticalDamage = criticalDamage;
-            this.defensePenetration = defensePenetration;
-        }
+        //public CharacterBaseData(int idx, string name, CharacteristicType characteristicType, int hp, int attackDamage, int defense, int magigResistance, int strength,
+        //    int agility, int intelligence, int stamina, float attackSpeed, float healthRegen, float energyRegen, int attackRange, float expAmplification, int trueDamage,
+        //    int damageBlock, float lifeSteal, float damageAmplification, float damageReduction, float criticalChance, int criticalDamage, float defensePenetration)
+        //{
+        //    this.idx = idx;
+        //    this.name = name;
+        //    this.characteristicType = characteristicType;
+        //    this.hp = hp;
+        //    this.attackDamage = attackDamage;
+        //    this.defense = defense;
+        //    this.magigResistance = magigResistance;
+        //    this.strength = strength;
+        //    this.agility = agility;
+        //    this.intelligence = intelligence;
+        //    this.stamina = stamina;
+        //    this.attackSpeed = attackSpeed;
+        //    this.healthRegen = healthRegen;
+        //    this.energyRegen = energyRegen;
+        //    this.attackRange = attackRange;
+        //    this.expAmplification = expAmplification;
+        //    this.trueDamage = trueDamage;
+        //    this.damageBlock = damageBlock;
+        //    this.lifeSteal = lifeSteal;
+        //    this.damageAmplification = damageAmplification;
+        //    this.damageReduction = damageReduction;
+        //    this.criticalChance = criticalChance;
+        //    this.criticalDamage = criticalDamage;
+        //    this.defensePenetration = defensePenetration;
+        //}
     }
-
-
 
     ////////////////////
     public static class GameData
+
     {
-        public static List<CharacterBaseData> characterBaseDatas = new List<CharacterBaseData>()
-        { 
-            new CharacterBaseData(0, "warrior", CharacteristicType.MuscularStrength, 200, 10, 10, 10, 0, 0, 0, 0, 100, 100, 100, 1, 0, 0, 0, 0, 0, 0, 0, 150 ,0),
-            new CharacterBaseData(1, "archer", CharacteristicType.Agility, 200, 10, 10, 10, 0, 0, 0, 0, 100, 100, 100, 4, 0, 0, 0, 0, 0, 0, 0, 150, 0),
-            new CharacterBaseData(2, "wizard", CharacteristicType.Intellect, 200, 10, 10, 10, 0, 0, 0, 0, 100, 100, 100, 4, 0, 0, 0, 0, 0, 0, 0, 150, 0),
-            new CharacterBaseData(3, "priests", CharacteristicType.Intellect, 200, 10, 10, 10, 0, 0, 0, 0, 100, 100, 100, 4, 0, 0, 0, 0, 0, 0, 0, 150, 0)
-        };
+        public static CharacterBaseData[] characterBaseData;
+        //public static List<CharacterBaseData> characterBaseDatas = new List<CharacterBaseData>()
+        //{ 
+        //    new CharacterBaseData(0, "warrior", CharacteristicType.MuscularStrength, 200, 10, 10, 10, 0, 0, 0, 0, 100, 100, 100, 1, 0, 0, 0, 0, 0, 0, 0, 150 ,0),
+        //    new CharacterBaseData(1, "archer", CharacteristicType.Agility, 200, 10, 10, 10, 0, 0, 0, 0, 100, 100, 100, 4, 0, 0, 0, 0, 0, 0, 0, 150, 0),
+        //    new CharacterBaseData(2, "wizard", CharacteristicType.Intellect, 200, 10, 10, 10, 0, 0, 0, 0, 100, 100, 100, 4, 0, 0, 0, 0, 0, 0, 0, 150, 0),
+        //    new CharacterBaseData(3, "priests", CharacteristicType.Intellect, 200, 10, 10, 10, 0, 0, 0, 0, 100, 100, 100, 4, 0, 0, 0, 0, 0, 0, 0, 150, 0)
+        //};
     }
+
+    
 }

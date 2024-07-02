@@ -9,3 +9,10 @@ public enum CharacteristicType
     Agility,
     Intellect
 }
+public enum JobType
+{
+    warrior,
+    archer,
+    wizard,
+    priest
+}
