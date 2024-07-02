@@ -861,7 +861,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -1264,13 +1264,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02c0a2d3941687d47a9c8e6fd20f8814, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabHpBar: {fileID: 5007069763672503864, guid: cff3db33975fd044394c02c5d2ecfa0e, type: 3}
   canvas: {fileID: 1698518567}
-  _unitState: 0
+  PrefabDmgTxt: {fileID: 6964111845844443664, guid: e84e9ad4833e46d428be1edd0da661d4, type: 3}
   _target: {fileID: 0}
   _tempDistance: {x: 0, y: 0}
   _dirVec: {x: 0, y: 0}
-  health: 5
+  _unitState: 0
+  maxHealth: 10
+  currentHealth: 0
   moveSpeed: 1
   attackDamage: 2
   attackSpeed: 1
@@ -1315,10 +1316,11 @@ GameObject:
   m_Component:
   - component: {fileID: 549277478521762566}
   - component: {fileID: 7181753319280068728}
-  - component: {fileID: 4359260789357256284}
-  - component: {fileID: 7103676938957432745}
   - component: {fileID: 6989486386353719018}
   - component: {fileID: 5306123919975106148}
+  - component: {fileID: 4359260789357256284}
+  - component: {fileID: 7103676938957432745}
+  - component: {fileID: 7181753319280068729}
   m_Layer: 0
   m_Name: Knight
   m_TagString: Untagged
@@ -1398,10 +1400,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2723743756575610974}
   - component: {fileID: 3717713305383030917}
-  - component: {fileID: 2366682376327616860}
-  - component: {fileID: 4416337722401242098}
   - component: {fileID: 3371551460037247848}
   - component: {fileID: 5702770200850199185}
+  - component: {fileID: 2366682376327616860}
+  - component: {fileID: 4416337722401242098}
+  - component: {fileID: 7062654010132909452}
   m_Layer: 0
   m_Name: Dragon
   m_TagString: Untagged
@@ -1409,6 +1412,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &7062654010132909452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7062654010132909451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb92b5675e5758b439cb39869f42b34a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 1698518567}
+  prefabHpBar: {fileID: 5007069763672503864, guid: cff3db33975fd044394c02c5d2ecfa0e, type: 3}
 --- !u!114 &7103676938957432745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1421,13 +1438,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1028afab79bc7234eb12bcc269042b9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabHpBar: {fileID: 5007069763672503864, guid: cff3db33975fd044394c02c5d2ecfa0e, type: 3}
   canvas: {fileID: 1698518567}
-  _unitState: 0
+  PrefabDmgTxt: {fileID: 6964111845844443664, guid: e84e9ad4833e46d428be1edd0da661d4, type: 3}
   _target: {fileID: 0}
   _tempDistance: {x: 0, y: 0}
   _dirVec: {x: 0, y: 0}
-  health: 10
+  _unitState: 0
+  maxHealth: 20
+  currentHealth: 0
   moveSpeed: 1
   attackDamage: 5
   attackSpeed: 1
@@ -1487,6 +1505,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7181753319280068729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5371228711625407711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb92b5675e5758b439cb39869f42b34a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 1698518567}
+  prefabHpBar: {fileID: 5007069763672503864, guid: cff3db33975fd044394c02c5d2ecfa0e, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

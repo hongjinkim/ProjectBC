@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class PlayerInfo
 {
-    public uint gold;
+    public int gold;
+    public int diamond;
+    public int gem;
+
+
+
     public string username;
     public float musicVolume;
     public float sfxVolume;

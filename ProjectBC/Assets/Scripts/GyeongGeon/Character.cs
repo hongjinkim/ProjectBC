@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public abstract class Character : MonoBehaviour, IBehavior
@@ -11,21 +12,18 @@ public abstract class Character : MonoBehaviour, IBehavior
         death
     }
 
-    public GameObject prefabHpBar;
     public GameObject canvas;
-
-    RectTransform hpBar;
+    public GameObject PrefabDmgTxt;
     float height = 1f;
-
-
-    public UnitState _unitState = UnitState.idle;
 
     public Character _target;
 
     public Vector2 _tempDistance;
     public Vector2 _dirVec;
+    public UnitState _unitState = UnitState.idle;
 
-    public float health;
+    public float maxHealth;
+    public float currentHealth;
     public float moveSpeed;
     public float attackDamage;
     public float attackSpeed;
@@ -37,13 +35,12 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     protected virtual void Start()
     {
-        hpBar = Instantiate(prefabHpBar, canvas.transform).GetComponent<RectTransform>();
+        currentHealth = maxHealth;
     }
 
     protected virtual void Update()
     {
         CheckState();
-        HpBarPositionCal();
     }
 
     void OnCollisionEnter2D(Collision2D collision) 
@@ -78,17 +75,18 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     public void Damageable(Character target, float _damage)
     {
-        target.health -= _damage;
+        InstantiateDmgTxtObj(_damage);
+        target.currentHealth -= _damage;
     }
 
     public bool Die()
     {
-        return health == 0;
+        return currentHealth == 0;
     }
 
     public bool Alive()
     {
-        return health > 0; 
+        return currentHealth > 0; 
     }
 
     public void Attack()
@@ -250,13 +248,15 @@ public abstract class Character : MonoBehaviour, IBehavior
     void SetAttack()
     {
         Damageable(_target, attackDamage);
-        Debug.Log(this.health);
-        Debug.Log(_target.health);
     }
 
-    void HpBarPositionCal()
+    void InstantiateDmgTxtObj(float damage)
     {
-        Vector3 _hpBarPos = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y + height, 0));
-        hpBar.position = _hpBarPos;
+        GameObject DamageTxtObj = Instantiate(PrefabDmgTxt, canvas.transform);
+        DamageTxtObj.GetComponent<TextMeshProUGUI>().text = damage.ToString();
+
+        Vector3 damagetxtPos = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y + height, 0));
+        DamageTxtObj.GetComponent<RectTransform>().position = damagetxtPos;
     }
+
 }
