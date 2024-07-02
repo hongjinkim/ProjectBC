@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class DB
 {
-    
     // Å¬·¡½º
     [System.Serializable]
     public class CharacterBaseData
@@ -65,20 +64,6 @@ public class DB
         //    this.criticalDamage = criticalDamage;
         //    this.defensePenetration = defensePenetration;
         //}
-    }
-
-    ////////////////////
-    public static class GameData
-
-    {
-        public static CharacterBaseData[] characterBaseData;
-        //public static List<CharacterBaseData> characterBaseDatas = new List<CharacterBaseData>()
-        //{ 
-        //    new CharacterBaseData(0, "warrior", CharacteristicType.MuscularStrength, 200, 10, 10, 10, 0, 0, 0, 0, 100, 100, 100, 1, 0, 0, 0, 0, 0, 0, 0, 150 ,0),
-        //    new CharacterBaseData(1, "archer", CharacteristicType.Agility, 200, 10, 10, 10, 0, 0, 0, 0, 100, 100, 100, 4, 0, 0, 0, 0, 0, 0, 0, 150, 0),
-        //    new CharacterBaseData(2, "wizard", CharacteristicType.Intellect, 200, 10, 10, 10, 0, 0, 0, 0, 100, 100, 100, 4, 0, 0, 0, 0, 0, 0, 0, 150, 0),
-        //    new CharacterBaseData(3, "priests", CharacteristicType.Intellect, 200, 10, 10, 10, 0, 0, 0, 0, 100, 100, 100, 4, 0, 0, 0, 0, 0, 0, 0, 150, 0)
-        //};
     }
 
     
