@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DungeonManager : MonoBehaviour
@@ -10,7 +9,8 @@ public class DungeonManager : MonoBehaviour
     public List<Character> _heroUnitList = new List<Character>();
     public List<Character> _enemyUnitList = new List<Character>();
 
-    private void Awake() {
+    private void Awake() 
+    {
         GameManager.Instance.dungeonManager = this;    
     }
 

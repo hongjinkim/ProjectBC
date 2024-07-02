@@ -1,10 +1,12 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 [Serializable]
 public class PlayerStat : MonoBehaviour
 {
     public CharacteristicType CharacteristicType;
+    public JobType JobType;
 
     private int _hp;
     private int _attackDamage;
@@ -20,6 +22,7 @@ public class PlayerStat : MonoBehaviour
     private int _attackRange;
     private int _expAmplification;
     private int _trueDamage;
+    private int _energy; 
 
     public int HP
     {
@@ -103,5 +106,26 @@ public class PlayerStat : MonoBehaviour
     {
         get { return _trueDamage; }
         set { _trueDamage = value; }
+    }
+    public int Energy // 에너지 속성 추가
+    {
+        get { return _energy; }
+        set { _energy = value; }
+    }
+    private void Start()
+    {
+        // 초기값 설정
+        _energy = 100; // 기본 에너지 설정
+        _energyRegen = 5; // 에너지 재생 속도 설정
+        StartCoroutine(RegenerateEnergy());
+    }
+
+    private IEnumerator RegenerateEnergy()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            _energy = Mathf.Min(_energy + _energyRegen, 100); // 최대 에너지는 100으로 제한
+        }
     }
 }
