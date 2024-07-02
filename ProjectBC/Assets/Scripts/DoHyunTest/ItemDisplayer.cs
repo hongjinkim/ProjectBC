@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +21,8 @@ public class ItemDisplayer : MonoBehaviour
     private Text itemQualityText;
     private Text itemDescriptionText;
 
+    List<CsvLoader.ItemData> itemDatas;
+
 
     public void DisplayItem()
     {
@@ -37,8 +40,9 @@ public class ItemDisplayer : MonoBehaviour
         if (CsvLoader.Instance == null || CsvLoader.Instance.itemDataList == null)
         {
             return;
-        }
+        }        
 
+        itemDatas = CsvLoader.Instance.itemDataList;
         var csvItem = CsvLoader.Instance.itemDataList.Find(x => x.index == index);
         if (csvItem != null)
         {
