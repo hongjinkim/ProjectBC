@@ -16,3 +16,13 @@ public enum JobType
     wizard,
     priest
 }
+
+[System.Serializable]
+public enum Rarity
+{
+    Common = 1 ,
+    Uncommon = 2,
+    Rare = 3,
+    Unique = 4 ,
+    Epic = 5
+}

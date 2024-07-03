@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+
 public class DB
 {
-    // Å¬·¡½º
     [System.Serializable]
     public class CharacterBaseData
     {
@@ -64,6 +64,14 @@ public class DB
         //    this.criticalDamage = criticalDamage;
         //    this.defensePenetration = defensePenetration;
         //}
+    }
+    [System.Serializable]
+    public class ItemBaseData
+    {
+        public int idx;
+        public string itemName;
+        public Rarity itemRarity;
+        public string itemDescription;
     }
 
     

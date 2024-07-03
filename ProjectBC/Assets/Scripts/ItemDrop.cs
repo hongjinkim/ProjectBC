@@ -19,11 +19,11 @@ public class ItemDrop : MonoBehaviour
         {
             int index = ItemNumber();
             itemComponent.index = index;
-            if (itemDisplayer != null)
-            {
-                itemDisplayer.itemIndex = index;
-                itemDisplayer.LoadFromCSV(index);
-            }
+            //if (itemDisplayer != null)
+            //{
+            //    itemDisplayer.itemIndex = index;
+            //    itemDisplayer.LoadFromCSV(index);
+            //}
         }
         else
         {
