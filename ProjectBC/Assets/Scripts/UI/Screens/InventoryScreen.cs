@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,49 +14,19 @@ public class InventoryScreen : MenuScreen
     public Transform MaterialSlot;
     public Transform CrystalSlot;
 
-
     private void OnEnable()
     {
-        GameDataManager.EquipableInventoryUpdated += OnEquipableUpdate;
-        GameDataManager.UsableInventoryUpdated += OnUsableUpdate;
-        GameDataManager.MaterialInventoryUpdated += OnMaterialUpdate;
-        GameDataManager.CrystalInventoryUpdated += OnCrystalUpdate;
-
+        
     }
 
     private void OnDisable()
     {
-        GameDataManager.EquipableInventoryUpdated -= OnEquipableUpdate;
-        GameDataManager.UsableInventoryUpdated -= OnUsableUpdate;
-        GameDataManager.MaterialInventoryUpdated -= OnMaterialUpdate;
-        GameDataManager.CrystalInventoryUpdated -= OnCrystalUpdate;
-
+       
     }
 
-    void OnEquipableUpdate(PlayerInfo info)
-    {
-
-    }
-    void OnUsableUpdate(PlayerInfo info)
-    {
-
-    }
-    void OnMaterialUpdate(PlayerInfo info)
-    {
-
-    }
-    void OnCrystalUpdate(PlayerInfo info)
-    {
-
-    }
-
-    void FreshSlot()
-    {
-
-    }
-
-    void MakeSlot()
+    private void Awake()
     {
         
     }
+
 }

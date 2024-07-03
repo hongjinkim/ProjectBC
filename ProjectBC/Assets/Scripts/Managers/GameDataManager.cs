@@ -14,14 +14,12 @@ public class GameDataManager : MonoBehaviour
     public static event Action<PlayerInfo> LevelUpdated;
     public static event Action<PlayerInfo> BattlePointUpdated;
 
-    //playerInfo inventory Event
-    public static event Action<PlayerInfo> EquipableInventoryUpdated;
-    public static event Action<PlayerInfo> UsableInventoryUpdated;
-    public static event Action<PlayerInfo> MaterialInventoryUpdated;
-    public static event Action<PlayerInfo> CrystalInventoryUpdated;
+    public static Action<IItem> ItemAdded;
+
     //characterData Event
 
     //itemData Event
+
 
     // private class
     [SerializeField] private PlayerInfo _playerInfo;
@@ -62,7 +60,7 @@ public class GameDataManager : MonoBehaviour
         UpdateFunds();
         UpdateLevel();
         UpdateBattlePoint();
-        UpdateAllInventorys();
+        //UpdateAllInventorys();
     }
 
     void UpdateFunds()
@@ -82,33 +80,12 @@ public class GameDataManager : MonoBehaviour
         if (_playerInfo != null)
             BattlePointUpdated?.Invoke(_playerInfo);
     }
-    void UpdateAllInventorys()
-    {
-        UpdateEquipableInventory();
-        UpdateUsableInventory();
-        UpdateMaterialInventory();
-        UpdateCrystalInventory();
-    }
 
-    void UpdateEquipableInventory()
+    void AddItem(IItem item)
     {
-        if (_playerInfo != null)
-            EquipableInventoryUpdated?.Invoke(_playerInfo);
-    }
-    void UpdateUsableInventory()
-    {
-        if (_playerInfo != null)
-            UsableInventoryUpdated?.Invoke(_playerInfo);
-    }
-    void UpdateMaterialInventory()
-    {
-        if (_playerInfo != null)
-            MaterialInventoryUpdated?.Invoke(_playerInfo);
-    }
-    void UpdateCrystalInventory()
-    {
-        if (_playerInfo != null)
-            CrystalInventoryUpdated?.Invoke(_playerInfo);
+        if (item != null)
+            ItemAdded?.Invoke(item);
+        _playerInfo.inventory.Add(item);
     }
 
     private void LoadDatas()

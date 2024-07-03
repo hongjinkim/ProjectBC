@@ -16,8 +16,6 @@ public enum JobType
     wizard,
     priest
 }
-
-[System.Serializable]
 public enum Rarity
 {
     Common = 1 ,
@@ -25,4 +23,12 @@ public enum Rarity
     Rare = 3,
     Unique = 4 ,
     Epic = 5
+}
+
+public enum ItemType
+{
+    Equipable,
+    Usable,
+    Material,
+    Crystal
 }
