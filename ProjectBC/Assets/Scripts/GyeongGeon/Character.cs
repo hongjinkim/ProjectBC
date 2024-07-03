@@ -19,6 +19,7 @@ public abstract class Character : MonoBehaviour, IBehavior
         Projectile
     }
 
+
     private IObjectPool<DamageText> DamageTextPool;
 
     public GameObject projectilePrefab;
