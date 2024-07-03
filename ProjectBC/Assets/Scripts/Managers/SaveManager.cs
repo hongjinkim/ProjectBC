@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System;
+using UnityEditor.PackageManager;
 
 [RequireComponent(typeof(GameDataManager))]
 public class SaveManager : MonoBehaviour
 {
     private GameDataManager _gameDataManager;
+    
+
     [SerializeField] private string _saveFilename = "savegame.dat";
-    [Tooltip("Show Debug messages.")]
+
+
     [SerializeField] private bool _debugValues;
+    [SerializeField] private bool _resetGame;
 
     public static event Action<PlayerInfo> GameDataLoaded;
 
@@ -41,7 +46,7 @@ public class SaveManager : MonoBehaviour
     {
         // load saved data from FileDataHandler
 
-        if (_gameDataManager.playerInfo == null)
+        if (_gameDataManager.playerInfo == null || _resetGame)
         {
             if (_debugValues)
             {

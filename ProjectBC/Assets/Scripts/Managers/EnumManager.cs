@@ -16,3 +16,19 @@ public enum JobType
     wizard,
     priest
 }
+public enum Rarity
+{
+    Common = 1 ,
+    Uncommon = 2,
+    Rare = 3,
+    Unique = 4 ,
+    Epic = 5
+}
+
+public enum ItemType
+{
+    Equipable,
+    Usable,
+    Material,
+    Crystal
+}
