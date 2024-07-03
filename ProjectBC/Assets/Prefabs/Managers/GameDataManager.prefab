@@ -45,6 +45,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c7b985148d1874b887b8ee6f29ca30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerInfo:
+    gold: 0
+    diamond: 0
+    gem: 0
+    InventoryEquipable: []
+    InventoryUsable: []
+    InventoryMaterial: []
+    InventoryCrystal: []
+    username: GUEST_123456
+    battlePoint: 0
+    level: 1
+    musicVolume: 80
+    sfxVolume: 80
+  _characterBaseDatas: []
+  _itemBaseDatas: []
 --- !u!114 &3412116306422996925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57,3 +72,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f325af297edae314081432e271efb8c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _saveFilename: savegame.dat
+  _debugValues: 0
+  _resetGame: 1
