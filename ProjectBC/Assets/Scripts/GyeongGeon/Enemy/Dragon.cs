@@ -1,8 +1,8 @@
 public class Dragon : Character
 {
-    protected override void Start()
+    protected override void OnAnimAttack()
     {
-        base.Start();
+        animator.SetTrigger("Slash1H");
+        IsAction = true;
     }
-
 }

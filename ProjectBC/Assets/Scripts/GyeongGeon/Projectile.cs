@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public float speed;
     private Vector2 targetPosition;
+    public float speed;
+    public float AddAngle;
 
     public void InitProjectileRotation(Vector2 target)
     {
@@ -12,7 +13,7 @@ public class Projectile : MonoBehaviour
         // 투사체의 방향을 설정
         Vector2 direction = (targetPosition - (Vector2)transform.position).normalized;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle + 270));
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle + AddAngle));
     }
 
     void Update()

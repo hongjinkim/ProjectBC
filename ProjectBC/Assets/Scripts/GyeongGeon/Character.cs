@@ -6,11 +6,11 @@ public abstract class Character : MonoBehaviour, IBehavior
 {
     public enum UnitState
     {
-        idle,
-        move,
+        idle = 0,
+        move = 2,
         attack,
         skill,
-        death
+        death = 6
     }
 
     public enum AttackType
@@ -21,6 +21,8 @@ public abstract class Character : MonoBehaviour, IBehavior
 
 
     private IObjectPool<DamageText> DamageTextPool;
+
+    public Animator animator;
 
     public GameObject projectilePrefab;
 
@@ -46,12 +48,13 @@ public abstract class Character : MonoBehaviour, IBehavior
     public float findTimer;
     public float attackTimer;
 
+
     protected virtual void Start()
     {
         currentHealth = maxHealth;
     }
 
-    protected virtual void Update()
+    protected void Update()
     {
         CheckState();
     }
@@ -152,14 +155,16 @@ public abstract class Character : MonoBehaviour, IBehavior
         switch (_unitState)
         {
             case UnitState.idle:
-                //애니메이션 삽입
+                SetAnimatorState(state);
                 break;
 
             case UnitState.move:
+                SetAnimatorState(state);
                 //애니메이션 삽입
                 break;
 
             case UnitState.attack:
+                SetAnimatorState(0);
                 //애니메이션 삽입
                 break;
 
@@ -168,6 +173,7 @@ public abstract class Character : MonoBehaviour, IBehavior
                 break;
 
             case UnitState.death:
+                SetAnimatorState(state);
                 //애니메이션 삽입
                 break;
         }
@@ -268,7 +274,9 @@ public abstract class Character : MonoBehaviour, IBehavior
         _dirVec = (Vector2)(_target.transform.localPosition - transform.position).normalized;
         //_dirVec = _tempDistance = (Vector2)(_target.transform.localPosition - transform.position).normalized;
         SetDirection();
+
         // 애니메이션 삽입
+        OnAnimAttack();
         SetAttack();
     }
 
@@ -299,5 +307,30 @@ public abstract class Character : MonoBehaviour, IBehavior
         Vector3 damagetxtPos = Camera.main.WorldToScreenPoint(new Vector3(_target.transform.position.x, _target.transform.position.y + height, 0));
         DamageTxtObj.GetComponent<RectTransform>().position = damagetxtPos;
     }
+
+    public bool IsAction
+    {
+        get => animator.GetBool("Action");
+        set => animator.SetBool("Action", value);
+    }
+
+    public void SetAnimatorState(UnitState state)
+	{
+		animator.SetInteger("State", (int) state);
+	}
+
+    public void Slash1H()
+	{
+		animator.SetTrigger("Slash1H");
+        IsAction = true;
+    }
+
+    public void ShotBow()
+	{
+		animator.SetTrigger("ShotBow");
+        IsAction = true;
+	}
+
+    protected virtual void OnAnimAttack(){Debug.Log("공격애니메이션발동");}
 
 }

@@ -1,8 +1,25 @@
+public enum HeroClass
+{
+    Knight,
+    Archer,
+    Priest,
+    Wizard
+}
+
 public class Knight : Character
 {
-    protected override void Start()
+    public HeroClass _heroClass;
+
+    protected override void Start() 
     {
-        base.Start();
+        _heroClass = HeroClass.Knight;    
     }
+
+    protected override void OnAnimAttack()
+    {
+        animator.SetTrigger("Slash1H");
+        IsAction = true;
+    }
+
 
 }

@@ -19,11 +19,6 @@ public class DungeonManager : MonoBehaviour
         SetUnitList();
     }
 
-    void Update()
-    {
-        
-    }
-
     void SetUnitList()
     {
         _heroUnitList.Clear();
@@ -36,12 +31,12 @@ public class DungeonManager : MonoBehaviour
                 switch(i)
                 {
                     case 0:
-                        _heroUnitList.Add(_unitPool[i].GetChild(j).GetComponent<Knight>());
+                        _heroUnitList.Add(_unitPool[i].GetChild(j).GetComponent<Character>());
                         _unitPool[i].GetChild(j).gameObject.tag = "Hero";
                         break;
 
                     case 1:
-                        _enemyUnitList.Add(_unitPool[i].GetChild(j).GetComponent<Dragon>());
+                        _enemyUnitList.Add(_unitPool[i].GetChild(j).GetComponent<Character>());
                         _unitPool[i].GetChild(j).gameObject.tag = "Enemy";
                         break;
                 }
