@@ -93,47 +93,8 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void SelectTrait()
-    {
-        List<Trait> availableTraits = GetAvailableTraits(Level);
-
-        // 여기서 플레이어가 특성을 선택하는 로직을 추가합니다.
-        // 예를 들어, UI를 통해 플레이어가 선택할 수 있도록 할 수 있습니다.
-        // 여기서는 첫 번째 특성을 자동으로 선택하는 예시를 제공합니다.
-        if (availableTraits.Count > 0)
-        {
-            Traits.Add(availableTraits[0]);
-            availableTraits[0].ApplyEffect();
-        }
-    }
-
-    private List<Trait> GetAvailableTraits(int level)
-    {
-        List<Trait> traits = new List<Trait>();
-
-        if (level == 10)
-        {
-            traits.Add(new Trait("방어 침투 +3%", "방어 침투를 3% 증가시킵니다.", () => { /* 방어 침투 증가 로직 */ }));
-            traits.Add(new Trait("피해 증폭 +3%", "피해를 3% 증폭시킵니다.", () => { /* 피해 증폭 로직 */ }));
-        }
-        else if (level == 20)
-        {
-            traits.Add(new Trait("후속 공격 추가 피해 +8%", "적을 5회 공격 후 후속 공격에 8%의 추가 피해를 입힙니다.", () => { /* 추가 피해 로직 */ }));
-            traits.Add(new Trait("추가 공격 속도 +20", "적을 5회 공격 후 3초 동안 20의 추가 공격 속도를 얻습니다.", () => { /* 추가 공격 속도 로직 */ }));
-        }
-        else if (level == 30)
-        {
-            traits.Add(new Trait("아머 및 마법 저항 감소 6%", "일반 공격은 타겟의 아머와 마법 저항을 6% 줄입니다.", () => { /* 아머 및 마법 저항 감소 로직 */ }));
-            traits.Add(new Trait("체력 재생 감소 20", "일반 공격은 타겟의 체력 재생을 3초 동안 20으로 줄입니다.", () => { /* 체력 재생 감소 로직 */ }));
-        }
-        else if (level == 40)
-        {
-            traits.Add(new Trait("공격 속도 증가 +25", "적을 죽이면 3초 동안 공격 속도가 25 증가합니다.", () => { /* 공격 속도 증가 로직 */ }));
-            traits.Add(new Trait("공격 피해 증가 +12%", "적을 죽이면 3초 동안 공격 피해가 12% 증가합니다.", () => { /* 공격 피해 증가 로직 */ }));
-        }
-
-        return traits;
-    }
+   
+        
 
 }
 

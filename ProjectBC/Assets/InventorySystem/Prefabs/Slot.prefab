@@ -28,9 +28,9 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 224802004478583408}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -103,9 +103,9 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 224802004478583408}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -177,12 +177,12 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 224505114879471808}
   - {fileID: 224914002682933620}
   - {fileID: 6277365721991267905}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -198,15 +198,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1967963656722664}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c75e3a26bedbcb147bcb8f02343721f3, type: 3}
+  m_Script: {fileID: 11500000, guid: d3b2e09c324bafd459deb096f900b945, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Icon: {fileID: 2502123618697030900}
-  Background: {fileID: 114551700582392756}
-  ActiveSprite: {fileID: 21300000, guid: fef1144b00f657b4fa3174365c4c3b4b, type: 3}
-  LockedSprite: {fileID: 21300000, guid: 28f83d71ea6c28b499085210ea78cb72, type: 3}
-  Types: 
-  Classes: 
+  icon: {fileID: 2502123618697030900}
+  background: {fileID: 114551700582392756}
+  activeSprite: {fileID: 21300000, guid: fef1144b00f657b4fa3174365c4c3b4b, type: 3}
+  lockedSprite: {fileID: 21300000, guid: 28f83d71ea6c28b499085210ea78cb72, type: 3}
+  types: 
+  classes: 
 --- !u!1 &904256639915385145
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,9 +235,9 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 224802004478583408}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
