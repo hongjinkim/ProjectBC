@@ -11,7 +11,6 @@ public class PlayerInfo
     public int gem;
 
     [Header("Inventory")]
-    public List<IItem> inventory;
     
     [Header("PlayerInfo")]
     public string username;
@@ -46,7 +45,7 @@ public class PlayerInfo
     // 디버깅 용 초기 인벤토리 상태 만들기
     private void InitInventory()
     {
-        inventory = new List<IItem>();
+
     }
 
     public string ToJson()
