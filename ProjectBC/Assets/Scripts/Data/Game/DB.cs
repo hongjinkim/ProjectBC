@@ -65,14 +65,6 @@ public class DB
         //    this.defensePenetration = defensePenetration;
         //}
     }
-    [System.Serializable]
-    public class ItemBaseData
-    {
-        public int idx;
-        public string itemName;
-        public Rarity itemRarity;
-        public string itemDescription;
-    }
 
     
 }

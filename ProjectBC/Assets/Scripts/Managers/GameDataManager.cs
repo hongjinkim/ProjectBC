@@ -14,7 +14,6 @@ public class GameDataManager : MonoBehaviour
     public static event Action<PlayerInfo> LevelUpdated;
     public static event Action<PlayerInfo> BattlePointUpdated;
 
-    public static Action<IItem> ItemAdded;
 
     //characterData Event
 
@@ -24,7 +23,6 @@ public class GameDataManager : MonoBehaviour
     // private class
     [SerializeField] private PlayerInfo _playerInfo;
     [SerializeField] private CharacterBaseData[] _characterBaseDatas;
-    [SerializeField] private ItemBaseData[] _itemBaseDatas;
 
     //public class
     public PlayerInfo playerInfo { set => _playerInfo = value; get => _playerInfo; }
@@ -81,17 +79,11 @@ public class GameDataManager : MonoBehaviour
             BattlePointUpdated?.Invoke(_playerInfo);
     }
 
-    void AddItem(IItem item)
-    {
-        if (item != null)
-            ItemAdded?.Invoke(item);
-        _playerInfo.inventory.Add(item);
-    }
+
 
     private void LoadDatas()
     {
         _characterBaseDatas = LoadArrayJson<CharacterBaseData>("CharacterBaseData.json");
-        _itemBaseDatas = LoadArrayJson<ItemBaseData>("ItemBaseData.json");
     }
 
 }
