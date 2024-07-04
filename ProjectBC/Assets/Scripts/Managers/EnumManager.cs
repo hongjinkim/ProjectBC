@@ -32,3 +32,13 @@ public enum ItemType
     Material,
     Crystal
 }
+
+public enum TraitType
+{
+    Concentration, // 집중
+    Plunder,       // 약탈
+    Magic,         // 요술
+    Protection,    // 보호
+    Life,          // 생명
+    Explosion      // 폭발
+}
