@@ -22,10 +22,6 @@ public class CharacterMovement : MonoBehaviour
         customTilemapManager = new CustomTilemapManager(tilemapManager, this);
         transform.position = tilemapManager.GetNearestValidPosition(transform.position);
         detection = GetComponent<Detection>();
-        if (detection == null)
-        {
-            Debug.LogError("¿©±â¾ß");
-        }
         StartCoroutine(AutoMoveCoroutine());
     }
 
@@ -117,13 +113,17 @@ public class CharacterMovement : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(updatePathInterval);
-            if (autoMove)
+            if (autoMove && detection != null)
             {
                 GameObject closestObject = detection.GetClosestObject();
                 if (closestObject != null)
                 {
                     Vector3 targetPosition = closestObject.transform.position;
                     SetNewPath(targetPosition);
+                }
+                else
+                {
+                    Debug.LogWarning("No closest object found.");
                 }
             }
         }
