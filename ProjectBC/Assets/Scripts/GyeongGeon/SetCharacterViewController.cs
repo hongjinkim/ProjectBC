@@ -7,12 +7,12 @@ public class SetCharacterViewController : MonoBehaviour
 
     public GameObject canvas;
     public GameObject prefabHpBar;
-
+    
+    GameObject hpBarObj;
     RectTransform hpBar;
     Image currentHpBarAmount;
 
     float height = 1f;
-
 
     private void Awake() 
     {
@@ -28,11 +28,13 @@ public class SetCharacterViewController : MonoBehaviour
     {
         CalPosHpBar();
         ControlViewHpBar();
+        ControlActive();
     }
 
     public void InitHpBar()
     {
-        hpBar = Instantiate(prefabHpBar, canvas.transform).GetComponent<RectTransform>();
+        hpBarObj = Instantiate(prefabHpBar, GameManager.Instance.dungeonManager.canvas.transform);
+        hpBar = hpBarObj.GetComponent<RectTransform>();
         currentHpBarAmount = hpBar.transform.GetChild(0).GetChild(0).GetComponent<Image>();
     }
 
@@ -45,6 +47,14 @@ public class SetCharacterViewController : MonoBehaviour
     public void ControlViewHpBar()
     {
         currentHpBarAmount.fillAmount = (float)character.currentHealth / (float)character.maxHealth;
+    }
+
+    public void ControlActive()
+    {
+        if(currentHpBarAmount.fillAmount <= 0)
+        {
+            hpBarObj.SetActive(false);
+        }
     }
 
 }

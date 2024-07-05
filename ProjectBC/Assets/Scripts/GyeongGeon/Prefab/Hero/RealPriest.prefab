@@ -1917,7 +1917,7 @@ GameObject:
   - component: {fileID: 4895118519149478533}
   m_Layer: 0
   m_Name: RealPriest
-  m_TagString: Untagged
+  m_TagString: Hero
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2034,7 +2034,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb92b5675e5758b439cb39869f42b34a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 0}
+  canvas: {fileID: 7845404084639546749, guid: a5a9b68bd9b0d6d4994338c01a3b9136, type: 3}
   prefabHpBar: {fileID: 5007069763672503864, guid: cff3db33975fd044394c02c5d2ecfa0e, type: 3}
 --- !u!114 &4895118519149478533
 MonoBehaviour:
@@ -2048,15 +2048,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604bf3d54cc500345b5299b0a976ff23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Parts:
+  - {fileID: 6924487291575307885}
+  - {fileID: 2558234215138837899}
+  - {fileID: 3942117931639724527}
+  - {fileID: 5840057268502931183}
+  Shadows:
+  - {fileID: 8225767498123528194}
+  - {fileID: 7248689838320564153}
+  - {fileID: 350972012020857441}
+  - {fileID: 5150638419500316347}
   animator: {fileID: 808896939328619372}
   projectilePrefab: {fileID: 353356689362784121, guid: e87c299389b6e574083934aac13dd581, type: 3}
-  canvas: {fileID: 0}
+  canvas: {fileID: 7845404084639546749, guid: a5a9b68bd9b0d6d4994338c01a3b9136, type: 3}
   PrefabDmgTxt: {fileID: 6964111845844443664, guid: 057a9e0208377fb47ba4bfd8fcedb8b9, type: 3}
   _target: {fileID: 0}
   _tempDistance: {x: 0, y: 0}
   _dirVec: {x: 0, y: 0}
   _unitState: 0
   attackType: 1
+  characterDirection: 0
   maxHealth: 100
   currentHealth: 100
   moveSpeed: 1

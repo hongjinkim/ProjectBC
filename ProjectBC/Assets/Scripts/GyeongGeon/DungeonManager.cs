@@ -3,61 +3,178 @@ using UnityEngine;
 
 public class DungeonManager : MonoBehaviour
 {
-    public float _findTimer;
+    public Canvas canvasPrefab;
+    public Canvas canvas;
 
-    public List<Transform> _unitPool = new List<Transform>();
-    public List<Character> _heroUnitList = new List<Character>();
-    public List<Character> _enemyUnitList = new List<Character>();
+    public List<Character> _heroPool = new List<Character>();
+    public List<Character> _enemyPool = new List<Character>();
+    public List<Character> _ActiveHeroList = new List<Character>();
+    public List<Character> _ActiveEnemyList = new List<Character>();
+
+    public float _findTimer;
+    private int randomEnemyIndex;
+    public int enemyQuantity;
+    // 랜덤 위치 범위 설정
+    public Vector2 spawnAreaMin;
+    public Vector2 spawnAreaMax;
 
     private void Awake() 
     {
-        GameManager.Instance.dungeonManager = this;    
-    }
+        GameManager.Instance.dungeonManager = this;
 
-    void Start()
-    {
-        SetUnitList();
-    }
+        canvas = Instantiate(canvasPrefab);
+        Camera mainCamera = Camera.main;
 
-    void SetUnitList()
-    {
-        _heroUnitList.Clear();
-        _enemyUnitList.Clear();
-
-        for(var i = 0; i < _unitPool.Count; i++)
+        if (mainCamera != null)
         {
-            for(var j = 0; j < _unitPool[i].childCount; j++)
-            {
-                switch(i)
-                {
-                    case 0:
-                        _heroUnitList.Add(_unitPool[i].GetChild(j).GetComponent<Character>());
-                        _unitPool[i].GetChild(j).gameObject.tag = "Hero";
-                        break;
+            Vector3 bottomLeft = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, mainCamera.nearClipPlane));
+            Vector3 topRight = mainCamera.ViewportToWorldPoint(new Vector3(1, 1, mainCamera.nearClipPlane));
+            
+            spawnAreaMin = new Vector2(bottomLeft.x, bottomLeft.y);
+            spawnAreaMax = new Vector2(topRight.x, topRight.y);
+        }
 
-                    case 1:
-                        _enemyUnitList.Add(_unitPool[i].GetChild(j).GetComponent<Character>());
-                        _unitPool[i].GetChild(j).gameObject.tag = "Enemy";
-                        break;
-                }
-            }
+    }
+
+    private void Start()
+    {
+        SetHeroList();
+        SetEnemyList();
+    }
+
+    private void Update() 
+    {
+        AllEnemiesDeadCheck();
+    }
+
+    // void SetUnitList()
+    // {
+    //     _ActiveHeroList.Clear();
+    //     _ActiveEnemyList.Clear();
+
+    //     //_heroUnitList[0].
+
+    //     for(var i = 0; i < _unitPool.Count; i++)
+    //     {
+    //         for(var j = 0; j < _unitPool[i].childCount; j++)
+    //         {
+    //             switch(i)
+    //             {
+    //                 case 0:
+    //                     _ActiveHeroList.Add(_unitPool[i].GetChild(j).GetComponent<Character>());
+    //                     _unitPool[i].GetChild(j).gameObject.tag = "Hero";
+    //                     break;
+
+    //                 case 1:
+    //                     _ActiveEnemyList.Add(_unitPool[i].GetChild(j).GetComponent<Character>());
+    //                     _unitPool[i].GetChild(j).gameObject.tag = "Enemy";
+    //                     break;
+    //             }
+    //         }
+    //     }
+    // }
+
+    void SetHeroList()
+    {
+        for (var i = 0; i < _heroPool.Count; i++)
+        {
+            Character enemy = Instantiate(_heroPool[i]);
+
+            _ActiveHeroList.Add(enemy);
+            _ActiveHeroList[i].gameObject.tag = "Hero";
+
+            // 추후에 마우스로 드래그해서 SetActive 하는걸로 변경해야함.
+            _ActiveHeroList[i].gameObject.SetActive(true);
         }
     }
 
-    public Character GetTarget(Character _unit)
+    void SetEnemyList()
+    {
+        for(var i = 0; i < enemyQuantity; i++)
+        {
+            randomEnemyIndex = Random.Range(0, _enemyPool.Count);
+            Character enemy = Instantiate(_enemyPool[randomEnemyIndex]);
+
+            _ActiveEnemyList.Add(enemy);
+            _ActiveEnemyList[i].gameObject.tag = "Enemy";
+
+            // 랜덤한 위치 생성
+            Vector2 randomPosition = new Vector2(
+                Random.Range(spawnAreaMin.x, spawnAreaMax.x),
+                Random.Range(spawnAreaMin.y, spawnAreaMax.y)
+            );
+
+            enemy.transform.position = randomPosition;
+            _ActiveEnemyList[i].gameObject.SetActive(true);
+        }
+    }
+
+    void AllEnemiesDeadCheck()
+    {
+        // foreach (var enemy in _ActiveEnemyList)
+        // {
+        //     if (enemy != null && !(enemy._unitState == Character.UnitState.death))
+        //     {
+        //         return;
+        //     }
+        // }
+
+        // foreach (var enemy in _ActiveEnemyList)
+        // {
+        //     Destroy(enemy);
+        // }
+        
+        // _ActiveEnemyList.Clear();
+        // SetEnemyList();
+
+        bool allDead = true;
+
+        foreach (var enemy in _ActiveEnemyList)
+        {
+            if (enemy != null && !(enemy._unitState == Character.UnitState.death))
+            {
+                allDead = false;
+                break;
+            }
+        }
+
+        if (allDead)
+        {
+            List<Character> enemiesToDestroy = new List<Character>();
+
+            foreach (var enemy in _ActiveEnemyList)
+            {
+                if (enemy != null)
+                {
+                    enemiesToDestroy.Add(enemy);
+                }
+            }
+
+            foreach (var enemy in enemiesToDestroy)
+            {
+                Destroy(enemy.gameObject);
+            }
+
+            _ActiveEnemyList.Clear();
+
+            SetEnemyList();
+        }
+    }
+
+    public Character GetTarget(Character unit)
     {
         Character targetUnit = null;
 
         List<Character> targetList = new List<Character>();
 
-        switch (_unit.tag)
+        switch (unit.tag)
         {
             case "Hero":
-                targetList = _enemyUnitList;
+                targetList = _ActiveEnemyList;
                 break;
 
             case "Enemy":
-                targetList = _heroUnitList;
+                targetList = _ActiveHeroList;
                 break;
         }
         
@@ -66,11 +183,11 @@ public class DungeonManager : MonoBehaviour
 
         for (var i = 0; i < targetList.Count; i++)
         {
-            // distanceSquared: 현재 유닛과 _unit 간의 거리의 제곱입니다. Vector2를 사용하여 계산하며, sqrMagnitude를 사용하여 제곱 값을 얻습니다. 거리 제곱을 사용하는 이유는 루트 계산을 생략하여 성능을 최적화하기 위함입니다.
-            float distanceSquared = ((Vector2)targetList[i].transform.localPosition - (Vector2)_unit.transform.localPosition).sqrMagnitude;
+            // distanceSquared: 현재 유닛과 unit 간의 거리의 제곱입니다. Vector2를 사용하여 계산하며, sqrMagnitude를 사용하여 제곱 값을 얻습니다. 거리 제곱을 사용하는 이유는 루트 계산을 생략하여 성능을 최적화하기 위함입니다.
+            float distanceSquared = ((Vector2)targetList[i].transform.localPosition - (Vector2)unit.transform.localPosition).sqrMagnitude;
 
-            // _unit.findRange * _unit.findRange: 적을 찾는 범위의 제곱입니다. 거리를 비교할 때 제곱 값을 사용하여 루트 계산을 피합니다.
-            if(distanceSquared <= _unit.findRange * _unit.findRange)
+            // unit.findRange * unit.findRange: 적을 찾는 범위의 제곱입니다. 거리를 비교할 때 제곱 값을 사용하여 루트 계산을 피합니다.
+            if(distanceSquared <= unit.findRange * unit.findRange)
             {
                 if(targetList[i].gameObject.activeInHierarchy)
                 {
@@ -88,4 +205,5 @@ public class DungeonManager : MonoBehaviour
 
         return targetUnit;
     }
+
 }
