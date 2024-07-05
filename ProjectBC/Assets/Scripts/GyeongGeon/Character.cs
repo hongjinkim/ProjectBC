@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -19,8 +20,17 @@ public abstract class Character : MonoBehaviour, IBehavior
         Projectile
     }
 
+    public enum CharacterDirection
+    {
+        down,
+        up,
+        left,
+        Right
+    }
 
     private IObjectPool<DamageText> DamageTextPool;
+    public List<GameObject> Parts;
+    public List<GameObject> Shadows;
 
     public Animator animator;
 
@@ -36,6 +46,7 @@ public abstract class Character : MonoBehaviour, IBehavior
     public Vector2 _dirVec;
     public UnitState _unitState = UnitState.idle;
     public AttackType attackType;
+    public CharacterDirection characterDirection;
 
     public float maxHealth;
     public float currentHealth;
@@ -47,6 +58,7 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     public float findTimer;
     public float attackTimer;
+
 
 
     protected virtual void Start()
@@ -91,26 +103,31 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     public void Damageable(Character target, float _damage)
     {
-        target.currentHealth -= _damage;
-        InstantiateDmgTxtObj(_damage);
-
-        if(currentHealth <= 0)
+        if (target != null)
         {
-            Die();
+            target.currentHealth -= _damage;
+            InstantiateDmgTxtObj(_damage);
+
+            if(currentHealth <= 0)
+            {
+                Die();
+            }
         }
     }
 
     public void Die()
     {
-        switch (gameObject.tag)
-        {
-            case "Hero":
-                GameManager.Instance.dungeonManager._heroUnitList.Remove(this);
-                break;
-            case "Enemy":
-                GameManager.Instance.dungeonManager._enemyUnitList.Remove(this);
-                break;
-        }
+        // switch (gameObject.tag)
+        // {
+        //     case "Hero":
+        //         GameManager.Instance.dungeonManager._heroUnitList.Remove(this);
+        //         break;
+        //     case "Enemy":
+        //         GameManager.Instance.dungeonManager._enemyUnitList.Remove(this);
+        //         break;
+        // }
+        _unitState = UnitState.death;
+        this.SetActive(false);
     }
 
     public bool Alive()
@@ -160,21 +177,17 @@ public abstract class Character : MonoBehaviour, IBehavior
 
             case UnitState.move:
                 SetAnimatorState(state);
-                //애니메이션 삽입
                 break;
 
             case UnitState.attack:
-                SetAnimatorState(0);
-                //애니메이션 삽입
+                SetAnimatorState(UnitState.idle);
                 break;
 
             case UnitState.skill:
-                //애니메이션 삽입
                 break;
 
             case UnitState.death:
                 SetAnimatorState(state);
-                //애니메이션 삽입
                 break;
         }
 
@@ -198,6 +211,8 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     bool CheckTarget()
     {
+        //if (_target == null) return false;
+
         bool value = true;
 
         if(_target == null) value = false;
@@ -214,7 +229,7 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     void OnMove()
     {
-        if(!CheckTarget()) return;
+        //if(!CheckTarget()) return;
         CheckDistance();
         
         _dirVec = _tempDistance.normalized;
@@ -226,18 +241,50 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     void SetDirection()
     {
-        if(_dirVec.x >= 0)
+        if (Mathf.Abs(_dirVec.x) > Mathf.Abs(_dirVec.y))
         {
-            // 애니메이션.transform.localScale = new Vector3(-1,1,1)
+            // 좌우 방향
+            if (_dirVec.x >= 0)
+            {
+                // 오른쪽을 향하도록 설정
+                characterDirection = CharacterDirection.Right;
+            }
+            else
+            {
+                // 왼쪽을 향하도록 설정
+                characterDirection = CharacterDirection.left;
+            }
         }
         else
         {
-            // 애니메이션.transform.localScale = new Vector3(1,1,1)
+            // 상하 방향
+            if (_dirVec.y >= 0)
+            {
+                // 위를 향하도록 설정
+                characterDirection = CharacterDirection.up;
+            }
+            else
+            {
+                // 아래를 향하도록 설정
+                characterDirection = CharacterDirection.down;
+            }
+        }
+
+        for (var i = 0; i < Parts.Count; i++)
+        {
+            Parts[i].SetActive(i == (int)characterDirection);
+            Shadows[i].SetActive(i == (int)characterDirection);
         }
     }
 
     bool CheckDistance()
     {
+        if (_target == null)
+        {
+            SetState(UnitState.idle);
+            return false;
+        }
+
         _tempDistance = (Vector2)(_target.transform.localPosition - transform.position);
         float distanceSquared = _tempDistance.sqrMagnitude;
 
@@ -271,8 +318,9 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     void OnAttck()
     {
+        if (_target == null) return;
+
         _dirVec = (Vector2)(_target.transform.localPosition - transform.position).normalized;
-        //_dirVec = _tempDistance = (Vector2)(_target.transform.localPosition - transform.position).normalized;
         SetDirection();
 
         // 애니메이션 삽입
@@ -282,6 +330,8 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     void SetAttack()
     {
+        if (_target == null) return;
+
         if (AttackType.Projectile.Equals(attackType))
         {
             if (projectilePrefab != null && _target != null)
@@ -301,7 +351,9 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     void InstantiateDmgTxtObj(float damage)
     {
-        GameObject DamageTxtObj = Instantiate(PrefabDmgTxt, canvas.transform);
+        //if (_target == null) return;
+
+        GameObject DamageTxtObj = Instantiate(PrefabDmgTxt, GameManager.Instance.dungeonManager.canvas.transform);
         DamageTxtObj.GetComponent<TextMeshProUGUI>().text = damage.ToString();
 
         Vector3 damagetxtPos = Camera.main.WorldToScreenPoint(new Vector3(_target.transform.position.x, _target.transform.position.y + height, 0));
@@ -317,6 +369,11 @@ public abstract class Character : MonoBehaviour, IBehavior
     public void SetAnimatorState(UnitState state)
 	{
 		animator.SetInteger("State", (int) state);
+
+        if (_target == null)
+        {
+           IsAction = false;    
+        }
 	}
 
     public void Slash1H()
