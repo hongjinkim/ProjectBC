@@ -88,10 +88,26 @@ public class CharacterMovement : MonoBehaviour
         if (path != null && currentPathIndex < path.Count)
         {
             Vector3 targetPosition = path[currentPathIndex];
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-            if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
+            Vector3 direction = (targetPosition - transform.position).normalized;
+            Vector3 movement = direction * moveSpeed * Time.deltaTime;
+            if (Vector3.Distance(transform.position + movement, targetPosition) < Vector3.Distance(transform.position, targetPosition))
             {
+                transform.position += movement;
+            }
+            else
+            {
+                transform.position = targetPosition;
                 currentPathIndex++;
+            }
+
+            // 경로의 끝에 도달했는지 확인
+            if (currentPathIndex >= path.Count)
+            {
+                path = null;
+                if (autoMove)
+                {
+                    StartCoroutine(WaitAndFindNewPath());
+                }
             }
         }
     }
@@ -105,6 +121,19 @@ public class CharacterMovement : MonoBehaviour
         if (path != null && path.Count > 1 && customTilemapManager.IsObstacle(path[path.Count - 1]))
         {
             path.RemoveAt(path.Count - 1);
+        }
+    }
+    IEnumerator WaitAndFindNewPath()
+    {
+        yield return new WaitForSeconds(0.5f);
+        if (detection != null)
+        {
+            GameObject closestObject = detection.GetClosestObject();
+            if (closestObject != null)
+            {
+                Vector3 targetPosition = closestObject.transform.position;
+                SetNewPath(targetPosition);
+            }
         }
     }
 

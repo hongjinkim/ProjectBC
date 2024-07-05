@@ -81,14 +81,18 @@ public class TilemapManager : MonoBehaviour
     public virtual List<Vector3> GetNeighbors(Vector3 position)
     {
         return tileCenters.Where(p =>
-            Vector3.Distance(p, position) < 1.1f &&
+            Vector3.Distance(p, position) <= 1.5f && // 대각선 거리를 포함하도록 변경
             !IsObstacle(p)
         ).ToList();
     }
 
     public virtual float GetDistance(Vector3 a, Vector3 b)
     {
-        return Vector3.Distance(a, b);
+        float dx = Mathf.Abs(a.x - b.x);
+        float dy = Mathf.Abs(a.y - b.y);
+
+        // 대각선 거리 계산
+        return Mathf.Max(dx, dy) + (Mathf.Sqrt(2) - 1) * Mathf.Min(dx, dy);
     }
 
     public virtual List<Vector3> FindPath(Vector3 start, Vector3 goal)
