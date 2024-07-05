@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,30 +21,22 @@ public class TilemapManager : MonoBehaviour
 
     public Tilemap tilemap;
     private List<Vector3> tileCenters = new List<Vector3>();
-    public List<Vector3> obstacles = new List<Vector3>(); // 장애물 위치 저장
 
     private void Awake()
     {
-        if (Instance == null)
+        if (_Instance == null)
         {
-            if (_Instance == null)
-            {
-                _Instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else if (_Instance != this)
-            {
-                Destroy(gameObject);
-            }
+            _Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (_Instance != this)
+        {
+            Destroy(gameObject);
         }
     }
+
     void Start()
     {
-        if (tilemap == null)
-        {
-            tilemap = GetComponent<Tilemap>();
-        }
-
         if (tilemap != null)
         {
             CalculateTileCenters();
@@ -63,33 +56,29 @@ public class TilemapManager : MonoBehaviour
                 if (tilemap.HasTile(tilePosition))
                 {
                     Vector3 centerPosition = tilemap.GetCellCenterWorld(tilePosition);
-                    centerPosition.z = 0; 
+                    centerPosition.z = 0;
                     tileCenters.Add(centerPosition);
-                    if (tileCenters.Count == 2)
-                    {
-                        Debug.Log($"Coordinates of the 2nd tile: {centerPosition}");
-                    }
                 }
             }
         }
     }
 
-    public bool IsValidMovePosition(Vector3 position)
+    public virtual bool IsValidMovePosition(Vector3 position)
     {
         return tileCenters.Contains(position);
     }
 
-    public Vector3 GetNearestValidPosition(Vector3 position)
+    public virtual Vector3 GetNearestValidPosition(Vector3 position)
     {
         return tileCenters.OrderBy(p => Vector3.Distance(p, position)).FirstOrDefault();
     }
 
-    public bool IsObstacle(Vector3 position)
+    public virtual bool IsObstacle(Vector3 position)
     {
-        return obstacles.Contains(position);
+        return false;
     }
 
-    public List<Vector3> GetNeighbors(Vector3 position)
+    public virtual List<Vector3> GetNeighbors(Vector3 position)
     {
         return tileCenters.Where(p =>
             Vector3.Distance(p, position) < 1.1f &&
@@ -97,23 +86,24 @@ public class TilemapManager : MonoBehaviour
         ).ToList();
     }
 
-    public float GetDistance(Vector3 a, Vector3 b)
+    public virtual float GetDistance(Vector3 a, Vector3 b)
     {
         return Vector3.Distance(a, b);
     }
 
-    public List<Vector3> FindPath(Vector3 start, Vector3 goal)
+    public virtual List<Vector3> FindPath(Vector3 start, Vector3 goal)
     {
         var openSet = new List<Vector3> { start };
         var closedSet = new List<Vector3>();
         var cameFrom = new Dictionary<Vector3, Vector3>();
         var gScore = new Dictionary<Vector3, float> { { start, 0 } };
         var fScore = new Dictionary<Vector3, float> { { start, GetDistance(start, goal) } };
+
         while (openSet.Count > 0)
         {
             var current = openSet.OrderBy(p => fScore.GetValueOrDefault(p, float.MaxValue)).First();
 
-            if (current == goal)
+            if (current == goal || IsObstacle(goal))
             {
                 return ReconstructPath(cameFrom, current);
             }
@@ -135,6 +125,7 @@ public class TilemapManager : MonoBehaviour
                 fScore[neighbor] = gScore[neighbor] + GetDistance(neighbor, goal);
             }
         }
+
         return null;
     }
 
@@ -149,15 +140,4 @@ public class TilemapManager : MonoBehaviour
         path.Reverse();
         return path;
     }
-
-    public void MoveObjectToNearestValidPosition(Transform objectTransform, Vector3 targetPosition)
-    {
-        Vector3 nearestValidPosition = GetNearestValidPosition(targetPosition);
-
-        if (IsValidMovePosition(nearestValidPosition))
-        {
-            objectTransform.position = nearestValidPosition;
-        }
-    }
-
 }

@@ -1,7 +1,6 @@
-using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
-using static Character;
-using static UnityEngine.GraphicsBuffer;
+using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
@@ -11,11 +10,23 @@ public class CharacterMovement : MonoBehaviour
     private int currentPathIndex;
     private bool isSelected = false;
     private static CharacterMovement selectedCharacter = null;
+    public Detection detection;
+    public bool autoMove = false;
+    public float updatePathInterval = 1f;
+
+    private CustomTilemapManager customTilemapManager;
 
     void Start()
     {
         tilemapManager = TilemapManager.Instance;
+        customTilemapManager = new CustomTilemapManager(tilemapManager, this);
         transform.position = tilemapManager.GetNearestValidPosition(transform.position);
+        detection = GetComponent<Detection>();
+        if (detection == null)
+        {
+            Debug.LogError("여기야");
+        }
+        StartCoroutine(AutoMoveCoroutine());
     }
 
     void Update()
@@ -24,7 +35,11 @@ public class CharacterMovement : MonoBehaviour
         {
             HandleSelectionAndMovement();
         }
-
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            autoMove = !autoMove;
+            Debug.Log("Auto move: " + (autoMove ? "On" : "Off"));
+        }
         MoveAlongPath();
     }
 
@@ -32,7 +47,6 @@ public class CharacterMovement : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
-
         if (hit.collider != null && hit.collider.gameObject == gameObject)
         {
             Select();
@@ -41,14 +55,13 @@ public class CharacterMovement : MonoBehaviour
         {
             if (isSelected)
             {
-                // 선택된 캐릭터가 있고, 빈 공간을 클릭했을 때 이동
                 Vector3 clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 clickPosition.z = 0;
-                Vector3 nearestValidPosition = tilemapManager.GetNearestValidPosition(clickPosition);
-                if (tilemapManager.IsValidMovePosition(nearestValidPosition))
+                Vector3 nearestValidPosition = customTilemapManager.GetNearestValidPosition(clickPosition);
+                if (customTilemapManager.IsValidMovePosition(nearestValidPosition))
                 {
-                    path = tilemapManager.FindPath(transform.position, nearestValidPosition);
-                    currentPathIndex = 0;
+                    SetNewPath(nearestValidPosition);
+                    autoMove = false;
                 }
             }
             else if (selectedCharacter == this)
@@ -66,16 +79,12 @@ public class CharacterMovement : MonoBehaviour
         }
         isSelected = true;
         selectedCharacter = this;
-        // TODO: 선택된 상태를 시각적으로 표시 (예: 색상 변경)
-        Debug.Log($"Selected: {gameObject.name}");
     }
 
     void Deselect()
     {
         isSelected = false;
         selectedCharacter = null;
-        // TODO: 선택 해제 상태를 시각적으로 표시
-        Debug.Log($"Deselected: {gameObject.name}");
     }
 
     void MoveAlongPath()
@@ -83,10 +92,39 @@ public class CharacterMovement : MonoBehaviour
         if (path != null && currentPathIndex < path.Count)
         {
             Vector3 targetPosition = path[currentPathIndex];
-            transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-            if ((Vector2)transform.position == (Vector2)targetPosition)
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+            if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
             {
                 currentPathIndex++;
+            }
+        }
+    }
+
+    void SetNewPath(Vector3 target)
+    {
+        Vector3 nearestValidTarget = customTilemapManager.GetNearestValidPosition(target);
+        path = customTilemapManager.FindPath(transform.position, nearestValidTarget);
+        currentPathIndex = 0;
+
+        if (path != null && path.Count > 1 && customTilemapManager.IsObstacle(path[path.Count - 1]))
+        {
+            path.RemoveAt(path.Count - 1);
+        }
+    }
+
+    IEnumerator AutoMoveCoroutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(updatePathInterval);
+            if (autoMove)
+            {
+                GameObject closestObject = detection.GetClosestObject();
+                if (closestObject != null)
+                {
+                    Vector3 targetPosition = closestObject.transform.position;
+                    SetNewPath(targetPosition);
+                }
             }
         }
     }
