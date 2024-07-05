@@ -13654,7 +13654,7 @@ GameObject:
   - component: {fileID: 2318561106627978615}
   m_Layer: 0
   m_Name: RealArcher
-  m_TagString: Untagged
+  m_TagString: Hero
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13771,7 +13771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb92b5675e5758b439cb39869f42b34a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 0}
+  canvas: {fileID: 7845404084639546749, guid: a5a9b68bd9b0d6d4994338c01a3b9136, type: 3}
   prefabHpBar: {fileID: 5007069763672503864, guid: cff3db33975fd044394c02c5d2ecfa0e, type: 3}
 --- !u!114 &2318561106627978615
 MonoBehaviour:
@@ -13785,15 +13785,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c48822722356cf4d991658df790b77e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Parts:
+  - {fileID: 2778585599411768904}
+  - {fileID: 7426219596926772130}
+  - {fileID: 8215025258568752884}
+  - {fileID: 5774355013938018971}
+  Shadows:
+  - {fileID: 2170566957918757227}
+  - {fileID: 8761182915609983555}
+  - {fileID: 894291807439691889}
+  - {fileID: 4287004648837512962}
   animator: {fileID: 2458265245654534462}
   projectilePrefab: {fileID: 353356689362784121, guid: 3399f6028daab624384d08d9005a5de7, type: 3}
-  canvas: {fileID: 0}
+  canvas: {fileID: 7845404084639546749, guid: a5a9b68bd9b0d6d4994338c01a3b9136, type: 3}
   PrefabDmgTxt: {fileID: 6964111845844443664, guid: 057a9e0208377fb47ba4bfd8fcedb8b9, type: 3}
   _target: {fileID: 0}
   _tempDistance: {x: 0, y: 0}
   _dirVec: {x: 0, y: 0}
   _unitState: 0
   attackType: 1
+  characterDirection: 0
   maxHealth: 100
   currentHealth: 100
   moveSpeed: 1

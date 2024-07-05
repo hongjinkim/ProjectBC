@@ -7162,7 +7162,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2840528457608522920
 Transform:
   m_ObjectHideFlags: 0
@@ -8330,7 +8330,7 @@ GameObject:
   - component: {fileID: 6719724232351885715}
   m_Layer: 0
   m_Name: RealKnight
-  m_TagString: Untagged
+  m_TagString: Hero
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8447,7 +8447,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb92b5675e5758b439cb39869f42b34a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 0}
+  canvas: {fileID: 7845404084639546749, guid: a5a9b68bd9b0d6d4994338c01a3b9136, type: 3}
   prefabHpBar: {fileID: 5007069763672503864, guid: cff3db33975fd044394c02c5d2ecfa0e, type: 3}
 --- !u!114 &6719724232351885715
 MonoBehaviour:
@@ -8461,15 +8461,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1028afab79bc7234eb12bcc269042b9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Parts:
+  - {fileID: 6166663987673742008}
+  - {fileID: 8698162157694872607}
+  - {fileID: 5677207550937021795}
+  - {fileID: 8634360493273550311}
+  Shadows:
+  - {fileID: 4716881882311703377}
+  - {fileID: 7983330573059263494}
+  - {fileID: 8986925092888300228}
+  - {fileID: 206424444904678141}
   animator: {fileID: 7583379364924885333}
-  projectilePrefab: {fileID: 0}
-  canvas: {fileID: 0}
+  projectilePrefab: {fileID: 353356689362784121, guid: e87c299389b6e574083934aac13dd581, type: 3}
+  canvas: {fileID: 7845404084639546749, guid: a5a9b68bd9b0d6d4994338c01a3b9136, type: 3}
   PrefabDmgTxt: {fileID: 6964111845844443664, guid: 057a9e0208377fb47ba4bfd8fcedb8b9, type: 3}
   _target: {fileID: 0}
   _tempDistance: {x: 0, y: 0}
   _dirVec: {x: 0, y: 0}
   _unitState: 0
   attackType: 0
+  characterDirection: 0
   maxHealth: 100
   currentHealth: 100
   moveSpeed: 1
@@ -14285,7 +14296,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3276092190376130527
 Transform:
   m_ObjectHideFlags: 0
@@ -14757,7 +14768,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9015264503612718490
 Transform:
   m_ObjectHideFlags: 0

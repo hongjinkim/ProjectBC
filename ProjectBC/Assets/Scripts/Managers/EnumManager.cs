@@ -202,7 +202,6 @@ public enum PropertyId // TODO: Set indexes.
     ExpBonus,
     GoldBonus
 }
-
 public enum TraitType
 {
     Concentration, // 집중
@@ -211,4 +210,68 @@ public enum TraitType
     Protection,    // 보호
     Life,          // 생명
     Explosion      // 폭발
+}
+
+public enum CharacterState
+{
+    Idle = 0,
+    Ready = 1,
+    Walk = 2,
+    Run = 3,
+    Jump = 4,
+    Climb = 5,
+    Death = 9,
+    ShieldBlock = 10,
+    WeaponBlock = 11,
+    Evasion = 12,
+    Dance = 13
+}
+
+public enum WeaponType
+{
+    Melee1H = 0,
+    Melee2H = 1,
+    Paired = 2,
+    Bow = 3,
+    Crossbow = 4,
+    Firearm1H = 5,
+    Firearm2H = 6,
+    Throwable = 7
+}
+
+public enum BodyPart
+{
+    Body,
+    Head,
+    Hair,
+    Ears,
+    Eyebrows,
+    Eyes,
+    Mouth,
+    Beard,
+    Makeup
+}
+
+public enum EquipmentPart
+{
+    Armor,
+    Helmet,
+    Vest,
+    Bracers,
+    Leggings,
+    MeleeWeapon1H,
+    MeleeWeapon2H,
+    Bow,
+    Crossbow,
+    SecondaryMelee1H,
+    SecondaryFirearm1H,
+    Shield,
+    Earrings,
+    Cape,
+    Quiver,
+    Back,
+    Mask,
+    Firearm1H,
+    Firearm2H,
+    Wings
 }
