@@ -5,10 +5,38 @@ using System.Linq;
 
 public class TilemapManager : MonoBehaviour
 {
+    private static TilemapManager _Instance;
+    public static TilemapManager Instance
+    {
+        get
+        {
+            if (_Instance == null)
+            {
+                _Instance = FindObjectOfType<TilemapManager>();
+            }
+            return _Instance;
+        }
+    }
+
     public Tilemap tilemap;
-    private List<Vector3> tileCenters = new List<Vector3>(); // 타일맵들의 중앙값 저장
+    private List<Vector3> tileCenters = new List<Vector3>();
     public List<Vector3> obstacles = new List<Vector3>(); // 장애물 위치 저장
 
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            if (_Instance == null)
+            {
+                _Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else if (_Instance != this)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
     void Start()
     {
         if (tilemap == null)
@@ -22,7 +50,7 @@ public class TilemapManager : MonoBehaviour
         }
     }
 
-    void CalculateTileCenters() // 각타일의 중앙값을 계산 > tileCenters 리스트에 저장
+    void CalculateTileCenters()
     {
         BoundsInt bounds = tilemap.cellBounds;
 
@@ -32,13 +60,11 @@ public class TilemapManager : MonoBehaviour
             {
                 Vector3Int tilePosition = new Vector3Int(x, y, 0);
 
-                if (tilemap.HasTile(tilePosition)) // HasTile이 해당 위치에 타일이 있는지 확인
+                if (tilemap.HasTile(tilePosition))
                 {
                     Vector3 centerPosition = tilemap.GetCellCenterWorld(tilePosition);
-                    centerPosition.z = 0; // 2D 환경에서는 z 좌표를 0으로 설정
+                    centerPosition.z = 0; 
                     tileCenters.Add(centerPosition);
-
-                    // 2번째 타일의 좌표를 출력
                     if (tileCenters.Count == 2)
                     {
                         Debug.Log($"Coordinates of the 2nd tile: {centerPosition}");
@@ -47,28 +73,6 @@ public class TilemapManager : MonoBehaviour
             }
         }
     }
-
-    //// 타일 중심점 목록을 반환하는 메서드
-    //public List<Vector3> GetTileCenters()
-    //{
-    //    return tileCenters;
-    //}
-    //// 예: 가장 가까운 타일 중심점 찾기
-    //public Vector3 GetNearestTileCenter(Vector3 position)
-    //{
-    //    Vector3 nearest = Vector3.zero;
-    //    float minDistance = float.MaxValue;
-    //    foreach (Vector3 center in tileCenters)
-    //    {
-    //        float distance = Vector3.Distance(position, center);
-    //        if (distance < minDistance)
-    //        {
-    //            minDistance = distance;
-    //            nearest = center;
-    //        }
-    //    }
-    //    return nearest;
-    //}
 
     public bool IsValidMovePosition(Vector3 position)
     {
@@ -88,8 +92,8 @@ public class TilemapManager : MonoBehaviour
     public List<Vector3> GetNeighbors(Vector3 position)
     {
         return tileCenters.Where(p =>
-            Vector3.Distance(p, position) < 1.1f && // 인접한 타일만 (대각선 포함)
-            !IsObstacle(p) // 장애물이 아닌 경우
+            Vector3.Distance(p, position) < 1.1f &&
+            !IsObstacle(p)
         ).ToList();
     }
 
@@ -105,7 +109,6 @@ public class TilemapManager : MonoBehaviour
         var cameFrom = new Dictionary<Vector3, Vector3>();
         var gScore = new Dictionary<Vector3, float> { { start, 0 } };
         var fScore = new Dictionary<Vector3, float> { { start, GetDistance(start, goal) } };
-
         while (openSet.Count > 0)
         {
             var current = openSet.OrderBy(p => fScore.GetValueOrDefault(p, float.MaxValue)).First();
@@ -132,8 +135,7 @@ public class TilemapManager : MonoBehaviour
                 fScore[neighbor] = gScore[neighbor] + GetDistance(neighbor, goal);
             }
         }
-
-        return null; // 경로를 찾지 못함
+        return null;
     }
 
     private List<Vector3> ReconstructPath(Dictionary<Vector3, Vector3> cameFrom, Vector3 current)

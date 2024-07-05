@@ -14,10 +14,7 @@ public class CharacterMovement : MonoBehaviour
 
     void Start()
     {
-        if (tilemapManager == null)
-        {
-            tilemapManager = FindObjectOfType<TilemapManager>();
-        }
+        tilemapManager = TilemapManager.Instance;
         transform.position = tilemapManager.GetNearestValidPosition(transform.position);
     }
 
