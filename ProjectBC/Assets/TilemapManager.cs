@@ -71,7 +71,12 @@ public class TilemapManager : MonoBehaviour
 
     public virtual Vector3 GetNearestValidPosition(Vector3 position)
     {
-        return tileCenters.OrderBy(p => Vector3.Distance(p, position)).FirstOrDefault();
+        Vector3 nearest = tileCenters.OrderBy(p => Vector3.Distance(p, position)).FirstOrDefault();
+        if (IsValidMovePosition(position) && Vector3.Distance(position, nearest) < 0.1f)
+        {
+            return position;
+        }
+        return nearest;
     }
 
     public virtual bool IsObstacle(Vector3 position)

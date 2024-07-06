@@ -13,6 +13,7 @@ public class CharacterMovement : MonoBehaviour
     public Detection detection;
     public bool autoMove = false;
     public float updatePathInterval = 1f;
+    private float lastPathUpdateTime = 0f;
 
     private CustomTilemapManager customTilemapManager;
 
@@ -37,6 +38,48 @@ public class CharacterMovement : MonoBehaviour
             Debug.Log("Auto move: " + (autoMove ? "On" : "Off"));
         }
         MoveAlongPath();
+
+        // 이동이 멈췄을 때 스냅 확인
+        if (path == null || path.Count == 0)
+        {
+            SnapToNearestTileCenter();
+        }
+
+        // 주기적으로 경로 업데이트
+        if (autoMove && Time.time - lastPathUpdateTime >= updatePathInterval)
+        {
+            UpdatePath();
+        }
+    }
+
+    void UpdatePath()
+    {
+        if (detection != null)
+        {
+            GameObject closestObject = detection.GetClosestObject();
+            if (closestObject != null)
+            {
+                Vector3 targetPosition = closestObject.transform.position;
+                Vector3 currentPosition = customTilemapManager.GetNearestValidPosition(transform.position);
+
+                // 현재 위치와 목표 위치가 다른 경우에만 새 경로 설정
+                if (Vector3.Distance(currentPosition, targetPosition) > 0.1f)
+                {
+                    SetNewPath(targetPosition);
+                }
+                else
+                {
+                    // 목표에 도달했을 때 정확한 타일 중앙으로 스냅
+                    transform.position = currentPosition;
+                    path = null;
+                }
+            }
+            else
+            {
+                Debug.LogWarning("No closest object found.");
+            }
+        }
+        lastPathUpdateTime = Time.time;
     }
 
     void HandleSelectionAndMovement()
@@ -88,11 +131,11 @@ public class CharacterMovement : MonoBehaviour
         if (path != null && currentPathIndex < path.Count)
         {
             Vector3 targetPosition = path[currentPathIndex];
-            Vector3 direction = (targetPosition - transform.position).normalized;
-            Vector3 movement = direction * moveSpeed * Time.deltaTime;
-            if (Vector3.Distance(transform.position + movement, targetPosition) < Vector3.Distance(transform.position, targetPosition))
+            if (Vector3.Distance(transform.position, targetPosition) > 0.01f)
             {
-                transform.position += movement;
+                Vector3 direction = (targetPosition - transform.position).normalized;
+                Vector3 newPosition = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+                transform.position = newPosition;
             }
             else
             {
@@ -100,15 +143,27 @@ public class CharacterMovement : MonoBehaviour
                 currentPathIndex++;
             }
 
-            // 경로의 끝에 도달했는지 확인
             if (currentPathIndex >= path.Count)
             {
                 path = null;
+                SnapToNearestTileCenter(); 
                 if (autoMove)
                 {
                     StartCoroutine(WaitAndFindNewPath());
                 }
             }
+        }
+        else
+        {
+            SnapToNearestTileCenter(); 
+        }
+    }
+    private void SnapToNearestTileCenter()
+    {
+        Vector3 nearestCenter = customTilemapManager.GetNearestValidPosition(transform.position);
+        if (Vector3.Distance(transform.position, nearestCenter) < 0.1f)
+        {
+            transform.position = nearestCenter;
         }
     }
 
@@ -125,7 +180,7 @@ public class CharacterMovement : MonoBehaviour
     }
     IEnumerator WaitAndFindNewPath()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(2f);
         if (detection != null)
         {
             GameObject closestObject = detection.GetClosestObject();
