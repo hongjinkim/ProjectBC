@@ -130,26 +130,41 @@ public class TilemapManager : MonoBehaviour
                 if (!openSet.Contains(neighbor)) openSet.Add(neighbor);
                 else if (tentativeGScore >= gScore.GetValueOrDefault(neighbor, float.MaxValue)) continue;
 
+                if (current == goal || IsObstacle(goal))
+                {
+                    currentPath = ReconstructPath(cameFrom, current);
+                    return currentPath;
+                }
+
                 cameFrom[neighbor] = current;
                 gScore[neighbor] = tentativeGScore;
                 fScore[neighbor] = gScore[neighbor] + GetDistance(neighbor, goal);
             }
         }
-
         return null;
+    }
+
+    private Vector3 RoundToHalf(Vector3 v)
+    {
+        return new Vector3(
+            Mathf.Round(v.x * 2) / 2,
+            Mathf.Round(v.y * 2) / 2,
+            v.z
+        );
     }
 
     private List<Vector3> ReconstructPath(Dictionary<Vector3, Vector3> cameFrom, Vector3 current)
     {
-        var path = new List<Vector3> { current };
+        var path = new List<Vector3> { RoundToHalf(current) };
         while (cameFrom.ContainsKey(current))
         {
             current = cameFrom[current];
-            path.Add(current);
+            path.Add(RoundToHalf(current));
         }
         path.Reverse();
         return path;
     }
+
 
     // 새로 추가된 OnDrawGizmos 메서드
     private void OnDrawGizmos()
