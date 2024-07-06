@@ -7,6 +7,8 @@ public class CustomTilemapManager : TilemapManager
     private TilemapManager baseTilemapManager;
     private CharacterMovement character;
 
+
+
     public CustomTilemapManager(TilemapManager baseTilemapManager, CharacterMovement character)
     {
         this.baseTilemapManager = baseTilemapManager;

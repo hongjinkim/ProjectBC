@@ -981,6 +981,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemap: {fileID: 305021524}
+  currentPath: []
 --- !u!1 &429635607
 GameObject:
   m_ObjectHideFlags: 0
@@ -2323,7 +2324,7 @@ MonoBehaviour:
   moveSpeed: 5
   detection: {fileID: 0}
   autoMove: 1
-  updatePathInterval: 0.5
+  updatePathInterval: 5
 --- !u!58 &1424554958
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -21,6 +21,7 @@ public class TilemapManager : MonoBehaviour
 
     public Tilemap tilemap;
     private List<Vector3> tileCenters = new List<Vector3>();
+    public List<Vector3> currentPath; // 새로 추가된 필드
 
     private void Awake()
     {
@@ -81,7 +82,7 @@ public class TilemapManager : MonoBehaviour
     public virtual List<Vector3> GetNeighbors(Vector3 position)
     {
         return tileCenters.Where(p =>
-            Vector3.Distance(p, position) <= 1.5f && // 대각선 거리를 포함하도록 변경
+            Vector3.Distance(p, position) <= 1.5f &&
             !IsObstacle(p)
         ).ToList();
     }
@@ -91,7 +92,6 @@ public class TilemapManager : MonoBehaviour
         float dx = Mathf.Abs(a.x - b.x);
         float dy = Mathf.Abs(a.y - b.y);
 
-        // 대각선 거리 계산
         return Mathf.Max(dx, dy) + (Mathf.Sqrt(2) - 1) * Mathf.Min(dx, dy);
     }
 
@@ -109,7 +109,8 @@ public class TilemapManager : MonoBehaviour
 
             if (current == goal || IsObstacle(goal))
             {
-                return ReconstructPath(cameFrom, current);
+                currentPath = ReconstructPath(cameFrom, current); // 경로 업데이트
+                return currentPath;
             }
 
             openSet.Remove(current);
@@ -143,5 +144,20 @@ public class TilemapManager : MonoBehaviour
         }
         path.Reverse();
         return path;
+    }
+
+    // 새로 추가된 OnDrawGizmos 메서드
+    private void OnDrawGizmos()
+    {
+        if (currentPath != null && currentPath.Count > 0)
+        {
+            Gizmos.color = Color.yellow;
+            for (int i = 0; i < currentPath.Count - 1; i++)
+            {
+                Gizmos.DrawLine(currentPath[i], currentPath[i + 1]);
+                Gizmos.DrawSphere(currentPath[i], 0.1f);
+            }
+            Gizmos.DrawSphere(currentPath[currentPath.Count - 1], 0.1f);
+        }
     }
 }
