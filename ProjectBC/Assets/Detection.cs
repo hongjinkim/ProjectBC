@@ -13,7 +13,6 @@ public class Detection : MonoBehaviour
     {
         DetectObjects();
     }
-
     public GameObject GetClosestObject()
     {
         if (detectedObj.Count > 0)
@@ -22,7 +21,6 @@ public class Detection : MonoBehaviour
         }
         return null;
     }
-
     public void DetectObjects()
     {
         detectedObj.Clear();
@@ -41,7 +39,6 @@ public class Detection : MonoBehaviour
             return distA.CompareTo(distB);
         });
     }
-
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

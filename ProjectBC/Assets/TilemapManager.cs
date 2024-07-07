@@ -18,7 +18,6 @@ public class TilemapManager : MonoBehaviour
             return _Instance;
         }
     }
-
     public Tilemap tilemap;
     private List<Vector3> tileCenters = new List<Vector3>();
     public List<Vector3> currentPath; // 새로 추가된 필드
@@ -35,7 +34,6 @@ public class TilemapManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
     void Start()
     {
         if (tilemap != null)
@@ -43,7 +41,6 @@ public class TilemapManager : MonoBehaviour
             CalculateTileCenters();
         }
     }
-
     void CalculateTileCenters()
     {
         BoundsInt bounds = tilemap.cellBounds;
@@ -63,7 +60,6 @@ public class TilemapManager : MonoBehaviour
             }
         }
     }
-
     public virtual bool IsValidMovePosition(Vector3 position)
     {
         return tileCenters.Contains(position);
@@ -78,12 +74,10 @@ public class TilemapManager : MonoBehaviour
         }
         return nearest;
     }
-
     public virtual bool IsObstacle(Vector3 position)
     {
         return false;
     }
-
     public virtual List<Vector3> GetNeighbors(Vector3 position)
     {
         return tileCenters.Where(p =>
@@ -91,7 +85,6 @@ public class TilemapManager : MonoBehaviour
             !IsObstacle(p)
         ).ToList();
     }
-
     public virtual float GetDistance(Vector3 a, Vector3 b)
     {
         float dx = Mathf.Abs(a.x - b.x);
@@ -99,7 +92,6 @@ public class TilemapManager : MonoBehaviour
 
         return Mathf.Max(dx, dy) + (Mathf.Sqrt(2) - 1) * Mathf.Min(dx, dy);
     }
-
     public virtual List<Vector3> FindPath(Vector3 start, Vector3 goal)
     {
         var openSet = new List<Vector3> { start };
@@ -114,7 +106,7 @@ public class TilemapManager : MonoBehaviour
 
             if (current == goal || IsObstacle(goal))
             {
-                currentPath = ReconstructPath(cameFrom, current); // 경로 업데이트
+                currentPath = ReconstructPath(cameFrom, current); 
                 return currentPath;
             }
 
@@ -143,7 +135,6 @@ public class TilemapManager : MonoBehaviour
         }
         return null;
     }
-
     private Vector3 RoundToHalf(Vector3 v)
     {
         return new Vector3(
@@ -152,7 +143,6 @@ public class TilemapManager : MonoBehaviour
             v.z
         );
     }
-
     private List<Vector3> ReconstructPath(Dictionary<Vector3, Vector3> cameFrom, Vector3 current)
     {
         var path = new List<Vector3> { RoundToHalf(current) };
@@ -164,9 +154,6 @@ public class TilemapManager : MonoBehaviour
         path.Reverse();
         return path;
     }
-
-
-    // 새로 추가된 OnDrawGizmos 메서드
     private void OnDrawGizmos()
     {
         if (currentPath != null && currentPath.Count > 0)
@@ -179,5 +166,10 @@ public class TilemapManager : MonoBehaviour
             }
             Gizmos.DrawSphere(currentPath[currentPath.Count - 1], 0.1f);
         }
+    }
+
+    public void SetDebugPath(List<Vector3> debugPath)
+    {
+        currentPath = debugPath;
     }
 }
