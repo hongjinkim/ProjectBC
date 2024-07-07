@@ -5,13 +5,14 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerInfo
 {
+
     [Header("Properties")]
     public int gold;
     public int diamond;
     public int gem;
 
     [Header("Inventory")]
-    //public List<ItemParams> items;
+    public List<ItemParams> items;
     public int itemCapacity;
 
     

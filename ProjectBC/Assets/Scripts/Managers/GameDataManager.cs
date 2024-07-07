@@ -9,6 +9,8 @@ using Unity.VisualScripting;
 
 public class GameDataManager : MonoBehaviour
 {
+    [SerializeField] private string savePath;
+
     private static GameDataManager _instance;
     public static GameDataManager instance
     {
@@ -50,10 +52,10 @@ public class GameDataManager : MonoBehaviour
         set { _playerInfo = value; }
     }
 
-    public ItemCollection ItemCollection;
+    public ItemCollection itemCollection;
 
 
-   [SerializeField] private CharacterBaseData[] _characterBaseDatas;
+    [SerializeField] private CharacterBaseData[] _characterBaseDatas;
 
     
     void OnApplicationQuit()
@@ -76,7 +78,7 @@ public class GameDataManager : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-
+        savePath = Application.persistentDataPath;
     }
 
     void Start()
@@ -91,6 +93,7 @@ public class GameDataManager : MonoBehaviour
 
     public PlayerInfo NewGame()
     {
+        itemCollection.items = new List<ItemParams>();
         return new PlayerInfo();
     }
 
@@ -116,6 +119,8 @@ public class GameDataManager : MonoBehaviour
                 Debug.Log("SaveManager.LoadGame: " + _saveFilename + " json string: " + jsonString);
             }
         }
+
+        _playerInfo.items = itemCollection.items;
 
         // notify other game objects 
         if (_playerInfo != null)

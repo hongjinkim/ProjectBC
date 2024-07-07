@@ -4587,6 +4587,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
+      propertyPath: _resetGame
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
+      propertyPath: itemCollection
+      value: 
+      objectReference: {fileID: 11400000, guid: 3496197cc8159e14987beb99d0b1629c, type: 2}
+    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
+      propertyPath: _playerInfo.itemCollection
+      value: 
+      objectReference: {fileID: 11400000, guid: 3496197cc8159e14987beb99d0b1629c, type: 2}
     - target: {fileID: 7473203989753717561, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
       propertyPath: m_Name
       value: GameDataManager

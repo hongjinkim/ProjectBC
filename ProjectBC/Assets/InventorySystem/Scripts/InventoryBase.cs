@@ -22,6 +22,7 @@ public class InventoryBase : ItemWorkspace
 
     public void Start()
     {
+        ItemCollection.active.AddItem(new ItemParams());
         if (InitializeExample)
         {
             TestInitialize();
