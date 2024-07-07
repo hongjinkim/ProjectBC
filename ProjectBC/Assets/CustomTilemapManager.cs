@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class CustomTilemapManager : TilemapManager
@@ -7,27 +6,46 @@ public class CustomTilemapManager : TilemapManager
     private TilemapManager baseTilemapManager;
     private CharacterMovement character;
     private const float PositionTolerance = 0.1f;
+
     public CustomTilemapManager(TilemapManager baseTilemapManager, CharacterMovement character)
     {
         this.baseTilemapManager = baseTilemapManager;
         this.character = character;
     }
+
     public override bool IsObstacle(Vector3 position)
     {
         CharacterMovement[] allCharacters = Object.FindObjectsOfType<CharacterMovement>();
-        return allCharacters.Any(c => c != character && Vector3.Distance(c.transform.position, position) < PositionTolerance);
+        for (int i = 0; i < allCharacters.Length; i++)
+        {
+            if (allCharacters[i] != character && Vector3.Distance(allCharacters[i].transform.position, position) < PositionTolerance)
+            {
+                return true;
+            }
+        }
+        return false;
     }
+
     public override List<Vector3> GetNeighbors(Vector3 position)
     {
-        return baseTilemapManager.GetNeighbors(position)
-            .Where(p => !IsObstacle(p))
-            .ToList();
+        List<Vector3> neighbors = baseTilemapManager.GetNeighbors(position);
+        List<Vector3> validNeighbors = new List<Vector3>();
+        for (int i = 0; i < neighbors.Count; i++)
+        {
+            if (!IsObstacle(neighbors[i]))
+            {
+                validNeighbors.Add(neighbors[i]);
+            }
+        }
+        return validNeighbors;
     }
+
     public override bool IsValidMovePosition(Vector3 position)
     {
         Vector3 nearestValidPosition = GetNearestValidPosition(position);
         return Vector3.Distance(position, nearestValidPosition) < PositionTolerance;
     }
+
     public override Vector3 GetNearestValidPosition(Vector3 position)
     {
         Vector3 nearest = baseTilemapManager.GetNearestValidPosition(position);
@@ -35,12 +53,26 @@ public class CustomTilemapManager : TilemapManager
         {
             return nearest;
         }
-        return GetNeighbors(nearest).OrderBy(p => Vector3.Distance(p, position)).FirstOrDefault();
+        List<Vector3> neighbors = GetNeighbors(nearest);
+        Vector3 nearestNeighbor = nearest;
+        float minDistance = float.MaxValue;
+        for (int i = 0; i < neighbors.Count; i++)
+        {
+            float distance = Vector3.Distance(neighbors[i], position);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                nearestNeighbor = neighbors[i];
+            }
+        }
+        return nearestNeighbor;
     }
+
     public override float GetDistance(Vector3 a, Vector3 b)
     {
         return Vector3.Distance(a, b);
     }
+
     public override List<Vector3> FindPath(Vector3 start, Vector3 goal)
     {
         var openSet = new List<Vector3> { start };
@@ -51,16 +83,19 @@ public class CustomTilemapManager : TilemapManager
 
         while (openSet.Count > 0)
         {
-            var current = openSet.OrderBy(p => fScore.GetValueOrDefault(p, float.MaxValue)).First();
-
+            var current = GetLowestFScoreNode(openSet, fScore);
             if (Vector3.Distance(current, goal) < 0.1f)
             {
                 return ReconstructPath(cameFrom, current);
             }
+
             openSet.Remove(current);
             closedSet.Add(current);
-            foreach (var neighbor in GetNeighbors(current))
+
+            List<Vector3> neighbors = GetNeighbors(current);
+            for (int i = 0; i < neighbors.Count; i++)
             {
+                var neighbor = neighbors[i];
                 if (closedSet.Contains(neighbor)) continue;
 
                 var tentativeGScore = gScore[current] + GetDistance(current, neighbor);
@@ -82,6 +117,21 @@ public class CustomTilemapManager : TilemapManager
         return null;
     }
 
+    private Vector3 GetLowestFScoreNode(List<Vector3> openSet, Dictionary<Vector3, float> fScore)
+    {
+        Vector3 lowestNode = openSet[0];
+        float lowestFScore = float.MaxValue;
+        for (int i = 0; i < openSet.Count; i++)
+        {
+            if (fScore.TryGetValue(openSet[i], out float score) && score < lowestFScore)
+            {
+                lowestFScore = score;
+                lowestNode = openSet[i];
+            }
+        }
+        return lowestNode;
+    }
+
     private List<Vector3> ReconstructPath(Dictionary<Vector3, Vector3> cameFrom, Vector3 current)
     {
         var path = new List<Vector3> { current };
@@ -93,5 +143,4 @@ public class CustomTilemapManager : TilemapManager
         path.Reverse();
         return path;
     }
-
 }

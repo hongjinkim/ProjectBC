@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
@@ -44,6 +43,7 @@ public class CharacterMovement : MonoBehaviour
             SnapToNearestTileCenter();
         }
     }
+
     void UpdatePath()
     {
         if (detection != null)
@@ -56,10 +56,7 @@ public class CharacterMovement : MonoBehaviour
                 if (Vector3.Distance(currentPosition, targetPosition) > PositionTolerance)
                 {
                     List<Vector3> surroundingPositions = GetSurroundingPositions(targetPosition);
-                    Vector3? bestPosition = surroundingPositions
-                        .Where(pos => customTilemapManager.IsValidMovePosition(pos))
-                        .OrderBy(pos => Vector3.Distance(currentPosition, pos))
-                        .FirstOrDefault();
+                    Vector3? bestPosition = FindBestPosition(surroundingPositions, currentPosition);
 
                     if (bestPosition.HasValue)
                     {
@@ -76,10 +73,31 @@ public class CharacterMovement : MonoBehaviour
                     path = null;
                 }
             }
-
         }
         lastPathUpdateTime = Time.time;
     }
+
+    private Vector3? FindBestPosition(List<Vector3> positions, Vector3 currentPosition)
+    {
+        Vector3? bestPosition = null;
+        float minDistance = float.MaxValue;
+
+        for (int i = 0; i < positions.Count; i++)
+        {
+            if (customTilemapManager.IsValidMovePosition(positions[i]))
+            {
+                float distance = Vector3.Distance(currentPosition, positions[i]);
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    bestPosition = positions[i];
+                }
+            }
+        }
+
+        return bestPosition;
+    }
+
     private List<Vector3> GetSurroundingPositions(Vector3 targetPosition)
     {
         List<Vector3> surroundingPositions = new List<Vector3>();
@@ -94,6 +112,7 @@ public class CharacterMovement : MonoBehaviour
         }
         return surroundingPositions;
     }
+
     void HandleSelectionAndMovement()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -121,6 +140,7 @@ public class CharacterMovement : MonoBehaviour
             }
         }
     }
+
     void Select()
     {
         if (selectedCharacter != null && selectedCharacter != this)
@@ -130,11 +150,13 @@ public class CharacterMovement : MonoBehaviour
         isSelected = true;
         selectedCharacter = this;
     }
+
     void Deselect()
     {
         isSelected = false;
         selectedCharacter = null;
     }
+
     void MoveAlongPath()
     {
         if (path != null && currentPathIndex < path.Count)
@@ -166,6 +188,7 @@ public class CharacterMovement : MonoBehaviour
             }
         }
     }
+
     private void SnapToNearestTileCenter()
     {
         Vector3 nearestCenter = customTilemapManager.GetNearestValidPosition(transform.position);
@@ -174,6 +197,7 @@ public class CharacterMovement : MonoBehaviour
             transform.position = nearestCenter;
         }
     }
+
     void SetNewPath(Vector3 target)
     {
         Vector3 start = customTilemapManager.GetNearestValidPosition(transform.position);
@@ -185,6 +209,7 @@ public class CharacterMovement : MonoBehaviour
             tilemapManager.SetDebugPath(path);
         }
     }
+
     IEnumerator WaitAndFindNewPath()
     {
         yield return new WaitForSeconds(2f);
@@ -198,6 +223,7 @@ public class CharacterMovement : MonoBehaviour
             }
         }
     }
+
     IEnumerator AutoMoveCoroutine()
     {
         while (true)
