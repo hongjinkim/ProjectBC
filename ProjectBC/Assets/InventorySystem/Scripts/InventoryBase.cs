@@ -7,19 +7,7 @@ using UnityEngine.UI;
 
 public class InventoryBase : ItemWorkspace
 {
-    public Equipment Equipment;
     public ScrollInventory PlayerInventory;
-    public ScrollInventory Materials;
-    public Button EquipButton;
-    public Button RemoveButton;
-    public Button CraftButton;
-    public Button LearnButton;
-    public Button UseButton;
-    public Button AssembleButton;
-    public AudioClip EquipSound;
-    public AudioClip CraftSound;
-    public AudioClip UseSound;
-    public AudioSource AudioSource;
     public bool InitializeExample;
 
     // These callbacks can be used outside;
@@ -55,14 +43,7 @@ public class InventoryBase : ItemWorkspace
     {
         RegisterCallbacks();
         PlayerInventory.Initialize(ref inventory);
-        Equipment.SetBagSize(bagSize);
-        Equipment.Initialize(ref equipped);
-        Equipment.onRefresh = onRefresh;
 
-        if (!Equipment.SelectAny() && !PlayerInventory.SelectAny())
-        {
-            ItemInfo.Reset();
-        }
     }
 
     public void RegisterCallbacks()
@@ -75,14 +56,6 @@ public class InventoryBase : ItemWorkspace
     {
         SelectItem(item);
 
-        if (Equipment.Items.Contains(item))
-        {
-            Remove();
-        }
-        else if (CanEquipSelectedItem())
-        {
-            Equip();
-        }
     }
 
     public void SelectItem(Item item)
@@ -92,114 +65,8 @@ public class InventoryBase : ItemWorkspace
         Refresh();
     }
 
-    public void Equip()
-    {
-        if (!CanEquip(SelectedItem)) return;
 
-        var equipped = SelectedItem.IsFirearm
-            ? Equipment.Items.Where(i => i.IsFirearm).ToList()
-            : Equipment.Items.Where(i => i.Params.Type == SelectedItem.Params.Type && !i.IsFirearm).ToList();
 
-        if (equipped.Any())
-        {
-            AutoRemove(equipped, Equipment.slots.Count(i => i.Supports(SelectedItem)));
-        }
-
-        if (SelectedItem.IsTwoHanded) AutoRemove(Equipment.Items.Where(i => i.IsShield).ToList());
-        if (SelectedItem.IsShield) AutoRemove(Equipment.Items.Where(i => i.IsWeapon && i.IsTwoHanded).ToList());
-
-        if (SelectedItem.IsFirearm) AutoRemove(Equipment.Items.Where(i => i.IsShield).ToList());
-        if (SelectedItem.IsFirearm) AutoRemove(Equipment.Items.Where(i => i.IsWeapon && i.IsTwoHanded).ToList());
-        if (SelectedItem.IsTwoHanded || SelectedItem.IsShield) AutoRemove(Equipment.Items.Where(i => i.IsWeapon && i.IsFirearm).ToList());
-
-        MoveItem(SelectedItem, PlayerInventory, Equipment);
-        AudioSource.PlayOneShot(EquipSound, SfxVolume);
-        OnEquip?.Invoke(SelectedItem);
-    }
-
-    public void Remove()
-    {
-        MoveItem(SelectedItem, Equipment, PlayerInventory);
-        SelectItem(SelectedItem);
-        AudioSource.PlayOneShot(EquipSound, SfxVolume);
-    }
-
-    public void Craft()
-    {
-        var materials = MaterialList;
-
-        if (CanCraft(materials))
-        {
-            materials.ForEach(i => PlayerInventory.Items.Single(j => j.Hash == i.Hash).Count -= i.Count);
-            PlayerInventory.Items.RemoveAll(i => i.Count == 0);
-
-            var itemId = SelectedItem.Params.FindProperty(PropertyId.Craft).value;
-            var existed = PlayerInventory.Items.SingleOrDefault(i => i.id == itemId && i.modifier == null);
-
-            if (existed == null)
-            {
-                PlayerInventory.Items.Add(new Item(itemId));
-            }
-            else
-            {
-                existed.Count++;
-            }
-
-            PlayerInventory.Refresh(SelectedItem);
-            CraftButton.interactable = CanCraft(materials);
-            AudioSource.PlayOneShot(CraftSound, SfxVolume);
-        }
-        else
-        {
-            Debug.Log("No materials.");
-        }
-    }
-
-    public void Learn()
-    {
-        // Implement your logic here!
-    }
-
-    public void Use()
-    {
-        Use(UseSound);
-    }
-
-    public void Use(AudioClip sound)
-    {
-        if (SelectedItem.Count == 1)
-        {
-            PlayerInventory.Items.Remove(SelectedItem);
-            SelectedItem = PlayerInventory.Items.FirstOrDefault();
-
-            if (SelectedItem == null)
-            {
-                PlayerInventory.Refresh(null);
-                SelectedItem = Equipment.Items.FirstOrDefault();
-
-                if (SelectedItem != null)
-                {
-                    Equipment.Refresh(SelectedItem);
-                }
-            }
-            else
-            {
-                PlayerInventory.Refresh(SelectedItem);
-            }
-        }
-        else
-        {
-            SelectedItem.Count--;
-            PlayerInventory.Refresh(SelectedItem);
-        }
-
-        Equipment.onRefresh?.Invoke();
-
-        if (sound != null)
-        {
-            AudioSource.PlayOneShot(sound, SfxVolume);
-        }
-    }
 
     public Item Assemble()
     {
@@ -233,59 +100,7 @@ public class InventoryBase : ItemWorkspace
         return null;
     }
 
-    public override void Refresh()
-    {
-        if (SelectedItem == null)
-        {
-            ItemInfo.Reset();
-            EquipButton.SetActive(false);
-            RemoveButton.SetActive(false);
-        }
-        else
-        {
-            var equipped = Equipment.Items.Contains(SelectedItem);
-
-            EquipButton.SetActive(!equipped && CanEquipSelectedItem());
-            RemoveButton.SetActive(equipped);
-        }
-
-        UseButton.SetActive(SelectedItem != null && CanUse());
-        AssembleButton.SetActive(SelectedItem != null && SelectedItem.Params.Type == ItemType.Fragment && SelectedItem.Count >= SelectedItem.Params.FindProperty(PropertyId.Fragments).valueInt);
-
-        var receipt = SelectedItem != null && SelectedItem.Params.Type == ItemType.Recipe;
-
-        if (CraftButton != null) CraftButton.SetActive(false);
-        if (LearnButton != null) LearnButton.SetActive(false);
-
-        if (receipt)
-        {
-            if (LearnButton == null)
-            {
-                var materialSelected = !PlayerInventory.Items.Contains(SelectedItem) && !Equipment.Items.Contains(SelectedItem);
-
-                CraftButton.SetActive(true);
-                Materials.SetActive(materialSelected);
-                Equipment.scheme.SetActive(!materialSelected);
-
-                var materials = MaterialList;
-
-                Materials.Initialize(ref materials);
-            }
-            else
-            {
-                LearnButton.SetActive(true);
-            }
-        }
-
-        OnRefresh?.Invoke(SelectedItem);
-    }
-
     private List<Item> MaterialList => SelectedItem.Params.FindProperty(PropertyId.Materials).value.Split(',').Select(i => i.Split(':')).Select(i => new Item(i[0], int.Parse(i[1]))).ToList();
-
-    private bool CanEquipSelectedItem()
-    {
-        return PlayerInventory.Items.Contains(SelectedItem) && Equipment.slots.Any(i => i.Supports(SelectedItem));
-    }
 
     private bool CanUse()
     {
@@ -305,21 +120,14 @@ public class InventoryBase : ItemWorkspace
         return materials.All(i => PlayerInventory.Items.Any(j => j.Hash == i.Hash && j.Count >= i.Count));
     }
 
-    /// <summary>
-    /// Automatically removes items if target slot is busy.
-    /// </summary>
-    private void AutoRemove(List<Item> items, int max = 1)
+    public override void Refresh()
     {
-        long sum = 0;
-
-        foreach (var p in items)
+        if (SelectedItem == null)
         {
-            sum += p.Count;
+            ItemInfo.Reset();
         }
 
-        if (sum == max)
-        {
-            MoveItemSilent(items.LastOrDefault(i => i.id != SelectedItem.id) ?? items.Last(), Equipment, PlayerInventory);
-        }
+
+        OnRefresh?.Invoke(SelectedItem);
     }
 }

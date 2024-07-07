@@ -4,15 +4,37 @@ using UnityEngine;
 using System;
 using static DB;
 using static JsonHelper;
+using Unity.VisualScripting;
 
 
-[RequireComponent(typeof(SaveManager))]
 public class GameDataManager : MonoBehaviour
 {
+    private static GameDataManager _instance;
+    public static GameDataManager instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = new GameObject("GameDataManager").AddComponent<GameDataManager>();
+            }
+
+            return _instance;
+        }
+    }
+
+    [SerializeField] private string _saveFilename = "savegame.dat";
+
+
+    [SerializeField] private bool _debugValues;
+    [SerializeField] private bool _resetGame;
+
     //playerInfo Event
     public static event Action<PlayerInfo> FundsUpdated;
     public static event Action<PlayerInfo> LevelUpdated;
     public static event Action<PlayerInfo> BattlePointUpdated;
+
+    public static event Action<PlayerInfo> GameDataLoaded;
 
 
     //characterData Event
@@ -22,35 +44,110 @@ public class GameDataManager : MonoBehaviour
 
     // private class
     [SerializeField] private PlayerInfo _playerInfo;
-    [SerializeField] private CharacterBaseData[] _characterBaseDatas;
-
-    //public class
-    public PlayerInfo playerInfo { set => _playerInfo = value; get => _playerInfo; }
-
-    private static SaveManager _saveManager;
-
-    private void OnEnable()
+    public PlayerInfo playerInfo
     {
-
+        get { return _playerInfo; }
+        set { _playerInfo = value; }
     }
 
-    private void OnDisable()
-    {
+    public ItemCollection ItemCollection;
 
+
+   [SerializeField] private CharacterBaseData[] _characterBaseDatas;
+
+    
+    void OnApplicationQuit()
+    {
+        SaveGame();
     }
 
     private void Awake()
     {
-        _saveManager = GetComponent<SaveManager>();
+
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            if (_instance == this)
+            {
+                Destroy(gameObject);
+            }
+        }
+
     }
 
     void Start()
     {
         LoadDatas();
         //if saved data exists, load saved data
-        _saveManager?.LoadGame();
+
+        LoadGame();
 
         Init();
+    }
+
+    public PlayerInfo NewGame()
+    {
+        return new PlayerInfo();
+    }
+
+    public void LoadGame()
+    {
+        // load saved data from FileDataHandler
+
+        if (_playerInfo == null || _resetGame)
+        {
+            if (_debugValues)
+            {
+                Debug.Log("GAME DATA MANAGER LoadGame: Initializing game data.");
+            }
+
+            _playerInfo = NewGame();
+        }
+        else if (FileManager.LoadFromFile(_saveFilename, out var jsonString))
+        {
+            _playerInfo.LoadJson(jsonString);
+
+            if (_debugValues)
+            {
+                Debug.Log("SaveManager.LoadGame: " + _saveFilename + " json string: " + jsonString);
+            }
+        }
+
+        // notify other game objects 
+        if (_playerInfo != null)
+        {
+            GameDataLoaded?.Invoke(_playerInfo);
+        }
+    }
+
+    public void SaveGame()
+    {
+        string jsonFile = _playerInfo.ToJson();
+
+        // save to disk with FileDataHandler
+        if (FileManager.WriteToFile(_saveFilename, jsonFile) && _debugValues)
+        {
+            Debug.Log("SaveManager.SaveGame: " + _saveFilename + " json string: " + jsonFile);
+        }
+    }
+
+    void OnSettingsShown()
+    {
+        // pass the GameData to the Settings Screen
+        if (_playerInfo != null)
+        {
+            GameDataLoaded?.Invoke(_playerInfo);
+        }
+    }
+
+    void OnSettingsUpdated(PlayerInfo playerInfo)
+    {
+        _playerInfo = playerInfo;
+        SaveGame();
     }
 
     void Init()

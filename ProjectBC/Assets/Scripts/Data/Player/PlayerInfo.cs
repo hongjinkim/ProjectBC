@@ -11,6 +11,9 @@ public class PlayerInfo
     public int gem;
 
     [Header("Inventory")]
+    //public List<ItemParams> items;
+    public int itemCapacity;
+
     
     [Header("PlayerInfo")]
     public string username;
@@ -38,6 +41,8 @@ public class PlayerInfo
 
         this.musicVolume = 80f;
         this.sfxVolume = 80f;
+
+        this.itemCapacity = 30;
 
         InitInventory();
     }
