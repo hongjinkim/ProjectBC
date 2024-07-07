@@ -17,13 +17,22 @@ public class CharacterMovement : MonoBehaviour
 
     private CustomTilemapManager customTilemapManager;
     private const float PositionTolerance = 0.1f;
+    private const float PositionToleranceSquared = PositionTolerance * PositionTolerance;
+
+    private Vector3 targetPosition;
+    private Vector3 currentPosition;
+    private Vector3 nearestValidPosition;
+
+    private void Awake()
+    {
+        detection = GetComponent<Detection>();
+    }
 
     void Start()
     {
         tilemapManager = TilemapManager.Instance;
         customTilemapManager = new CustomTilemapManager(tilemapManager, this);
         transform.position = customTilemapManager.GetNearestValidPosition(transform.position);
-        detection = GetComponent<Detection>();
         StartCoroutine(AutoMoveCoroutine());
     }
 
@@ -51,9 +60,9 @@ public class CharacterMovement : MonoBehaviour
             GameObject closestObject = detection.GetClosestObject();
             if (closestObject != null)
             {
-                Vector3 targetPosition = closestObject.transform.position;
-                Vector3 currentPosition = customTilemapManager.GetNearestValidPosition(transform.position);
-                if (Vector3.Distance(currentPosition, targetPosition) > PositionTolerance)
+                targetPosition = closestObject.transform.position;
+                currentPosition = customTilemapManager.GetNearestValidPosition(transform.position);
+                if ((currentPosition - targetPosition).sqrMagnitude > PositionToleranceSquared)
                 {
                     List<Vector3> surroundingPositions = GetSurroundingPositions(targetPosition);
                     Vector3? bestPosition = FindBestPosition(surroundingPositions, currentPosition);
@@ -80,16 +89,16 @@ public class CharacterMovement : MonoBehaviour
     private Vector3? FindBestPosition(List<Vector3> positions, Vector3 currentPosition)
     {
         Vector3? bestPosition = null;
-        float minDistance = float.MaxValue;
+        float minSqrDistance = float.MaxValue;
 
         for (int i = 0; i < positions.Count; i++)
         {
             if (customTilemapManager.IsValidMovePosition(positions[i]))
             {
-                float distance = Vector3.Distance(currentPosition, positions[i]);
-                if (distance < minDistance)
+                float sqrDistance = (currentPosition - positions[i]).sqrMagnitude;
+                if (sqrDistance < minSqrDistance)
                 {
-                    minDistance = distance;
+                    minSqrDistance = sqrDistance;
                     bestPosition = positions[i];
                 }
             }
@@ -100,14 +109,13 @@ public class CharacterMovement : MonoBehaviour
 
     private List<Vector3> GetSurroundingPositions(Vector3 targetPosition)
     {
-        List<Vector3> surroundingPositions = new List<Vector3>();
+        List<Vector3> surroundingPositions = new List<Vector3>(8);
         for (int x = -1; x <= 1; x++)
         {
             for (int y = -1; y <= 1; y++)
             {
                 if (x == 0 && y == 0) continue;
-                Vector3 position = new Vector3(targetPosition.x + x, targetPosition.y + y, targetPosition.z);
-                surroundingPositions.Add(position);
+                surroundingPositions.Add(new Vector3(targetPosition.x + x, targetPosition.y + y, targetPosition.z));
             }
         }
         return surroundingPositions;
@@ -121,23 +129,20 @@ public class CharacterMovement : MonoBehaviour
         {
             Select();
         }
-        else
+        else if (isSelected)
         {
-            if (isSelected)
+            Vector3 clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            clickPosition.z = 0;
+            nearestValidPosition = customTilemapManager.GetNearestValidPosition(clickPosition);
+            if (customTilemapManager.IsValidMovePosition(nearestValidPosition))
             {
-                Vector3 clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                clickPosition.z = 0;
-                Vector3 nearestValidPosition = customTilemapManager.GetNearestValidPosition(clickPosition);
-                if (customTilemapManager.IsValidMovePosition(nearestValidPosition))
-                {
-                    SetNewPath(nearestValidPosition);
-                    autoMove = false;
-                }
+                SetNewPath(nearestValidPosition);
+                autoMove = false;
             }
-            else if (selectedCharacter == this)
-            {
-                Deselect();
-            }
+        }
+        else if (selectedCharacter == this)
+        {
+            Deselect();
         }
     }
 
@@ -167,7 +172,7 @@ public class CharacterMovement : MonoBehaviour
                 UpdatePath();
                 return;
             }
-            if (Vector3.Distance(transform.position, targetPosition) > PositionTolerance)
+            if ((transform.position - targetPosition).sqrMagnitude > PositionToleranceSquared)
             {
                 Vector3 newPosition = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
                 transform.position = newPosition;
@@ -191,10 +196,10 @@ public class CharacterMovement : MonoBehaviour
 
     private void SnapToNearestTileCenter()
     {
-        Vector3 nearestCenter = customTilemapManager.GetNearestValidPosition(transform.position);
-        if (Vector3.Distance(transform.position, nearestCenter) < PositionTolerance)
+        nearestValidPosition = customTilemapManager.GetNearestValidPosition(transform.position);
+        if ((transform.position - nearestValidPosition).sqrMagnitude < PositionToleranceSquared)
         {
-            transform.position = nearestCenter;
+            transform.position = nearestValidPosition;
         }
     }
 
@@ -226,9 +231,10 @@ public class CharacterMovement : MonoBehaviour
 
     IEnumerator AutoMoveCoroutine()
     {
+        WaitForSeconds wait = new WaitForSeconds(updatePathInterval);
         while (true)
         {
-            yield return new WaitForSeconds(updatePathInterval);
+            yield return wait;
             if (autoMove)
             {
                 UpdatePath();

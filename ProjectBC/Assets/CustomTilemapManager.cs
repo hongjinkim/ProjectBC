@@ -6,19 +6,26 @@ public class CustomTilemapManager : TilemapManager
     private TilemapManager baseTilemapManager;
     private CharacterMovement character;
     private const float PositionTolerance = 0.1f;
+    private const float PositionToleranceSquared = PositionTolerance * PositionTolerance;
+    private List<CharacterMovement> allCharacters;
 
     public CustomTilemapManager(TilemapManager baseTilemapManager, CharacterMovement character)
     {
         this.baseTilemapManager = baseTilemapManager;
         this.character = character;
+        CacheCharacters();
+    }
+
+    private void CacheCharacters()
+    {
+        allCharacters = new List<CharacterMovement>(Object.FindObjectsOfType<CharacterMovement>());
     }
 
     public override bool IsObstacle(Vector3 position)
     {
-        CharacterMovement[] allCharacters = Object.FindObjectsOfType<CharacterMovement>();
-        for (int i = 0; i < allCharacters.Length; i++)
+        for (int i = 0; i < allCharacters.Count; i++)
         {
-            if (allCharacters[i] != character && Vector3.Distance(allCharacters[i].transform.position, position) < PositionTolerance)
+            if (allCharacters[i] != character && (allCharacters[i].transform.position - position).sqrMagnitude < PositionToleranceSquared)
             {
                 return true;
             }
@@ -28,13 +35,13 @@ public class CustomTilemapManager : TilemapManager
 
     public override List<Vector3> GetNeighbors(Vector3 position)
     {
-        List<Vector3> neighbors = baseTilemapManager.GetNeighbors(position);
-        List<Vector3> validNeighbors = new List<Vector3>();
-        for (int i = 0; i < neighbors.Count; i++)
+        var baseNeighbors = baseTilemapManager.GetNeighbors(position);
+        var validNeighbors = new List<Vector3>(baseNeighbors.Count);
+        for (int i = 0; i < baseNeighbors.Count; i++)
         {
-            if (!IsObstacle(neighbors[i]))
+            if (!IsObstacle(baseNeighbors[i]))
             {
-                validNeighbors.Add(neighbors[i]);
+                validNeighbors.Add(baseNeighbors[i]);
             }
         }
         return validNeighbors;
@@ -43,7 +50,7 @@ public class CustomTilemapManager : TilemapManager
     public override bool IsValidMovePosition(Vector3 position)
     {
         Vector3 nearestValidPosition = GetNearestValidPosition(position);
-        return Vector3.Distance(position, nearestValidPosition) < PositionTolerance;
+        return (position - nearestValidPosition).sqrMagnitude < PositionToleranceSquared;
     }
 
     public override Vector3 GetNearestValidPosition(Vector3 position)
@@ -53,15 +60,15 @@ public class CustomTilemapManager : TilemapManager
         {
             return nearest;
         }
-        List<Vector3> neighbors = GetNeighbors(nearest);
+        var neighbors = GetNeighbors(nearest);
         Vector3 nearestNeighbor = nearest;
-        float minDistance = float.MaxValue;
+        float minSqrDistance = float.MaxValue;
         for (int i = 0; i < neighbors.Count; i++)
         {
-            float distance = Vector3.Distance(neighbors[i], position);
-            if (distance < minDistance)
+            float sqrDistance = (neighbors[i] - position).sqrMagnitude;
+            if (sqrDistance < minSqrDistance)
             {
-                minDistance = distance;
+                minSqrDistance = sqrDistance;
                 nearestNeighbor = neighbors[i];
             }
         }
@@ -70,21 +77,21 @@ public class CustomTilemapManager : TilemapManager
 
     public override float GetDistance(Vector3 a, Vector3 b)
     {
-        return Vector3.Distance(a, b);
+        return (a - b).magnitude;
     }
 
     public override List<Vector3> FindPath(Vector3 start, Vector3 goal)
     {
-        var openSet = new List<Vector3> { start };
+        var openSet = new HashSet<Vector3> { start };
         var closedSet = new HashSet<Vector3>();
         var cameFrom = new Dictionary<Vector3, Vector3>();
         var gScore = new Dictionary<Vector3, float> { { start, 0 } };
-        var fScore = new Dictionary<Vector3, float> { { start, GetDistance(start, goal) } };
+        var fScore = new Dictionary<Vector3, float> { { start, GetHeuristicCost(start, goal) } };
 
         while (openSet.Count > 0)
         {
             var current = GetLowestFScoreNode(openSet, fScore);
-            if (Vector3.Distance(current, goal) < 0.1f)
+            if ((current - goal).sqrMagnitude < 0.01f)
             {
                 return ReconstructPath(cameFrom, current);
             }
@@ -92,10 +99,8 @@ public class CustomTilemapManager : TilemapManager
             openSet.Remove(current);
             closedSet.Add(current);
 
-            List<Vector3> neighbors = GetNeighbors(current);
-            for (int i = 0; i < neighbors.Count; i++)
+            foreach (var neighbor in GetNeighbors(current))
             {
-                var neighbor = neighbors[i];
                 if (closedSet.Contains(neighbor)) continue;
 
                 var tentativeGScore = gScore[current] + GetDistance(current, neighbor);
@@ -111,22 +116,27 @@ public class CustomTilemapManager : TilemapManager
 
                 cameFrom[neighbor] = current;
                 gScore[neighbor] = tentativeGScore;
-                fScore[neighbor] = gScore[neighbor] + GetDistance(neighbor, goal);
+                fScore[neighbor] = gScore[neighbor] + GetHeuristicCost(neighbor, goal);
             }
         }
         return null;
     }
 
-    private Vector3 GetLowestFScoreNode(List<Vector3> openSet, Dictionary<Vector3, float> fScore)
+    private float GetHeuristicCost(Vector3 start, Vector3 goal)
     {
-        Vector3 lowestNode = openSet[0];
+        return (goal - start).magnitude;
+    }
+
+    private Vector3 GetLowestFScoreNode(HashSet<Vector3> openSet, Dictionary<Vector3, float> fScore)
+    {
+        Vector3 lowestNode = Vector3.zero;
         float lowestFScore = float.MaxValue;
-        for (int i = 0; i < openSet.Count; i++)
+        foreach (var node in openSet)
         {
-            if (fScore.TryGetValue(openSet[i], out float score) && score < lowestFScore)
+            if (fScore.TryGetValue(node, out float score) && score < lowestFScore)
             {
                 lowestFScore = score;
-                lowestNode = openSet[i];
+                lowestNode = node;
             }
         }
         return lowestNode;
