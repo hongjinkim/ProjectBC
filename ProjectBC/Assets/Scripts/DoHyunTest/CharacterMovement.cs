@@ -1,14 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class CharacterMovement : MonoBehaviour
+public class CharacterMovement : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
     public float moveSpeed = 5f;
     private List<Vector3> path;
     private int currentPathIndex;
-    private bool isSelected = false;
-    private static CharacterMovement selectedCharacter = null;
+    public bool isSelected = false;
     public Detection detection;
     public bool autoMove = false;
     public float updatePathInterval = 1f;
@@ -36,10 +36,6 @@ public class CharacterMovement : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            HandleSelectionAndMovement();
-        }
         if (Input.GetKeyDown(KeyCode.A))
         {
             autoMove = !autoMove;
@@ -49,6 +45,24 @@ public class CharacterMovement : MonoBehaviour
         {
             SnapToNearestTileCenter();
         }
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        Debug.Log("선택");
+        isSelected = true;
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        // 드래그 중 수행할 작업
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        HandleSelectionAndMovement();
+        isSelected = false;
+        Debug.Log("종료");
     }
 
     void UpdatePath()
@@ -119,48 +133,19 @@ public class CharacterMovement : MonoBehaviour
         return surroundingPositions;
     }
 
-    void HandleSelectionAndMovement()
+    public void HandleSelectionAndMovement()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
-        if (hit.collider != null && hit.collider.gameObject == gameObject)
+        Vector3 endPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        endPosition.z = 0;
+        nearestValidPosition = customTilemapManager.GetNearestValidPosition(endPosition);
+        if (customTilemapManager.IsValidMovePosition(nearestValidPosition))
         {
-            Select();
-        }
-        else if (isSelected)
-        {
-            Vector3 clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            clickPosition.z = 0;
-            nearestValidPosition = customTilemapManager.GetNearestValidPosition(clickPosition);
-            if (customTilemapManager.IsValidMovePosition(nearestValidPosition))
-            {
-                SetNewPath(nearestValidPosition);
-                autoMove = false;
-            }
-        }
-        else if (selectedCharacter == this)
-        {
-            Deselect();
+            SetNewPath(nearestValidPosition);
+            autoMove = false;
         }
     }
 
-    void Select()
-    {
-        if (selectedCharacter != null && selectedCharacter != this)
-        {
-            selectedCharacter.Deselect();
-        }
-        isSelected = true;
-        selectedCharacter = this;
-    }
-
-    void Deselect()
-    {
-        isSelected = false;
-        selectedCharacter = null;
-    }
-
-    void MoveAlongPath()
+    private void MoveAlongPath()
     {
         if (path != null && currentPathIndex < path.Count)
         {

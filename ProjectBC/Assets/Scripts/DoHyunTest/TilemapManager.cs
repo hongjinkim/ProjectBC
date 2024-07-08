@@ -213,7 +213,6 @@ public class TilemapManager : MonoBehaviour
             for (int i = 0; i < currentPath.Count - 1; i++)
             {
                 Gizmos.DrawLine(currentPath[i], currentPath[i + 1]);
-                Gizmos.DrawSphere(currentPath[i], 0.1f);
             }
             Gizmos.DrawSphere(currentPath[currentPath.Count - 1], 0.1f);
         }
