@@ -22,9 +22,19 @@ public class CharacterMovement : MonoBehaviour, IDragHandler, IEndDragHandler, I
     private Vector3 currentPosition;
     private Vector3 nearestValidPosition;
 
+    private List<Vector3> previewPath;
+    private LineRenderer lineRenderer;
+
     private void Awake()
     {
         detection = GetComponent<Detection>();
+
+        lineRenderer = gameObject.AddComponent<LineRenderer>();
+        lineRenderer.startWidth = 0.05f;
+        lineRenderer.endWidth = 0.05f;
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        lineRenderer.startColor = Color.yellow;
+        lineRenderer.endColor = Color.yellow;
     }
 
     void Start()
@@ -49,20 +59,45 @@ public class CharacterMovement : MonoBehaviour, IDragHandler, IEndDragHandler, I
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("선택");
         isSelected = true;
+        lineRenderer.positionCount = 0;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        // 드래그 중 수행할 작업
+        Vector3 endPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        endPosition.z = 0;
+        Vector3 nearestValidEndPosition = customTilemapManager.GetNearestValidPosition(endPosition);
+
+        if (customTilemapManager.IsValidMovePosition(nearestValidEndPosition))
+        {
+            Vector3 start = customTilemapManager.GetNearestValidPosition(transform.position);
+            previewPath = customTilemapManager.FindPath(start, nearestValidEndPosition);
+            DrawPath(previewPath);
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         HandleSelectionAndMovement();
         isSelected = false;
-        Debug.Log("종료");
+
+        lineRenderer.positionCount = 0;
+    }
+
+    private void DrawPath(List<Vector3> pathToDraw)
+    {
+        if (pathToDraw != null && pathToDraw.Count > 0)
+        {
+            Debug.Log($"Drawing path with {pathToDraw.Count} points");
+            lineRenderer.positionCount = pathToDraw.Count;
+            lineRenderer.SetPositions(pathToDraw.ToArray());
+        }
+        else
+        {
+            Debug.Log("No path to draw");
+            lineRenderer.positionCount = 0;
+        }
     }
 
     void UpdatePath()
