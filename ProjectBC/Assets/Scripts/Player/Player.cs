@@ -1,30 +1,38 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.ParticleSystem;
 
 public class Player : MonoBehaviour
 {
     protected PlayerStat playerStat;
-
+    private TraitSelectionManager traitSelectionManager;
+    public int Level = 1;
     public float currentExp;
-    public int level = 1;
     public float needexp;
-    public int Level { get; private set; }
-    public List<Trait> Traits { get; private set; }
+    //public int Level { get; private set; }
+    public List<Trait> Traits { get; private set; } = new List<Trait>();
+    public TraitType SelectedTraitType { get; private set; }
     public PlayerSkill ActiveSkill { get; private set; }
-
-    public Player()
-    {
-        Level = 1;
-        Traits = new List<Trait>();
-        ActiveSkill = new PlayerSkill("기본 스킬", "기본 설명", 5, new int[] { 10, 20, 30, 40, 50 }, new float[] { 1.1f, 1.2f, 1.3f, 1.4f, 1.5f });
-    }
 
     protected virtual void Start()
     {
         if (playerStat == null)
         {
             playerStat = GetComponent<PlayerStat>();
+        }
+
+        traitSelectionManager = FindObjectOfType<TraitSelectionManager>();
+
+        Level = 1;
+        needexp = 100; // 초기 필요 경험치 설정
+        Traits = new List<Trait>();
+        ActiveSkill = new PlayerSkill("기본 스킬", "기본 설명", 5, new int[] { 10, 20, 30, 40, 50 }, new float[] { 1.1f, 1.2f, 1.3f, 1.4f, 1.5f });
+    }
+
+    public void SelectTraitType(TraitType traitType)
+    {
+        if (Level == 1)
+        {
+            SelectedTraitType = traitType;
         }
     }
 
@@ -74,8 +82,9 @@ public class Player : MonoBehaviour
 
     public void LevelUp(int levelup)
     {
-        level += levelup;
+        Level += levelup;
         IncreaseCharacteristic(levelup);
+        needexp *= 1.2f; // 필요 경험치 증가
     }
 
     public void AddExp(int amount)
@@ -86,16 +95,12 @@ public class Player : MonoBehaviour
 
     private void CheckLevelUp()
     {
-        if (currentExp >= needexp)
+        while (currentExp >= needexp)
         {
             currentExp -= needexp;
             LevelUp(1);
         }
     }
-
-   
-        
-
 }
 
 namespace PlayerClasses
