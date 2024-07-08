@@ -5,10 +5,10 @@ public class Player : MonoBehaviour
 {
     protected PlayerStat playerStat;
     private TraitSelectionManager traitSelectionManager;
-
+    public int Level = 1;
     public float currentExp;
     public float needexp;
-    public int Level { get; private set; }
+    //public int Level { get; private set; }
     public List<Trait> Traits { get; private set; } = new List<Trait>();
     public TraitType SelectedTraitType { get; private set; }
     public PlayerSkill ActiveSkill { get; private set; }
