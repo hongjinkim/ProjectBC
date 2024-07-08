@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class ScrollInventory : ItemContainer
 {
+    private int itemCapacity;
+
     [Tooltip("Sort items automatically using SortingFunc (can be redefined).")]
     public bool AutoSorting;
     [Tooltip("Add an extra empty row or a column at the end.")]
@@ -146,7 +148,8 @@ public class ScrollInventory : ItemContainer
                     var height = Mathf.FloorToInt((ScrollRect.GetComponent<RectTransform>().rect.height + Grid.spacing.y) / (Grid.cellSize.y + Grid.spacing.y));
 
                     columns = Grid.constraintCount;
-                    rows = Mathf.Max(height, Mathf.FloorToInt((float)items.Count / columns));
+                    itemCapacity = GameDataManager.instance.playerInfo.itemCapacity;
+                    rows = itemCapacity/columns;//Mathf.Max(height, Mathf.FloorToInt((float)items.Count / columns));
 
                     if (Extend) rows++;
 
