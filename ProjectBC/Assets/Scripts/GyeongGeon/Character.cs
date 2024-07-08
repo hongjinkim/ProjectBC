@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -27,7 +28,7 @@ public abstract class Character : MonoBehaviour, IBehavior
         left,
         Right
     }
-
+    private List<ISkill> skillList;
     private IObjectPool<DamageText> DamageTextPool;
     public List<GameObject> Parts;
     public List<GameObject> Shadows;
@@ -59,6 +60,11 @@ public abstract class Character : MonoBehaviour, IBehavior
     public float findTimer;
     public float attackTimer;
 
+    [Header("DieEffect")]
+    public GameObject fadeObject;
+    public SpriteRenderer[] spriteRenderers;
+    private Color[] originalColors;
+    public float fadeDuration = 1.0f;
 
 
     protected virtual void Start()
@@ -69,6 +75,11 @@ public abstract class Character : MonoBehaviour, IBehavior
     protected void Update()
     {
         CheckState();
+
+        if(currentHealth <= 0)
+        {
+            Die();
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision) 
@@ -101,17 +112,12 @@ public abstract class Character : MonoBehaviour, IBehavior
         OnMove();
     }
 
-    public void Damageable(Character target, float _damage)
+    public void TakeDamage(Character target, float _damage)
     {
         if (target != null)
         {
             target.currentHealth -= _damage;
             InstantiateDmgTxtObj(_damage);
-
-            if(currentHealth <= 0)
-            {
-                Die();
-            }
         }
     }
 
@@ -126,8 +132,11 @@ public abstract class Character : MonoBehaviour, IBehavior
         //         GameManager.Instance.dungeonManager._enemyUnitList.Remove(this);
         //         break;
         // }
-        _unitState = UnitState.death;
-        this.SetActive(false);
+
+        SetState(UnitState.death);
+        //gameObject.SetActive(false);
+        InitFadeEffect();
+        StartCoroutine(FadeOut());
     }
 
     public bool Alive()
@@ -172,11 +181,11 @@ public abstract class Character : MonoBehaviour, IBehavior
         switch (_unitState)
         {
             case UnitState.idle:
-                SetAnimatorState(state);
+                SetAnimatorState(_unitState);
                 break;
 
             case UnitState.move:
-                SetAnimatorState(state);
+                SetAnimatorState(_unitState);
                 break;
 
             case UnitState.attack:
@@ -187,7 +196,7 @@ public abstract class Character : MonoBehaviour, IBehavior
                 break;
 
             case UnitState.death:
-                SetAnimatorState(state);
+                SetAnimatorState(_unitState);
                 break;
         }
 
@@ -346,7 +355,7 @@ public abstract class Character : MonoBehaviour, IBehavior
             }
         }
 
-        Damageable(_target, attackDamage);
+        TakeDamage(_target, attackDamage);
     }
 
     void InstantiateDmgTxtObj(float damage)
@@ -389,5 +398,52 @@ public abstract class Character : MonoBehaviour, IBehavior
 	}
 
     protected virtual void OnAnimAttack(){Debug.Log("공격애니메이션발동");}
+
+    private void InitFadeEffect()
+    {
+        spriteRenderers = fadeObject.GetComponentsInChildren<SpriteRenderer>();
+        originalColors = new Color[spriteRenderers.Length];
+
+        for (int i = 0; i < spriteRenderers.Length; i++)
+        {
+            originalColors[i] = spriteRenderers[i].color;
+        }
+    }
+
+    // void ManageSkill()
+    // {
+
+
+    //     for (int i = 0; i < length; i++)
+    //     {
+            
+    //     }
+    // }
+
+    private IEnumerator FadeOut()
+    {
+        float elapsedTime = 0f;
+
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(1.0f, 0.0f, elapsedTime / fadeDuration);
+
+            for (int i = 0; i < spriteRenderers.Length; i++)
+            {
+                Color newColor = new Color(originalColors[i].r, originalColors[i].g, originalColors[i].b, alpha);
+                spriteRenderers[i].color = newColor;
+            }
+
+            yield return null;
+        }
+
+        for (int i = 0; i < spriteRenderers.Length; i++)
+        {
+            spriteRenderers[i].color = new Color(originalColors[i].r, originalColors[i].g, originalColors[i].b, 0.0f);
+        }
+
+        gameObject.SetActive(false);
+    }
 
 }

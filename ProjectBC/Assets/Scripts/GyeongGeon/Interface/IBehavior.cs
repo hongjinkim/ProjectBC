@@ -2,7 +2,7 @@ public interface IBehavior
 {
     void Move();
     void Attack();
-    void Damageable(Character target, float _damage);
+    void TakeDamage(Character target, float _damage);
     void Die();
     bool Alive();
 }

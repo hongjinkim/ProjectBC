@@ -6,11 +6,16 @@ public class SetCharacterViewController : MonoBehaviour
     private Character character;
 
     public GameObject canvas;
+
     public GameObject prefabHpBar;
-    
     GameObject hpBarObj;
     RectTransform hpBar;
     Image currentHpBarAmount;
+
+    public GameObject prefabEnergyBar;
+    GameObject energyBarObj;
+    RectTransform energyBar;
+    Image currentEnergyBarAmount;
 
     float height = 1f;
 

@@ -4,6 +4,7 @@ public class Priest : Character
 
     protected override void Start() 
     {
+        base.Start();
         _heroClass = HeroClass.Priest;    
     }
 
