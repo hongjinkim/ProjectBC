@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
-    public TilemapManager tilemapManager;
     public float moveSpeed = 5f;
     private List<Vector3> path;
     private int currentPathIndex;
@@ -30,8 +29,7 @@ public class CharacterMovement : MonoBehaviour
 
     void Start()
     {
-        tilemapManager = TilemapManager.Instance;
-        customTilemapManager = new CustomTilemapManager(tilemapManager, this);
+        customTilemapManager = new CustomTilemapManager(TilemapManager.Instance, this);
         transform.position = customTilemapManager.GetNearestValidPosition(transform.position);
         StartCoroutine(AutoMoveCoroutine());
     }
@@ -211,7 +209,7 @@ public class CharacterMovement : MonoBehaviour
 
         if (path != null && path.Count > 0)
         {
-            tilemapManager.SetDebugPath(path);
+            TilemapManager.Instance.SetDebugPath(path);
         }
     }
 
