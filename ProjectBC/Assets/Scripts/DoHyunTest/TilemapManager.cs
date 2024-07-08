@@ -205,19 +205,6 @@ public class TilemapManager : MonoBehaviour
         return path;
     }
 
-    private void OnDrawGizmos()
-    {
-        if (currentPath != null && currentPath.Count > 0)
-        {
-            Gizmos.color = Color.yellow;
-            for (int i = 0; i < currentPath.Count - 1; i++)
-            {
-                Gizmos.DrawLine(currentPath[i], currentPath[i + 1]);
-            }
-            Gizmos.DrawSphere(currentPath[currentPath.Count - 1], 0.1f);
-        }
-    }
-
     public void SetDebugPath(List<Vector3> debugPath)
     {
         currentPath = debugPath;

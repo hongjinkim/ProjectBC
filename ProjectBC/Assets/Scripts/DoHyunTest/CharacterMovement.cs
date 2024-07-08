@@ -89,13 +89,11 @@ public class CharacterMovement : MonoBehaviour, IDragHandler, IEndDragHandler, I
     {
         if (pathToDraw != null && pathToDraw.Count > 0)
         {
-            Debug.Log($"Drawing path with {pathToDraw.Count} points");
             lineRenderer.positionCount = pathToDraw.Count;
             lineRenderer.SetPositions(pathToDraw.ToArray());
         }
         else
         {
-            Debug.Log("No path to draw");
             lineRenderer.positionCount = 0;
         }
     }
