@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class DungeonManager : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class DungeonManager : MonoBehaviour
     public float _findTimer;
     private int randomEnemyIndex;
     public int enemyQuantity;
+
     // 랜덤 위치 범위 설정
     public Vector2 spawnAreaMin;
     public Vector2 spawnAreaMax;
@@ -78,9 +80,9 @@ public class DungeonManager : MonoBehaviour
     {
         for (var i = 0; i < _heroPool.Count; i++)
         {
-            Character enemy = Instantiate(_heroPool[i]);
+            Character hero = Instantiate(_heroPool[i]);
 
-            _ActiveHeroList.Add(enemy);
+            _ActiveHeroList.Add(hero);
             _ActiveHeroList[i].gameObject.tag = "Hero";
 
             // 추후에 마우스로 드래그해서 SetActive 하는걸로 변경해야함.
@@ -99,14 +101,32 @@ public class DungeonManager : MonoBehaviour
             _ActiveEnemyList[i].gameObject.tag = "Enemy";
 
             // 랜덤한 위치 생성
-            Vector2 randomPosition = new Vector2(
-                Random.Range(spawnAreaMin.x, spawnAreaMax.x),
-                Random.Range(spawnAreaMin.y, spawnAreaMax.y)
-            );
+            // Vector2 randomPosition = new Vector2(
+            //     Random.Range(spawnAreaMin.x, spawnAreaMax.x),
+            //     Random.Range(spawnAreaMin.y, spawnAreaMax.y)
+            // );
+            //BoundsInt bounds = enemy.customTilemapManager.tilemap.cellBounds;
 
-            enemy.transform.position = randomPosition;
+            //Vector2 randomPosition = GetRandomTilemapPosition(_ActiveEnemyList[i]);
+
+            //enemy.transform.position = randomPosition;
             _ActiveEnemyList[i].gameObject.SetActive(true);
         }
+    }
+
+    Vector2 GetRandomTilemapPosition(Character enemy)
+    {
+        // 타일맵 영역 범위
+        BoundsInt bounds = enemy.customTilemapManager.tilemap.cellBounds;
+
+        // 랜덤한 위치 생성
+        Vector2 randomPosition = new Vector2(
+            Random.Range(bounds.min.x, bounds.max.x),
+            Random.Range(bounds.min.y, bounds.max.y)
+        );
+
+        // 랜덤 위치를 타일맵 기준으로 조정하여 유효한 위치로 반환
+        return enemy.customTilemapManager.GetNearestValidPosition(randomPosition);
     }
 
     void AllEnemiesDeadCheck()
