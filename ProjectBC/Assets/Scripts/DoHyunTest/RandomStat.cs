@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class RandomStat : MonoBehaviour
 {
-    private int maxTotalStats = 200; // æ∆¿Ã
+    private int maxTotalStats = 200;
     private int curTotalStats;
     public List<string> statName = new List<string>();
     public List<int> stats = new List<int>();

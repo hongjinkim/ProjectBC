@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CampScreen : MenuScreen
+public class HeroScrollLimit : ScrollLimit
 {
 
 }
