@@ -7,7 +7,7 @@ public class CampScreenController : MonoBehaviour
     [Header("Portal")]
     [SerializeField] private Button portalBtn;
     [SerializeField] private Button portalBackBtn;
-    [SerializeField] private GameObject portalPanel;
+    [SerializeField] private GameObject campPortal;
 
     [Header("DailyStore")]
     [SerializeField] private Button dailyStoreBtn;
@@ -26,8 +26,8 @@ public class CampScreenController : MonoBehaviour
 
     private void Start()
     {
-        portalBtn.onClick.AddListener(() => portalPanel.SetActive(true));
-        portalBackBtn.onClick.AddListener(() => portalPanel.SetActive(false));
+        portalBtn.onClick.AddListener(() => campPortal.SetActive(true));
+        portalBackBtn.onClick.AddListener(() => campPortal.SetActive(false));
 
         dailyStoreBtn.onClick.AddListener(() => { dailyStorePanel.SetActive(true); OnDailyStoreOpened?.Invoke(); });
         dailyStoreBackBtn.onClick.AddListener(() => { dailyStorePanel.SetActive(false); OnDailyStoreClosed?.Invoke(); });
