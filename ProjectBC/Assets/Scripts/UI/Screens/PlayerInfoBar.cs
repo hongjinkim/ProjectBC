@@ -1,7 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerInfoBar : MenuScreen
 {
@@ -11,6 +11,10 @@ public class PlayerInfoBar : MenuScreen
     public TextMeshProUGUI gold;
     public TextMeshProUGUI diamond;
     public TextMeshProUGUI gem;
+
+    [Header("panel")]
+    public Image panel;
+    public Image profile;
 
     private void OnEnable()
     {
@@ -45,5 +49,23 @@ public class PlayerInfoBar : MenuScreen
     void OnBattlePointUpdated(PlayerInfo info)
     {
         battlePoint.text = info.battlePoint.ToString();
+    }
+
+    public void HideMenu()
+    {
+        //Color color = panel.color;
+        //color.a = 0f;
+        //panel.color = color;
+
+        profile.gameObject.SetActive(false);
+        level.SetActive(false);
+        battlePoint.SetActive(false);
+    }
+
+    public void ShowMenu()
+    {
+        profile.gameObject.SetActive(true);
+        level.SetActive(true);
+        battlePoint.SetActive(true);
     }
 }
