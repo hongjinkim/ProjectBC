@@ -125,7 +125,8 @@ public enum ItemType
     Container,
     Booster,
     Coupon,
-    Fragment
+    Fragment,
+    Crystal
 }
 public enum ItemModifier
 {

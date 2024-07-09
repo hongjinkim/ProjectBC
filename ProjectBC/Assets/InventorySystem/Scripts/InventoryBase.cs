@@ -7,7 +7,14 @@ using UnityEngine.UI;
 
 public class InventoryBase : ItemWorkspace
 {
-    public ScrollInventory PlayerInventory;
+    [Header("inventories")]
+    public ScrollInventory EquipmentInventory;
+    public ScrollInventory UsableInventory;
+    public ScrollInventory MaterialInventory;
+    public ScrollInventory CrystalInventory;
+
+    public List<ScrollInventory> inventories;
+
     public bool InitializeExample;
 
     // These callbacks can be used outside;
@@ -15,14 +22,48 @@ public class InventoryBase : ItemWorkspace
     public Action<Item> OnEquip;
     public Func<Item, bool> CanEquip = i => true;
 
+
+    void OnEnable()
+    {
+        SetupInventories();
+        ShowInventory(EquipmentInventory);
+    }
+
+    void SetupInventories()
+    {
+        if (EquipmentInventory != null)
+            inventories.Add(EquipmentInventory);
+        if (UsableInventory != null)
+            inventories.Add(UsableInventory);
+        if (MaterialInventory != null)
+            inventories.Add(MaterialInventory);
+        if (CrystalInventory != null)
+            inventories.Add(CrystalInventory);
+    }
+
+    void ShowInventory(ScrollInventory inventory)
+    {
+        foreach (ScrollInventory inven in inventories)
+        {
+            if (inven == inventory)
+            {
+                inven?.ShowContainer();
+            }
+            else
+            {
+                inven?.HideContainer();
+            }
+        }
+    }
     public void Awake()
     {
         ItemCollection.active = ItemCollection;
+
     }
 
     public void Start()
     {
-        ItemCollection.active.AddItem(new ItemParams());
+        //ItemCollection.active.AddItem(new ItemParams());
         if (InitializeExample)
         {
             TestInitialize();
@@ -35,16 +76,45 @@ public class InventoryBase : ItemWorkspace
     public void TestInitialize()
     {
         var inventory = ItemCollection.active.items.Select(i => new Item(i.Id)).ToList(); // inventory.Clear();
-        var equipped = new List<Item>();
 
-        Initialize(ref inventory, ref equipped, 6, null);
+        var equipment = new List<Item>();
+        var usable = new List<Item>();
+        var material = new List<Item>();
+        var crystal = new List<Item>();
+
+        foreach (Item item in inventory)
+        {
+            switch(item.Params.Type)
+            {
+                case ItemType.Container:
+                case ItemType.Booster:
+                case ItemType.Coupon:
+                    usable.Add(item);
+                    break;
+                case ItemType.Material:
+                    material.Add(item);
+                    break;
+                case ItemType.Crystal:
+                    crystal.Add(item);
+                    break;
+                default:
+                    equipment.Add(item);
+                    break;
+            }
+        }
+
+        var equipped = new List<Item>();
+        
+        Initialize(EquipmentInventory, ref equipment);
+        Initialize(UsableInventory, ref usable);
+        Initialize(MaterialInventory, ref material);
+        Initialize(CrystalInventory, ref crystal);
     }
 
-    public void Initialize(ref List<Item> inventory, ref List<Item> equipped, int bagSize, Action onRefresh)
+    public void Initialize(ScrollInventory container, ref List<Item> inventory/*, ref List<Item> equipped, int bagSize, Action onRefresh*/)
     {
         RegisterCallbacks();
-        PlayerInventory.Initialize(ref inventory);
-
+        container.Initialize(ref inventory);
     }
 
     public void RegisterCallbacks()
@@ -56,7 +126,6 @@ public class InventoryBase : ItemWorkspace
     private void QuickAction(Item item)
     {
         SelectItem(item);
-
     }
 
     public void SelectItem(Item item)
@@ -66,6 +135,22 @@ public class InventoryBase : ItemWorkspace
         Refresh();
     }
 
+    public void OnEquipmentButtonClicked()
+    {
+        ShowInventory(EquipmentInventory);
+    }
+    public void OnUsableButtonClicked()
+    {
+        ShowInventory(UsableInventory);
+    }
+    public void OnMaterialButtonClicked()
+    {
+        ShowInventory(MaterialInventory);
+    }
+    public void OnCrystalButtonClicked()
+    {
+        ShowInventory(CrystalInventory);
+    }
 
 
 
@@ -76,11 +161,11 @@ public class InventoryBase : ItemWorkspace
             SelectedItem.Count -= SelectedItem.Params.FindProperty(PropertyId.Fragments).valueInt;
 
             var crafted = new Item(SelectedItem.Params.FindProperty(PropertyId.Craft).value);
-            var existed = PlayerInventory.Items.SingleOrDefault(i => i.Hash == crafted.Hash);
+            var existed = EquipmentInventory.Items.SingleOrDefault(i => i.Hash == crafted.Hash);
 
             if (existed == null)
             {
-                PlayerInventory.Items.Add(crafted);
+                EquipmentInventory.Items.Add(crafted);
             }
             else
             {
@@ -89,11 +174,11 @@ public class InventoryBase : ItemWorkspace
 
             if (SelectedItem.Count == 0)
             {
-                PlayerInventory.Items.Remove(SelectedItem);
+                EquipmentInventory.Items.Remove(SelectedItem);
                 SelectedItem = crafted;
             }
 
-            PlayerInventory.Refresh(SelectedItem);
+            EquipmentInventory.Refresh(SelectedItem);
 
             return crafted;
         }
@@ -103,22 +188,10 @@ public class InventoryBase : ItemWorkspace
 
     private List<Item> MaterialList => SelectedItem.Params.FindProperty(PropertyId.Materials).value.Split(',').Select(i => i.Split(':')).Select(i => new Item(i[0], int.Parse(i[1]))).ToList();
 
-    private bool CanUse()
-    {
-        switch (SelectedItem.Params.Type)
-        {
-            case ItemType.Container:
-            case ItemType.Booster:
-            case ItemType.Coupon:
-                return true;
-            default:
-                return false;
-        }
-    }
 
     private bool CanCraft(List<Item> materials)
     {
-        return materials.All(i => PlayerInventory.Items.Any(j => j.Hash == i.Hash && j.Count >= i.Count));
+        return materials.All(i => EquipmentInventory.Items.Any(j => j.Hash == i.Hash && j.Count >= i.Count));
     }
 
     public override void Refresh()
