@@ -34,7 +34,7 @@ public class DB
         public float criticalChance;
         public int criticalDamage;
         public float defensePenetration;
-
+       
         //public CharacterBaseData(int idx, string name, CharacteristicType characteristicType, int hp, int attackDamage, int defense, int magigResistance, int strength,
         //    int agility, int intelligence, int stamina, float attackSpeed, float healthRegen, float energyRegen, int attackRange, float expAmplification, int trueDamage,
         //    int damageBlock, float lifeSteal, float damageAmplification, float damageReduction, float criticalChance, int criticalDamage, float defensePenetration)

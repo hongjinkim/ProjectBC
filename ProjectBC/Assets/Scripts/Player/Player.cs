@@ -5,10 +5,11 @@ public class Player : MonoBehaviour
 {
     protected PlayerStat playerStat;
     private TraitSelectionManager traitSelectionManager;
-    public int Level = 1;
+    //protected HeroSkillBook skillBook;
+
     public float currentExp;
     public float needexp;
-    //public int Level { get; private set; }
+    public int Level { get; private set; }
     public List<Trait> Traits { get; private set; } = new List<Trait>();
     public TraitType SelectedTraitType { get; private set; }
     public PlayerSkill ActiveSkill { get; private set; }
@@ -26,8 +27,13 @@ public class Player : MonoBehaviour
         needexp = 100; // 초기 필요 경험치 설정
         Traits = new List<Trait>();
         ActiveSkill = new PlayerSkill("기본 스킬", "기본 설명", 5, new int[] { 10, 20, 30, 40, 50 }, new float[] { 1.1f, 1.2f, 1.3f, 1.4f, 1.5f });
+        InitializeSkillBook();
+       
     }
-
+    protected virtual void InitializeSkillBook()
+    {
+        // 각 영웅 클래스에서 오버라이드하여 구현
+    }
     public void SelectTraitType(TraitType traitType)
     {
         if (Level == 1)
@@ -101,6 +107,23 @@ public class Player : MonoBehaviour
             LevelUp(1);
         }
     }
+    public void LevelUpSkill(int skillIndex)
+    {
+        //if (skillBook.LevelUpSkill(skillIndex))
+        //{
+        //    // 스킬 레벨업 성공 시 스탯 재계산
+        //    RecalculateStats();
+        //}
+    }
+
+    protected void RecalculateStats()
+    {
+        // 기본 스탯 초기화
+        //InitializeStats();
+
+        // 모든 패시브 스킬 효과 적용
+        //skillBook.ApplyAllPassiveSkills(playerStat);
+    }
 }
 
 namespace PlayerClasses
@@ -137,15 +160,15 @@ namespace PlayerClasses
             if (playerStat.Energy >= 100) // 예시로 에너지가 100 이상일 때 스킬 사용
             {
                 playerStat.Energy = 0; // 에너지를 소모
-                int damage = skillBook.PiercingArrow.GetDamage(playerStat.AttackDamage);
+                //int damage = skillBook.PiercingArrow.GetDamage(playerStat.AttackDamage);
                 // 적에게 데미지를 입히는 로직을 추가
-                Debug.Log($"관통하는 화살 사용! 피해량: {damage}");
+                // Debug.Log($"관통하는 화살 사용! 피해량: {damage}");
             }
         }
 
         public void LevelUpSkill()
         {
-            skillBook.LevelUpSkill(skillBook.PiercingArrow);
+            //skillBook.LevelUpSkill(skillBook.PiercingArrow);
         }
     }
 
