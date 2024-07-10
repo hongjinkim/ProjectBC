@@ -6,7 +6,8 @@ public class Player : MonoBehaviour
     protected PlayerStat playerStat;
     private TraitSelectionManager traitSelectionManager;
     //protected HeroSkillBook skillBook;
-
+    private HeroSkills skills;
+    public Sprite Icon { get; protected set; }
     public float currentExp;
     public float needexp;
     public int Level { get; private set; }
@@ -28,7 +29,12 @@ public class Player : MonoBehaviour
         Traits = new List<Trait>();
         ActiveSkill = new PlayerSkill("기본 스킬", "기본 설명", 5, new int[] { 10, 20, 30, 40, 50 }, new float[] { 1.1f, 1.2f, 1.3f, 1.4f, 1.5f });
         InitializeSkillBook();
-       
+        LoadIcon();
+
+    }
+    protected virtual void LoadIcon()
+    {
+        Icon = Resources.Load<Sprite>("HeroIcons/" + GetType().Name);
     }
     protected virtual void InitializeSkillBook()
     {
@@ -86,12 +92,16 @@ public class Player : MonoBehaviour
         playerStat.HP += (int)(10f * amount);
     }
 
-    public void LevelUp(int levelup)
+    public void LevelUp(int levelUp)
     {
-        Level += levelup;
-        IncreaseCharacteristic(levelup);
-        needexp *= 1.2f; // 필요 경험치 증가
+        Level += levelUp;
+        skills.AddSkillPoints(levelUp); // 레벨업 시 스킬 포인트 추가
+        skills.UnlockSkills(Level); // 새로운 레벨에 따라 스킬 잠금 해제
+        IncreaseCharacteristic(levelUp);
+        needexp *= 1.2f;
+        UpdateSkillUI(); // UI 업데이트
     }
+
 
     public void AddExp(int amount)
     {
@@ -107,13 +117,18 @@ public class Player : MonoBehaviour
             LevelUp(1);
         }
     }
-    public void LevelUpSkill(int skillIndex)
+    public void LevelUpSkill(string skillName)
     {
-        //if (skillBook.LevelUpSkill(skillIndex))
-        //{
-        //    // 스킬 레벨업 성공 시 스탯 재계산
-        //    RecalculateStats();
-        //}
+        if (skills.LevelUpSkill(skillName))
+        {
+            RecalculateStats();
+            UpdateSkillUI(); // UI 업데이트
+        }
+    }
+    private void UpdateSkillUI()
+    {
+        // 모든 스킬 버튼의 UI를 업데이트하는 로직
+        // 레벨, MAX 표시, 잠금 상태 등을 반영
     }
 
     protected void RecalculateStats()
@@ -144,7 +159,7 @@ namespace PlayerClasses
 
     public class Archer : Player
     {
-        public ArcherSkillBook skillBook;
+        
         protected override void Start()
         {
             base.Start();
