@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Properties;
 using UnityEngine;
+using static DB;
 
 [Serializable]
 public class ItemParams

@@ -65,6 +65,28 @@ public class DB
         //    this.defensePenetration = defensePenetration;
         //}
     }
+    [System.Serializable]
+    public class EquipmentBaseData
+    {
+        public int Index;
+        public string Id;
+        public int Level;
+        public ItemRarity Rarity;
+        public ItemType Type;
+        public ItemClass Class;
+        public ItemTag Tag1;
+        public ItemTag Tag2;
+        public ItemTag Tag3;
+        public PropertyId PropertyId1;
+        public string PropertyValue1;
+        public PropertyId PropertyId2;
+        public string PropertyValue2;
+        public int Price;
+        public int Weight;
+        public ItemMaterial Material;
+        public string IconId;
+        public string SpriteId;
+        public string Meta;
+    }
 
-    
 }

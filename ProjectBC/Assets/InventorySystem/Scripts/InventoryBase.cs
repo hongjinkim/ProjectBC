@@ -75,7 +75,7 @@ public class InventoryBase : ItemWorkspace
     /// </summary>
     public void TestInitialize()
     {
-        var inventory = ItemCollection.active.items.Select(i => new Item(i.Id)).ToList(); // inventory.Clear();
+        var inventory = ItemCollection.active.items.Select(i =>  new Item(i.Id)).ToList(); // inventory.Clear();
 
         var equipment = new List<Item>();
         var usable = new List<Item>();

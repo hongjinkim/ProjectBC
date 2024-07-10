@@ -14,15 +14,7 @@ public class GameDataManager : MonoBehaviour
     private static GameDataManager _instance;
     public static GameDataManager instance
     {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = new GameObject("GameDataManager").AddComponent<GameDataManager>();
-            }
-
-            return _instance;
-        }
+        get { return _instance; }
     }
 
     [SerializeField] private string _saveFilename = "savegame.dat";
@@ -45,19 +37,15 @@ public class GameDataManager : MonoBehaviour
 
 
     // private class
-    [SerializeField] private PlayerInfo _playerInfo;
-    public PlayerInfo playerInfo
-    {
-        get { return _playerInfo; }
-        set { _playerInfo = value; }
-    }
-
+    [SerializeField] PlayerInfo _playerInfo;
+    public PlayerInfo playerInfo { set => _playerInfo = value; get => _playerInfo; }
     public ItemCollection itemCollection;
 
 
-    [SerializeField] private CharacterBaseData[] _characterBaseDatas;
+    [SerializeField] public CharacterBaseData[] _characterBaseData;
+    [SerializeField] public EquipmentBaseData[] _equipmentBaseData;
 
-    
+
     void OnApplicationQuit()
     {
         SaveGame();
@@ -65,18 +53,9 @@ public class GameDataManager : MonoBehaviour
 
     private void Awake()
     {
-
         if (_instance == null)
         {
             _instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            if (_instance == this)
-            {
-                Destroy(gameObject);
-            }
         }
         savePath = Application.persistentDataPath;
     }
@@ -185,7 +164,8 @@ public class GameDataManager : MonoBehaviour
 
     private void LoadDatas()
     {
-        _characterBaseDatas = LoadArrayJson<CharacterBaseData>("CharacterBaseData.json");
+        _characterBaseData = LoadArrayJson<CharacterBaseData>("CharacterBaseData.json");
+        _equipmentBaseData = LoadArrayJson<EquipmentBaseData>("EquipmentBaseData.json");
     }
 
 }
