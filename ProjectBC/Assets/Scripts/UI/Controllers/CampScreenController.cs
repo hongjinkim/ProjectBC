@@ -7,12 +7,12 @@ public class CampScreenController : MonoBehaviour
     [Header("Portal")]
     [SerializeField] private Button portalBtn;
     [SerializeField] private Button portalBackBtn;
-    [SerializeField] private GameObject portalPanel;
+    [SerializeField] private GameObject campScreen_Portal;
 
     [Header("DailyStore")]
     [SerializeField] private Button dailyStoreBtn;
     [SerializeField] private Button dailyStoreBackBtn;
-    [SerializeField] private GameObject dailyStorePanel;
+    [SerializeField] private GameObject campScreen_DailyStore;
 
     [SerializeField] private PlayerInfoBar playerInfoBar;
     private event Action OnDailyStoreOpened;
@@ -26,10 +26,10 @@ public class CampScreenController : MonoBehaviour
 
     private void Start()
     {
-        portalBtn.onClick.AddListener(() => portalPanel.SetActive(true));
-        portalBackBtn.onClick.AddListener(() => portalPanel.SetActive(false));
+        portalBtn.onClick.AddListener(() => campScreen_Portal.SetActive(true));
+        portalBackBtn.onClick.AddListener(() => campScreen_Portal.SetActive(false));
 
-        dailyStoreBtn.onClick.AddListener(() => { dailyStorePanel.SetActive(true); OnDailyStoreOpened?.Invoke(); });
-        dailyStoreBackBtn.onClick.AddListener(() => { dailyStorePanel.SetActive(false); OnDailyStoreClosed?.Invoke(); });
+        dailyStoreBtn.onClick.AddListener(() => { campScreen_DailyStore.SetActive(true); OnDailyStoreOpened?.Invoke(); });
+        dailyStoreBackBtn.onClick.AddListener(() => { campScreen_DailyStore.SetActive(false); OnDailyStoreClosed?.Invoke(); });
     }
 }
