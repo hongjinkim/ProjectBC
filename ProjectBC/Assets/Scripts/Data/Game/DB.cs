@@ -1,8 +1,10 @@
 using Newtonsoft.Json.Bson;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 
 public class DB
@@ -66,7 +68,7 @@ public class DB
         //}
     }
     [System.Serializable]
-    public class EquipmentBaseData
+    public class ItemBaseData
     {
         public int Index;
         public string Id;
@@ -88,5 +90,21 @@ public class DB
         public string SpriteId;
         public string Meta;
     }
+    [System.Serializable]
+    public class EquipmentStatData
+    {
+        public int Index;
+        public string Id;
+        public StatId StatId1;
+        public int StatValueMin1;
+        public int StatValueMax1;
+        public StatId StatId2;
+        public int StatValueMin2;
+        public int StatValueMax2;
+        public StatId StatId3;
+        public int StatValueMin3;
+        public int StatValueMax3;
 
+        public List<Stat> Stats;
+    }
 }

@@ -7,132 +7,67 @@ using static DB;
 
 public class BattleItemManager : MonoBehaviour
 {
-    public Item droppedItem;
-    private int idAdjust;
+    public ItemCollection itemCollection;
+    [SerializeField] private List<Item> droppedItems = new List<Item>();
 
-    public event Action<Item> ItemPickUp;
+    public event Action ItemPickUp;
 
     private void Awake()
     {
-        ItemCollection.items = new List<ItemParams>();
-        idAdjust = 0;
+       
     }
-
-    public void OnDroppedEquipment(int idx)
+    private void OnEnable()
     {
-        ItemCollection.items.Add(MakeEquipment(GameDataManager.instance._equipmentBaseData[idx]));
+
+    }
+    public void OnDroppedEquipment(string id)
+    {
+        var item = new Item(id);
+        item = RandomStat(item);
+
+        droppedItems.Add(item);
     }
 
     public void OnPickupItem()
     {
-        
-    }
-
-
-       
-    public ItemParams MakeEquipment(EquipmentBaseData data)
-    {
-        return new ItemParams
+        var inventory = GameDataManager.instance.playerInfo.items;
+        foreach (Item item in droppedItems)
         {
-            Id = data.Id + idAdjust++.ToString(),
-            Level = data.Level,
-            Rarity = data.Rarity,
-            Type = data.Type,
-            Class = data.Class,
-            Tags = new List<ItemTag> { data.Tag1, data.Tag2, data.Tag3 },
-            Properties = new List<Property> { new Property(data.PropertyId1, data.PropertyValue1), new Property(data.PropertyId2, data.PropertyValue2) },
-            Price = data.Price,
-            Weight = data.Weight,
-            Material = data.Material,
-            IconId = data.IconId,
-            SpriteId = data.SpriteId,
-            Meta = data.Meta
-        };
-    }
-
-    public override void Refresh()
-    {
-        if (Items == null) return;
-
-        List<Item> items;
-
-        if (AutoSorting && SortingFunc != null)
-        {
-            items = new List<Item>();
-
-            var groups = Items.OrderBy(SortingFunc).ToList().GroupBy(i => i.Params.Type);
-
-            foreach (var group in groups)
+            if(item.Params.Type == ItemType.Usable || item.Params.Type == ItemType.Material || item.Params.Type == ItemType.Crystal)
             {
-                items.AddRange(group.OrderBy(i => i.Params.Class).ThenBy(i => i.Params.Price));
+                bool hasItem = false;
+                foreach(Item _item in inventory)
+                {
+                    if (item.Params.Id == _item.Params.Id)
+                    {
+                        _item.Count++;
+                        hasItem = true;
+                        break;
+                    } 
+                }
+                if(!hasItem)
+                    inventory.Add(item);
+            }
+            else
+            {
+                inventory.Add(item);
             }
         }
-        else
+        droppedItems.Clear();
+        GameDataManager.instance.UpdateItem();
+    }
+
+       
+    public Item RandomStat(Item item)
+    {
+        if(item.IsEquipment)
         {
-            items = Items.ToList();
+            var statData = GameDataManager.instance.equipmentStatData[item.Params.Index];
+            item.Stats = new List<Stat> { new Stat (statData.StatId1, UnityEngine.Random.Range(statData.StatValueMin1, statData.StatValueMax1)),
+                                                    new Stat (statData.StatId2, UnityEngine.Random.Range(statData.StatValueMin2, statData.StatValueMax2)),
+                                                    new Stat (statData.StatId3, UnityEngine.Random.Range(statData.StatValueMin3, statData.StatValueMax3)),
+            };
         }
-
-        if (FilterFunc != null)
-        {
-            items.RemoveAll(i => !FilterFunc(i));
-        }
-
-        foreach (var instance in _itemInstances)
-        {
-            instance.Reset();
-            instance.SetActive(false);
-        }
-
-        var toggleGroup = GetComponentInParent<ToggleGroup>(includeInactive: true);
-
-        for (var i = 0; i < items.Count; i++)
-        {
-            var instance = GetItemInstance();
-
-            instance.transform.SetSiblingIndex(i);
-            instance.Initialize(items[i], toggleGroup);
-            instance.count.SetActive(Stacked);
-
-            if (AutoSelect) instance.Select(items[i] == selected);
-        }
-
-        var columns = 0;
-        var rows = 0;
-
-        switch (Grid.constraint)
-        {
-            case GridLayoutGroup.Constraint.FixedColumnCount:
-                {
-                    var height = Mathf.FloorToInt((ScrollRect.GetComponent<RectTransform>().rect.height + Grid.spacing.y) / (Grid.cellSize.y + Grid.spacing.y));
-
-                    columns = Grid.constraintCount;
-                    itemCapacity = GameDataManager.instance.playerInfo.itemCapacity;
-                    rows = itemCapacity / columns;//Mathf.Max(height, Mathf.FloorToInt((float)items.Count / columns));
-
-                    if (Extend) rows++;
-
-                    break;
-                }
-            case GridLayoutGroup.Constraint.FixedRowCount:
-                {
-                    var width = Mathf.FloorToInt((ScrollRect.GetComponent<RectTransform>().rect.width + Grid.spacing.x) / (Grid.cellSize.x + Grid.spacing.x));
-
-                    rows = Grid.constraintCount;
-                    columns = Mathf.Max(width, Mathf.FloorToInt((float)items.Count / rows));
-
-                    if (Extend) columns++;
-
-                    break;
-                }
-        }
-
-        for (var i = items.Count; i < columns * rows; i++)
-        {
-            var instance = GetItemInstance();
-
-            instance.Initialize(null);
-        }
-
-        OnRefresh?.Invoke();
+        return item;
     }
 }

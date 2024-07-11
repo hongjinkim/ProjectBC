@@ -33,8 +33,10 @@ public class GameDataManager : MonoBehaviour
 
     //characterData Event
 
-    //itemData Event
 
+
+    //itemData Event
+    public static event Action ItemUpdated;
 
     // private class
     [SerializeField] PlayerInfo _playerInfo;
@@ -42,8 +44,13 @@ public class GameDataManager : MonoBehaviour
     public ItemCollection itemCollection;
 
 
-    [SerializeField] public CharacterBaseData[] _characterBaseData;
-    [SerializeField] public EquipmentBaseData[] _equipmentBaseData;
+    [SerializeField] public CharacterBaseData[] characterBaseData;
+
+    [SerializeField] public ItemBaseData[] equipmentBaseData;
+    [SerializeField] public ItemBaseData[] itemBaseData;
+
+
+    [SerializeField] public EquipmentStatData[] equipmentStatData;
 
 
     void OnApplicationQuit()
@@ -72,7 +79,6 @@ public class GameDataManager : MonoBehaviour
 
     public PlayerInfo NewGame()
     {
-        itemCollection.items = new List<ItemParams>();
         return new PlayerInfo();
     }
 
@@ -98,8 +104,6 @@ public class GameDataManager : MonoBehaviour
                 Debug.Log("SaveManager.LoadGame: " + _saveFilename + " json string: " + jsonString);
             }
         }
-
-        _playerInfo.items = itemCollection.items;
 
         // notify other game objects 
         if (_playerInfo != null)
@@ -160,12 +164,58 @@ public class GameDataManager : MonoBehaviour
             BattlePointUpdated?.Invoke(_playerInfo);
     }
 
+    public void UpdateItem()
+    {
+        if (_playerInfo != null)
+            ItemUpdated?.Invoke();
+    }
 
 
     private void LoadDatas()
     {
-        _characterBaseData = LoadArrayJson<CharacterBaseData>("CharacterBaseData.json");
-        _equipmentBaseData = LoadArrayJson<EquipmentBaseData>("EquipmentBaseData.json");
+        characterBaseData = LoadArrayJson<CharacterBaseData>("CharacterBaseData.json");
+
+        equipmentBaseData = LoadArrayJson<ItemBaseData>("EquipmentBaseData.json");
+        itemBaseData = LoadArrayJson<ItemBaseData>("ItemBaseData.json");
+
+        equipmentStatData = LoadArrayJson<EquipmentStatData>("EquipmentStatData.json");
+
+        MakeItemCollection();
+    }
+
+    private void MakeItemCollection()
+    {
+        itemCollection.items.Clear();
+        foreach(ItemBaseData data in equipmentBaseData)
+        {
+            itemCollection.items.Add(MakeItem(data));
+        }
+        foreach (ItemBaseData data in itemBaseData)
+        {
+            itemCollection.items.Add(MakeItem(data));
+        }
+
+    }
+
+    private ItemParams MakeItem(ItemBaseData data)
+    {
+        return new ItemParams
+        {
+
+            Id = data.Id,
+            Level = data.Level,
+            Rarity = data.Rarity,
+            Type = data.Type,
+            Class = data.Class,
+            Tags = new List<ItemTag> { data.Tag1, data.Tag2, data.Tag3 },
+            Properties = new List<Property> { new Property(data.PropertyId1, data.PropertyValue1), new Property(data.PropertyId2, data.PropertyValue2) },
+            Price = data.Price,
+            Weight = data.Weight,
+            Material = data.Material,
+            IconId = data.IconId,
+            SpriteId = data.SpriteId,
+            Meta = data.Meta
+        };
     }
 
 }

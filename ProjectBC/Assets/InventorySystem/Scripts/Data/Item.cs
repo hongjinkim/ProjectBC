@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 
 [Serializable]
@@ -10,6 +11,8 @@ public class Item
 {
     public string id;
     public Modifier modifier;
+
+    public List<Stat> Stats = new();
 
     public int Count;
 
