@@ -1,28 +1,12 @@
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.EventSystems;
-
-public class Archer : Character, IDragHandler, IEndDragHandler, IBeginDragHandler
+public class Archer : Character
 {
     public HeroClass _heroClass;
-    private LineRenderer lineRenderer;
-    public bool isSelected = false;
-    private List<Vector3> previewPath;
-
-    private void Awake() 
-    {
-        lineRenderer = gameObject.AddComponent<LineRenderer>();
-        lineRenderer.startWidth = 0.05f;
-        lineRenderer.endWidth = 0.05f;
-        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-        lineRenderer.startColor = Color.yellow;
-        lineRenderer.endColor = Color.yellow;
-    }
 
     protected override void Start() 
     {
         base.Start();
-        _heroClass = HeroClass.Archer;   
+        _heroClass = HeroClass.Archer;
+        playerStat.CharacteristicType = CharacteristicType.Agility;
     }
 
     protected override void OnAnimAttack()
@@ -30,58 +14,18 @@ public class Archer : Character, IDragHandler, IEndDragHandler, IBeginDragHandle
 		animator.SetTrigger("ShotBow");
         IsAction = true;
     }
-
-    public void OnBeginDrag(PointerEventData eventData)
+    public override void IncreaseCharacteristic(float amount)
     {
-        isSelected = true;
-        lineRenderer.positionCount = 0;
+        IncreaseAgility(amount * 2);
     }
 
-    public void OnDrag(PointerEventData eventData)
+    // Archer 특유의 메서드 추가
+    public void UseSkill()
     {
-        Vector3 endPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        endPosition.z = 0;
-        Vector3 nearestValidEndPosition = base.customTilemapManager.GetNearestValidPosition(endPosition);
-
-        if (customTilemapManager.IsValidMovePosition(nearestValidEndPosition))
+        if (playerStat.Energy >= 100)
         {
-            Vector3 start = customTilemapManager.GetNearestValidPosition(transform.position);
-            previewPath = customTilemapManager.FindPath(start, nearestValidEndPosition);
-            DrawPath(previewPath);
+            playerStat.Energy = 0;
+            // 스킬 사용 로직...
         }
     }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        HandleSelectionAndMovement();
-        isSelected = false;
-
-        lineRenderer.positionCount = 0;
-    }
-
-    private void DrawPath(List<Vector3> pathToDraw)
-    {
-        if (pathToDraw != null && pathToDraw.Count > 0)
-        {
-            lineRenderer.positionCount = pathToDraw.Count;
-            lineRenderer.SetPositions(pathToDraw.ToArray());
-        }
-        else
-        {
-            lineRenderer.positionCount = 0;
-        }
-    }
-
-    public void HandleSelectionAndMovement()
-    {
-        Vector3 endPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        endPosition.z = 0;
-        base.nearestValidPosition = customTilemapManager.GetNearestValidPosition(endPosition);
-
-        if (customTilemapManager.IsValidMovePosition(nearestValidPosition))
-        {
-            base.SetNewPath(nearestValidPosition);
-        }
-    }
-
 }

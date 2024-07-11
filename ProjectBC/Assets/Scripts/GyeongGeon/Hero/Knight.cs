@@ -30,9 +30,13 @@ public class Knight : Character, IDragHandler, IEndDragHandler, IBeginDragHandle
     protected override void Start() 
     {
         base.Start();
-        _heroClass = HeroClass.Knight;    
+        _heroClass = HeroClass.Knight;
+        playerStat.CharacteristicType = CharacteristicType.Agility;
     }
-
+    public override void IncreaseCharacteristic(float amount)
+    {
+        IncreaseAgility(amount * 2);
+    }
     protected override void OnAnimAttack()
     {
         animator.SetTrigger("Slash1H");
@@ -89,6 +93,14 @@ public class Knight : Character, IDragHandler, IEndDragHandler, IBeginDragHandle
         if (customTilemapManager.IsValidMovePosition(nearestValidPosition))
         {
             base.SetNewPath(nearestValidPosition);
+        }
+    }
+    public void UseSkill()
+    {
+        if (playerStat.Energy >= 100)
+        {
+            playerStat.Energy = 0;
+            // 스킬 사용 로직...
         }
     }
 }

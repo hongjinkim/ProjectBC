@@ -22,15 +22,26 @@ public class Priest : Character, IDragHandler, IEndDragHandler, IBeginDragHandle
     protected override void Start() 
     {
         base.Start();
-        _heroClass = HeroClass.Priest;    
+        _heroClass = HeroClass.Priest;
+        playerStat.CharacteristicType = CharacteristicType.Agility;
     }
-
+    public override void IncreaseCharacteristic(float amount)
+    {
+        IncreaseAgility(amount * 2);
+    }
     protected override void OnAnimAttack()
     {
         animator.SetTrigger("Slash1H");
         IsAction = true;
     }
-
+    public void UseSkill()
+    {
+        if (playerStat.Energy >= 100)
+        {
+            playerStat.Energy = 0;
+            // 스킬 사용 로직...
+        }
+    }
     public void OnBeginDrag(PointerEventData eventData)
     {
         isSelected = true;
