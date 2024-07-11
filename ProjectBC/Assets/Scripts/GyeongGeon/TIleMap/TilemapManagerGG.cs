@@ -17,7 +17,7 @@ public class TilemapManagerGG : MonoBehaviour
         }
     }
     public Tilemap tilemap;
-    private List<Vector3> tileCenters = new List<Vector3>();
+    public List<Vector3> tileCenters = new List<Vector3>();
     public List<Vector3> currentPath;
 
     private void Awake()
@@ -122,7 +122,8 @@ public class TilemapManagerGG : MonoBehaviour
         float dx = Mathf.Abs(a.x - b.x);
         float dy = Mathf.Abs(a.y - b.y);
 
-        return Mathf.Max(dx, dy) + (Mathf.Sqrt(2) - 1) * Mathf.Min(dx, dy);
+        //return Mathf.Max(dx, dy) + (Mathf.Sqrt(2) - 1) * Mathf.Min(dx, dy);
+        return new Vector2(a.x - b.x, a.y - b.y).magnitude;
     }
 
     public virtual List<Vector3> FindPath(Vector3 start, Vector3 goal)
@@ -137,7 +138,8 @@ public class TilemapManagerGG : MonoBehaviour
         {
             Vector3 current = GetLowestFScore(openSet, fScore);
 
-            if (current == goal || IsObstacle(goal))
+            //if (current == goal || IsObstacle(goal))
+            if (new Vector2(current.x - goal.x, current.y - goal.y).sqrMagnitude < 0.01f)
             {
                 currentPath = ReconstructPath(cameFrom, current);
                 return currentPath;

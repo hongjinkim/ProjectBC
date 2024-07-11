@@ -128,7 +128,8 @@ public class CustomTilemapManagerGG : TilemapManagerGG
 
     private float GetHeuristicCost(Vector3 start, Vector3 goal)
     {
-        return (goal - start).magnitude;
+        //return (goal - start).magnitude;
+        return new Vector2(goal.x - start.x, goal.y - start.y).magnitude;
     }
 
     private Vector3 GetLowestFScoreNode(HashSet<Vector3> openSet, Dictionary<Vector3, float> fScore)

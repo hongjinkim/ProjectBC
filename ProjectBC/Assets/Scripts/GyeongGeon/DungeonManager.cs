@@ -14,6 +14,7 @@ public class DungeonManager : MonoBehaviour
 
     public float _findTimer;
     private int randomEnemyIndex;
+    private int randomeTileIndex;
     public int enemyQuantity;
 
     // 랜덤 위치 범위 설정
@@ -46,7 +47,7 @@ public class DungeonManager : MonoBehaviour
 
     private void Update() 
     {
-        AllEnemiesDeadCheck();
+        CheckAllEnemiesDead();
     }
 
     // void SetUnitList()
@@ -100,6 +101,9 @@ public class DungeonManager : MonoBehaviour
             _ActiveEnemyList.Add(enemy);
             _ActiveEnemyList[i].gameObject.tag = "Enemy";
 
+            randomeTileIndex = Random.Range(0, TilemapManagerGG.Instance.tileCenters.Count);
+            enemy.transform.position = TilemapManagerGG.Instance.tileCenters[randomeTileIndex];
+
             // 랜덤한 위치 생성
             // Vector2 randomPosition = new Vector2(
             //     Random.Range(spawnAreaMin.x, spawnAreaMax.x),
@@ -111,6 +115,9 @@ public class DungeonManager : MonoBehaviour
 
             //enemy.transform.position = randomPosition;
             _ActiveEnemyList[i].gameObject.SetActive(true);
+
+
+
         }
     }
 
@@ -129,7 +136,7 @@ public class DungeonManager : MonoBehaviour
         return enemy.customTilemapManager.GetNearestValidPosition(randomPosition);
     }
 
-    void AllEnemiesDeadCheck()
+    void CheckAllEnemiesDead()
     {
         // foreach (var enemy in _ActiveEnemyList)
         // {

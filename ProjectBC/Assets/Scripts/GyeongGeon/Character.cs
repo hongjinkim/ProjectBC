@@ -54,7 +54,7 @@ public abstract class Character : MonoBehaviour, IBehavior
     public float moveSpeed;
     public float attackDamage;
     public float attackSpeed;
-    public float attackRange;
+    public int attackRange;
     public float findRange;
 
     public float findTimer;
@@ -256,14 +256,14 @@ public abstract class Character : MonoBehaviour, IBehavior
     void OnMove()
     {
         //if(!CheckTarget()) return;
-        CheckDistance();
+        if(CheckDistance()) return;
         
-        _dirVec = _tempDistance.normalized;
+        _dirVec = (Vector2)(_target.transform.position - transform.position).normalized;
 
         SetDirection();
 
         //transform.position += (Vector3)_dirVec * moveSpeed * Time.deltaTime;
-        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+        //transform.position = new Vector3(transform.position.x, transform.position.y, 0);
         MoveAlongPath();
 
         if (path == null || path.Count == 0)
@@ -318,18 +318,25 @@ public abstract class Character : MonoBehaviour, IBehavior
             return false;
         }
 
-        _tempDistance = (Vector2)(_target.transform.localPosition - transform.position);
-        float distanceSquared = _tempDistance.sqrMagnitude;
+        Vector3 targetPosition = _target.transform.position;
+        Vector3 currentPosition = transform.position;
 
-        if(distanceSquared <= attackRange * attackRange)
+        if(IsWithinAttackRange(currentPosition, targetPosition, attackRange))
         {
             SetState(UnitState.attack);
+
             return true;
         }
         else
         {
-            if(!CheckTarget()) SetState(UnitState.idle);
-            else SetState(UnitState.move);
+            if (!CheckTarget())
+            {
+                SetState(UnitState.idle);
+            }
+            else
+            {
+                SetState(UnitState.move);
+            }
 
             return false;
         }
@@ -353,7 +360,7 @@ public abstract class Character : MonoBehaviour, IBehavior
     {
         if (_target == null) return;
 
-        _dirVec = (Vector2)(_target.transform.localPosition - transform.position).normalized;
+        _dirVec = (Vector2)(_target.transform.position - transform.position).normalized;
         SetDirection();
 
         // 애니메이션 삽입
@@ -521,11 +528,11 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     private List<Vector3> GetSurroundingPositions(Vector3 targetPosition)
     {
-        List<Vector3> surroundingPositions = new List<Vector3>(8);
+        List<Vector3> surroundingPositions = new List<Vector3>();
 
-        for (int x = -1; x <= 1; x++)
+        for (int x = -attackRange; x <= 1; x++)
         {
-            for (int y = -1; y <= 1; y++)
+            for (int y = -attackRange; y <= attackRange; y++)
             {
                 if (x == 0 && y == 0) continue;
 
@@ -602,7 +609,7 @@ public abstract class Character : MonoBehaviour, IBehavior
         if (path != null && currentPathIndex < path.Count)
         {
             Vector3 targetPosition = path[currentPathIndex];
-            targetPosition.z = 0; // 추가: z 값을 0으로 설정
+            //targetPosition.z = 0; // 추가: z 값을 0으로 설정
 
             if (!customTilemapManager.IsValidMovePosition(targetPosition))
             {
@@ -613,13 +620,13 @@ public abstract class Character : MonoBehaviour, IBehavior
             if ((transform.position - targetPosition).sqrMagnitude > PositionToleranceSquared)
             {
                 Vector3 newPosition = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-                newPosition.z = 0; // 추가: z 값을 0으로 설정
+                //newPosition.z = 0; // 추가: z 값을 0으로 설정
                 transform.position = newPosition;
             }
             else
             {
                 //transform.position = targetPosition;
-                transform.position = new Vector3(targetPosition.x, targetPosition.y, 0); // 추가: z 값을 0으로 설정
+                //transform.position = new Vector3(targetPosition.x, targetPosition.y, 0); // 추가: z 값을 0으로 설정
                 currentPathIndex++;
             }
 
@@ -658,5 +665,41 @@ public abstract class Character : MonoBehaviour, IBehavior
         }
         
     }
+
+    // 거리 체크 메서드
+    public bool IsWithinAttackRange(Vector3 currentPosition, Vector3 targetPosition, int attackRange)
+    {
+        // 모든 범위 내의 좌표를 가져옴
+        List<Vector3> attackRangePositions = GetAttackableRangePositions(currentPosition, attackRange);
+
+        // targetPosition이 attackRangePositions에 포함되는지 확인
+        foreach (var position in attackRangePositions)
+        {
+            if (position.x == targetPosition.x && position.y == targetPosition.y)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private List<Vector3> GetAttackableRangePositions(Vector3 position, int range)
+    {
+        List<Vector3> attackableRangePositions = new List<Vector3>();
+
+        for (int x = -range; x <= range; x++)
+        {
+            for (int y = -range; y <= range; y++)
+            {
+                // 대각선 포함 모든 타일 좌표 추가
+                Vector3 pos = new Vector3(position.x + x, position.y + y, 0);
+                attackableRangePositions.Add(pos);
+            }
+        }
+
+        return attackableRangePositions;
+    }
+
 
 }
