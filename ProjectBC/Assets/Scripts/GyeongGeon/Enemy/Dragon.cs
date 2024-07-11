@@ -7,4 +7,5 @@ public class Dragon : Character
         animator.SetTrigger("Slash1H");
         IsAction = true;
     }
+
 }
