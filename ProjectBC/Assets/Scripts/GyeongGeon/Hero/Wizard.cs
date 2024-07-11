@@ -22,9 +22,21 @@ public class Wizard : Character, IDragHandler, IEndDragHandler, IBeginDragHandle
     protected override void Start() 
     {
         base.Start();
-        _heroClass = HeroClass.Priest;    
+        _heroClass = HeroClass.Priest;
+        playerStat.CharacteristicType = CharacteristicType.Intellect;
     }
-
+    public override void IncreaseCharacteristic(float amount)
+    {
+        IncreaseIntelligence(amount * 2);
+    }
+    public void UseSkill()
+    {
+        if (playerStat.Energy >= 100)
+        {
+            playerStat.Energy = 0;
+            // 스킬 사용 로직...
+        }
+    }
     protected override void OnAnimAttack()
     {
         animator.SetTrigger("Slash1H");

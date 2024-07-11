@@ -28,6 +28,7 @@ public abstract class Character : MonoBehaviour, IBehavior
         left,
         Right
     }
+    protected PlayerStat playerStat;
     private List<ISkill> skillList;
     private IObjectPool<DamageText> DamageTextPool;
     public List<GameObject> Parts;
@@ -80,8 +81,29 @@ public abstract class Character : MonoBehaviour, IBehavior
     private const float PositionTolerance = 0.1f;
     private const float PositionToleranceSquared = PositionTolerance * PositionTolerance;
 
+    public Sprite Icon { get; protected set; }
+    public float currentExp;
+    public float needexp;
+    public int Level { get; protected set; }
+    public List<Trait> Traits { get; protected set; } = new List<Trait>();
+    public TraitType SelectedTraitType { get; protected set; }
+    public PlayerSkill ActiveSkill { get; protected set; }
+
+    
+    protected HeroSkills skills;
+
+    // 기존 Character 메서드와 Player에서 가져온 메서드 통합
+    protected virtual void InitializeSkillBook() { }
+    public virtual void IncreaseCharacteristic(float amount) { }
+
+
     protected virtual void Start()
     {
+        playerStat = GetComponent<PlayerStat>();
+        if (playerStat == null)
+        {
+            playerStat = gameObject.AddComponent<PlayerStat>();
+        }
         customTilemapManager = new CustomTilemapManagerGG(TilemapManagerGG.Instance, this);
         transform.position = customTilemapManager.GetNearestValidPosition(transform.position);
         StartCoroutine(AutoMoveCoroutine());
@@ -700,6 +722,48 @@ public abstract class Character : MonoBehaviour, IBehavior
 
         return attackableRangePositions;
     }
+    protected void IncreaseStrength(float amount)
+    {
+        playerStat.Strength += (int)amount;
+        playerStat.HealthRegen += (int)(0.1f * amount);
+        playerStat.HP += (int)(1f * amount);
 
+        if (playerStat.CharacteristicType == CharacteristicType.MuscularStrength)
+        {
+            playerStat.AttackDamage += (int)(0.7f * amount);
+        }
+    }
+
+    protected void IncreaseAgility(float amount)
+    {
+        playerStat.Agility += (int)amount;
+        playerStat.AttackSpeed += (int)(0.1f * amount);
+        playerStat.Defense += (int)(0.1f * amount);
+
+        if (playerStat.CharacteristicType == CharacteristicType.Agility)
+        {
+            playerStat.AttackDamage += (int)(0.9f * amount);
+        }
+    }
+
+    protected void IncreaseIntelligence(float amount)
+    {
+        playerStat.Intelligence += (int)amount;
+        playerStat.EnergyRegen += (int)(0.1f * amount);
+        playerStat.MagicResistance += (int)(0.1f * amount);
+
+        if (playerStat.CharacteristicType == CharacteristicType.Intellect)
+        {
+            playerStat.AttackDamage += (int)(0.9f * amount);
+        }
+    }
+
+    protected void IncreaseStamina(float amount)
+    {
+        playerStat.Stamina += (int)amount;
+        playerStat.HP += (int)(10f * amount);
+    }
+
+    //public abstract void IncreaseCharacteristic(float amount);
 
 }
