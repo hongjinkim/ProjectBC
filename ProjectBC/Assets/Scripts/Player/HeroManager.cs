@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class HeroManager : MonoBehaviour
@@ -9,49 +8,64 @@ public class HeroManager : MonoBehaviour
     {
         public int id;
         public string name;
-        public int level = 1;
-        public int power = 1;
-        public int speed = 1;
-        public int hp = 100;
-
-
+        public int level;
+        public int power;
+        public int speed;
+        public int hp;
+        public Sprite sprite;
     }
 
     [SerializeField] private List<Hero> AllHeroes = new List<Hero>();
     [SerializeField] private List<Hero> MyHeroes = new List<Hero>();
     [SerializeField] private List<Hero> Deck = new List<Hero>();
-    public int MaxDeckSize = 4;
+    [SerializeField] private HeroSlotUI[] heroSlots;
+    [SerializeField] private Transform heroSlotsParent;
 
     private void Awake()
     {
-        InitializeAllHeroes();
+            InitializeHeroSlots();
     }
-    void Start()
+
+    private void Start()
     {
-        InitializeHeroSlots();
+        InitializeAllHeroes();
+        InitializeMyHeroes();
+        UpdateHeroSlots();
+    }
+
+    private void InitializeHeroSlots()
+    {
+        if (heroSlotsParent != null)
+        {
+            heroSlots = heroSlotsParent.GetComponentsInChildren<HeroSlotUI>();
+        }
+
     }
     private void InitializeAllHeroes()
     {
-        // 게임에서 제공하는 모든 히어로 초기화
-        AllHeroes.Add(new Hero { id = 1, name = "Warrior", power = 10, speed = 5, hp = 150 });
-        AllHeroes.Add(new Hero { id = 2, name = "Priest", power = 5, speed = 7, hp = 100 });
-        AllHeroes.Add(new Hero { id = 3, name = "Archer", power = 5, speed = 7, hp = 100 });
-        AllHeroes.Add(new Hero { id = 4, name = "Assassin", power = 5, speed = 7, hp = 100 });
-        AllHeroes.Add(new Hero { id = 5, name = "Tanker", power = 5, speed = 7, hp = 100 });
+        AllHeroes.Add(new Hero { id = 1, name = "Warrior", level = 1, power = 10, speed = 5, hp = 150, sprite = Resources.Load<Sprite>("Images/currency/Gemstone") });
+        AllHeroes.Add(new Hero { id = 2, name = "Priest", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/GreenGemstone") });
+        AllHeroes.Add(new Hero { id = 3, name = "Archer", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/PurpleGemstone") });
+        AllHeroes.Add(new Hero { id = 4, name = "Assassin", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/RedGemstone") });
+        AllHeroes.Add(new Hero { id = 5, name = "Tanker", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/YellowGemstone") });
     }
 
-    public void InitializeHeroSlots()
+    private void InitializeMyHeroes()
     {
         MyHeroes.Clear();
         MyHeroes.Add(AllHeroes[0]);
         MyHeroes.Add(AllHeroes[2]);
+    }
 
-        HeroSlotUI[] heroSlots = FindObjectsOfType<HeroSlotUI>();
-        int slotCount = heroSlots.Length;
-
-        for (int i = 0; i < slotCount; i++)
+    private void UpdateHeroSlots()
+    {
+        for (int i = 0; i < heroSlots.Length; i++)
         {
-            heroSlots[i].SetSlotIndex(i);
+            if (heroSlots[i] == null)
+            {
+                continue;
+            }
+
             if (i < MyHeroes.Count)
             {
                 heroSlots[i].SetHeroData(MyHeroes[i]);
@@ -60,86 +74,6 @@ public class HeroManager : MonoBehaviour
             {
                 heroSlots[i].SetHeroData(null);
             }
-        }
-    }
-
-    public void UnlockHero(int heroId)
-    {
-        Hero heroToUnlock = AllHeroes.Find(h => h.id == heroId);
-        if (heroToUnlock != null && !MyHeroes.Exists(h => h.id == heroId))
-        {
-            MyHeroes.Add(new Hero
-            {
-                id = heroToUnlock.id,
-                name = heroToUnlock.name,
-                level = heroToUnlock.level,
-                power = heroToUnlock.power,
-                speed = heroToUnlock.speed,
-                hp = heroToUnlock.hp
-            });
-        }
-    }
-
-    public bool AddHeroToDeck(int heroId)
-    {
-        if (Deck.Count >= MaxDeckSize) return false;
-
-        Hero heroToAdd = MyHeroes.Find(h => h.id == heroId);
-        if (heroToAdd != null && !Deck.Exists(h => h.id == heroId))
-        {
-            Deck.Add(heroToAdd);
-            return true;
-        }
-        return false;
-    }
-
-    public bool RemoveHeroFromDeck(int heroId)
-    {
-        return Deck.RemoveAll(h => h.id == heroId) > 0;
-    }
-
-    public Hero[] GetAllHeroesAsArray()
-    {
-        return AllHeroes.ToArray();
-    }
-
-    public Hero[] GetMyHeroesAsArray()
-    {
-        return MyHeroes.ToArray();
-    }
-
-    public Hero[] GetDeckAsArray()
-    {
-        return Deck.ToArray();
-    }
-
-    public Hero GetHeroById(int id)
-    {
-        return AllHeroes.Find(h => h.id == id);
-    }
-
-    public void LevelUpHero(int heroId)
-    {
-        Hero hero = MyHeroes.Find(h => h.id == heroId);
-        if (hero != null)
-        {
-            hero.level++;
-            hero.power += 2;
-            hero.speed += 1;
-            hero.hp += 10;
-        }
-    }
-
-    public void DisplayHeroInfo(int heroId)
-    {
-        Hero hero = GetHeroById(heroId);
-        if (hero != null)
-        {
-            Debug.Log($"Hero: {hero.name}, Level: {hero.level}, Power: {hero.power}, Speed: {hero.speed}, HP: {hero.hp}");
-        }
-        else
-        {
-            Debug.Log("Hero not found");
         }
     }
 }
