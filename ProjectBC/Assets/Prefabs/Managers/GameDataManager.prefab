@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c7b985148d1874b887b8ee6f29ca30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  savePath: 
   _saveFilename: savegame.dat
   _debugValues: 0
   _resetGame: 0
@@ -52,10 +53,11 @@ MonoBehaviour:
     diamond: 0
     gem: 0
     items: []
+    itemCapacity: 30
     username: GUEST_123456
     battlePoint: 0
     level: 1
     musicVolume: 80
     sfxVolume: 80
-  ItemCollection: {fileID: 11400000, guid: 3496197cc8159e14987beb99d0b1629c, type: 2}
+  itemCollection: {fileID: 11400000, guid: 3496197cc8159e14987beb99d0b1629c, type: 2}
   _characterBaseDatas: []

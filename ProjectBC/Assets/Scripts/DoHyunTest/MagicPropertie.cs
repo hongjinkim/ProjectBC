@@ -10,7 +10,7 @@ public class MagicPropertie : MonoBehaviour
     public int minStat = 30;
     public int maxStat = 15;
     public string type;
-    public int[] magicArray = new int[4]; // 4개의 정수를 담는 배열을 추가합니다.
+    public int[] magicArray = new int[4];
 
     public void Start()
     {
@@ -61,20 +61,5 @@ public class MagicPropertie : MonoBehaviour
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = Resources.Load<Sprite>("ItemImg/1");
-    }
-}
-
-public class CharData
-{
-    public string pow;
-    public string sed;
-    public string def;
-    public string atk;
-
-    public string[] property;
-
-    public CharData()
-    {
-        property = new string[] { pow, sed, def, atk };
     }
 }

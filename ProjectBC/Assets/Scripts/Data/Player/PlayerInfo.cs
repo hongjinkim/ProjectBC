@@ -15,6 +15,7 @@ public class PlayerInfo
     public List<ItemParams> items;
     public int itemCapacity;
 
+    [Header("Hero")]
     
     [Header("PlayerInfo")]
     public string username;
