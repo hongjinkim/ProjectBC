@@ -1931,7 +1931,7 @@ Transform:
   m_GameObject: {fileID: 1161209687354243674}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.43, y: -1.21, z: -0.12100001}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2017,7 +2017,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1161209687354243674}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c49d317f8fe1a74c8f66d546818581f, type: 3}
   m_Name: 
@@ -2036,6 +2036,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 7845404084639546749, guid: a5a9b68bd9b0d6d4994338c01a3b9136, type: 3}
   prefabHpBar: {fileID: 5007069763672503864, guid: cff3db33975fd044394c02c5d2ecfa0e, type: 3}
+  prefabEnergyBar: {fileID: 0}
 --- !u!114 &4895118519149478533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2068,16 +2069,22 @@ MonoBehaviour:
   _unitState: 0
   attackType: 1
   characterDirection: 0
-  maxHealth: 100
-  currentHealth: 100
+  maxHealth: 1000
+  currentHealth: 0
   moveSpeed: 1
-  attackDamage: 5
+  attackDamage: 10
   attackSpeed: 1
-  attackRange: 10
+  attackRange: 2
   findRange: 1000
   findTimer: 0
   attackTimer: 0
+  fadeObject: {fileID: 1161209687354243674}
+  spriteRenderers: []
+  fadeDuration: 2
+  customTilemapManager: {fileID: 0}
+  updatePathInterval: 1
   _heroClass: 2
+  isSelected: 0
 --- !u!1 &1173971612571937213
 GameObject:
   m_ObjectHideFlags: 0
