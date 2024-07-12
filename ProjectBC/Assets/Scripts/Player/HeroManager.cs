@@ -134,15 +134,23 @@ public class HeroManager : MonoBehaviour
         }
 
         Deck.Add(hero);
+        RemoveHeroFromMyHeroes(hero);
         UpdateDeckSlots();
     }
-
-    public void RemoveHeroFromDeck(int deckIndex)
+        public void RemoveHeroFromDeck(int deckIndex)
     {
         if (deckIndex >= 0 && deckIndex < Deck.Count)
         {
+            Hero removedHero = Deck[deckIndex];
             Deck.RemoveAt(deckIndex);
+            MyHeroes.Add(removedHero);
             UpdateDeckSlots();
+            UpdateHeroSlots();
         }
+    }
+    public void RemoveHeroFromMyHeroes(Hero hero)
+    {
+        MyHeroes.Remove(hero);
+        UpdateHeroSlots();
     }
 }

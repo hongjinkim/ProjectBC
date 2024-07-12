@@ -13,6 +13,8 @@ public class DeckSlot : MonoBehaviour
     [SerializeField] private int speed;
     [SerializeField] private int hp;
 
+    [SerializeField] private Button unequipButton;
+
     public void DeckSetHeroData(HeroManager.Hero hero)
     {
         if (!CheckUIElements()) return;
