@@ -44,7 +44,23 @@ public class HeroSlot : MonoBehaviour
         }
         else
         {
-            gameObject.SetActive(false);
+            ClearSlot();
         }
+    }
+    public void ClearSlot()
+    {
+        id = 0;
+        heroName = "";
+        level = 0;
+        power = 0;
+        speed = 0;
+        hp = 0;
+        myHeroIndex = -1;
+        if (spriteImage != null)
+        {
+            spriteImage.sprite = null;
+            spriteImage.enabled = false;
+        }
+        gameObject.SetActive(false);
     }
 }

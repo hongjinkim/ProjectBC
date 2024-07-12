@@ -29,9 +29,6 @@ public class DeckSlot : MonoBehaviour
     public void DeckSetHeroData(HeroManager.Hero hero, int index)
     {
         deckIndex = index;
-        if (!CheckUIElements()) 
-            return;
-
         if (hero != null)
         {
             id = hero.id;
@@ -40,18 +37,34 @@ public class DeckSlot : MonoBehaviour
             power = hero.power;
             speed = hero.speed;
             hp = hero.hp;
-
-            heroImage.sprite = hero.sprite;
-            heroImage.enabled = true;
+            if (heroImage != null)
+            {
+                heroImage.sprite = hero.sprite;
+                heroImage.enabled = true;
+            }
             gameObject.SetActive(true);
+            Debug.Log($"DeckSlot {index}: Set hero data for {heroName}");
         }
         else
         {
             ClearSlot();
         }
     }
+    private void SetHeroImage(Sprite sprite)
+    {
+        if (heroImage != null)
+        {
+            heroImage.sprite = sprite;
+            heroImage.enabled = sprite != null;
+            Debug.Log($"DeckSlot: Setting hero image. Sprite null? {sprite == null}, Image enabled: {heroImage.enabled}");
+        }
+        else
+        {
+            Debug.LogError("DeckSlot: Cannot set hero image. Image component is null.");
+        }
+    }
 
-    private void ClearSlot()
+    public void ClearSlot()
     {
         id = 0;
         heroName = "";
@@ -59,16 +72,15 @@ public class DeckSlot : MonoBehaviour
         power = 0;
         speed = 0;
         hp = 0;
-
-        heroImage.sprite = null;
-        heroImage.enabled = false;
-        gameObject.SetActive(true);
+        SetHeroImage(null);
+        gameObject.SetActive(true);  // 비어있는 슬롯도 보이도록 함
     }
 
     public bool CheckUIElements()
     {
         if (heroImage == null)
         {
+            Debug.LogError("DeckSlot: Image component is missing during UI check!");
             return false;
         }
         return true;

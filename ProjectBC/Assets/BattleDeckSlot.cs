@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BattleDeckSlot : MonoBehaviour
 {
@@ -8,14 +9,10 @@ public class BattleDeckSlot : MonoBehaviour
     [SerializeField] private int power;
     [SerializeField] private int speed;
     [SerializeField] private int hp;
-    [SerializeField] private Sprite heroSprite;
+    [SerializeField] private Image heroImage;
 
-    private int deckIndex;
-
-    public void SetHeroData(HeroManager.Hero hero, int index)
+    public void SetHeroData(HeroManager.Hero hero)
     {
-        deckIndex = index;
-
         if (hero != null)
         {
             id = hero.id;
@@ -24,8 +21,11 @@ public class BattleDeckSlot : MonoBehaviour
             power = hero.power;
             speed = hero.speed;
             hp = hero.hp;
-            heroSprite = hero.sprite;
-
+            if (heroImage != null)
+            {
+                heroImage.sprite = hero.sprite;
+                heroImage.enabled = true;
+            }
             gameObject.SetActive(true);
         }
         else
@@ -34,7 +34,7 @@ public class BattleDeckSlot : MonoBehaviour
         }
     }
 
-    private void ClearSlot()
+    public void ClearSlot()
     {
         id = 0;
         heroName = "";
@@ -42,18 +42,12 @@ public class BattleDeckSlot : MonoBehaviour
         power = 0;
         speed = 0;
         hp = 0;
-        heroSprite = null;
-
+        if (heroImage != null)
+        {
+            heroImage.sprite = null;
+            heroImage.enabled = false;
+        }
         gameObject.SetActive(false);
     }
 
-    // Getter methods if needed
-    public int GetId() => id;
-    public string GetHeroName() => heroName;
-    public int GetLevel() => level;
-    public int GetPower() => power;
-    public int GetSpeed() => speed;
-    public int GetHp() => hp;
-    public int GetDeckIndex() => deckIndex;
-    public Sprite GetHeroSprite() => heroSprite;
 }
