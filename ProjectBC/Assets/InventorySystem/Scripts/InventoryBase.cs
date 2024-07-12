@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 
 public class InventoryBase : ItemWorkspace
 {
+
     [Header("inventories")]
     public ScrollInventory EquipmentInventory;
     public ScrollInventory UsableInventory;
@@ -25,9 +27,16 @@ public class InventoryBase : ItemWorkspace
 
     void OnEnable()
     {
-        SetupInventories();
         ShowInventory(EquipmentInventory);
     }
+
+    void OnApplicationQuit()
+    {
+        GameDataManager.ItemUpdated -= InitializeInventory;
+    }
+
+    
+
 
     void SetupInventories()
     {
@@ -57,25 +66,22 @@ public class InventoryBase : ItemWorkspace
     }
     public void Awake()
     {
+        GameDataManager.ItemUpdated += InitializeInventory;
         ItemCollection.active = ItemCollection;
-
+        SetupInventories();
     }
 
     public void Start()
     {
-        //ItemCollection.active.AddItem(new ItemParams());
-        if (InitializeExample)
-        {
-            TestInitialize();
-        }
+       InitializeInventory();
     }
 
     /// <summary>
     /// Initialize owned items (just for example).
     /// </summary>
-    public void TestInitialize()
+    public void InitializeInventory()
     {
-        var inventory = ItemCollection.active.items.Select(i => new Item(i.Id)).ToList(); // inventory.Clear();
+        var inventory = GameDataManager.instance.playerInfo.items; // inventory.Clear();
 
         var equipment = new List<Item>();
         var usable = new List<Item>();
@@ -89,6 +95,7 @@ public class InventoryBase : ItemWorkspace
                 case ItemType.Container:
                 case ItemType.Booster:
                 case ItemType.Coupon:
+                case ItemType.Usable:
                     usable.Add(item);
                     break;
                 case ItemType.Material:

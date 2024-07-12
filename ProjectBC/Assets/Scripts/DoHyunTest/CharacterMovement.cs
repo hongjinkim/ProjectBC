@@ -154,12 +154,12 @@ public class CharacterMovement : MonoBehaviour, IDragHandler, IEndDragHandler, I
 
     private List<Vector3> GetSurroundingPositions(Vector3 targetPosition)
     {
-        List<Vector3> surroundingPositions = new List<Vector3>(8);
-        for (int x = -1; x <= 1; x++)
+        List<Vector3> surroundingPositions = new List<Vector3>();
+        for (int x = -2; x <= 2; x++)
         {
-            for (int y = -1; y <= 1; y++)
+            for (int y = -2; y <= 2; y++)
             {
-                if (x == 0 && y == 0) continue;
+                if (x == 0 && y == 0) continue; // Skip the center position
                 surroundingPositions.Add(new Vector3(targetPosition.x + x, targetPosition.y + y, targetPosition.z));
             }
         }
