@@ -7,7 +7,7 @@ public class CustomTilemapManagerGG : TilemapManagerGG
     private Character character;
     private const float PositionTolerance = 0.1f;
     private const float PositionToleranceSquared = PositionTolerance * PositionTolerance;
-    private List<Character> allCharacters;
+    public List<Character> allCharacters;
 
     public CustomTilemapManagerGG(TilemapManagerGG baseTilemapManager, Character character)
     {
@@ -25,9 +25,12 @@ public class CustomTilemapManagerGG : TilemapManagerGG
     {
         for (int i = 0; i < allCharacters.Count; i++)
         {
-            if (allCharacters[i] != character && (allCharacters[i].transform.position - position).sqrMagnitude < PositionToleranceSquared)
+            if (allCharacters[i] != character)
             {
-                return true;
+                if ((allCharacters[i].transform.position - position).sqrMagnitude < PositionToleranceSquared)
+                {
+                    return true;
+                }
             }
         }
         return false;

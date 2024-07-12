@@ -8485,7 +8485,7 @@ MonoBehaviour:
   maxHealth: 1000
   currentHealth: 0
   moveSpeed: 1
-  attackDamage: 10
+  attackDamage: 100
   attackSpeed: 1
   attackRange: 1
   findRange: 1000
@@ -8496,6 +8496,8 @@ MonoBehaviour:
   fadeDuration: 2
   customTilemapManager: {fileID: 0}
   updatePathInterval: 1
+  currentExp: 0
+  needexp: 0
   _heroClass: 0
   isSelected: 0
 --- !u!1 &5603650666556835841
