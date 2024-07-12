@@ -10,6 +10,7 @@ using static DB;
 [Serializable]
 public class ItemParams
 {
+    public int Index;
     public string Id;
     public int Level;
     public ItemRarity Rarity;
@@ -58,6 +59,7 @@ public class ItemParams
     {
         return new ItemParams
         {
+            Index = Index,
             Id = Id,
             Level = Level,
             Rarity = Rarity,

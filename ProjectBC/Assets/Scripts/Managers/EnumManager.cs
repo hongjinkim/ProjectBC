@@ -103,30 +103,33 @@ public enum ItemTag
 }
 public enum ItemType
 {
-    Undefined,
-    Currency,
-    Loot,
-    Material,
-    Supply,
-    Recipe,
-    Weapon,
-    Shield,
-    Armor,
-    Helmet,
-    Pauldrons,
-    Bracers,
-    Gloves,
-    Vest,
-    Belt,
-    Leggings,
-    Boots,
-    Jewelry,
-    Backpack,
-    Container,
-    Booster,
-    Coupon,
-    Fragment,
-    Crystal
+    Undefined = 1,
+    Currency = 2,
+    Loot = 3,
+    
+    Supply = 5,
+    Recipe = 6,
+    Weapon = 7,
+    Shield = 8,
+    Armor = 9,
+    Helmet = 10,
+    Pauldrons = 11,
+    Bracers = 12,
+    Gloves = 13,
+    Vest = 14,
+    Belt = 15,
+    Leggings = 16,
+    Boots = 17,
+    Jewelry =18 ,
+    Backpack = 19,
+    Container = 20,
+    Booster = 21,
+    Coupon = 22,
+    Fragment = 23,
+
+    Usable = 24,
+    Material = 4,
+    Crystal = 25
 }
 public enum ItemModifier
 {
@@ -275,4 +278,19 @@ public enum EquipmentPart
     Firearm1H,
     Firearm2H,
     Wings
+}
+
+public enum StatId
+{
+   Hp = 1,
+   AttackDamage = 2,
+   Defense = 3,
+   MagicResistance = 4,
+   Strength = 5,
+   Agility = 6,
+   Intelligence = 7,
+   Stamina = 8,
+   AttackSpeed = 9,
+   HealthRegen = 10,
+   EnergyRegen = 11
 }
