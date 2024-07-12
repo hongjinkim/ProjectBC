@@ -1,11 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class DeckSlot : MonoBehaviour
 {
     [SerializeField] private Image heroImage;
-
     [SerializeField] private int id;
     [SerializeField] private string heroName;
     [SerializeField] private int level;
@@ -14,10 +12,25 @@ public class DeckSlot : MonoBehaviour
     [SerializeField] private int hp;
 
     [SerializeField] private Button unequipButton;
+    private HeroManager heroManager;
+    private int deckIndex;
 
-    public void DeckSetHeroData(HeroManager.Hero hero)
+    private void Awake()
     {
-        if (!CheckUIElements()) return;
+        heroManager = FindObjectOfType<HeroManager>();
+        unequipButton.onClick.AddListener(OnUnequipButtonClick);
+    }
+
+    private void OnUnequipButtonClick()
+    {
+        heroManager.RemoveHeroFromDeck(deckIndex);
+    }
+
+    public void DeckSetHeroData(HeroManager.Hero hero, int index)
+    {
+        deckIndex = index;
+        if (!CheckUIElements()) 
+            return;
 
         if (hero != null)
         {

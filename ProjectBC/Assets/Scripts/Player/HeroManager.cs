@@ -15,14 +15,14 @@ public class HeroManager : MonoBehaviour
         public Sprite sprite;
     }
 
-    [SerializeField] private List<Hero> AllHeroes = new List<Hero>();
+    private List<Hero> AllHeroes = new List<Hero>();
     [SerializeField] private List<Hero> MyHeroes = new List<Hero>();
     [SerializeField] private List<Hero> Deck = new List<Hero>();
-    [SerializeField] private HeroSlot[] heroSlots;
-    [SerializeField] private DeckSlot[] deckSlots;
     [SerializeField] private Transform heroSlotsParent;
     [SerializeField] private Transform deckSlotsParent;
-    [SerializeField] private int maxDeckSize = 4;
+    private HeroSlot[] heroSlots;
+    private DeckSlot[] deckSlots;
+    private int maxDeckSize = 4;
 
     private void Awake()
     {
@@ -104,11 +104,11 @@ public class HeroManager : MonoBehaviour
 
             if (i < Deck.Count)
             {
-                deckSlots[i].DeckSetHeroData(Deck[i]);
+                deckSlots[i].DeckSetHeroData(Deck[i], i);
             }
             else
             {
-                deckSlots[i].DeckSetHeroData(null);
+                deckSlots[i].DeckSetHeroData(null, -1);
             }
         }
     }
@@ -137,7 +137,7 @@ public class HeroManager : MonoBehaviour
         RemoveHeroFromMyHeroes(hero);
         UpdateDeckSlots();
     }
-        public void RemoveHeroFromDeck(int deckIndex)
+    public void RemoveHeroFromDeck(int deckIndex)
     {
         if (deckIndex >= 0 && deckIndex < Deck.Count)
         {
