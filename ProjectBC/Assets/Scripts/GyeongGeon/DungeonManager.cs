@@ -84,10 +84,12 @@ public class DungeonManager : MonoBehaviour
             Character hero = Instantiate(_heroPool[i]);
 
             _ActiveHeroList.Add(hero);
+
             _ActiveHeroList[i].gameObject.tag = "Hero";
 
             // 추후에 마우스로 드래그해서 SetActive 하는걸로 변경해야함.
             _ActiveHeroList[i].gameObject.SetActive(true);
+            //hero.customTilemapManager.allCharacters.Add(hero);
         }
     }
 
@@ -99,6 +101,7 @@ public class DungeonManager : MonoBehaviour
             Character enemy = Instantiate(_enemyPool[randomEnemyIndex]);
 
             _ActiveEnemyList.Add(enemy);
+
             _ActiveEnemyList[i].gameObject.tag = "Enemy";
 
             randomeTileIndex = Random.Range(0, TilemapManagerGG.Instance.tileCenters.Count);
@@ -115,8 +118,7 @@ public class DungeonManager : MonoBehaviour
 
             //enemy.transform.position = randomPosition;
             _ActiveEnemyList[i].gameObject.SetActive(true);
-
-
+            //enemy.customTilemapManager.allCharacters.Add(enemy);
 
         }
     }
@@ -183,7 +185,7 @@ public class DungeonManager : MonoBehaviour
             }
 
             _ActiveEnemyList.Clear();
-
+            
             SetEnemyList();
         }
     }

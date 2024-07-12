@@ -96,7 +96,6 @@ public abstract class Character : MonoBehaviour, IBehavior
     protected virtual void InitializeSkillBook() { }
     public virtual void IncreaseCharacteristic(float amount) { }
 
-
     protected virtual void Start()
     {
         playerStat = GetComponent<PlayerStat>();
@@ -105,6 +104,7 @@ public abstract class Character : MonoBehaviour, IBehavior
             playerStat = gameObject.AddComponent<PlayerStat>();
         }
         customTilemapManager = new CustomTilemapManagerGG(TilemapManagerGG.Instance, this);
+        //customTilemapManager.allCharacters.Add(this);
         transform.position = customTilemapManager.GetNearestValidPosition(transform.position);
         StartCoroutine(AutoMoveCoroutine());
 
@@ -148,7 +148,10 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     public void Move()
     {
-        OnMove();
+        if (this.gameObject.activeInHierarchy)
+        {
+            OnMove();
+        }
     }
 
     public void TakeDamage(Character target, float _damage)
@@ -497,6 +500,7 @@ public abstract class Character : MonoBehaviour, IBehavior
         }
 
         gameObject.SetActive(false);
+        Destroy(customTilemapManager);
     }
 
 
