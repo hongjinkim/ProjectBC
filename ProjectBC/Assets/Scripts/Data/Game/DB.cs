@@ -1,8 +1,10 @@
 using Newtonsoft.Json.Bson;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 
 public class DB
@@ -65,6 +67,44 @@ public class DB
         //    this.defensePenetration = defensePenetration;
         //}
     }
+    [System.Serializable]
+    public class ItemBaseData
+    {
+        public int Index;
+        public string Id;
+        public int Level;
+        public ItemRarity Rarity;
+        public ItemType Type;
+        public ItemClass Class;
+        public ItemTag Tag1;
+        public ItemTag Tag2;
+        public ItemTag Tag3;
+        public PropertyId PropertyId1;
+        public string PropertyValue1;
+        public PropertyId PropertyId2;
+        public string PropertyValue2;
+        public int Price;
+        public int Weight;
+        public ItemMaterial Material;
+        public string IconId;
+        public string SpriteId;
+        public string Meta;
+    }
+    [System.Serializable]
+    public class EquipmentStatData
+    {
+        public int Index;
+        public string Id;
+        public StatId StatId1;
+        public int StatValueMin1;
+        public int StatValueMax1;
+        public StatId StatId2;
+        public int StatValueMin2;
+        public int StatValueMax2;
+        public StatId StatId3;
+        public int StatValueMin3;
+        public int StatValueMax3;
 
-    
+        public List<Stat> Stats;
+    }
 }

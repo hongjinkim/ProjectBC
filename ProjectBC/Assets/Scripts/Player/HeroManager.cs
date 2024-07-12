@@ -3,131 +3,154 @@ using UnityEngine;
 
 public class HeroManager : MonoBehaviour
 {
-    public List<Player> AllHeroes { get; private set; } = new List<Player>();
-    public List<Player> ActiveHeroes { get; private set; } = new List<Player>();
-    public int MaxActiveHeroes = 4;
+    [System.Serializable]
+    public class Hero
+    {
+        public int id;
+        public string name;
+        public int level;
+        public int power;
+        public int speed;
+        public int hp;
+        public Sprite sprite;
+    }
+
+    private List<Hero> AllHeroes = new List<Hero>();
+    [SerializeField] private List<Hero> MyHeroes = new List<Hero>();
+    [SerializeField] private List<Hero> Deck = new List<Hero>();
+    [SerializeField] private Transform heroSlotsParent;
+    [SerializeField] private Transform deckSlotsParent;
+    private HeroSlot[] heroSlots;
+    private DeckSlot[] deckSlots;
+    private int maxDeckSize = 4;
+
+    private void Awake()
+    {
+        InitializeHeroSlots();
+
+        deckSlots = new DeckSlot[maxDeckSize];
+    }
 
     private void Start()
     {
-        InitializeHeroes();
-        GameDataManager.HeroesUpdated += OnHeroesUpdated;
+        InitializeAllHeroes();
+        InitializeMyHeroes();
+        UpdateHeroSlots();
+        InitializeDeckSlots();
     }
-
-    private void OnDestroy()
+    private void InitializeDeckSlots()
     {
-        GameDataManager.HeroesUpdated -= OnHeroesUpdated;
-    }
-
-    private void InitializeHeroes()
-    {
-        // GameDataManager에서 저장된 히어로 데이터 로드
-        List<HeroInfo> savedHeroes = GameDataManager.instance.GetAllHeroes();
-        foreach (HeroInfo heroInfo in savedHeroes)
+        if (deckSlotsParent != null)
         {
-            Player hero = CreateHeroFromInfo(heroInfo);
-            AllHeroes.Add(hero);
-        }
-
-        // 저장된 데이터가 없으면 기본 히어로 생성
-        if (AllHeroes.Count == 0)
-        {
-            CreateDefaultHeroes();
+            deckSlots = deckSlotsParent.GetComponentsInChildren<DeckSlot>();
         }
     }
 
-    private Player CreateHeroFromInfo(HeroInfo heroInfo)
+    private void InitializeHeroSlots()
     {
-        // HeroInfo를 기반으로 적절한 Player 객체 생성
-        // 이 부분은 Player 클래스의 구조에 따라 구현해야 합니다
-        // 예시:
-        switch (heroInfo.heroClass)
+        if (heroSlotsParent != null)
         {
-            case HeroClass.Archer:
-                return new Archer(heroInfo);
-            case HeroClass.Wizard:
-                return new Wizard(heroInfo);
-            case HeroClass.Priest:
-                return new Priest(heroInfo);
-            case HeroClass.Knight:
-                return new Knight(heroInfo);
-            default:
-                throw new System.ArgumentException("Unknown hero class");
+            heroSlots = heroSlotsParent.GetComponentsInChildren<HeroSlot>();
+        }
+
+    }
+    private void InitializeAllHeroes()
+    {
+        AllHeroes.Add(new Hero { id = 1, name = "Warrior", level = 1, power = 10, speed = 5, hp = 150, sprite = Resources.Load<Sprite>("Images/currency/Gemstone") });
+        AllHeroes.Add(new Hero { id = 2, name = "Priest", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/GreenGemstone") });
+        AllHeroes.Add(new Hero { id = 3, name = "Archer", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/PurpleGemstone") });
+        AllHeroes.Add(new Hero { id = 4, name = "Assassin", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/RedGemstone") });
+        AllHeroes.Add(new Hero { id = 5, name = "Tanker", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/YellowGemstone") });
+    }
+
+    private void InitializeMyHeroes()
+    {
+        MyHeroes.Clear();
+        MyHeroes.Add(AllHeroes[0]);
+        MyHeroes.Add(AllHeroes[2]);
+    }
+
+    private void UpdateHeroSlots()
+    {
+        for (int i = 0; i < heroSlots.Length; i++)
+        {
+            if (heroSlots[i] == null)
+            {
+                continue;
+            }
+            if (i < MyHeroes.Count)
+            {
+                heroSlots[i].SetHeroData(MyHeroes[i], i);
+            }
+            else
+            {
+                heroSlots[i].SetHeroData(null, -1);
+            }
+        }
+    }
+    private void UpdateDeckSlots()
+    {
+        if (deckSlots == null || deckSlots.Length == 0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < deckSlots.Length; i++)
+        {
+            if (deckSlots[i] == null)
+            {
+                continue;
+            }
+
+            if (i < Deck.Count)
+            {
+                deckSlots[i].DeckSetHeroData(Deck[i], i);
+            }
+            else
+            {
+                deckSlots[i].DeckSetHeroData(null, -1);
+            }
         }
     }
 
-    private void CreateDefaultHeroes()
-    {
-        CreateNewHero("Archer1", HeroClass.Archer, CharacteristicType.Agility);
-        CreateNewHero("Wizard1", HeroClass.Wizard, CharacteristicType.Intellect);
-        CreateNewHero("Priest1", HeroClass.Priest, CharacteristicType.Intellect);
-        CreateNewHero("Knight1", HeroClass.Knight, CharacteristicType.MuscularStrength);
-    }
 
-    public void CreateNewHero(string name, HeroClass heroClass, CharacteristicType characteristicType)
+    public void AddHeroToDeck(int heroIndex)
     {
-        HeroInfo newHeroInfo = new HeroInfo(name, heroClass, characteristicType);
-        GameDataManager.instance.AddHero(newHeroInfo);
-        Player newHero = CreateHeroFromInfo(newHeroInfo);
-        AllHeroes.Add(newHero);
-    }
-
-    public bool AddHeroToPortal(Player hero)
-    {
-        if (ActiveHeroes.Count < MaxActiveHeroes && !ActiveHeroes.Contains(hero))
+        if (heroIndex < 0 || heroIndex >= MyHeroes.Count)
         {
-            ActiveHeroes.Add(hero);
-            return true;
+            return;
         }
-        return false;
-    }
 
-    public bool RemoveHeroFromPortal(Player hero)
-    {
-        return ActiveHeroes.Remove(hero);
-    }
+        Hero hero = MyHeroes[heroIndex];
 
-    public void SwapHeroes(Player heroToAdd, Player heroToRemove)
-    {
-        if (ActiveHeroes.Contains(heroToRemove))
+        if (Deck.Count >= maxDeckSize)
         {
-            ActiveHeroes.Remove(heroToRemove);
-            ActiveHeroes.Add(heroToAdd);
+            return;
+        }
+
+        if (Deck.Contains(hero))
+        {
+            return;
+        }
+
+        Deck.Add(hero);
+        RemoveHeroFromMyHeroes(hero);
+        UpdateDeckSlots();
+    }
+    public void RemoveHeroFromDeck(int deckIndex)
+    {
+        if (deckIndex >= 0 && deckIndex < Deck.Count)
+        {
+            Hero removedHero = Deck[deckIndex];
+            Deck.RemoveAt(deckIndex);
+            MyHeroes.Add(removedHero);
+            UpdateDeckSlots();
+            UpdateHeroSlots();
         }
     }
-
-    public void LevelUpHero(Player hero)
+    public void RemoveHeroFromMyHeroes(Hero hero)
     {
-        hero.LevelUp(1);
-        UpdateHeroInfo(hero);
-    }
-
-    public void EquipItemToHero(Player hero, string itemId)
-    {
-        hero.EquipItem(itemId);
-        UpdateHeroInfo(hero);
-    }
-
-    private void UpdateHeroInfo(Player hero)
-    {
-        HeroInfo updatedInfo = hero.GetHeroInfo(); // Player 클래스에 이 메서드 구현 필요
-        GameDataManager.instance.UpdateHero(updatedInfo);
-    }
-
-    private void OnHeroesUpdated(List<HeroInfo> heroes)
-    {
-        // GameDataManager에서 히어로 데이터가 업데이트되면 호출됨
-        // 필요한 경우 AllHeroes 리스트 업데이트
-        UpdateAllHeroes(heroes);
-    }
-
-    private void UpdateAllHeroes(List<HeroInfo> heroes)
-    {
-        AllHeroes.Clear();
-        foreach (HeroInfo heroInfo in heroes)
-        {
-            Player hero = CreateHeroFromInfo(heroInfo);
-            AllHeroes.Add(hero);
-        }
-        // ActiveHeroes 리스트도 필요에 따라 업데이트
+        MyHeroes.Remove(hero);
+        UpdateHeroSlots();
     }
 }

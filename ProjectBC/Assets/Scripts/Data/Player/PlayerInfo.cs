@@ -12,7 +12,7 @@ public class PlayerInfo
     public int gem;
 
     [Header("Inventory")]
-    public List<ItemParams> items;
+    public List<Item> items;
     public int itemCapacity;
 
     [Header("Hero")]
@@ -52,7 +52,7 @@ public class PlayerInfo
     // 디버깅 용 초기 인벤토리 상태 만들기
     private void InitInventory()
     {
-
+        this.items = new List<Item>();
     }
 
     public string ToJson()

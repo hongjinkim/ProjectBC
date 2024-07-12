@@ -171,9 +171,4 @@ public class ItemCollection : ScriptableObject
 
         return dict;
     }
-
-    public void AddItem(ItemParams item)
-    {
-        items.Add(item);
-    }
 }
