@@ -267,6 +267,7 @@ GameObject:
   - component: {fileID: 7170735016623369796}
   - component: {fileID: 3592953128222574881}
   - component: {fileID: 659023025641498333}
+  - component: {fileID: 5645796241964832475}
   m_Layer: 5
   m_Name: DeckSlot
   m_TagString: Untagged
@@ -376,3 +377,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5645796241964832475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9148601514177232264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9d75dd0aa9ed014da632111778a0fe9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heroImage: {fileID: 3592953128222574881}
+  heroNameText: {fileID: 0}
+  heroLevelText: {fileID: 0}
+  removeButton: {fileID: 0}
+  id: 0
+  heroName: 
+  level: 0
+  power: 0
+  speed: 0
+  hp: 0

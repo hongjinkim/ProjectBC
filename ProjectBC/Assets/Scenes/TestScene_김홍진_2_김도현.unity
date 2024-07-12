@@ -5808,7 +5808,7 @@ GameObject:
   - component: {fileID: 789209292}
   - component: {fileID: 789209291}
   m_Layer: 5
-  m_Name: Slots
+  m_Name: HeroSlots
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6053,7 +6053,10 @@ MonoBehaviour:
   MyHeroes: []
   Deck: []
   heroSlots: []
+  deckSlots: []
   heroSlotsParent: {fileID: 789209289}
+  deckSlotsParent: {fileID: 1371405663}
+  maxDeckSize: 4
 --- !u!1 &853012513
 GameObject:
   m_ObjectHideFlags: 0
@@ -10851,7 +10854,7 @@ GameObject:
   - component: {fileID: 1371405663}
   - component: {fileID: 1371405664}
   m_Layer: 5
-  m_Name: Slots
+  m_Name: DeckSlots
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

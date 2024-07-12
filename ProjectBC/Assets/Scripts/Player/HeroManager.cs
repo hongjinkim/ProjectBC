@@ -18,12 +18,17 @@ public class HeroManager : MonoBehaviour
     [SerializeField] private List<Hero> AllHeroes = new List<Hero>();
     [SerializeField] private List<Hero> MyHeroes = new List<Hero>();
     [SerializeField] private List<Hero> Deck = new List<Hero>();
-    [SerializeField] private HeroSlotUI[] heroSlots;
+    [SerializeField] private HeroSlot[] heroSlots;
+    [SerializeField] private DeckSlot[] deckSlots;
     [SerializeField] private Transform heroSlotsParent;
+    [SerializeField] private Transform deckSlotsParent;
+    [SerializeField] private int maxDeckSize = 4;
 
     private void Awake()
     {
-            InitializeHeroSlots();
+        InitializeHeroSlots();
+
+        deckSlots = new DeckSlot[maxDeckSize];
     }
 
     private void Start()
@@ -31,13 +36,21 @@ public class HeroManager : MonoBehaviour
         InitializeAllHeroes();
         InitializeMyHeroes();
         UpdateHeroSlots();
+        InitializeDeckSlots();
+    }
+    private void InitializeDeckSlots()
+    {
+        if (deckSlotsParent != null)
+        {
+            deckSlots = deckSlotsParent.GetComponentsInChildren<DeckSlot>();
+        }
     }
 
     private void InitializeHeroSlots()
     {
         if (heroSlotsParent != null)
         {
-            heroSlots = heroSlotsParent.GetComponentsInChildren<HeroSlotUI>();
+            heroSlots = heroSlotsParent.GetComponentsInChildren<HeroSlot>();
         }
 
     }
@@ -65,15 +78,71 @@ public class HeroManager : MonoBehaviour
             {
                 continue;
             }
-
             if (i < MyHeroes.Count)
             {
-                heroSlots[i].SetHeroData(MyHeroes[i]);
+                heroSlots[i].SetHeroData(MyHeroes[i], i);
             }
             else
             {
-                heroSlots[i].SetHeroData(null);
+                heroSlots[i].SetHeroData(null, -1);
             }
+        }
+    }
+    private void UpdateDeckSlots()
+    {
+        if (deckSlots == null || deckSlots.Length == 0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < deckSlots.Length; i++)
+        {
+            if (deckSlots[i] == null)
+            {
+                continue;
+            }
+
+            if (i < Deck.Count)
+            {
+                deckSlots[i].DeckSetHeroData(Deck[i]);
+            }
+            else
+            {
+                deckSlots[i].DeckSetHeroData(null);
+            }
+        }
+    }
+
+
+    public void AddHeroToDeck(int heroIndex)
+    {
+        if (heroIndex < 0 || heroIndex >= MyHeroes.Count)
+        {
+            return;
+        }
+
+        Hero hero = MyHeroes[heroIndex];
+
+        if (Deck.Count >= maxDeckSize)
+        {
+            return;
+        }
+
+        if (Deck.Contains(hero))
+        {
+            return;
+        }
+
+        Deck.Add(hero);
+        UpdateDeckSlots();
+    }
+
+    public void RemoveHeroFromDeck(int deckIndex)
+    {
+        if (deckIndex >= 0 && deckIndex < Deck.Count)
+        {
+            Deck.RemoveAt(deckIndex);
+            UpdateDeckSlots();
         }
     }
 }
