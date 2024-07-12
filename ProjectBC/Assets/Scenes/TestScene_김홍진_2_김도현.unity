@@ -2980,7 +2980,6 @@ Transform:
   - {fileID: 333713529}
   - {fileID: 372727318}
   - {fileID: 984476008}
-  - {fileID: 620089535}
   - {fileID: 277137118}
   - {fileID: 8092681367881778280}
   m_Father: {fileID: 627085048}
@@ -4779,41 +4778,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 608280727}
   m_CullTransparentMesh: 1
---- !u!1 &620089534
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 620089535}
-  m_Layer: 5
-  m_Name: BattleScreen
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &620089535
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 620089534}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 321762689}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 760, y: 1280}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &627085047
 GameObject:
   m_ObjectHideFlags: 0
@@ -6059,7 +6023,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 833839262}
-  - component: {fileID: 833839263}
   m_Layer: 5
   m_Name: CampScreen_Camp_Portal
   m_TagString: Untagged
@@ -6087,23 +6050,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 760, y: 1280}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &833839263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 833839261}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2758a6ce233f9846a656b8f7bfb7061, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MyHeroes: []
-  Deck: []
-  heroSlotsParent: {fileID: 789209289}
-  deckSlotsParent: {fileID: 1371405663}
-  battleDeckSlotsParent: {fileID: 214274760}
 --- !u!1 &853012513
 GameObject:
   m_ObjectHideFlags: 0
@@ -14609,6 +14555,74 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1822077666}
   m_CullTransparentMesh: 1
+--- !u!1 &1832320690
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1832320692}
+  - component: {fileID: 1832320691}
+  - component: {fileID: 1832320693}
+  m_Layer: 0
+  m_Name: GameManager_2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1832320691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1832320690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ca532356c54e144aa41529b8d68e411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HeroPrefab_1: {fileID: 5602860693455878160, guid: 0bc8621fae777ee4d92557c5fd70e1a9, type: 3}
+  HeroPrefab_2: {fileID: 1161209687354243674, guid: 66477feb2aacdc6439eccf5370d0b1ff, type: 3}
+  HeroPrefab_3: {fileID: 912966552287644753, guid: fd74ca887cc6d56419a12e1454d8f3fe, type: 3}
+  HeroPrefab_4: {fileID: 8340941735757190716, guid: 263b819c9e62eae4380b9d929f2bfbb8, type: 3}
+  prefabList: []
+--- !u!4 &1832320692
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1832320690}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1832320693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1832320690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2758a6ce233f9846a656b8f7bfb7061, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AllHeroes: []
+  MyHeroes: []
+  Deck: []
+  heroSlotsParent: {fileID: 789209289}
+  deckSlotsParent: {fileID: 1371405663}
+  battleDeckSlotsParent: {fileID: 214274760}
 --- !u!1 &1833881100
 GameObject:
   m_ObjectHideFlags: 0
@@ -22367,3 +22381,4 @@ SceneRoots:
   - {fileID: 434173000}
   - {fileID: 496967498}
   - {fileID: 275835567}
+  - {fileID: 1832320692}

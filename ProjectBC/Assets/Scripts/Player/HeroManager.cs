@@ -15,7 +15,7 @@ public class HeroManager : MonoBehaviour
         public Sprite sprite;
     }
 
-    private List<Hero> AllHeroes = new List<Hero>();
+    public List<Hero> AllHeroes = new List<Hero>();
     [SerializeField] private List<Hero> MyHeroes = new List<Hero>();
     [SerializeField] private List<Hero> Deck = new List<Hero>();
     [SerializeField] private Transform heroSlotsParent;
