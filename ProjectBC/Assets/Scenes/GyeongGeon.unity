@@ -1575,15 +1575,13 @@ MonoBehaviour:
   canvas: {fileID: 0}
   _heroPool:
   - {fileID: 6719724232351885715, guid: 0bc8621fae777ee4d92557c5fd70e1a9, type: 3}
-  - {fileID: 2318561106627978615, guid: 263b819c9e62eae4380b9d929f2bfbb8, type: 3}
-  - {fileID: 4895118519149478533, guid: 66477feb2aacdc6439eccf5370d0b1ff, type: 3}
-  - {fileID: 6501074430348053414, guid: fd74ca887cc6d56419a12e1454d8f3fe, type: 3}
   _enemyPool:
   - {fileID: 7141519928834900317, guid: fd5d84088134ca8439cea19433f5dee8, type: 3}
-  _ActiveHeroList: []
-  _ActiveEnemyList: []
+  _activeHeroList: []
+  _activeEnemyList: []
+  _allCharacterList: []
   _findTimer: 0.1
-  enemyQuantity: 6
+  enemyQuantity: 7
   spawnAreaMin: {x: 0, y: 0}
   spawnAreaMax: {x: 0, y: 0}
 --- !u!4 &1893784325

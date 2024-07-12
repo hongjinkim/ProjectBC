@@ -9,8 +9,9 @@ public class DungeonManager : MonoBehaviour
 
     public List<Character> _heroPool = new List<Character>();
     public List<Character> _enemyPool = new List<Character>();
-    public List<Character> _ActiveHeroList = new List<Character>();
-    public List<Character> _ActiveEnemyList = new List<Character>();
+    public List<Character> _activeHeroList = new List<Character>();
+    public List<Character> _activeEnemyList = new List<Character>();
+    public List<Character> _allCharacterList = new List<Character>();
 
     public float _findTimer;
     private int randomEnemyIndex;
@@ -83,12 +84,13 @@ public class DungeonManager : MonoBehaviour
         {
             Character hero = Instantiate(_heroPool[i]);
 
-            _ActiveHeroList.Add(hero);
+            _activeHeroList.Add(hero);
+            _allCharacterList.Add(hero);
 
-            _ActiveHeroList[i].gameObject.tag = "Hero";
+            _activeHeroList[i].gameObject.tag = "Hero";
 
             // 추후에 마우스로 드래그해서 SetActive 하는걸로 변경해야함.
-            _ActiveHeroList[i].gameObject.SetActive(true);
+            _activeHeroList[i].gameObject.SetActive(true);
             //hero.customTilemapManager.allCharacters.Add(hero);
         }
     }
@@ -100,9 +102,10 @@ public class DungeonManager : MonoBehaviour
             randomEnemyIndex = Random.Range(0, _enemyPool.Count);
             Character enemy = Instantiate(_enemyPool[randomEnemyIndex]);
 
-            _ActiveEnemyList.Add(enemy);
+            _activeEnemyList.Add(enemy);
+            _allCharacterList.Add(enemy);
 
-            _ActiveEnemyList[i].gameObject.tag = "Enemy";
+            _activeEnemyList[i].gameObject.tag = "Enemy";
 
             randomeTileIndex = Random.Range(0, TilemapManagerGG.Instance.tileCenters.Count);
             enemy.transform.position = TilemapManagerGG.Instance.tileCenters[randomeTileIndex];
@@ -117,7 +120,7 @@ public class DungeonManager : MonoBehaviour
             //Vector2 randomPosition = GetRandomTilemapPosition(_ActiveEnemyList[i]);
 
             //enemy.transform.position = randomPosition;
-            _ActiveEnemyList[i].gameObject.SetActive(true);
+            _activeEnemyList[i].gameObject.SetActive(true);
             //enemy.customTilemapManager.allCharacters.Add(enemy);
 
         }
@@ -158,7 +161,7 @@ public class DungeonManager : MonoBehaviour
 
         bool allDead = true;
 
-        foreach (var enemy in _ActiveEnemyList)
+        foreach (var enemy in _activeEnemyList)
         {
             if (enemy != null && !(enemy._unitState == Character.UnitState.death))
             {
@@ -171,7 +174,7 @@ public class DungeonManager : MonoBehaviour
         {
             List<Character> enemiesToDestroy = new List<Character>();
 
-            foreach (var enemy in _ActiveEnemyList)
+            foreach (var enemy in _activeEnemyList)
             {
                 if (enemy != null)
                 {
@@ -179,12 +182,24 @@ public class DungeonManager : MonoBehaviour
                 }
             }
 
+            // foreach (var enemy in _ActiveEnemyList)
+            // {
+            //     enemy.customTilemapManager.allCharacters.Clear();
+            // }
+
+            // foreach (var hero in _ActiveHeroList)
+            // {
+            //     hero.customTilemapManager.allCharacters.Clear();
+            // }
+
             foreach (var enemy in enemiesToDestroy)
             {
+                _allCharacterList.Remove(enemy);
                 Destroy(enemy.gameObject);
             }
 
-            _ActiveEnemyList.Clear();
+
+            _activeEnemyList.Clear();
             
             SetEnemyList();
         }
@@ -199,11 +214,11 @@ public class DungeonManager : MonoBehaviour
         switch (unit.tag)
         {
             case "Hero":
-                targetList = _ActiveEnemyList;
+                targetList = _activeEnemyList;
                 break;
 
             case "Enemy":
-                targetList = _ActiveHeroList;
+                targetList = _activeHeroList;
                 break;
         }
         
