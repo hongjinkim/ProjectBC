@@ -31,11 +31,11 @@ public class Knight : Character, IDragHandler, IEndDragHandler, IBeginDragHandle
     {
         base.Start();
         _heroClass = HeroClass.Knight;
-        playerStat.CharacteristicType = CharacteristicType.Agility;
+        playerStat.CharacteristicType = CharacteristicType.MuscularStrength;
     }
     public override void IncreaseCharacteristic(float amount)
     {
-        IncreaseAgility(amount * 2);
+        IncreaseStrength(amount * 3);
     }
     protected override void OnAnimAttack()
     {

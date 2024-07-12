@@ -19,15 +19,15 @@ public class Priest : Character, IDragHandler, IEndDragHandler, IBeginDragHandle
         lineRenderer.endColor = Color.yellow;
     }
 
-    protected override void Start() 
+    protected override void Start()
     {
         base.Start();
         _heroClass = HeroClass.Priest;
-        playerStat.CharacteristicType = CharacteristicType.Agility;
+        playerStat.CharacteristicType = CharacteristicType.Intellect;
     }
     public override void IncreaseCharacteristic(float amount)
     {
-        IncreaseAgility(amount * 2);
+        IncreaseIntelligence(amount * 2);
     }
     protected override void OnAnimAttack()
     {
