@@ -4,7 +4,6 @@ using UnityEngine;
 public class GameManager_2 : MonoBehaviour
 {
     private static GameManager_2 instance;
-
     public static GameManager_2 Instance
     {
         get
@@ -13,24 +12,9 @@ public class GameManager_2 : MonoBehaviour
             {
                 GameObject go = new GameObject("GameManager_2");
                 instance = go.AddComponent<GameManager_2>();
-
                 DontDestroyOnLoad(go);
             }
-
             return instance;
-        }
-    }
-
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
         }
     }
 
@@ -42,33 +26,62 @@ public class GameManager_2 : MonoBehaviour
     [SerializeField] private GameObject HeroPrefab_3;
     [SerializeField] private GameObject HeroPrefab_4;
     [SerializeField] private Dictionary<int, GameObject> heroPrefabs = new Dictionary<int, GameObject>();
-    [SerializeField] private List<GameObject> prefabList;
 
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+            InitializeHeroPrefabs();
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {
         heroManager = FindObjectOfType<HeroManager>();
-        InitializeHeroPrefabs();
 
-        if (prefabList == null || prefabList.Count == 0)
-        {
-            prefabList = new List<GameObject> { HeroPrefab_1, HeroPrefab_2, HeroPrefab_3, HeroPrefab_4 };
-        }
+
+        Invoke("InitializeHeroPrefabs", 0.1f);
     }
 
     private void InitializeHeroPrefabs()
     {
         heroPrefabs.Clear();
-        for (int i = 0; i < heroManager.AllHeroes.Count; i++)
+        if (heroManager != null && heroManager.AllHeroes != null)
         {
-            if (i < prefabList.Count && prefabList[i] != null)
+            for (int i = 0; i < heroManager.AllHeroes.Count; i++)
             {
-                heroPrefabs[heroManager.AllHeroes[i].id] = prefabList[i];
+                GameObject prefab = null;
+                switch (i)
+                {
+                    case 0: prefab = HeroPrefab_1; break;
+                    case 1: prefab = HeroPrefab_2; break;
+                    case 2: prefab = HeroPrefab_3; break;
+                    case 3: prefab = HeroPrefab_4; break;
+                }
+
+                if (prefab != null)
+                {
+                    heroPrefabs[heroManager.AllHeroes[i].id] = prefab;
+                }
             }
-            else
+        }
+    }
+
+    public void CreateHeroPrefabAtPosition(Vector3 position, int heroId)
+    {
+        if (heroPrefabs.TryGetValue(heroId, out GameObject prefab))
+        {
+            if (prefab != null)
             {
-                Debug.LogWarning($"Missing prefab for hero ID: {heroManager.AllHeroes[i].id}");
+                GameObject instance = Instantiate(prefab, position, Quaternion.identity);
             }
+
         }
     }
 
@@ -78,7 +91,6 @@ public class GameManager_2 : MonoBehaviour
         {
             return prefab;
         }
-        Debug.LogWarning($"Hero prefab with ID {id} not found.");
         return null;
     }
 

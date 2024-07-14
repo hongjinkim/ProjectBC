@@ -43,7 +43,6 @@ public class DeckSlot : MonoBehaviour
                 heroImage.enabled = true;
             }
             gameObject.SetActive(true);
-            Debug.Log($"DeckSlot {index}: Set hero data for {heroName}");
         }
         else
         {
@@ -56,11 +55,6 @@ public class DeckSlot : MonoBehaviour
         {
             heroImage.sprite = sprite;
             heroImage.enabled = sprite != null;
-            Debug.Log($"DeckSlot: Setting hero image. Sprite null? {sprite == null}, Image enabled: {heroImage.enabled}");
-        }
-        else
-        {
-            Debug.LogError("DeckSlot: Cannot set hero image. Image component is null.");
         }
     }
 
@@ -80,7 +74,6 @@ public class DeckSlot : MonoBehaviour
     {
         if (heroImage == null)
         {
-            Debug.LogError("DeckSlot: Image component is missing during UI check!");
             return false;
         }
         return true;
