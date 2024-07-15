@@ -194,10 +194,10 @@ public class DungeonManager : MonoBehaviour
 
             foreach (var enemy in enemiesToDestroy)
             {
-                _allCharacterList.Remove(enemy);
+                //_allCharacterList.Remove(enemy);
                 Destroy(enemy.gameObject);
             }
-
+            _allCharacterList.Clear();
 
             _activeEnemyList.Clear();
             
@@ -208,42 +208,22 @@ public class DungeonManager : MonoBehaviour
     public Character GetTarget(Character unit)
     {
         Character targetUnit = null;
-
-        List<Character> targetList = new List<Character>();
-
-        switch (unit.tag)
-        {
-            case "Hero":
-                targetList = _activeEnemyList;
-                break;
-
-            case "Enemy":
-                targetList = _activeHeroList;
-                break;
-        }
-        
-        // closestDistance: 가장 가까운 유닛과의 거리를 저장하는 변수입니다. 초기값을 매우 큰 값(float.MaxValue)으로 설정하여 첫 번째 비교에서 무조건 갱신되도록 합니다.
+        List<Character> targetList = unit.CompareTag("Hero") ? _activeEnemyList : _activeHeroList;
         float closestDistance = float.MaxValue;
 
-        for (var i = 0; i < targetList.Count; i++)
+        foreach (var target in targetList)
         {
-            // distanceSquared: 현재 유닛과 unit 간의 거리의 제곱입니다. Vector2를 사용하여 계산하며, sqrMagnitude를 사용하여 제곱 값을 얻습니다. 거리 제곱을 사용하는 이유는 루트 계산을 생략하여 성능을 최적화하기 위함입니다.
-            float distanceSquared = ((Vector2)targetList[i].transform.localPosition - (Vector2)unit.transform.localPosition).sqrMagnitude;
-
-            // unit.findRange * unit.findRange: 적을 찾는 범위의 제곱입니다. 거리를 비교할 때 제곱 값을 사용하여 루트 계산을 피합니다.
-            if(distanceSquared <= unit.findRange * unit.findRange)
+            if (target == null || !target.gameObject.activeInHierarchy || target._unitState == Character.UnitState.death)
             {
-                if(targetList[i].gameObject.activeInHierarchy)
-                {
-                    if(targetList[i]._unitState != Character.UnitState.death)
-                    {
-                        if(distanceSquared < closestDistance)
-                        {
-                            targetUnit = targetList[i];
-                            closestDistance = distanceSquared;
-                        }
-                    }
-                }
+                continue;
+            }
+
+            float distanceSquared = ((Vector2)target.transform.localPosition - (Vector2)unit.transform.localPosition).sqrMagnitude;
+
+            if (distanceSquared <= unit.findRange * unit.findRange && distanceSquared < closestDistance)
+            {
+                targetUnit = target;
+                closestDistance = distanceSquared;
             }
         }
 

@@ -69,6 +69,8 @@ public class Knight : Character, IDragHandler, IEndDragHandler, IBeginDragHandle
         isSelected = false;
 
         lineRenderer.positionCount = 0;
+
+
     }
 
     private void DrawPath(List<Vector3> pathToDraw)
