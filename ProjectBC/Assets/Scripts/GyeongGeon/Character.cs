@@ -81,6 +81,8 @@ public abstract class Character : MonoBehaviour, IBehavior
     private const float PositionTolerance = 0.15f;
     private const float PositionToleranceSquared = PositionTolerance * PositionTolerance;
 
+    protected bool isCustomTilemapManagerInitialized = false;
+
     public Sprite Icon { get; protected set; }
     public float currentExp;
     public float needexp;
@@ -108,7 +110,65 @@ public abstract class Character : MonoBehaviour, IBehavior
         transform.position = customTilemapManager.GetNearestValidPosition(transform.position);
         StartCoroutine(AutoMoveCoroutine());
 
+        InitializePlayerStat();
+        StartCoroutine(InitializeCustomTilemapManagerCoroutine());
+
         currentHealth = maxHealth;
+    }
+    protected virtual void InitializePlayerStat()
+    {
+        playerStat = GetComponent<PlayerStat>();
+        if (playerStat == null)
+        {
+            Debug.Log("PlayerStat component not found. Adding a new one.");
+            playerStat = gameObject.AddComponent<PlayerStat>();
+        }
+        Debug.Log($"PlayerStat initialized: {(playerStat != null ? "Success" : "Failed")}");
+    }
+    private IEnumerator AIMovementCoroutine()
+    {
+        Debug.Log($"Starting AI Movement for {gameObject.name}");
+        while (true)
+        {
+            if (customTilemapManager != null && isCustomTilemapManagerInitialized)
+            {
+                UpdatePath();
+                Move();
+            }
+            else
+            {
+                Debug.LogWarning($"CustomTilemapManager not ready for {gameObject.name}");
+            }
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+    private IEnumerator InitializeCustomTilemapManagerCoroutine()
+    {
+        while (TilemapManagerGG.Instance == null)
+        {
+            Debug.Log("Waiting for TilemapManagerGG.Instance to be initialized...");
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        try
+        {
+            customTilemapManager = new CustomTilemapManagerGG(TilemapManagerGG.Instance, this);
+            if (customTilemapManager == null)
+            {
+                Debug.LogError("CustomTilemapManagerGG is null after creation");
+                StartCoroutine(AIMovementCoroutine());
+            }
+            else
+            {
+                isCustomTilemapManagerInitialized = true;
+                Debug.Log("CustomTilemapManagerGG created successfully");
+                StartCoroutine(AIMovementCoroutine());
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Error creating CustomTilemapManagerGG: {e.Message}\nStack Trace: {e.StackTrace}");
+        }
     }
 
     protected void Update()
