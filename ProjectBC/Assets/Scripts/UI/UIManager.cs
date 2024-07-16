@@ -24,12 +24,13 @@ public class UIManager : MonoBehaviour
     void OnEnable()
     {
         SetupScreens();
-        ShowHomeScreen();
+        
     }
 
     void Start()
     {
         Time.timeScale = 1f;
+        ShowHomeScreen();
     }
 
     void SetupScreens()
