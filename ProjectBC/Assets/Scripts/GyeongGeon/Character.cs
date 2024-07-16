@@ -61,6 +61,8 @@ public abstract class Character : MonoBehaviour, IBehavior
     public float findTimer;
     public float attackTimer;
 
+    public bool autoMove = true;
+
     [Header("DieEffect")]
     public GameObject fadeObject;
     public SpriteRenderer[] spriteRenderers;
@@ -515,9 +517,10 @@ public abstract class Character : MonoBehaviour, IBehavior
         while (true)
         {
             yield return wait;
-
-            UpdatePath();
-            
+            if (autoMove)
+            {
+                UpdatePath();
+            }            
         }
     }
 
@@ -664,10 +667,16 @@ public abstract class Character : MonoBehaviour, IBehavior
                 path = null;
 
                 SnapToNearestTileCenter();
-
-                StartCoroutine(WaitAndFindNewPath());
+                OnPathComplete();
             }
         }
+    }
+
+    protected virtual void OnPathComplete()
+    {
+        autoMove = true;  // 예시: 플레이어 제어 상태 해제
+        SetState(UnitState.idle);    // 상태를 idle로 변경
+        StartCoroutine(WaitAndFindNewPath());
     }
 
     private void SnapToNearestTileCenter()
