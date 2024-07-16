@@ -29,9 +29,12 @@ public class DeckSlot : MonoBehaviour
     public void DeckSetHeroData(HeroInfo hero, int index)
     {
         deckIndex = index;
+<<<<<<< HEAD
         if (!CheckUIElements())
             return;
 
+=======
+>>>>>>> dev
         if (hero != null)
         {
             id = hero.id;
@@ -40,8 +43,16 @@ public class DeckSlot : MonoBehaviour
             power = hero.attackDamage;  // 또는 strength, 팀과 상의 필요
             speed = hero.agility;
             hp = hero.hp;
+<<<<<<< HEAD
             heroImage.sprite = Resources.Load<Sprite>($"Images/Heroes/{hero.heroClass}");
             heroImage.enabled = true;
+=======
+            if (heroImage != null)
+            {
+                heroImage.sprite = hero.sprite;
+                heroImage.enabled = true;
+            }
+>>>>>>> dev
             gameObject.SetActive(true);
         }
         else
@@ -49,8 +60,16 @@ public class DeckSlot : MonoBehaviour
             ClearSlot();
         }
     }
+    private void SetHeroImage(Sprite sprite)
+    {
+        if (heroImage != null)
+        {
+            heroImage.sprite = sprite;
+            heroImage.enabled = sprite != null;
+        }
+    }
 
-    private void ClearSlot()
+    public void ClearSlot()
     {
         id = 0;
         heroName = "";
@@ -58,10 +77,8 @@ public class DeckSlot : MonoBehaviour
         power = 0;
         speed = 0;
         hp = 0;
-
-        heroImage.sprite = null;
-        heroImage.enabled = false;
-        gameObject.SetActive(true);
+        SetHeroImage(null);
+        gameObject.SetActive(true);  // 비어있는 슬롯도 보이도록 함
     }
 
     public bool CheckUIElements()

@@ -3,27 +3,46 @@ using UnityEngine;
 
 public class HeroManager : MonoBehaviour
 {
+<<<<<<< HEAD
 
 
     private List<HeroInfo> AllHeroes = new List<HeroInfo>();
     [SerializeField] private List<HeroInfo> MyHeroes = new List<HeroInfo>();
     [SerializeField] private List<HeroInfo> Deck = new List<HeroInfo>();
+=======
+    [System.Serializable]
+    public class Hero
+    {
+        public int id;
+        public string name;
+        public int level;
+        public int power;
+        public int speed;
+        public int hp;
+        public Sprite sprite;
+    }
+
+    public List<Hero> AllHeroes = new List<Hero>();
+    [SerializeField] private List<Hero> MyHeroes = new List<Hero>();
+    [SerializeField] private List<Hero> Deck = new List<Hero>();
+>>>>>>> dev
     [SerializeField] private Transform heroSlotsParent;
     [SerializeField] private Transform deckSlotsParent;
+    [SerializeField] private Transform battleDeckSlotsParent;
     private HeroSlot[] heroSlots;
     private DeckSlot[] deckSlots;
+    private BattleDeckSlot[] battleDeckSlots;
     private int maxDeckSize = 4;
 
     private void Awake()
     {
-        InitializeHeroSlots();
-
-        deckSlots = new DeckSlot[maxDeckSize];
+        InitializeSlots();
     }
 
     private void Start()
     {
         InitializeAllHeroes();
+<<<<<<< HEAD
         LoadHeroesFromGameData();  // AllHeroes와 MyHeroes 초기화
         InitializeDeckSlots();     // 기존 코드 유지
         UpdateHeroSlots();         // UI 업데이트
@@ -148,27 +167,21 @@ public class HeroManager : MonoBehaviour
     private void OnHeroesUpdated(List<HeroInfo> heroes)
     {
         LoadHeroesFromGameData();
+=======
+        InitializeMyHeroes();
+>>>>>>> dev
         UpdateHeroSlots();
         UpdateDeckSlots();
     }
-    private void InitializeDeckSlots()
+    private void InitializeSlots()
     {
-        if (deckSlotsParent != null)
-        {
-            deckSlots = deckSlotsParent.GetComponentsInChildren<DeckSlot>();
-        }
-    }
-
-    private void InitializeHeroSlots()
-    {
-        if (heroSlotsParent != null)
-        {
-            heroSlots = heroSlotsParent.GetComponentsInChildren<HeroSlot>();
-        }
-
+        heroSlots = heroSlotsParent.GetComponentsInChildren<HeroSlot>();
+        deckSlots = deckSlotsParent.GetComponentsInChildren<DeckSlot>();
+        battleDeckSlots = battleDeckSlotsParent.GetComponentsInChildren<BattleDeckSlot>();
     }
     private void InitializeAllHeroes()
     {
+<<<<<<< HEAD
         AllHeroes.Clear();
         AllHeroes.Add(new HeroInfo("Warrior", HeroClass.Knight, CharacteristicType.MuscularStrength)
         {
@@ -196,19 +209,30 @@ public class HeroManager : MonoBehaviour
         });
         MyHeroes.Clear();
         MyHeroes.AddRange(AllHeroes); // 모든 히어로를 MyHeroes에도 추가
+=======
+        AllHeroes.Add(new Hero { id = 1001, name = "Warrior", level = 1, power = 10, speed = 5, hp = 150, sprite = Resources.Load<Sprite>("Images/currency/Gemstone") });
+        AllHeroes.Add(new Hero { id = 2001, name = "Priest", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/GreenGemstone") });
+        AllHeroes.Add(new Hero { id = 3001, name = "Archer", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/PurpleGemstone") });
+        AllHeroes.Add(new Hero { id = 3002, name = "Assassin", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/RedGemstone") });
+        AllHeroes.Add(new Hero { id = 3003, name = "Tanker", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/YellowGemstone") });
+>>>>>>> dev
     }
 
     private void InitializeMyHeroes()
     {
         MyHeroes.Clear();
         MyHeroes.Add(AllHeroes[0]);
+        MyHeroes.Add(AllHeroes[1]);
         MyHeroes.Add(AllHeroes[2]);
+        MyHeroes.Add(AllHeroes[3]);
+        MyHeroes.Add(AllHeroes[4]);
     }
 
     private void UpdateHeroSlots()
     {
         for (int i = 0; i < heroSlots.Length; i++)
         {
+<<<<<<< HEAD
             if (heroSlots[i] == null)
                 continue;
 
@@ -216,11 +240,18 @@ public class HeroManager : MonoBehaviour
                 heroSlots[i].SetHeroData(MyHeroes[i], i);
             else
                 heroSlots[i].SetHeroData(null, -1);
+=======
+            if (i < MyHeroes.Count)
+                heroSlots[i].SetHeroData(MyHeroes[i], i);
+            else
+                heroSlots[i].ClearSlot();
+>>>>>>> dev
         }
     }
 
     private void UpdateDeckSlots()
     {
+<<<<<<< HEAD
         if (deckSlots == null || deckSlots.Length == 0)
             return;
 
@@ -233,12 +264,32 @@ public class HeroManager : MonoBehaviour
                 deckSlots[i].DeckSetHeroData(Deck[i], i);
             else
                 deckSlots[i].DeckSetHeroData(null, -1);
+=======
+        for (int i = 0; i < deckSlots.Length; i++)
+        {
+            if (i < Deck.Count)
+                deckSlots[i].DeckSetHeroData(Deck[i], i);
+            else
+                deckSlots[i].ClearSlot();
+>>>>>>> dev
+        }
+        UpdateBattleDeckSlots();
+    }
+
+    private void UpdateBattleDeckSlots()
+    {
+        for (int i = 0; i < battleDeckSlots.Length; i++)
+        {
+            if (i < Deck.Count)
+                battleDeckSlots[i].SetHeroData(Deck[i]);
+            else
+                battleDeckSlots[i].ClearSlot();
         }
     }
 
-
     public void AddHeroToDeck(int heroIndex)
     {
+<<<<<<< HEAD
         if (heroIndex < 0 || heroIndex >= MyHeroes.Count)
             return;
 
@@ -247,13 +298,21 @@ public class HeroManager : MonoBehaviour
         if (Deck.Count >= maxDeckSize || Deck.Contains(hero))
             return;
 
+=======
+        if (heroIndex < 0 || heroIndex >= MyHeroes.Count || Deck.Count >= maxDeckSize)
+            return;
+
+        Hero hero = MyHeroes[heroIndex];
+>>>>>>> dev
         Deck.Add(hero);
-        RemoveHeroFromMyHeroes(hero);
+        MyHeroes.RemoveAt(heroIndex);
+        UpdateHeroSlots();
         UpdateDeckSlots();
     }
 
     public void RemoveHeroFromDeck(int deckIndex)
     {
+<<<<<<< HEAD
         if (deckIndex >= 0 && deckIndex < Deck.Count)
         {
             HeroInfo removedHero = Deck[deckIndex];
@@ -262,6 +321,16 @@ public class HeroManager : MonoBehaviour
             UpdateDeckSlots();
             UpdateHeroSlots();
         }
+=======
+        if (deckIndex < 0 || deckIndex >= Deck.Count)
+            return;
+
+        Hero hero = Deck[deckIndex];
+        MyHeroes.Add(hero);
+        Deck.RemoveAt(deckIndex);
+        UpdateHeroSlots();
+        UpdateDeckSlots();
+>>>>>>> dev
     }
 
     public void RemoveHeroFromMyHeroes(HeroInfo hero)

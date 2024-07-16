@@ -80,7 +80,7 @@ public class TilemapManagerGG : MonoBehaviour
 
         for (int i = 0; i < tileCenters.Count; i++)
         {
-            float distance = Vector3.Distance(tileCenters[i], position);
+            float distance = (tileCenters[i] - position).sqrMagnitude;
             if (distance < minDistance)
             {
                 minDistance = distance;
@@ -90,7 +90,7 @@ public class TilemapManagerGG : MonoBehaviour
 
         nearest.z = 0; // 추가: z 값을 0으로 설정
 
-        if (IsValidMovePosition(position) && Vector3.Distance(position, nearest) < 0.1f)
+        if (IsValidMovePosition(position) && (position - nearest).sqrMagnitude < 0.01f)
         {
             //return position;
             return new Vector3(position.x, position.y, 0); // 추가: z 값을 0으로 설정

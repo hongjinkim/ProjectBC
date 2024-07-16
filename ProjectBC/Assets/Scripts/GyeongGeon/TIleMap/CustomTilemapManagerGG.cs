@@ -13,7 +13,7 @@ public class CustomTilemapManagerGG : TilemapManagerGG
     {
         this.baseTilemapManager = baseTilemapManager;
         this.character = character;
-        CacheCharacters();
+        //CacheCharacters();
     }
 
     private void CacheCharacters()
@@ -21,13 +21,28 @@ public class CustomTilemapManagerGG : TilemapManagerGG
         allCharacters = new List<Character>(Object.FindObjectsOfType<Character>());
     }
 
+    // public override bool IsObstacle(Vector3 position)
+    // {
+    //     for (int i = 0; i < allCharacters.Count; i++)
+    //     {
+    //         if (allCharacters[i] != character)
+    //         {
+    //             if ((allCharacters[i].transform.position - position).sqrMagnitude < PositionToleranceSquared)
+    //             {
+    //                 return true;
+    //             }
+    //         }
+    //     }
+    //     return false;
+    // }
+
     public override bool IsObstacle(Vector3 position)
     {
-        for (int i = 0; i < allCharacters.Count; i++)
+        for (int i = 0; i < GameManager.Instance.dungeonManager._allCharacterList.Count; i++)
         {
-            if (allCharacters[i] != character)
+            if (GameManager.Instance.dungeonManager._allCharacterList[i] != character)
             {
-                if ((allCharacters[i].transform.position - position).sqrMagnitude < PositionToleranceSquared)
+                if ((GameManager.Instance.dungeonManager._allCharacterList[i].transform.position - position).sqrMagnitude < PositionToleranceSquared)
                 {
                     return true;
                 }

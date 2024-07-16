@@ -9,8 +9,9 @@ public class DungeonManager : MonoBehaviour
 
     public List<Character> _heroPool = new List<Character>();
     public List<Character> _enemyPool = new List<Character>();
-    public List<Character> _ActiveHeroList = new List<Character>();
-    public List<Character> _ActiveEnemyList = new List<Character>();
+    public List<Character> _activeHeroList = new List<Character>();
+    public List<Character> _activeEnemyList = new List<Character>();
+    public List<Character> _allCharacterList = new List<Character>();
 
     public float _findTimer;
     private int randomEnemyIndex;
@@ -83,12 +84,13 @@ public class DungeonManager : MonoBehaviour
         {
             Character hero = Instantiate(_heroPool[i]);
 
-            _ActiveHeroList.Add(hero);
+            _activeHeroList.Add(hero);
+            _allCharacterList.Add(hero);
 
-            _ActiveHeroList[i].gameObject.tag = "Hero";
+            _activeHeroList[i].gameObject.tag = "Hero";
 
             // 추후에 마우스로 드래그해서 SetActive 하는걸로 변경해야함.
-            _ActiveHeroList[i].gameObject.SetActive(true);
+            _activeHeroList[i].gameObject.SetActive(true);
             //hero.customTilemapManager.allCharacters.Add(hero);
         }
     }
@@ -100,9 +102,10 @@ public class DungeonManager : MonoBehaviour
             randomEnemyIndex = Random.Range(0, _enemyPool.Count);
             Character enemy = Instantiate(_enemyPool[randomEnemyIndex]);
 
-            _ActiveEnemyList.Add(enemy);
+            _activeEnemyList.Add(enemy);
+            _allCharacterList.Add(enemy);
 
-            _ActiveEnemyList[i].gameObject.tag = "Enemy";
+            _activeEnemyList[i].gameObject.tag = "Enemy";
 
             randomeTileIndex = Random.Range(0, TilemapManagerGG.Instance.tileCenters.Count);
             enemy.transform.position = TilemapManagerGG.Instance.tileCenters[randomeTileIndex];
@@ -117,7 +120,7 @@ public class DungeonManager : MonoBehaviour
             //Vector2 randomPosition = GetRandomTilemapPosition(_ActiveEnemyList[i]);
 
             //enemy.transform.position = randomPosition;
-            _ActiveEnemyList[i].gameObject.SetActive(true);
+            _activeEnemyList[i].gameObject.SetActive(true);
             //enemy.customTilemapManager.allCharacters.Add(enemy);
 
         }
@@ -158,7 +161,7 @@ public class DungeonManager : MonoBehaviour
 
         bool allDead = true;
 
-        foreach (var enemy in _ActiveEnemyList)
+        foreach (var enemy in _activeEnemyList)
         {
             if (enemy != null && !(enemy._unitState == Character.UnitState.death))
             {
@@ -171,7 +174,7 @@ public class DungeonManager : MonoBehaviour
         {
             List<Character> enemiesToDestroy = new List<Character>();
 
-            foreach (var enemy in _ActiveEnemyList)
+            foreach (var enemy in _activeEnemyList)
             {
                 if (enemy != null)
                 {
@@ -179,12 +182,24 @@ public class DungeonManager : MonoBehaviour
                 }
             }
 
+            // foreach (var enemy in _ActiveEnemyList)
+            // {
+            //     enemy.customTilemapManager.allCharacters.Clear();
+            // }
+
+            // foreach (var hero in _ActiveHeroList)
+            // {
+            //     hero.customTilemapManager.allCharacters.Clear();
+            // }
+
             foreach (var enemy in enemiesToDestroy)
             {
+                //_allCharacterList.Remove(enemy);
                 Destroy(enemy.gameObject);
             }
+            _allCharacterList.Clear();
 
-            _ActiveEnemyList.Clear();
+            _activeEnemyList.Clear();
             
             SetEnemyList();
         }
@@ -193,42 +208,22 @@ public class DungeonManager : MonoBehaviour
     public Character GetTarget(Character unit)
     {
         Character targetUnit = null;
-
-        List<Character> targetList = new List<Character>();
-
-        switch (unit.tag)
-        {
-            case "Hero":
-                targetList = _ActiveEnemyList;
-                break;
-
-            case "Enemy":
-                targetList = _ActiveHeroList;
-                break;
-        }
-        
-        // closestDistance: 가장 가까운 유닛과의 거리를 저장하는 변수입니다. 초기값을 매우 큰 값(float.MaxValue)으로 설정하여 첫 번째 비교에서 무조건 갱신되도록 합니다.
+        List<Character> targetList = unit.CompareTag("Hero") ? _activeEnemyList : _activeHeroList;
         float closestDistance = float.MaxValue;
 
-        for (var i = 0; i < targetList.Count; i++)
+        foreach (var target in targetList)
         {
-            // distanceSquared: 현재 유닛과 unit 간의 거리의 제곱입니다. Vector2를 사용하여 계산하며, sqrMagnitude를 사용하여 제곱 값을 얻습니다. 거리 제곱을 사용하는 이유는 루트 계산을 생략하여 성능을 최적화하기 위함입니다.
-            float distanceSquared = ((Vector2)targetList[i].transform.localPosition - (Vector2)unit.transform.localPosition).sqrMagnitude;
-
-            // unit.findRange * unit.findRange: 적을 찾는 범위의 제곱입니다. 거리를 비교할 때 제곱 값을 사용하여 루트 계산을 피합니다.
-            if(distanceSquared <= unit.findRange * unit.findRange)
+            if (target == null || !target.gameObject.activeInHierarchy || target._unitState == Character.UnitState.death)
             {
-                if(targetList[i].gameObject.activeInHierarchy)
-                {
-                    if(targetList[i]._unitState != Character.UnitState.death)
-                    {
-                        if(distanceSquared < closestDistance)
-                        {
-                            targetUnit = targetList[i];
-                            closestDistance = distanceSquared;
-                        }
-                    }
-                }
+                continue;
+            }
+
+            float distanceSquared = ((Vector2)target.transform.localPosition - (Vector2)unit.transform.localPosition).sqrMagnitude;
+
+            if (distanceSquared <= unit.findRange * unit.findRange && distanceSquared < closestDistance)
+            {
+                targetUnit = target;
+                closestDistance = distanceSquared;
             }
         }
 

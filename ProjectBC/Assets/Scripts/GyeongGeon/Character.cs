@@ -61,6 +61,8 @@ public abstract class Character : MonoBehaviour, IBehavior
     public float findTimer;
     public float attackTimer;
 
+    public bool autoMove = true;
+
     [Header("DieEffect")]
     public GameObject fadeObject;
     public SpriteRenderer[] spriteRenderers;
@@ -78,7 +80,7 @@ public abstract class Character : MonoBehaviour, IBehavior
     protected Vector3 nearestValidPosition;
     private List<Vector3> path;
 
-    private const float PositionTolerance = 0.1f;
+    private const float PositionTolerance = 0.15f;
     private const float PositionToleranceSquared = PositionTolerance * PositionTolerance;
 
     public Sprite Icon { get; protected set; }
@@ -348,6 +350,7 @@ public abstract class Character : MonoBehaviour, IBehavior
 
         if(IsWithinAttackRange(currentPosition, targetPosition, attackRange))
         {
+            
             SetState(UnitState.attack);
 
             return true;
@@ -482,7 +485,7 @@ public abstract class Character : MonoBehaviour, IBehavior
 
         while (elapsedTime < fadeDuration)
         {
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.deltaTime / 0.5f;
             float alpha = Mathf.Lerp(1.0f, 0.0f, elapsedTime / fadeDuration);
 
             for (int i = 0; i < spriteRenderers.Length; i++)
@@ -501,6 +504,8 @@ public abstract class Character : MonoBehaviour, IBehavior
 
         gameObject.SetActive(false);
         Destroy(customTilemapManager);
+        GameManager.Instance.dungeonManager._allCharacterList.Remove(this);
+
     }
 
 
@@ -512,9 +517,10 @@ public abstract class Character : MonoBehaviour, IBehavior
         while (true)
         {
             yield return wait;
-
-            UpdatePath();
-            
+            if (autoMove)
+            {
+                UpdatePath();
+            }            
         }
     }
 
@@ -661,10 +667,16 @@ public abstract class Character : MonoBehaviour, IBehavior
                 path = null;
 
                 SnapToNearestTileCenter();
-
-                StartCoroutine(WaitAndFindNewPath());
+                OnPathComplete();
             }
         }
+    }
+
+    protected virtual void OnPathComplete()
+    {
+        autoMove = true;  // 예시: 플레이어 제어 상태 해제
+        SetState(UnitState.idle);    // 상태를 idle로 변경
+        StartCoroutine(WaitAndFindNewPath());
     }
 
     private void SnapToNearestTileCenter()
