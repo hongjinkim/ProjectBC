@@ -19,6 +19,7 @@ public class TilemapManager : MonoBehaviour
     public Tilemap tilemap;
     private List<Vector3> tileCenters = new List<Vector3>();
     public List<Vector3> currentPath;
+    private Vector3 cellSize;
 
     private void Awake()
     {
@@ -37,6 +38,7 @@ public class TilemapManager : MonoBehaviour
     {
         if (tilemap != null)
         {
+            cellSize = tilemap.cellSize;
             CalculateTileCenters();
         }
     }
@@ -60,12 +62,11 @@ public class TilemapManager : MonoBehaviour
             }
         }
     }
-
     public virtual bool IsValidMovePosition(Vector3 position)
     {
         for (int i = 0; i < tileCenters.Count; i++)
         {
-            if (Vector3.Distance(tileCenters[i], position) < 0.01f)
+            if (Vector3.Distance(tileCenters[i], position) < cellSize.x * 0.1f)
             {
                 return true;
             }
@@ -88,7 +89,7 @@ public class TilemapManager : MonoBehaviour
             }
         }
 
-        if (IsValidMovePosition(position) && Vector3.Distance(position, nearest) < 0.1f)
+        if (IsValidMovePosition(position) && Vector3.Distance(position, nearest) < cellSize.x * 0.1f)
         {
             return position;
         }
@@ -105,7 +106,7 @@ public class TilemapManager : MonoBehaviour
         List<Vector3> neighbors = new List<Vector3>();
         for (int i = 0; i < tileCenters.Count; i++)
         {
-            if (Vector3.Distance(tileCenters[i], position) <= 1.5f && !IsObstacle(tileCenters[i]))
+            if (Vector3.Distance(tileCenters[i], position) <= cellSize.x * 1.5f && !IsObstacle(tileCenters[i]))
             {
                 neighbors.Add(tileCenters[i]);
             }
@@ -115,8 +116,8 @@ public class TilemapManager : MonoBehaviour
 
     public virtual float GetDistance(Vector3 a, Vector3 b)
     {
-        float dx = Mathf.Abs(a.x - b.x);
-        float dy = Mathf.Abs(a.y - b.y);
+        float dx = Mathf.Abs(a.x - b.x) / cellSize.x;
+        float dy = Mathf.Abs(a.y - b.y) / cellSize.y;
 
         return Mathf.Max(dx, dy) + (Mathf.Sqrt(2) - 1) * Mathf.Min(dx, dy);
     }

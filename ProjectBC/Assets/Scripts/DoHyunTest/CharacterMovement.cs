@@ -15,8 +15,8 @@ public class CharacterMovement : MonoBehaviour, IDragHandler, IEndDragHandler, I
     private float lastPathUpdateTime = 0f;
 
     private CustomTilemapManager customTilemapManager;
-    private const float PositionTolerance = 0.1f;
-    private const float PositionToleranceSquared = PositionTolerance * PositionTolerance;
+    private float PositionTolerance;
+    private float PositionToleranceSquared;
 
     private Vector3 targetPosition;
     private Vector3 currentPosition;
@@ -24,6 +24,10 @@ public class CharacterMovement : MonoBehaviour, IDragHandler, IEndDragHandler, I
 
     private List<Vector3> previewPath;
     private LineRenderer lineRenderer;
+
+    private Vector3 lastTargetPosition;
+    private const float MAX_TARGET_DISTANCE = 0.7f;
+    private const float MIN_TARGET_DISTANCE = 0.5f;
 
     private void Awake()
     {
@@ -35,6 +39,9 @@ public class CharacterMovement : MonoBehaviour, IDragHandler, IEndDragHandler, I
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         lineRenderer.startColor = Color.yellow;
         lineRenderer.endColor = Color.yellow;
+
+        PositionTolerance = 0.1f;
+        PositionToleranceSquared = PositionTolerance * PositionTolerance;
     }
 
     void Start()
@@ -42,14 +49,11 @@ public class CharacterMovement : MonoBehaviour, IDragHandler, IEndDragHandler, I
         customTilemapManager = new CustomTilemapManager(TilemapManager.Instance, this);
         transform.position = customTilemapManager.GetNearestValidPosition(transform.position);
         StartCoroutine(AutoMoveCoroutine());
+        lastTargetPosition = Vector3.positiveInfinity; // 초기화
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            autoMove = !autoMove;
-        }
         MoveAlongPath();
         if (path == null || path.Count == 0)
         {
@@ -106,11 +110,13 @@ public class CharacterMovement : MonoBehaviour, IDragHandler, IEndDragHandler, I
             if (closestObject != null)
             {
                 targetPosition = closestObject.transform.position;
-                currentPosition = customTilemapManager.GetNearestValidPosition(transform.position);
-                if ((currentPosition - targetPosition).sqrMagnitude > PositionToleranceSquared)
+                currentPosition = transform.position;
+
+                // 타겟이 이동했거나 현재 위치가 적절하지 않은 경우에만 새 경로 계산
+                if ((targetPosition - lastTargetPosition).sqrMagnitude > 0.01f ||
+                    !IsPositionSuitableForTarget(currentPosition, targetPosition))
                 {
-                    List<Vector3> surroundingPositions = GetSurroundingPositions(targetPosition);
-                    Vector3? bestPosition = FindBestPosition(surroundingPositions, currentPosition);
+                    Vector3? bestPosition = FindBestPositionAroundTarget(targetPosition);
 
                     if (bestPosition.HasValue)
                     {
@@ -120,47 +126,72 @@ public class CharacterMovement : MonoBehaviour, IDragHandler, IEndDragHandler, I
                     {
                         path = null;
                     }
-                }
-                else
-                {
-                    transform.position = currentPosition;
-                    path = null;
+
+                    lastTargetPosition = targetPosition;
                 }
             }
         }
         lastPathUpdateTime = Time.time;
     }
-
-    private Vector3? FindBestPosition(List<Vector3> positions, Vector3 currentPosition)
+    private bool IsPositionSuitableForTarget(Vector3 position, Vector3 target)
     {
-        Vector3? bestPosition = null;
-        float minSqrDistance = float.MaxValue;
+        float distance = Vector2.Distance(new Vector2(position.x, position.y), new Vector2(target.x, target.y));
+        return distance <= MAX_TARGET_DISTANCE && distance >= MIN_TARGET_DISTANCE && !IsPositionOccupied(position);
+    }
 
-        for (int i = 0; i < positions.Count; i++)
+    private Vector3? FindBestPositionAroundTarget(Vector3 targetPosition)
+    {
+        List<Vector3> potentialPositions = GetSurroundingPositions(targetPosition);
+        potentialPositions.Sort((a, b) =>
+            Vector2.Distance(new Vector2(a.x, a.y), new Vector2(transform.position.x, transform.position.y))
+            .CompareTo(Vector2.Distance(new Vector2(b.x, b.y), new Vector2(transform.position.x, transform.position.y))));
+
+        foreach (Vector3 position in potentialPositions)
         {
-            if (customTilemapManager.IsValidMovePosition(positions[i]))
+            List<Vector3> pathToPosition = customTilemapManager.FindPath(transform.position, position);
+            if (pathToPosition != null && pathToPosition.Count > 0)
             {
-                float sqrDistance = (currentPosition - positions[i]).sqrMagnitude;
-                if (sqrDistance < minSqrDistance)
-                {
-                    minSqrDistance = sqrDistance;
-                    bestPosition = positions[i];
-                }
+                return position;
+            }
+        }
+        // 적합한 위치를 찾지 못한 경우, 가장 가까운 도달 가능한 위치 반환
+        foreach (Vector3 position in potentialPositions)
+        {
+            List<Vector3> pathToPosition = customTilemapManager.FindPath(transform.position, position);
+            if (pathToPosition != null && pathToPosition.Count > 0)
+            {
+                return position;
             }
         }
 
-        return bestPosition;
+        return null;
+    }
+    private bool IsPositionOccupied(Vector3 position)
+    {
+        return Physics2D.OverlapCircle(position, 0.1f) != null;
+    }
+    private bool IsPositionOccupiedByOther(Vector3 position)
+    {
+        Collider2D collider = Physics2D.OverlapCircle(position, 0.1f);
+        return collider != null && collider.gameObject != this.gameObject;
     }
 
     private List<Vector3> GetSurroundingPositions(Vector3 targetPosition)
     {
         List<Vector3> surroundingPositions = new List<Vector3>();
-        for (int x = -2; x <= 2; x++)
+        Vector3 cellSize = TilemapManager.Instance.tilemap.cellSize;
+
+        for (int x = -1; x <= 1; x++)
         {
-            for (int y = -2; y <= 2; y++)
+            for (int y = -1; y <= 1; y++)
             {
-                if (x == 0 && y == 0) continue; // Skip the center position
-                surroundingPositions.Add(new Vector3(targetPosition.x + x, targetPosition.y + y, targetPosition.z));
+                if (x == 0 && y == 0) continue;
+                Vector3 offset = new Vector3(x * cellSize.x, y * cellSize.y, 0);
+                Vector3 newPos = targetPosition + offset;
+                if (customTilemapManager.IsValidMovePosition(newPos))
+                {
+                    surroundingPositions.Add(newPos);
+                }
             }
         }
         return surroundingPositions;
@@ -183,7 +214,7 @@ public class CharacterMovement : MonoBehaviour, IDragHandler, IEndDragHandler, I
         if (path != null && currentPathIndex < path.Count)
         {
             Vector3 targetPosition = path[currentPathIndex];
-            if (!customTilemapManager.IsValidMovePosition(targetPosition))
+            if (!customTilemapManager.IsValidMovePosition(targetPosition) || IsPositionOccupiedByOther(targetPosition))
             {
                 UpdatePath();
                 return;
@@ -202,10 +233,6 @@ public class CharacterMovement : MonoBehaviour, IDragHandler, IEndDragHandler, I
             {
                 path = null;
                 SnapToNearestTileCenter();
-                if (autoMove)
-                {
-                    StartCoroutine(WaitAndFindNewPath());
-                }
             }
         }
     }
