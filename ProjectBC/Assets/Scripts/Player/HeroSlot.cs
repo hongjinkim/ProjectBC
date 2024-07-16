@@ -24,26 +24,29 @@ public class HeroSlot : MonoBehaviour
     {
         heroManager.AddHeroToDeck(myHeroIndex);
     }
-    public void SetHeroData(HeroManager.Hero hero, int index)
+    public void SetHeroData(HeroInfo hero, int index)
     {
         if (hero != null)
         {
             id = hero.id;
-            heroName = hero.name;
+            heroName = hero.heroName;
             level = hero.level;
-            power = hero.power;
-            speed = hero.speed;
+            power = hero.attackDamage;  // 또는 strength, 팀과 상의 필요
+            speed = hero.agility;
             hp = hero.hp;
             myHeroIndex = index;
             if (spriteImage != null)
             {
-                spriteImage.sprite = hero.sprite;
+                spriteImage.sprite = Resources.Load<Sprite>($"Images/Heroes/{hero.heroClass}");
                 spriteImage.enabled = true;
+                Debug.Log($"Setting hero data: {heroName}, Level: {level}, Power: {power}");
             }
             gameObject.SetActive(true);
         }
         else
         {
+            gameObject.SetActive(false);
+            Debug.Log("Setting empty hero slot");
             gameObject.SetActive(false);
         }
     }

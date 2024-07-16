@@ -26,22 +26,21 @@ public class DeckSlot : MonoBehaviour
         heroManager.RemoveHeroFromDeck(deckIndex);
     }
 
-    public void DeckSetHeroData(HeroManager.Hero hero, int index)
+    public void DeckSetHeroData(HeroInfo hero, int index)
     {
         deckIndex = index;
-        if (!CheckUIElements()) 
+        if (!CheckUIElements())
             return;
 
         if (hero != null)
         {
             id = hero.id;
-            heroName = hero.name;
+            heroName = hero.heroName;
             level = hero.level;
-            power = hero.power;
-            speed = hero.speed;
+            power = hero.attackDamage;  // 또는 strength, 팀과 상의 필요
+            speed = hero.agility;
             hp = hero.hp;
-
-            heroImage.sprite = hero.sprite;
+            heroImage.sprite = Resources.Load<Sprite>($"Images/Heroes/{hero.heroClass}");
             heroImage.enabled = true;
             gameObject.SetActive(true);
         }

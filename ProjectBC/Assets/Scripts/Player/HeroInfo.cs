@@ -67,26 +67,16 @@ public class HeroInfo
         healthRegen = 0;
         energyRegen = 0;
         attackRange = 0;
-
-        // 특성에 따른 추가 계산
-        ApplyCharacteristicBonuses();
-    }
-
-    private void ApplyCharacteristicBonuses()
-    {
-        switch (characteristicType)
+        foreach (string itemId in equippedItemIds)
         {
-            case CharacteristicType.MuscularStrength:
-                attackDamage += (int)(strength * 0.7f);
-                break;
-            case CharacteristicType.Agility:
-                attackDamage += (int)(agility * 0.9f);
-                break;
-            case CharacteristicType.Intellect:
-                attackDamage += (int)(intelligence * 0.9f);
-                break;
+            // 아이템 효과를 적용하는 로직
+            // 예: ApplyItemEffect(itemId);
         }
+        // 특성에 따른 추가 계산
+       
     }
+
+   
 
     public void IncreaseStrength(int amount)
     {
@@ -139,7 +129,7 @@ public class HeroInfo
         }
     }
 
-    private void LevelUp()
+    public void LevelUp()
     {
         level++;
         currentExp -= neededExp;
@@ -156,7 +146,15 @@ public class HeroInfo
         IncreaseIntelligence(1);
         IncreaseStamina(1);
     }
-
+    public void EquipItem(string itemId)
+    {
+        if (!equippedItemIds.Contains(itemId))
+        {
+            equippedItemIds.Add(itemId);
+            // 아이템 효과 적용 로직
+            RecalculateStats();
+        }
+    }
     public void AddTrait(Trait trait)
     {
         traits.Add(trait);

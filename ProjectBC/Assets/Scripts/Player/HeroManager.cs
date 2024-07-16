@@ -3,57 +3,11 @@ using UnityEngine;
 
 public class HeroManager : MonoBehaviour
 {
-    [System.Serializable]
-    public class Hero
-    {
-        public int id;
-        public string name;
-        public HeroClass heroClass;
-        public CharacteristicType characteristicType;
-        public int level;
-        public float currentExp;
-        public float neededExp;
-        public int strength; // 추가
-        public int agility; // 추가
-        public int intelligence; // 추가
-        public int stamina; // 추가
-        public int power;
-        public int speed;
-        public int hp;
-        public Sprite sprite;
-        public List<string> equippedItemIds = new List<string>();
 
-        public void LevelUp()
-        {
-            level++;
-            // 스탯 증가 로직 추가
-            power += 2;
-            speed += 1;
-            hp += 10;
-            neededExp *= 1.2f;
-        }
 
-        public void EquipItem(string itemId)
-        {
-            if (!equippedItemIds.Contains(itemId))
-            {
-                equippedItemIds.Add(itemId);
-                // 아이템 효과 적용 로직 추가
-            }
-        }
-
-        public void UnequipItem(string itemId)
-        {
-            if (equippedItemIds.Remove(itemId))
-            {
-                // 아이템 효과 제거 로직 추가
-            }
-        }
-    }
-
-    private List<Hero> AllHeroes = new List<Hero>();
-    [SerializeField] private List<Hero> MyHeroes = new List<Hero>();
-    [SerializeField] private List<Hero> Deck = new List<Hero>();
+    private List<HeroInfo> AllHeroes = new List<HeroInfo>();
+    [SerializeField] private List<HeroInfo> MyHeroes = new List<HeroInfo>();
+    [SerializeField] private List<HeroInfo> Deck = new List<HeroInfo>();
     [SerializeField] private Transform heroSlotsParent;
     [SerializeField] private Transform deckSlotsParent;
     private HeroSlot[] heroSlots;
@@ -69,12 +23,15 @@ public class HeroManager : MonoBehaviour
 
     private void Start()
     {
+        InitializeAllHeroes();
         LoadHeroesFromGameData();  // AllHeroes와 MyHeroes 초기화
         InitializeDeckSlots();     // 기존 코드 유지
         UpdateHeroSlots();         // UI 업데이트
         UpdateDeckSlots();         // UI 업데이트
 
         GameDataManager.HeroesUpdated += OnHeroesUpdated;  // 데이터 변경 이벤트 구독
+        Debug.Log($"Loaded {AllHeroes.Count} heroes, {MyHeroes.Count} in my heroes.");
+
     }
     private void OnDestroy()
     {
@@ -84,49 +41,44 @@ public class HeroManager : MonoBehaviour
     private void LoadHeroesFromGameData()
     {
         List<HeroInfo> savedHeroes = GameDataManager.instance.GetAllHeroes();
-        AllHeroes.Clear();
-        MyHeroes.Clear();
-
-        foreach (HeroInfo heroInfo in savedHeroes)
+        if (savedHeroes == null || savedHeroes.Count == 0)
         {
-            Hero hero = CreateHeroFromInfo(heroInfo);
-            AllHeroes.Add(hero);
-            MyHeroes.Add(hero);
+            InitializeAllHeroes();
+            SaveHeroesToGameData(); // 초기화된 히어로 데이터를 저장
         }
-
-        if (AllHeroes.Count == 0)
+        else
         {
-            InitializeDefaultHeroes();
+            AllHeroes.Clear();
+            MyHeroes.Clear();
+
+
+
+            foreach (HeroInfo heroInfo in savedHeroes)
+            {
+                HeroInfo hero = CreateHeroFromInfo(heroInfo);
+                AllHeroes.Add(hero);
+                MyHeroes.Add(hero);
+            }
+
+            if (AllHeroes.Count == 0)
+            {
+                InitializeDefaultHeroes();
+            }
         }
     }
-
-    private Hero CreateHeroFromInfo(HeroInfo heroInfo)
+    private void SaveHeroesToGameData()
     {
-        return new Hero
+        foreach (HeroInfo hero in AllHeroes)
         {
-            id = heroInfo.id,
-            name = heroInfo.heroName,
-            heroClass = heroInfo.heroClass,
-            characteristicType = heroInfo.characteristicType,
-            level = heroInfo.level,
-            currentExp = heroInfo.currentExp,
-            neededExp = heroInfo.neededExp,
-            strength = heroInfo.strength,
-            agility = heroInfo.agility,
-            intelligence = heroInfo.intelligence,
-            stamina = heroInfo.stamina,
-            hp = heroInfo.hp,
-            //attackDamage = heroInfo.attackDamage,
-            //defense = heroInfo.defense,
-            //magicResistance = heroInfo.magicResistance,
-            //attackSpeed = heroInfo.attackSpeed,
-            //healthRegen = heroInfo.healthRegen,
-            //energyRegen = heroInfo.energyRegen,
-            //attackRange = heroInfo.attackRange,
-            sprite = Resources.Load<Sprite>($"Images/Heroes/{heroInfo.heroClass}"),
-            equippedItemIds = heroInfo.equippedItemIds
-        };
+            GameDataManager.instance.AddHero(hero);
+        }
     }
+    private HeroInfo CreateHeroFromInfo(HeroInfo heroInfo)
+    {
+        // HeroInfo는 이미 모든 필요한 정보를 가지고 있으므로, 그대로 반환
+        return heroInfo;
+    }
+
 
     private void InitializeDefaultHeroes()
     {
@@ -140,7 +92,7 @@ public class HeroManager : MonoBehaviour
     {
         HeroInfo newHeroInfo = new HeroInfo(name, heroClass, characteristicType);
         GameDataManager.instance.AddHero(newHeroInfo);
-        Hero newHero = CreateHeroFromInfo(newHeroInfo);
+        HeroInfo newHero = CreateHeroFromInfo(newHeroInfo);
         AllHeroes.Add(newHero);
         MyHeroes.Add(newHero);
         UpdateHeroSlots();
@@ -150,7 +102,7 @@ public class HeroManager : MonoBehaviour
     {
         if (heroIndex >= 0 && heroIndex < MyHeroes.Count)
         {
-            Hero hero = MyHeroes[heroIndex];
+            HeroInfo hero = MyHeroes[heroIndex];
             hero.LevelUp();
             UpdateHeroInfo(hero);
             UpdateHeroSlots();
@@ -161,16 +113,16 @@ public class HeroManager : MonoBehaviour
     {
         if (heroIndex >= 0 && heroIndex < MyHeroes.Count)
         {
-            Hero hero = MyHeroes[heroIndex];
+            HeroInfo hero = MyHeroes[heroIndex];
             hero.EquipItem(itemId);
             UpdateHeroInfo(hero);
             UpdateHeroSlots();
         }
     }
 
-    private void UpdateHeroInfo(Hero hero)
+    private void UpdateHeroInfo(HeroInfo hero)
     {
-        HeroInfo updatedInfo = new HeroInfo(hero.name, hero.heroClass, hero.characteristicType)
+        HeroInfo updatedInfo = new HeroInfo(hero.heroName, hero.heroClass, hero.characteristicType)
         {
             id = hero.id,
             level = hero.level,
@@ -217,11 +169,33 @@ public class HeroManager : MonoBehaviour
     }
     private void InitializeAllHeroes()
     {
-        AllHeroes.Add(new Hero { id = 1, name = "Warrior", level = 1, power = 10, speed = 5, hp = 150, sprite = Resources.Load<Sprite>("Images/currency/Gemstone") });
-        AllHeroes.Add(new Hero { id = 2, name = "Priest", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/GreenGemstone") });
-        AllHeroes.Add(new Hero { id = 3, name = "Archer", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/PurpleGemstone") });
-        AllHeroes.Add(new Hero { id = 4, name = "Assassin", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/RedGemstone") });
-        AllHeroes.Add(new Hero { id = 5, name = "Tanker", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/YellowGemstone") });
+        AllHeroes.Clear();
+        AllHeroes.Add(new HeroInfo("Warrior", HeroClass.Knight, CharacteristicType.MuscularStrength)
+        {
+            id = 1,
+            level = 1,
+            attackDamage = 10,
+            agility = 5,
+            hp = 150
+        });
+        AllHeroes.Add(new HeroInfo("Priest", HeroClass.Priest, CharacteristicType.Intellect)
+        {
+            id = 2,
+            level = 1,
+            attackDamage = 5,
+            agility = 7,
+            hp = 100
+        });
+        AllHeroes.Add(new HeroInfo("Archer", HeroClass.Archer, CharacteristicType.Agility)
+        {
+            id = 3,
+            level = 1,
+            attackDamage = 5,
+            agility = 7,
+            hp = 100
+        });
+        MyHeroes.Clear();
+        MyHeroes.AddRange(AllHeroes); // 모든 히어로를 MyHeroes에도 추가
     }
 
     private void InitializeMyHeroes()
@@ -236,41 +210,29 @@ public class HeroManager : MonoBehaviour
         for (int i = 0; i < heroSlots.Length; i++)
         {
             if (heroSlots[i] == null)
-            {
                 continue;
-            }
+
             if (i < MyHeroes.Count)
-            {
                 heroSlots[i].SetHeroData(MyHeroes[i], i);
-            }
             else
-            {
                 heroSlots[i].SetHeroData(null, -1);
-            }
         }
     }
+
     private void UpdateDeckSlots()
     {
         if (deckSlots == null || deckSlots.Length == 0)
-        {
             return;
-        }
 
         for (int i = 0; i < deckSlots.Length; i++)
         {
             if (deckSlots[i] == null)
-            {
                 continue;
-            }
 
             if (i < Deck.Count)
-            {
                 deckSlots[i].DeckSetHeroData(Deck[i], i);
-            }
             else
-            {
                 deckSlots[i].DeckSetHeroData(null, -1);
-            }
         }
     }
 
@@ -278,40 +240,40 @@ public class HeroManager : MonoBehaviour
     public void AddHeroToDeck(int heroIndex)
     {
         if (heroIndex < 0 || heroIndex >= MyHeroes.Count)
-        {
             return;
-        }
 
-        Hero hero = MyHeroes[heroIndex];
+        HeroInfo hero = MyHeroes[heroIndex];
 
-        if (Deck.Count >= maxDeckSize)
-        {
+        if (Deck.Count >= maxDeckSize || Deck.Contains(hero))
             return;
-        }
-
-        if (Deck.Contains(hero))
-        {
-            return;
-        }
 
         Deck.Add(hero);
         RemoveHeroFromMyHeroes(hero);
         UpdateDeckSlots();
     }
+
     public void RemoveHeroFromDeck(int deckIndex)
     {
         if (deckIndex >= 0 && deckIndex < Deck.Count)
         {
-            Hero removedHero = Deck[deckIndex];
+            HeroInfo removedHero = Deck[deckIndex];
             Deck.RemoveAt(deckIndex);
             MyHeroes.Add(removedHero);
             UpdateDeckSlots();
             UpdateHeroSlots();
         }
     }
-    public void RemoveHeroFromMyHeroes(Hero hero)
+
+    public void RemoveHeroFromMyHeroes(HeroInfo hero)
     {
         MyHeroes.Remove(hero);
         UpdateHeroSlots();
+    }
+    public void ResetHeroData()
+    {
+        GameDataManager.instance.ResetHeroData();
+        LoadHeroesFromGameData();
+        UpdateHeroSlots();
+        UpdateDeckSlots();
     }
 }

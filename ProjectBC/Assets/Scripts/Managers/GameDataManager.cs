@@ -5,6 +5,7 @@ using System;
 using static DB;
 using static JsonHelper;
 using Unity.VisualScripting;
+using System.IO;
 
 public class GameDataManager : MonoBehaviour
 {
@@ -99,7 +100,11 @@ public class GameDataManager : MonoBehaviour
                 Debug.Log("SaveManager.LoadGame: " + _saveFilename + " json string: " + jsonString);
             }
         }
-
+        if (_playerInfo.heroes == null || _playerInfo.heroes.Count == 0)
+        {
+            Debug.Log("No heroes data found. Initializing with default heroes.");
+            InitializeDefaultHeroes();
+        }
         // 히어로 데이터 로드 (추가)
         if (FileManager.LoadFromFile("heroes_" + _saveFilename, out var heroesJsonString))
         {
@@ -110,7 +115,15 @@ public class GameDataManager : MonoBehaviour
                 Debug.Log("SaveManager.LoadGame: heroes_" + _saveFilename + " json string: " + heroesJsonString);
             }
         }
-
+        if (_playerInfo.heroes == null || _playerInfo.heroes.Count == 0)
+        {
+            Debug.Log("No heroes data found. Initializing with default heroes.");
+            InitializeDefaultHeroes();
+        }
+        else
+        {
+            Debug.Log($"Loaded {_playerInfo.heroes.Count} heroes from saved data.");
+        }
         // notify other game objects 
         if (_playerInfo != null)
         {
@@ -118,7 +131,15 @@ public class GameDataManager : MonoBehaviour
             HeroesUpdated?.Invoke(_playerInfo.heroes); // 추가
         }
     }
-
+    private void InitializeDefaultHeroes()
+    {
+        _playerInfo.heroes = new List<HeroInfo>
+    {
+        new HeroInfo("Warrior", HeroClass.Knight, CharacteristicType.MuscularStrength) { id = 1 },
+        new HeroInfo("Archer", HeroClass.Archer, CharacteristicType.Agility) { id = 2 },
+        // 추가 기본 히어로...
+    };
+    }
     public void SaveGame()
     {
         string jsonFile = _playerInfo.ToJson();
@@ -253,5 +274,29 @@ public class GameDataManager : MonoBehaviour
     public HeroInfo GetHero(int id)
     {
         return _playerInfo.heroes.Find(h => h.id == id);
+    }
+    public void InitializeAllHeroes()
+    {
+        _playerInfo.heroes.Clear();
+        _playerInfo.heroes.Add(new HeroInfo("Warrior", HeroClass.Knight, CharacteristicType.MuscularStrength) { id = 1 });
+        _playerInfo.heroes.Add(new HeroInfo("Archer", HeroClass.Archer, CharacteristicType.Agility) { id = 2 });
+        _playerInfo.heroes.Add(new HeroInfo("Wizard", HeroClass.Wizard, CharacteristicType.Intellect) { id = 3 });
+        _playerInfo.heroes.Add(new HeroInfo("Priest", HeroClass.Priest, CharacteristicType.Intellect) { id = 4 });
+    }
+    public void SaveHeroesToGameData()
+    {
+        SaveGame();
+    }
+    public void ResetHeroData()
+    {
+        _playerInfo.heroes.Clear();
+        string fullPath = Path.Combine(Application.persistentDataPath, "heroes_" + _saveFilename);
+        if (File.Exists(fullPath))
+        {
+            File.Delete(fullPath);
+        }
+        InitializeAllHeroes();  // InitializeDefaultHeroes() 대신
+        SaveHeroesToGameData();
+        HeroesUpdated?.Invoke(_playerInfo.heroes);
     }
 }
