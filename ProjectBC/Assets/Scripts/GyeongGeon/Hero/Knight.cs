@@ -54,6 +54,7 @@ public class Knight : Character, IDragHandler, IEndDragHandler, IBeginDragHandle
         Vector3 endPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         endPosition.z = 0;
         Vector3 nearestValidEndPosition = base.customTilemapManager.GetNearestValidPosition(endPosition);
+
         if (customTilemapManager.IsValidMovePosition(nearestValidEndPosition))
         {
             Vector3 start = customTilemapManager.GetNearestValidPosition(transform.position);
@@ -90,6 +91,7 @@ public class Knight : Character, IDragHandler, IEndDragHandler, IBeginDragHandle
         Vector3 endPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         endPosition.z = 0;
         base.nearestValidPosition = customTilemapManager.GetNearestValidPosition(endPosition);
+
         if (customTilemapManager.IsValidMovePosition(nearestValidPosition))
         {
             base.SetNewPath(nearestValidPosition);
