@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Device;
 using UnityEngine.UI;
 
-public class ScrollInventory : ItemContainer
+public class ScrollEquipment : ItemContainer
 {
     private int itemCapacity;
 

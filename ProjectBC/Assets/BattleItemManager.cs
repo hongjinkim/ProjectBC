@@ -4,32 +4,100 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static DB;
+using static UnityEditor.Progress;
+using Random = UnityEngine.Random;
 
+[Serializable]
+public class DropItem
+{
+    public string id;
+    public float dropRate;
+    public int value;
+    public GameObject droppedItemPrefab;
+
+    public DropItem(string id, float dropRate)
+    {
+        this.id = id;
+        this.dropRate = dropRate;
+    }
+}
 public class BattleItemManager : MonoBehaviour
 {
-    public ItemCollection itemCollection;
+
+    public List<DropItem> DropItems = new List<DropItem>();
+
+    public Sprite goldSprite;
+
     [SerializeField] private List<Item> droppedItems = new List<Item>();
+    [SerializeField] private List<GameObject> droppedPrefabs = new List<GameObject>();
+    [SerializeField] private int droppedGolds = 0;
 
     public event Action ItemPickUp;
 
+    [SerializeField] private float totalDropRate = 0;
+
     private void Awake()
     {
-       
+        
     }
     private void OnEnable()
     {
-
     }
-    public void OnDroppedEquipment(string id)
-    {
-        var item = new Item(id);
-        item = RandomStat(item);
 
-        droppedItems.Add(item);
+    public void GetDroppedItem(Transform transform)
+    {
+        if(totalDropRate == 0)
+        {
+            foreach (DropItem i in DropItems)
+            {
+                totalDropRate += i.dropRate;
+            }
+        }
+        float randomNumber = Random.value * totalDropRate;
+        float cumulativeRate = 0f;
+        foreach (DropItem i in DropItems)
+        {
+            cumulativeRate += i.dropRate;
+            if(randomNumber <= cumulativeRate)
+            {
+                if (i.id == "none")
+                    return;
+                else if(i.id == "gold")
+                {
+                    droppedGolds += i.value;
+
+                    SpriteRenderer renderer = i.droppedItemPrefab.GetComponent<SpriteRenderer>();
+                    renderer.sprite = goldSprite;
+                    // 추후 오브젝트 풇로 변경
+                    droppedPrefabs.Add(Instantiate(i.droppedItemPrefab, transform.position, Quaternion.identity));
+                }
+                else
+                {
+                    var item = new Item(i.id);
+                    item = RandomStat(item);
+
+                    droppedItems.Add(item);
+
+                    SpriteRenderer renderer = i.droppedItemPrefab.GetComponent<SpriteRenderer>();
+                    renderer.sprite = ItemCollection.active.GetItemIcon(item).sprite;
+                    // 추후 오브젝트 풇로 변경
+                    droppedPrefabs.Add(Instantiate(i.droppedItemPrefab, transform.position, Quaternion.identity));
+                }
+                return;
+            }
+        }
+        return;
+    }
+
+    public void OnDroppedEquipment(Item droppedItem)
+    {
+       
     }
 
     public void OnPickupItem()
     {
+        GameDataManager.instance.playerInfo.gold += droppedGolds;
+
         var inventory = GameDataManager.instance.playerInfo.items;
         foreach (Item item in droppedItems)
         {
@@ -53,8 +121,17 @@ public class BattleItemManager : MonoBehaviour
                 inventory.Add(item);
             }
         }
+
+        foreach(GameObject go in droppedPrefabs)
+        {
+            Destroy(go);
+        }
+
+        droppedGolds = 0;
         droppedItems.Clear();
+        droppedPrefabs.Clear();
         GameDataManager.instance.UpdateItem();
+        GameDataManager.instance.UpdateFunds();
     }
 
        
