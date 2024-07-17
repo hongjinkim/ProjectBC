@@ -28,6 +28,8 @@ public abstract class Character : MonoBehaviour, IBehavior
         left,
         Right
     }
+
+    public Dungeon dungeon;
     protected PlayerStat playerStat;
     private List<ISkill> skillList;
     private IObjectPool<DamageText> DamageTextPool;
@@ -68,6 +70,7 @@ public abstract class Character : MonoBehaviour, IBehavior
     public float fadeDuration = 1.0f;
 
     [Header("TileMap")]
+    public TilemapManagerGG tilemapManager;
     public CustomTilemapManagerGG customTilemapManager;
     public float updatePathInterval = 1f;
     private int currentPathIndex;
@@ -78,7 +81,7 @@ public abstract class Character : MonoBehaviour, IBehavior
     protected Vector3 nearestValidPosition;
     private List<Vector3> path;
 
-    private const float PositionTolerance = 0.1f;
+    private const float PositionTolerance = 0.13f;
     private const float PositionToleranceSquared = PositionTolerance * PositionTolerance;
 
     public Sprite Icon { get; protected set; }
@@ -103,8 +106,12 @@ public abstract class Character : MonoBehaviour, IBehavior
         {
             playerStat = gameObject.AddComponent<PlayerStat>();
         }
-        customTilemapManager = new CustomTilemapManagerGG(TilemapManagerGG.Instance, this);
-        //customTilemapManager.allCharacters.Add(this);
+        //customTilemapManager = new CustomTilemapManagerGG(tilemapManager, this);
+        customTilemapManager = gameObject.AddComponent<CustomTilemapManagerGG>();
+        customTilemapManager.Initialize(tilemapManager, this);
+
+        //dungeon._allCharacterList.Add(this);
+        //dungeon.DungeonInit();
         transform.position = customTilemapManager.GetNearestValidPosition(transform.position);
         StartCoroutine(AutoMoveCoroutine());
 
@@ -249,9 +256,9 @@ public abstract class Character : MonoBehaviour, IBehavior
         // 적을 찾을때 연산이 많아져서 느려질 수 있는 문제를 방지한다.
         findTimer += Time.deltaTime;
 
-        if(findTimer > GameManager.Instance.dungeonManager._findTimer)
+        if(findTimer > dungeon._findTimer)
         {
-            _target = GameManager.Instance.dungeonManager.GetTarget(this);
+            _target = dungeon.GetTarget(this);
 
             if(_target != null) SetState(UnitState.move);
             else SetState(UnitState.idle);
@@ -499,8 +506,9 @@ public abstract class Character : MonoBehaviour, IBehavior
             spriteRenderers[i].color = new Color(originalColors[i].r, originalColors[i].g, originalColors[i].b, 0.0f);
         }
 
+        dungeon._allCharacterList.Remove(this);
+        //Destroy(customTilemapManager);
         gameObject.SetActive(false);
-        Destroy(customTilemapManager);
     }
 
 
@@ -520,36 +528,40 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     void UpdatePath()
     {
-        GameObject closestObject = _target.gameObject;
-
-        if (closestObject != null)
+        if (_target != null)
         {
-            targetPosition = closestObject.transform.position;
-            currentPosition = customTilemapManager.GetNearestValidPosition(transform.position);
+            GameObject closestObject = _target.gameObject;
 
-            if ((currentPosition - targetPosition).sqrMagnitude > PositionToleranceSquared)
+            if (closestObject != null)
             {
-                List<Vector3> surroundingPositions = GetSurroundingPositions(targetPosition);
+                targetPosition = closestObject.transform.position;
+                currentPosition = customTilemapManager.GetNearestValidPosition(transform.position);
 
-                Vector3? bestPosition = FindBestPosition(surroundingPositions, currentPosition);
-
-                if (bestPosition.HasValue)
+                if ((currentPosition - targetPosition).sqrMagnitude > PositionToleranceSquared)
                 {
-                    SetNewPath(bestPosition.Value);
+                    List<Vector3> surroundingPositions = GetSurroundingPositions(targetPosition);
+
+                    Vector3? bestPosition = FindBestPosition(surroundingPositions, currentPosition);
+
+                    if (bestPosition.HasValue)
+                    {
+                        SetNewPath(bestPosition.Value);
+                    }
+                    else
+                    {
+                        path = null;
+                    }
                 }
                 else
                 {
+                    transform.position = currentPosition;
                     path = null;
                 }
             }
-            else
-            {
-                transform.position = currentPosition;
-                path = null;
-            }
+            
+            lastPathUpdateTime = Time.time;
         }
-        
-        lastPathUpdateTime = Time.time;
+
     }
 
     private List<Vector3> GetSurroundingPositions(Vector3 targetPosition)
@@ -626,7 +638,7 @@ public abstract class Character : MonoBehaviour, IBehavior
 
         if (path != null && path.Count > 0)
         {
-            TilemapManagerGG.Instance.SetDebugPath(path);
+            tilemapManager.SetDebugPath(path);
         }
     }
 

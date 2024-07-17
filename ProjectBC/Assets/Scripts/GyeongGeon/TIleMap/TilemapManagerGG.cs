@@ -4,44 +4,44 @@ using System.Collections.Generic;
 
 public class TilemapManagerGG : MonoBehaviour
 {
-    private static TilemapManagerGG _Instance;
-    public static TilemapManagerGG Instance
-    {
-        get
-        {
-            if (_Instance == null)
-            {
-                _Instance = FindObjectOfType<TilemapManagerGG>();
-            }
-            return _Instance;
-        }
-    }
+    // private static TilemapManagerGG _Instance;
+    // public static TilemapManagerGG Instance
+    // {
+    //     get
+    //     {
+    //         if (_Instance == null)
+    //         {
+    //             _Instance = FindObjectOfType<TilemapManagerGG>();
+    //         }
+    //         return _Instance;
+    //     }
+    // }
     public Tilemap tilemap;
     public List<Vector3> tileCenters = new List<Vector3>();
     public List<Vector3> currentPath;
 
-    private void Awake()
-    {
-        if (_Instance == null)
-        {
-            _Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else if (_Instance != this)
-        {
-            Destroy(gameObject);
-        }
-    }
+    // private void Awake()
+    // {
+    //     if (_Instance == null)
+    //     {
+    //         _Instance = this;
+    //         DontDestroyOnLoad(gameObject);
+    //     }
+    //     else if (_Instance != this)
+    //     {
+    //         Destroy(gameObject);
+    //     }
+    // }
 
-    void Start()
-    {
-        if (tilemap != null)
-        {
-            CalculateTileCenters();
-        }
-    }
+    // void Start()
+    // {
+    //     if (tilemap != null)
+    //     {
+    //         CalculateTileCenters();
+    //     }
+    // }
 
-    void CalculateTileCenters()
+    public void CalculateTileCenters()
     {
         BoundsInt bounds = tilemap.cellBounds;
 

@@ -100,7 +100,7 @@ public class Knight : Character, IDragHandler, IEndDragHandler, IBeginDragHandle
         if (playerStat.Energy >= 100)
         {
             playerStat.Energy = 0;
-            // ½ºÅ³ »ç¿ë ·ÎÁ÷...
+            // ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½...
         }
     }
 }

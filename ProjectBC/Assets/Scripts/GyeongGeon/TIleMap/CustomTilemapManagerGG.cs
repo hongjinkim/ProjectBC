@@ -5,7 +5,7 @@ public class CustomTilemapManagerGG : TilemapManagerGG
 {
     private TilemapManagerGG baseTilemapManager;
     private Character character;
-    private const float PositionTolerance = 0.1f;
+    private const float PositionTolerance = 0.15f;
     private const float PositionToleranceSquared = PositionTolerance * PositionTolerance;
     public List<Character> allCharacters;
 
@@ -14,6 +14,12 @@ public class CustomTilemapManagerGG : TilemapManagerGG
         this.baseTilemapManager = baseTilemapManager;
         this.character = character;
         //CacheCharacters();
+    }
+
+    public void Initialize(TilemapManagerGG baseTilemapManager, Character character)
+    {
+        this.baseTilemapManager = baseTilemapManager;
+        this.character = character;
     }
 
     private void CacheCharacters()
@@ -38,11 +44,11 @@ public class CustomTilemapManagerGG : TilemapManagerGG
 
     public override bool IsObstacle(Vector3 position)
     {
-        for (int i = 0; i < GameManager.Instance.dungeonManager._allCharacterList.Count; i++)
+        foreach (var otherCharacter in character.dungeon._allCharacterList)
         {
-            if (GameManager.Instance.dungeonManager._allCharacterList[i] != character)
+            if (otherCharacter != character)
             {
-                if ((GameManager.Instance.dungeonManager._allCharacterList[i].transform.position - position).sqrMagnitude < PositionToleranceSquared)
+                if ((otherCharacter.transform.position - position).sqrMagnitude < PositionToleranceSquared)
                 {
                     return true;
                 }
