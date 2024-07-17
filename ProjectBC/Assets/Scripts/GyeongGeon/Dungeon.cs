@@ -168,18 +168,4 @@ public class Dungeon : MonoBehaviour
         }
     }
 
-    public void AddHeroToBattlefield(Character hero)
-    {
-        if (hero != null)
-        {
-            _activeHeroList.Add(hero);
-            _allCharacterList.Add(hero);
-
-            hero.dungeon = this;
-            hero.tilemapManager = tilemapManager;
-
-            // 필요한 경우 추가 초기화
-            // hero.Initialize();
-        }
-    }
 }
