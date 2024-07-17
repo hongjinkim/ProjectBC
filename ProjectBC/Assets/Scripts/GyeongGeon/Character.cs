@@ -95,6 +95,8 @@ public abstract class Character : MonoBehaviour, IBehavior
     
     protected HeroSkills skills;
 
+    public bool autoMove;
+
     // 기존 Character 메서드와 Player에서 가져온 메서드 통합
     protected virtual void InitializeSkillBook() { }
     public virtual void IncreaseCharacteristic(float amount) { }
@@ -674,9 +676,16 @@ public abstract class Character : MonoBehaviour, IBehavior
 
                 SnapToNearestTileCenter();
 
-                StartCoroutine(WaitAndFindNewPath());
+                OnPathComplete();
             }
         }
+    }
+
+    protected virtual void OnPathComplete()
+    {
+        autoMove = true;  // 예시: 플레이어 제어 상태 해제
+        SetState(UnitState.idle);    // 상태를 idle로 변경
+        StartCoroutine(WaitAndFindNewPath());
     }
 
     private void SnapToNearestTileCenter()
