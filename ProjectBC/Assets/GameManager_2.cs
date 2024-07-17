@@ -26,7 +26,7 @@ public class GameManager_2 : MonoBehaviour
     [SerializeField] private GameObject HeroPrefab_3;
     [SerializeField] private GameObject HeroPrefab_4;
     [SerializeField] private Dictionary<int, GameObject> heroPrefabs = new Dictionary<int, GameObject>();
-    [SerializeField] private List<GameObject> HeroDeckPrefab = new List<GameObject>();
+    [SerializeField] public List<GameObject> HeroDeckPrefab = new List<GameObject>();
     [SerializeField] private List<GameObject> HeroDeckPrefabLive = new List<GameObject>();
 
     private void Awake()

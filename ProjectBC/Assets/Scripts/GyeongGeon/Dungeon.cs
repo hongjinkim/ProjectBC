@@ -36,29 +36,29 @@ public class Dungeon : MonoBehaviour
     {   
         tilemapManager.CalculateTileCenters();
         // 테스트용
-        SetHeroList();
+        //SetHeroList();
         SetEnemyList();
         DungeonInit();
     }
 
     // 테스트용
-    public List<Character> _heroPool = new List<Character>();
-    void SetHeroList()
-    {
-        for (var i = 0; i < _heroPool.Count; i++)
-        {
-            Character hero = Instantiate(_heroPool[i]);
+    //public List<Character> _heroPool = new List<Character>();
+    //void SetHeroList()
+    //{
+    //    for (var i = 0; i < _heroPool.Count; i++)
+    //    {
+    //        Character hero = Instantiate(_heroPool[i]);
 
-            _activeHeroList.Add(hero);
-            _allCharacterList.Add(hero);
+    //        _activeHeroList.Add(hero);
+    //        _allCharacterList.Add(hero);
 
-            _activeHeroList[i].gameObject.tag = "Hero";
+    //        _activeHeroList[i].gameObject.tag = "Hero";
 
-            // 추후에 마우스로 드래그해서 SetActive 하는걸로 변경해야함.
-            _activeHeroList[i].gameObject.SetActive(true);
-            //hero.customTilemapManager.allCharacters.Add(hero);
-        }
-    }
+    //        // 추후에 마우스로 드래그해서 SetActive 하는걸로 변경해야함.
+    //        _activeHeroList[i].gameObject.SetActive(true);
+    //        //hero.customTilemapManager.allCharacters.Add(hero);
+    //    }
+    //}
 
     void Update()
     {
