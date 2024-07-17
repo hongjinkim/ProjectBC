@@ -27,7 +27,7 @@ public class GameManager_2 : MonoBehaviour
     [SerializeField] private GameObject HeroPrefab_4;
     [SerializeField] private Dictionary<int, GameObject> heroPrefabs = new Dictionary<int, GameObject>();
     [SerializeField] public List<GameObject> HeroDeckPrefab = new List<GameObject>();
-    [SerializeField] private List<GameObject> HeroDeckPrefabLive = new List<GameObject>();
+    [SerializeField] private List<GameObject> HeroDeckPrefabLive = new List<GameObject>(); // 4개로 제한
 
     private void Awake()
     {
@@ -35,7 +35,6 @@ public class GameManager_2 : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-            InitializeHeroPrefabs();
         }
         else if (instance != this)
         {
@@ -60,20 +59,17 @@ public class GameManager_2 : MonoBehaviour
         heroPrefabs.Clear();
         if (heroManager != null && heroManager.AllHeroes != null)
         {
-            for (int i = 0; i < heroManager.AllHeroes.Count; i++)
+            GameObject[] prefabArray = { HeroPrefab_1, HeroPrefab_2, HeroPrefab_3, HeroPrefab_4 };
+            for (int i = 0; i < heroManager.AllHeroes.Count && i < prefabArray.Length; i++)
             {
-                GameObject prefab = null;
-                switch (i)
-                {
-                    case 0: prefab = HeroPrefab_1; break;
-                    case 1: prefab = HeroPrefab_2; break;
-                    case 2: prefab = HeroPrefab_3; break;
-                    case 3: prefab = HeroPrefab_4; break;
-                }
-
+                GameObject prefab = prefabArray[i];
                 if (prefab != null)
                 {
-                    heroPrefabs[heroManager.AllHeroes[i].id] = prefab;
+                    int heroId = heroManager.AllHeroes[i].id;
+                    GameObject instance = Instantiate(prefab);
+                    instance.SetActive(false);
+                    heroPrefabs[heroId] = prefab;
+                    Debug.Log($"Added hero prefab. ID: {heroId}, Prefab name: {prefab.name}");
                 }
             }
         }

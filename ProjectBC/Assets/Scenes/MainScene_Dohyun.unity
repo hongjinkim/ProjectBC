@@ -1150,6 +1150,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CaveEntrance
       objectReference: {fileID: 0}
+    - target: {fileID: 5979102240574889804, guid: 9c22726814fdfb84e8e586a6adabade3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6957733164149466437, guid: 9c22726814fdfb84e8e586a6adabade3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -11365,7 +11369,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 367464652999288938, guid: f434736121df6e648a40c2ba388f026d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1417243620041174319, guid: f434736121df6e648a40c2ba388f026d, type: 3}
       propertyPath: m_TagString
@@ -14870,6 +14874,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  HeroDeckPrefabLive: []
 --- !u!4 &1832320692
 Transform:
   m_ObjectHideFlags: 0
@@ -15726,7 +15731,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7858580071494584065, guid: 871d95b17ee14c64bae0e2cf16b10a4d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7981873026576980590, guid: 871d95b17ee14c64bae0e2cf16b10a4d, type: 3}
       propertyPath: _heroPool.Array.size
