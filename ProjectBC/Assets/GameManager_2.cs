@@ -26,7 +26,8 @@ public class GameManager_2 : MonoBehaviour
     [SerializeField] private GameObject HeroPrefab_3;
     [SerializeField] private GameObject HeroPrefab_4;
     [SerializeField] private Dictionary<int, GameObject> heroPrefabs = new Dictionary<int, GameObject>();
-    public GameObject[] HeroDeckPrefab = new GameObject[4];
+    [SerializeField] private List<GameObject> HeroDeckPrefab = new List<GameObject>();
+    [SerializeField] private List<GameObject> HeroDeckPrefabLive = new List<GameObject>();
 
     private void Awake()
     {
@@ -87,15 +88,30 @@ public class GameManager_2 : MonoBehaviour
         //        GameObject instance = Instantiate(prefab, position, Quaternion.identity);
         //    }
         //}
-        if (slotIndex >= 0 && slotIndex < HeroDeckPrefab.Length && HeroDeckPrefab[slotIndex] != null)
+        //if (slotIndex >= 0 && slotIndex < HeroDeckPrefab.Length && HeroDeckPrefab[slotIndex] != null)
+        //{
+        //    GameObject instance = Instantiate(HeroDeckPrefab[slotIndex], position, Quaternion.identity);
+        //}
+
+        if (slotIndex >= 0 && slotIndex < HeroDeckPrefab.Count && HeroDeckPrefab[slotIndex] != null)
         {
             GameObject instance = Instantiate(HeroDeckPrefab[slotIndex], position, Quaternion.identity);
-        }
-        else
-        {
-            Debug.LogWarning($"No hero prefab found at slot index: {slotIndex}");
-        }
+            Character hero = instance.GetComponent<Character>();
+            if (hero != null)
+            {
+                hero.gameObject.tag = "Hero";
+                hero.gameObject.SetActive(true);
 
+                // 던전 매니저를 찾아 영웅을 추가합니다.
+                Dungeon dungeon = FindObjectOfType<Dungeon>();
+                if (dungeon != null)
+                {
+                    dungeon.AddHeroToBattlefield(hero);
+                }
+
+            }
+
+        }
     }
 
     public GameObject GetHeroPrefab(int id)
