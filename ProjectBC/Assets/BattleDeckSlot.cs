@@ -20,9 +20,11 @@ public class BattleDeckSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IBeg
     private RectTransform rectTransform;
     private Camera mainCamera;
 
+    // /////////
+    [SerializeField] private int slotIndex;
+
     private void Awake()
     {
-        Debug.Log($"BattleDeckSlot Awake: {gameObject.name}");
         InitializeComponents();
         mainCamera = Camera.main;
     }
@@ -40,11 +42,12 @@ public class BattleDeckSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IBeg
     }
 
 
-    public void SetHeroData(HeroManager.Hero hero)
+    public void SetHeroData(HeroManager.Hero hero, int index)
     {
+        slotIndex = index;
+
         if (hero != null)
         {
-            Debug.Log($"Setting hero data. ID: {hero.id}, Name: {hero.name}");
             id = hero.id;
             heroName = hero.name;
             level = hero.level;
@@ -57,10 +60,12 @@ public class BattleDeckSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IBeg
                 heroImage.enabled = true;
             }
             gameObject.SetActive(true);
+
+            // ΩΩ∑‘¿« ¿Œµ¶Ω∫∏¶ ¿˙¿Â
+            slotIndex = index;
         }
         else
         {
-            Debug.LogWarning("Attempting to set null hero data.");
             ClearSlot();
         }
     }
@@ -83,7 +88,6 @@ public class BattleDeckSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IBeg
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log($"OnBeginDrag called for BattleDeckSlot: {gameObject.name}, Hero ID: {id}");
         if (id == 0) return;
 
         originalPosition = rectTransform.position;
@@ -99,7 +103,6 @@ public class BattleDeckSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IBeg
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log($"OnEndDrag called for BattleDeckSlot: {gameObject.name}, Hero ID: {id}");
         if (id == 0) return;
 
         rectTransform.position = originalPosition;
@@ -111,32 +114,21 @@ public class BattleDeckSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IBeg
 
     private void HandleDrop(PointerEventData eventData)
     {
-        Debug.Log($"HandleDrop called for BattleDeckSlot: {gameObject.name}, Hero ID: {id}");
-
         Vector2 worldPoint = mainCamera.ScreenToWorldPoint(eventData.position);
         RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
 
         if (hit.collider != null)
         {
-            Debug.Log($"Raycast hit: {hit.collider.gameObject.name}, Tag: {hit.collider.gameObject.tag}");
-
             Tilemap tilemap = hit.collider.GetComponent<Tilemap>();
             if (tilemap != null && hit.collider.CompareTag("BattleField"))
             {
                 Vector3Int cellPosition = tilemap.WorldToCell(hit.point);
                 Vector3 cellCenter = tilemap.GetCellCenterWorld(cellPosition);
 
-                Debug.Log($"Valid drop target found: {hit.collider.gameObject.name} at cell {cellPosition}");
-                GameManager_2.Instance.CreateHeroPrefabAtPosition(cellCenter, id);
+                GameManager_2.Instance.CreateHeroPrefabAtPosition(cellCenter, slotIndex);
             }
-            else
-            {
-                Debug.Log("Hit object is not a tagged Tilemap.");
-            }
+
         }
-        else
-        {
-            Debug.Log("No valid drop target found. Prefab not created.");
-        }
+
     }
 }

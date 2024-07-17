@@ -26,6 +26,7 @@ public class GameManager_2 : MonoBehaviour
     [SerializeField] private GameObject HeroPrefab_3;
     [SerializeField] private GameObject HeroPrefab_4;
     [SerializeField] private Dictionary<int, GameObject> heroPrefabs = new Dictionary<int, GameObject>();
+    public GameObject[] HeroDeckPrefab = new GameObject[4];
 
     private void Awake()
     {
@@ -44,9 +45,13 @@ public class GameManager_2 : MonoBehaviour
     private void Start()
     {
         heroManager = FindObjectOfType<HeroManager>();
-
-
         Invoke("InitializeHeroPrefabs", 0.1f);
+
+        // 초기 덱 상태 반영
+        for (int i = 0; i < heroManager.Deck.Count; i++)
+        {
+            UpdateHeroDeckPrefab(i, heroManager.Deck[i].id);
+        }
     }
 
     private void InitializeHeroPrefabs()
@@ -73,16 +78,24 @@ public class GameManager_2 : MonoBehaviour
         }
     }
 
-    public void CreateHeroPrefabAtPosition(Vector3 position, int heroId)
+    public void CreateHeroPrefabAtPosition(Vector3 position, int slotIndex)
     {
-        if (heroPrefabs.TryGetValue(heroId, out GameObject prefab))
+        //if (heroPrefabs.TryGetValue(heroId, out GameObject prefab))
+        //{
+        //    if (prefab != null)
+        //    {
+        //        GameObject instance = Instantiate(prefab, position, Quaternion.identity);
+        //    }
+        //}
+        if (slotIndex >= 0 && slotIndex < HeroDeckPrefab.Length && HeroDeckPrefab[slotIndex] != null)
         {
-            if (prefab != null)
-            {
-                GameObject instance = Instantiate(prefab, position, Quaternion.identity);
-            }
-
+            GameObject instance = Instantiate(HeroDeckPrefab[slotIndex], position, Quaternion.identity);
         }
+        else
+        {
+            Debug.LogWarning($"No hero prefab found at slot index: {slotIndex}");
+        }
+
     }
 
     public GameObject GetHeroPrefab(int id)
@@ -97,5 +110,17 @@ public class GameManager_2 : MonoBehaviour
     public List<int> GetAllHeroIds()
     {
         return new List<int>(heroPrefabs.Keys);
+    }
+
+
+
+    ///
+
+    public void UpdateHeroDeckPrefab(int index, int heroId)
+    {
+        if (heroPrefabs.TryGetValue(heroId, out GameObject prefab))
+        {
+            HeroDeckPrefab[index] = prefab;
+        }
     }
 }

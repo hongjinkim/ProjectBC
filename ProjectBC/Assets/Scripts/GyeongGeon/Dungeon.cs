@@ -28,6 +28,10 @@ public class Dungeon : MonoBehaviour
     public List<Item> _ItemList = new List<Item>();
     public List<Character> _activeHeroList = new List<Character>();
 
+    private void Awake()
+    {
+
+    }
     void Start()
     {   
         tilemapManager.CalculateTileCenters();

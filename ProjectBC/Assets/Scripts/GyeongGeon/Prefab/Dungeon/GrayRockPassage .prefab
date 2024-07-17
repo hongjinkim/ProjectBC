@@ -48,18 +48,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvasPrefab: {fileID: 7443810908536921684, guid: a5a9b68bd9b0d6d4994338c01a3b9136, type: 3}
   canvas: {fileID: 0}
-  _dungeonList: []
-  _heroPool:
-  - {fileID: 6719724232351885715, guid: 0bc8621fae777ee4d92557c5fd70e1a9, type: 3}
-  _enemyPool:
-  - {fileID: 7141519928834900317, guid: fd5d84088134ca8439cea19433f5dee8, type: 3}
-  _activeHeroList: []
-  _activeEnemyList: []
-  _allCharacterList: []
-  _findTimer: 0.1
-  enemyQuantity: 7
-  spawnAreaMin: {x: 0, y: 0}
-  spawnAreaMax: {x: 0, y: 0}
+  _allDungeonList: []
+  _selectDungeonList: []
 --- !u!114 &6645916851249444840
 MonoBehaviour:
   m_ObjectHideFlags: 0
