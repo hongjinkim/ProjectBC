@@ -4,32 +4,33 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     [Header("Menu Screens")]
-    [SerializeField] GameObject _campScreen;
-    [SerializeField] GameObject _exploreScreen;
-    [SerializeField] GameObject _battleScreen;
-    [SerializeField] GameObject _heroScreen;
-    [SerializeField] GameObject _inventoryScreen;
+    [SerializeField] MenuScreen _campScreen;
+    [SerializeField] MenuScreen _exploreScreen;
+    [SerializeField] MenuScreen _battleScreen;
+    [SerializeField] MenuScreen _heroScreen;
+    [SerializeField] MenuScreen _inventoryScreen;
 
     [Header("Toolbars")]
-    [SerializeField] GameObject _playerInfoBar;
-    [SerializeField] GameObject _menuBar;
+    [SerializeField] MenuScreen _playerInfoBar;
+    [SerializeField] MenuScreen _menuBar;
 
     [Header("Full-screen overlays")]
 
 
-    List<GameObject> _allScreens = new List<GameObject>();
+    List<MenuScreen> _allScreens = new List<MenuScreen>();
 
     
 
     void OnEnable()
     {
         SetupScreens();
-        ShowHomeScreen();
+        
     }
 
     void Start()
     {
         Time.timeScale = 1f;
+        ShowHomeScreen();
     }
 
     void SetupScreens()
@@ -51,12 +52,11 @@ public class UIManager : MonoBehaviour
     }
 
     // shows one screen at a time
-    void ShowScreen(GameObject screen)
+    void ShowScreen(MenuScreen screen)
     {
-        foreach (GameObject go in _allScreens)
+        foreach (MenuScreen m in _allScreens)
         {
-            MenuScreen m = go.GetComponent<MenuScreen>();
-            if (go == screen)
+            if (m == screen)
             {
                 m?.ShowScreen();
             }
@@ -98,6 +98,22 @@ public class UIManager : MonoBehaviour
     public void ShowInventoryScreen()
     {
         ShowScreen(_inventoryScreen);
+    }
+
+    public void TogglePlayerInfo(bool onOff)
+    {
+        if (onOff)
+            _playerInfoBar.ShowScreen();
+        else
+            _playerInfoBar.HideScreen();
+    }
+
+    public void ToggleMenuBar(bool onOff)
+    {
+        if (onOff)
+            _menuBar.ShowScreen();
+        else
+            _menuBar.HideScreen();
     }
 
     // overlay screen methods

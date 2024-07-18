@@ -16,7 +16,7 @@ public class PlayerInfo
     public int itemCapacity;
 
     [Header("Hero")]
-    
+    public List<HeroInfo> heroes = new List<HeroInfo>();
     [Header("PlayerInfo")]
     public string username;
     public int battlePoint;
@@ -48,7 +48,15 @@ public class PlayerInfo
 
         InitInventory();
     }
-
+    public string HeroesToJson()
+    {
+        return JsonUtility.ToJson(new SerializableList<HeroInfo> { list = heroes });
+    }
+    public void LoadHeroesFromJson(string json)
+    {
+        SerializableList<HeroInfo> loadedHeroes = JsonUtility.FromJson<SerializableList<HeroInfo>>(json);
+        heroes = loadedHeroes.list;
+    }
     // 디버깅 용 초기 인벤토리 상태 만들기
     private void InitInventory()
     {
@@ -66,4 +74,8 @@ public class PlayerInfo
     }
 }
 
-
+[System.Serializable]
+public class SerializableList<T>
+{
+    public List<T> list;
+}

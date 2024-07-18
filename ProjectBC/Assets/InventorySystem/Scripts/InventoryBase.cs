@@ -138,7 +138,7 @@ public class InventoryBase : ItemWorkspace
     public void SelectItem(Item item)
     {
         SelectedItem = item;
-        ItemInfo.Initialize(SelectedItem, SelectedItem.Params.Price);
+        ItemInfo.Initialize(SelectedItem);
         Refresh();
     }
 

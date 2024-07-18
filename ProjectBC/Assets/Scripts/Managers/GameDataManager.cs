@@ -6,7 +6,6 @@ using static DB;
 using static JsonHelper;
 using Unity.VisualScripting;
 
-
 public class GameDataManager : MonoBehaviour
 {
     [SerializeField] private string savePath;
@@ -19,7 +18,6 @@ public class GameDataManager : MonoBehaviour
 
     [SerializeField] private string _saveFilename = "savegame.dat";
 
-
     [SerializeField] private bool _debugValues;
     [SerializeField] private bool _resetGame;
 
@@ -30,28 +28,25 @@ public class GameDataManager : MonoBehaviour
 
     public static event Action<PlayerInfo> GameDataLoaded;
 
-
     //characterData Event
-
-
 
     //itemData Event
     public static event Action ItemUpdated;
+
+    // Hero Event (추가)
+    public static event Action<List<HeroInfo>> HeroesUpdated;
 
     // private class
     [SerializeField] PlayerInfo _playerInfo;
     public PlayerInfo playerInfo { set => _playerInfo = value; get => _playerInfo; }
     public ItemCollection itemCollection;
 
-
     [SerializeField] public CharacterBaseData[] characterBaseData;
 
     [SerializeField] public ItemBaseData[] equipmentBaseData;
     [SerializeField] public ItemBaseData[] itemBaseData;
 
-
     [SerializeField] public EquipmentStatData[] equipmentStatData;
-
 
     void OnApplicationQuit()
     {
@@ -105,21 +100,37 @@ public class GameDataManager : MonoBehaviour
             }
         }
 
+        // 히어로 데이터 로드 (추가)
+        if (FileManager.LoadFromFile("heroes_" + _saveFilename, out var heroesJsonString))
+        {
+            _playerInfo.LoadHeroesFromJson(heroesJsonString);
+
+            if (_debugValues)
+            {
+                Debug.Log("SaveManager.LoadGame: heroes_" + _saveFilename + " json string: " + heroesJsonString);
+            }
+        }
+
         // notify other game objects 
         if (_playerInfo != null)
         {
             GameDataLoaded?.Invoke(_playerInfo);
+            HeroesUpdated?.Invoke(_playerInfo.heroes); // 추가
         }
     }
 
     public void SaveGame()
     {
         string jsonFile = _playerInfo.ToJson();
+        string heroesJson = _playerInfo.HeroesToJson(); // 추가
 
         // save to disk with FileDataHandler
-        if (FileManager.WriteToFile(_saveFilename, jsonFile) && _debugValues)
+        if (FileManager.WriteToFile(_saveFilename, jsonFile) &&
+            FileManager.WriteToFile("heroes_" + _saveFilename, heroesJson) && // 추가
+            _debugValues)
         {
             Debug.Log("SaveManager.SaveGame: " + _saveFilename + " json string: " + jsonFile);
+            Debug.Log("SaveManager.SaveGame: heroes_" + _saveFilename + " json string: " + heroesJson); // 추가
         }
     }
 
@@ -170,7 +181,6 @@ public class GameDataManager : MonoBehaviour
             ItemUpdated?.Invoke();
     }
 
-
     private void LoadDatas()
     {
         characterBaseData = LoadArrayJson<CharacterBaseData>("CharacterBaseData.json");
@@ -186,7 +196,7 @@ public class GameDataManager : MonoBehaviour
     private void MakeItemCollection()
     {
         itemCollection.items.Clear();
-        foreach(ItemBaseData data in equipmentBaseData)
+        foreach (ItemBaseData data in equipmentBaseData)
         {
             itemCollection.items.Add(MakeItem(data));
         }
@@ -194,14 +204,12 @@ public class GameDataManager : MonoBehaviour
         {
             itemCollection.items.Add(MakeItem(data));
         }
-
     }
 
     private ItemParams MakeItem(ItemBaseData data)
     {
         return new ItemParams
         {
-
             Id = data.Id,
             Level = data.Level,
             Rarity = data.Rarity,
@@ -218,4 +226,32 @@ public class GameDataManager : MonoBehaviour
         };
     }
 
+    // 히어로 관련 메서드 (추가)
+    public List<HeroInfo> GetAllHeroes()
+    {
+        return _playerInfo.heroes;
+    }
+
+    public void AddHero(HeroInfo hero)
+    {
+        _playerInfo.heroes.Add(hero);
+        SaveGame();
+        HeroesUpdated?.Invoke(_playerInfo.heroes);
+    }
+
+    public void UpdateHero(HeroInfo hero)
+    {
+        int index = _playerInfo.heroes.FindIndex(h => h.id == hero.id);
+        if (index != -1)
+        {
+            _playerInfo.heroes[index] = hero;
+            SaveGame();
+            HeroesUpdated?.Invoke(_playerInfo.heroes);
+        }
+    }
+
+    public HeroInfo GetHero(int id)
+    {
+        return _playerInfo.heroes.Find(h => h.id == id);
+    }
 }

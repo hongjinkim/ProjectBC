@@ -5,6 +5,8 @@ using UnityEngine;
 [Serializable]
 public class HeroInfo
 {
+    public int id; // 추가
+    public List<string> equippedItemIds = new List<string>(); // 추가
     public string heroName;
     public HeroClass heroClass;
     public CharacteristicType characteristicType;
