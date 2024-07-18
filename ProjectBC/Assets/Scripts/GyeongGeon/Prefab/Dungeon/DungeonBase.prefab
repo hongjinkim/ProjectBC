@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6957733164149466437}
   - component: {fileID: 36730298540627907}
   m_Layer: 0
-  m_Name: CaveEntrance
+  m_Name: DungeonBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,18 +46,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemapManager: {fileID: 3661293764983430123}
-  _themeCode: A
-  _themeName: "\uD68C\uC0C9 \uBC14\uC704 \uC0B0\uB9C8\uB8E8"
-  _stageCode: A1
+  _themeCode: 
+  _themeName: 
+  _stageCode: 
   _findTimer: 0.1
   _enemyQuantity: 2
   _activeEnemyList: []
   _allCharacterList: []
-  _stageName: "\uB3D9\uAD74 \uC785\uAD6C"
+  _stageName: 
   _stageImage: {fileID: 0}
   _navigationProgress: 0
-  _enemyPool:
-  - {fileID: 7141519928834900317, guid: fd5d84088134ca8439cea19433f5dee8, type: 3}
+  _enemyPool: []
   _ItemList: []
   _activeHeroList: []
   LootTable:
@@ -68,11 +67,6 @@ MonoBehaviour:
     droppedItemPrefab: {fileID: 6398687339744348316, guid: 78836114cce56cf4191abc5b2ca58fad, type: 3}
   - id: gold
     dropRate: 80
-    minValue: 10
-    maxValue: 20
-    droppedItemPrefab: {fileID: 0}
-  - id: WarriorHelmet
-    dropRate: 10
     minValue: 0
     maxValue: 0
     droppedItemPrefab: {fileID: 0}
