@@ -60,7 +60,6 @@ MonoBehaviour:
   - {fileID: 7141519928834900317, guid: fd5d84088134ca8439cea19433f5dee8, type: 3}
   _ItemList: []
   _activeHeroList: []
-  _heroPool: []
 --- !u!1 &1417243620041174319
 GameObject:
   m_ObjectHideFlags: 0
@@ -73,9 +72,10 @@ GameObject:
   - component: {fileID: 5659562063243527710}
   - component: {fileID: 2910213148775303585}
   - component: {fileID: 113672306218411718}
+  - component: {fileID: 7595786241833226846}
   m_Layer: 0
   m_Name: Tilemap2
-  m_TagString: Untagged
+  m_TagString: BattleField
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -821,6 +821,42 @@ MonoBehaviour:
   tilemap: {fileID: 5659562063243527710}
   tileCenters: []
   currentPath: []
+--- !u!19719996 &7595786241833226846
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417243620041174319}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
+  m_UseDelaunayMesh: 0
 --- !u!1 &7434845575308712842
 GameObject:
   m_ObjectHideFlags: 0

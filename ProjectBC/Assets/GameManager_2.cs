@@ -20,6 +20,7 @@ public class GameManager_2 : MonoBehaviour
 
     private DungeonManager dungeonManager;
     private HeroManager heroManager;
+    private int maxDeckSize = 4;
 
     [SerializeField] private GameObject HeroPrefab_1;
     [SerializeField] private GameObject HeroPrefab_2;
@@ -44,6 +45,8 @@ public class GameManager_2 : MonoBehaviour
 
     private void Start()
     {
+        HeroDeckPrefab = new List<GameObject>(new GameObject[maxDeckSize]);
+
         heroManager = FindObjectOfType<HeroManager>();
         Invoke("InitializeHeroPrefabs", 0.1f);
 
