@@ -70,7 +70,7 @@ public class Knight : Character, IDragHandler, IEndDragHandler, IBeginDragHandle
 
         lineRenderer.positionCount = 0;
 
-        autoMove = false;
+        //autoMove = false;
     }
 
     private void DrawPath(List<Vector3> pathToDraw)

@@ -814,7 +814,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1431654455691587676}
-  - component: {fileID: 9170944537414857617}
   - component: {fileID: 7981873026576980590}
   m_Layer: 0
   m_Name: StoneHenge
@@ -839,22 +838,6 @@ Transform:
   - {fileID: 1245120759601545495}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9170944537414857617
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7858580071494584065}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f5d425daf6a98646bbb7a735cce7ef4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvasPrefab: {fileID: 7443810908536921684, guid: a5a9b68bd9b0d6d4994338c01a3b9136, type: 3}
-  canvas: {fileID: 0}
-  _allDungeonList: []
-  _selectDungeonList: []
 --- !u!114 &7981873026576980590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -875,12 +858,11 @@ MonoBehaviour:
   _enemyQuantity: 4
   _activeEnemyList: []
   _allCharacterList: []
-  _stageName: "\uB3D9\uAD74 \uC785\uAD6C"
+  _stageName: "\uC2A4\uD1A4 \uD5E8\uC9C0"
   _stageImage: {fileID: 0}
   _navigationProgress: 0
   _enemyPool:
   - {fileID: 7141519928834900317, guid: fd5d84088134ca8439cea19433f5dee8, type: 3}
   _ItemList: []
   _activeHeroList: []
-  _heroPool:
-  - {fileID: 6719724232351885715, guid: 0bc8621fae777ee4d92557c5fd70e1a9, type: 3}
+  _heroPool: []
