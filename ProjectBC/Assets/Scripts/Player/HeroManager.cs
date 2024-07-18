@@ -142,4 +142,13 @@ public class HeroManager : MonoBehaviour
         MyHeroes.Remove(hero);
         UpdateHeroSlots();
     }
+
+    public int GetHeroIdFromDeckSlot(int slotIndex)
+    {
+        if (slotIndex >= 0 && slotIndex < Deck.Count)
+        {
+            return Deck[slotIndex].id;
+        }
+        return -1; // 유효하지 않은 ID
+    }
 }

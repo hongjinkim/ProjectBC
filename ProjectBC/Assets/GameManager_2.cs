@@ -71,48 +71,82 @@ public class GameManager_2 : MonoBehaviour
                     int heroId = heroManager.AllHeroes[i].id;
                     GameObject instance = Instantiate(prefab);
                     instance.SetActive(false);
-                    heroPrefabs[heroId] = prefab;
+                    heroPrefabs[heroId] = instance;
                     Debug.Log($"Added hero prefab. ID: {heroId}, Prefab name: {prefab.name}");
                 }
             }
         }
     }
 
+    //public void CreateHeroPrefabAtPosition(Vector3 position, int slotIndex)
+    //{
+    //    //if (heroPrefabs.TryGetValue(heroId, out GameObject prefab))
+    //    //{
+    //    //    if (prefab != null)
+    //    //    {
+    //    //        GameObject instance = Instantiate(prefab, position, Quaternion.identity);
+    //    //    }
+    //    //}
+    //    //if (slotIndex >= 0 && slotIndex < HeroDeckPrefab.Length && HeroDeckPrefab[slotIndex] != null)
+    //    //{
+    //    //    GameObject instance = Instantiate(HeroDeckPrefab[slotIndex], position, Quaternion.identity);
+    //    //}
+
+    //    if (slotIndex >= 0 && slotIndex < HeroDeckPrefab.Count && HeroDeckPrefab[slotIndex] != null)
+    //    {
+    //        GameObject instance = Instantiate(HeroDeckPrefab[slotIndex], position, Quaternion.identity);
+    //        Character hero = instance.GetComponent<Character>();
+    //        if (hero != null)
+    //        {
+    //            hero.gameObject.tag = "Hero";
+    //            hero.gameObject.SetActive(true);
+
+    //            // 던전 매니저를 찾아 영웅을 추가합니다.
+
+    //            Dungeon dd = GameManager.Instance.dungeonManager._selectDungeon;
+
+    //            //Dungeon dungeon = FindObjectOfType<Dungeon>();
+    //            if (dd != null)
+    //            {
+    //                dd.AddHeroToBattlefield(hero);
+    //            }
+
+    //        }
+
+    //    }
+    //}
+
     public void CreateHeroPrefabAtPosition(Vector3 position, int slotIndex)
     {
-        //if (heroPrefabs.TryGetValue(heroId, out GameObject prefab))
-        //{
-        //    if (prefab != null)
-        //    {
-        //        GameObject instance = Instantiate(prefab, position, Quaternion.identity);
-        //    }
-        //}
-        //if (slotIndex >= 0 && slotIndex < HeroDeckPrefab.Length && HeroDeckPrefab[slotIndex] != null)
-        //{
-        //    GameObject instance = Instantiate(HeroDeckPrefab[slotIndex], position, Quaternion.identity);
-        //}
-
         if (slotIndex >= 0 && slotIndex < HeroDeckPrefab.Count && HeroDeckPrefab[slotIndex] != null)
         {
-            GameObject instance = Instantiate(HeroDeckPrefab[slotIndex], position, Quaternion.identity);
-            Character hero = instance.GetComponent<Character>();
-            if (hero != null)
+            int heroId = heroManager.GetHeroIdFromDeckSlot(slotIndex);
+            if (heroPrefabs.TryGetValue(heroId, out GameObject heroInstance))
             {
-                hero.gameObject.tag = "Hero";
-                hero.gameObject.SetActive(true);
+                heroInstance.transform.position = position;
+                heroInstance.transform.rotation = Quaternion.identity;
+                heroInstance.SetActive(true);
 
-                // 던전 매니저를 찾아 영웅을 추가합니다.
-
-                Dungeon dd = GameManager.Instance.dungeonManager._selectDungeon;
-
-                //Dungeon dungeon = FindObjectOfType<Dungeon>();
-                if (dd != null)
+                Character hero = heroInstance.GetComponent<Character>();
+                if (hero != null)
                 {
-                    dd.AddHeroToBattlefield(hero);
+                    hero.gameObject.tag = "Hero";
+
+                    Dungeon dd = GameManager.Instance.dungeonManager._selectDungeon;
+                    if (dd != null)
+                    {
+                        dd.AddHeroToBattlefield(hero);
+                    }
+                    else
+                    {
+                        Debug.LogWarning("No dungeon selected. Hero not added to battlefield.");
+                    }
                 }
-
             }
-
+            else
+            {
+                Debug.LogError($"Hero instance with ID {heroId} not found in heroPrefabs dictionary.");
+            }
         }
     }
 
