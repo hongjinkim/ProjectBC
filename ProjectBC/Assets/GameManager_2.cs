@@ -102,10 +102,13 @@ public class GameManager_2 : MonoBehaviour
                 hero.gameObject.SetActive(true);
 
                 // 던전 매니저를 찾아 영웅을 추가합니다.
-                Dungeon dungeon = FindObjectOfType<Dungeon>();
-                if (dungeon != null)
+
+                Dungeon dd = GameManager.Instance.dungeonManager._selectDungeon;
+
+                //Dungeon dungeon = FindObjectOfType<Dungeon>();
+                if (dd != null)
                 {
-                    dungeon.AddHeroToBattlefield(hero);
+                    dd.AddHeroToBattlefield(hero);
                 }
 
             }

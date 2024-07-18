@@ -1214,7 +1214,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 548133375}
         m_TargetAssemblyTypeName: DungeonManager, Assembly-CSharp
         m_MethodName: SelectDungeon
         m_Mode: 3
@@ -1602,7 +1602,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 548133375}
         m_TargetAssemblyTypeName: DungeonManager, Assembly-CSharp
         m_MethodName: SelectDungeon
         m_Mode: 3
@@ -5342,6 +5342,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 548133374}
+  - component: {fileID: 548133375}
   m_Layer: 0
   m_Name: DungeonManager
   m_TagString: Untagged
@@ -5364,6 +5365,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &548133375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 548133372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f5d425daf6a98646bbb7a735cce7ef4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasPrefab: {fileID: 7443810908536921684, guid: a5a9b68bd9b0d6d4994338c01a3b9136, type: 3}
+  canvas: {fileID: 0}
+  _allDungeonPrefabList:
+  - {fileID: 36730298540627907, guid: 9c22726814fdfb84e8e586a6adabade3, type: 3}
+  - {fileID: 6645916851249444840, guid: f434736121df6e648a40c2ba388f026d, type: 3}
+  - {fileID: 7981873026576980590, guid: 871d95b17ee14c64bae0e2cf16b10a4d, type: 3}
+  _allDungeonList: []
+  _themeList: []
+  popupManager: {fileID: 533163067}
+  _selectDungeon: {fileID: 36730298540627907, guid: 9c22726814fdfb84e8e586a6adabade3, type: 3}
 --- !u!1 &579946625
 GameObject:
   m_ObjectHideFlags: 0
@@ -8679,7 +8702,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 548133375}
         m_TargetAssemblyTypeName: DungeonManager, Assembly-CSharp
         m_MethodName: SelectDungeon
         m_Mode: 3
@@ -10619,7 +10642,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 548133375}
         m_TargetAssemblyTypeName: DungeonManager, Assembly-CSharp
         m_MethodName: EnterDungeon
         m_Mode: 1
@@ -13413,7 +13436,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 548133375}
         m_TargetAssemblyTypeName: DungeonManager, Assembly-CSharp
         m_MethodName: OpenAdventurePopup
         m_Mode: 5
@@ -17835,7 +17858,6 @@ GameObject:
   - component: {fileID: 1832320692}
   - component: {fileID: 1832320691}
   - component: {fileID: 1832320693}
-  - component: {fileID: 1832320694}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -17894,28 +17916,6 @@ MonoBehaviour:
   heroSlotsParent: {fileID: 789209289}
   deckSlotsParent: {fileID: 1371405663}
   battleDeckSlotsParent: {fileID: 214274760}
---- !u!114 &1832320694
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1832320690}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f5d425daf6a98646bbb7a735cce7ef4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvasPrefab: {fileID: 7443810908536921684, guid: a5a9b68bd9b0d6d4994338c01a3b9136, type: 3}
-  canvas: {fileID: 0}
-  _allDungeonPrefabList:
-  - {fileID: 36730298540627907, guid: 9c22726814fdfb84e8e586a6adabade3, type: 3}
-  - {fileID: 6645916851249444840, guid: f434736121df6e648a40c2ba388f026d, type: 3}
-  - {fileID: 7981873026576980590, guid: 871d95b17ee14c64bae0e2cf16b10a4d, type: 3}
-  _allDungeonList: []
-  _themeList: []
-  popupManager: {fileID: 533163067}
-  _selectDungeon: {fileID: 36730298540627907, guid: 9c22726814fdfb84e8e586a6adabade3, type: 3}
 --- !u!1 &1833881100
 GameObject:
   m_ObjectHideFlags: 0
