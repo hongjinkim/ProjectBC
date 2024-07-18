@@ -10,6 +10,7 @@ public class DungeonManager : MonoBehaviour
     public List<Dungeon> _allDungeonList = new List<Dungeon>();
     public List<Dungeon> _themeList = new List<Dungeon>();
 
+    public PopupManager popupManager;
     public Dungeon _selectDungeon;
 
     private void Awake()
@@ -22,6 +23,7 @@ public class DungeonManager : MonoBehaviour
     private void Start()
     {
         ArrangeDungeon();
+        _selectDungeon = _allDungeonList[0];
     }
 
     public void ArrangeDungeon()
@@ -51,9 +53,11 @@ public class DungeonManager : MonoBehaviour
             }
         }
 
-        PopupManager.Instance.InitAdventurePopup(_themeList);
+        popupManager.InitAdventurePopup(_themeList);
 
-        PopupManager.Instance.adventurePopup.SetActive(true);
+        SelectDungeon(0);
+
+        popupManager.adventurePopup.SetActive(true);
     }
 
     public void SelectDungeon(int index)
@@ -63,11 +67,11 @@ public class DungeonManager : MonoBehaviour
 
     public void EnterDungeon()
     {
-        PopupManager.Instance.ChangeCameraPos(_selectDungeon.transform.position);
+        popupManager.ChangeCameraPos(_selectDungeon.transform.position);
         
-        PopupManager.Instance.ExitPopup(PopupManager.Instance.adventurePopup);
+        popupManager.ExitPopup(popupManager.adventurePopup);
 
-        PopupManager.Instance.uiManager.ShowBattleScreen();
+        popupManager.uiManager.ShowBattleScreen();
     }
 
     // void SetUnitList()

@@ -18,8 +18,8 @@ public class UIManager : MonoBehaviour
 
 
     List<MenuScreen> _allScreens = new List<MenuScreen>();
-
     
+    Camera mainCamera;
 
     void OnEnable()
     {
@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         Time.timeScale = 1f;
+        mainCamera = Camera.main;
         ShowHomeScreen();
     }
 
@@ -72,32 +73,38 @@ public class UIManager : MonoBehaviour
     public void ShowHomeScreen()
     {
         ShowScreen(_campScreen);
+        ResetCameraPos();
     }
 
 
     public void ShowCampScreen()
     {
         ShowScreen(_campScreen);
+        ResetCameraPos();
     }
 
     public void ShowExploreScreen()
     {
         ShowScreen(_exploreScreen);
+        ResetCameraPos();
     }
 
     public void ShowBattleScreen()
     {
         ShowScreen(_battleScreen);
+        GameManager.Instance.dungeonManager.popupManager.ChangeCameraPos( GameManager.Instance.dungeonManager._selectDungeon.transform.position);
     }
 
     public void ShowHeroScreen()
     {
         ShowScreen(_heroScreen);
+        ResetCameraPos();
     }
 
     public void ShowInventoryScreen()
     {
         ShowScreen(_inventoryScreen);
+        ResetCameraPos();
     }
 
     public void TogglePlayerInfo(bool onOff)
@@ -114,6 +121,11 @@ public class UIManager : MonoBehaviour
             _menuBar.ShowScreen();
         else
             _menuBar.HideScreen();
+    }
+
+    public void ResetCameraPos()
+    {
+        mainCamera.transform.position = new Vector3(0, 0, -10);
     }
 
     // overlay screen methods

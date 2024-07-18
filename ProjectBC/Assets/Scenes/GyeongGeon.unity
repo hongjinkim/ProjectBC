@@ -2187,10 +2187,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2758a6ce233f9846a656b8f7bfb7061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllHeroes: []
   MyHeroes: []
   Deck: []
   heroSlotsParent: {fileID: 1175976786}
   deckSlotsParent: {fileID: 341860701}
+  battleDeckSlotsParent: {fileID: 0}
 --- !u!1 &137587831
 GameObject:
   m_ObjectHideFlags: 0
@@ -8538,6 +8540,7 @@ MonoBehaviour:
   - {fileID: 7981873026576980590, guid: 871d95b17ee14c64bae0e2cf16b10a4d, type: 3}
   _allDungeonList: []
   _themeList: []
+  popupManager: {fileID: 1778595061}
   _selectDungeon: {fileID: 36730298540627907, guid: 9c22726814fdfb84e8e586a6adabade3, type: 3}
 --- !u!4 &895449489
 Transform:
@@ -12547,7 +12550,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1263394608}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d033c589886a75c45a5ef49a709e3f05, type: 3}
   m_Name: 
@@ -17804,13 +17807,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4298377134adc664c9a797048849d2f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _campScreen: {fileID: 480132896}
-  _exploreScreen: {fileID: 48765759}
-  _battleScreen: {fileID: 1977782727}
-  _heroScreen: {fileID: 332041483}
-  _inventoryScreen: {fileID: 1263394608}
-  _playerInfoBar: {fileID: 1349138106}
-  _menuBar: {fileID: 85620485}
+  _campScreen: {fileID: 480132899}
+  _exploreScreen: {fileID: 48765761}
+  _battleScreen: {fileID: 1977782728}
+  _heroScreen: {fileID: 332041484}
+  _inventoryScreen: {fileID: 1263394610}
+  _playerInfoBar: {fileID: 1349138108}
+  _menuBar: {fileID: 85620486}
 --- !u!1001 &1727798166
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24063,10 +24066,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2758a6ce233f9846a656b8f7bfb7061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllHeroes: []
   MyHeroes: []
   Deck: []
   heroSlotsParent: {fileID: 0}
   deckSlotsParent: {fileID: 8683243473050597536}
+  battleDeckSlotsParent: {fileID: 0}
 --- !u!114 &5718329096352905282
 MonoBehaviour:
   m_ObjectHideFlags: 0
