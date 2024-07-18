@@ -8462,6 +8462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1028afab79bc7234eb12bcc269042b9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dungeon: {fileID: 0}
   Parts:
   - {fileID: 6166663987673742008}
   - {fileID: 8698162157694872607}
@@ -8494,10 +8495,12 @@ MonoBehaviour:
   fadeObject: {fileID: 5602860693455878160}
   spriteRenderers: []
   fadeDuration: 2
+  tilemapManager: {fileID: 0}
   customTilemapManager: {fileID: 0}
   updatePathInterval: 1
   currentExp: 0
   needexp: 0
+  autoMove: 0
   _heroClass: 0
   isSelected: 0
 --- !u!1 &5603650666556835841
