@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class HeroManager : MonoBehaviour
@@ -17,7 +18,7 @@ public class HeroManager : MonoBehaviour
 
     public List<Hero> AllHeroes = new List<Hero>();
     [SerializeField] private List<Hero> MyHeroes = new List<Hero>();
-    [SerializeField] private List<Hero> Deck = new List<Hero>();
+    [SerializeField] public List<Hero> Deck = new List<Hero>();
     [SerializeField] private Transform heroSlotsParent;
     [SerializeField] private Transform deckSlotsParent;
     [SerializeField] private Transform battleDeckSlotsParent;
@@ -28,11 +29,12 @@ public class HeroManager : MonoBehaviour
 
     private void Awake()
     {
-        InitializeSlots();
+
     }
 
     private void Start()
     {
+        InitializeSlots();
         InitializeAllHeroes();
         InitializeMyHeroes();
         UpdateHeroSlots();
@@ -91,7 +93,7 @@ public class HeroManager : MonoBehaviour
         for (int i = 0; i < battleDeckSlots.Length; i++)
         {
             if (i < Deck.Count)
-                battleDeckSlots[i].SetHeroData(Deck[i]);
+                battleDeckSlots[i].SetHeroData(Deck[i], i);
             else
                 battleDeckSlots[i].ClearSlot();
         }
@@ -107,7 +109,11 @@ public class HeroManager : MonoBehaviour
         MyHeroes.RemoveAt(heroIndex);
         UpdateHeroSlots();
         UpdateDeckSlots();
+
+        // GameManager_2의 HeroDeckPrefab 업데이트
+        GameManager_2.Instance.UpdateHeroDeckPrefab(Deck.Count - 1, hero.id);
     }
+
     public void RemoveHeroFromDeck(int deckIndex)
     {
         if (deckIndex < 0 || deckIndex >= Deck.Count)
@@ -118,10 +124,32 @@ public class HeroManager : MonoBehaviour
         Deck.RemoveAt(deckIndex);
         UpdateHeroSlots();
         UpdateDeckSlots();
+
+        // GameManager_2의 HeroDeckPrefab 업데이트
+        for (int i = deckIndex; i < maxDeckSize; i++)
+        {
+            if (i < Deck.Count)
+            {
+                GameManager_2.Instance.UpdateHeroDeckPrefab(i, Deck[i].id);
+            }
+            else
+            {
+                GameManager_2.Instance.HeroDeckPrefab[i] = null;
+            }
+        }
     }
     public void RemoveHeroFromMyHeroes(Hero hero)
     {
         MyHeroes.Remove(hero);
         UpdateHeroSlots();
+    }
+
+    public int GetHeroIdFromDeckSlot(int slotIndex)
+    {
+        if (slotIndex >= 0 && slotIndex < Deck.Count)
+        {
+            return Deck[slotIndex].id;
+        }
+        return -1; // 유효하지 않은 ID
     }
 }

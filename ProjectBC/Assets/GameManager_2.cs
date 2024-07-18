@@ -20,12 +20,14 @@ public class GameManager_2 : MonoBehaviour
 
     private DungeonManager dungeonManager;
     private HeroManager heroManager;
+    private int maxDeckSize = 4;
 
     [SerializeField] private GameObject HeroPrefab_1;
     [SerializeField] private GameObject HeroPrefab_2;
     [SerializeField] private GameObject HeroPrefab_3;
     [SerializeField] private GameObject HeroPrefab_4;
     [SerializeField] private Dictionary<int, GameObject> heroPrefabs = new Dictionary<int, GameObject>();
+    public List<GameObject> HeroDeckPrefab = new List<GameObject>();
 
     private void Awake()
     {
@@ -33,7 +35,6 @@ public class GameManager_2 : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-            InitializeHeroPrefabs();
         }
         else if (instance != this)
         {
@@ -43,10 +44,16 @@ public class GameManager_2 : MonoBehaviour
 
     private void Start()
     {
+        HeroDeckPrefab = new List<GameObject>(new GameObject[maxDeckSize]);
+
         heroManager = FindObjectOfType<HeroManager>();
-
-
         Invoke("InitializeHeroPrefabs", 0.1f);
+
+        // 초기 덱 상태 반영
+        for (int i = 0; i < heroManager.Deck.Count; i++)
+        {
+            UpdateHeroDeckPrefab(i, heroManager.Deck[i].id);
+        }
     }
 
     private void InitializeHeroPrefabs()
@@ -54,34 +61,83 @@ public class GameManager_2 : MonoBehaviour
         heroPrefabs.Clear();
         if (heroManager != null && heroManager.AllHeroes != null)
         {
-            for (int i = 0; i < heroManager.AllHeroes.Count; i++)
+            GameObject[] prefabArray = { HeroPrefab_1, HeroPrefab_2, HeroPrefab_3, HeroPrefab_4 };
+            for (int i = 0; i < heroManager.AllHeroes.Count && i < prefabArray.Length; i++)
             {
-                GameObject prefab = null;
-                switch (i)
-                {
-                    case 0: prefab = HeroPrefab_1; break;
-                    case 1: prefab = HeroPrefab_2; break;
-                    case 2: prefab = HeroPrefab_3; break;
-                    case 3: prefab = HeroPrefab_4; break;
-                }
-
+                GameObject prefab = prefabArray[i];
                 if (prefab != null)
                 {
-                    heroPrefabs[heroManager.AllHeroes[i].id] = prefab;
+                    int heroId = heroManager.AllHeroes[i].id;
+                    GameObject instance = Instantiate(prefab);
+                    instance.SetActive(false);
+                    heroPrefabs[heroId] = instance;
+                    Debug.Log($"Added hero prefab. ID: {heroId}, Prefab name: {prefab.name}");
                 }
             }
         }
     }
 
-    public void CreateHeroPrefabAtPosition(Vector3 position, int heroId)
-    {
-        if (heroPrefabs.TryGetValue(heroId, out GameObject prefab))
-        {
-            if (prefab != null)
-            {
-                GameObject instance = Instantiate(prefab, position, Quaternion.identity);
-            }
+    //public void CreateHeroPrefabAtPosition(Vector3 position, int slotIndex)
+    //{
+    //    //if (heroPrefabs.TryGetValue(heroId, out GameObject prefab))
+    //    //{
+    //    //    if (prefab != null)
+    //    //    {
+    //    //        GameObject instance = Instantiate(prefab, position, Quaternion.identity);
+    //    //    }
+    //    //}
+    //    //if (slotIndex >= 0 && slotIndex < HeroDeckPrefab.Length && HeroDeckPrefab[slotIndex] != null)
+    //    //{
+    //    //    GameObject instance = Instantiate(HeroDeckPrefab[slotIndex], position, Quaternion.identity);
+    //    //}
 
+    //    if (slotIndex >= 0 && slotIndex < HeroDeckPrefab.Count && HeroDeckPrefab[slotIndex] != null)
+    //    {
+    //        GameObject instance = Instantiate(HeroDeckPrefab[slotIndex], position, Quaternion.identity);
+    //        Character hero = instance.GetComponent<Character>();
+    //        if (hero != null)
+    //        {
+    //            hero.gameObject.tag = "Hero";
+    //            hero.gameObject.SetActive(true);
+
+    //            // 던전 매니저를 찾아 영웅을 추가합니다.
+
+    //            Dungeon dd = GameManager.Instance.dungeonManager._selectDungeon;
+
+    //            //Dungeon dungeon = FindObjectOfType<Dungeon>();
+    //            if (dd != null)
+    //            {
+    //                dd.AddHeroToBattlefield(hero);
+    //            }
+
+    //        }
+
+    //    }
+    //}
+
+    public void CreateHeroPrefabAtPosition(Vector3 position, int slotIndex)
+    {
+        if (slotIndex >= 0 && slotIndex < HeroDeckPrefab.Count && HeroDeckPrefab[slotIndex] != null)
+        {
+            int heroId = heroManager.GetHeroIdFromDeckSlot(slotIndex);
+            if (heroPrefabs.TryGetValue(heroId, out GameObject heroInstance))
+            {
+                heroInstance.transform.position = position;
+                heroInstance.transform.rotation = Quaternion.identity;
+                heroInstance.SetActive(true);
+
+                Character hero = heroInstance.GetComponent<Character>();
+                if (hero != null)
+                {
+                    hero.gameObject.tag = "Hero";
+
+                    Dungeon dd = GameManager.Instance.dungeonManager._selectDungeon;
+                    if (dd != null)
+                    {
+                        dd.AddHeroToBattlefield(hero);
+                    }
+                }
+            }
         }
     }
 
@@ -97,5 +153,17 @@ public class GameManager_2 : MonoBehaviour
     public List<int> GetAllHeroIds()
     {
         return new List<int>(heroPrefabs.Keys);
+    }
+
+
+
+    ///
+
+    public void UpdateHeroDeckPrefab(int index, int heroId)
+    {
+        if (heroPrefabs.TryGetValue(heroId, out GameObject prefab))
+        {
+            HeroDeckPrefab[index] = prefab;
+        }
     }
 }
