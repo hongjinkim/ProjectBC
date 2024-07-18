@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -8,8 +10,10 @@ public class Loot
 {
     public string id;
     public float dropRate;
-    public int value;
+    public int minValue;
+    public int maxValue;
     public GameObject droppedItemPrefab;
+
 }
 public class Dungeon : MonoBehaviour
 {
@@ -46,6 +50,11 @@ public class Dungeon : MonoBehaviour
     [SerializeField] private float totalDropRate = 0;
     public GameObject lootPrefab;
 
+    [Header("popup")]
+    private Transform grid;
+    public GameObject textPrefab;
+    [SerializeField] private float fadeDuration = 2.0f;
+
     private void OnEnable()
     {
         
@@ -70,6 +79,8 @@ public class Dungeon : MonoBehaviour
         SetEnemyList();
         DungeonInit();
         InvokeRepeating("OnPickupItem", 0f, 5f);
+
+        grid = GameDataManager.instance.noticeTransform;
     }
 
     // 테스트용
@@ -263,7 +274,7 @@ public class Dungeon : MonoBehaviour
                     return;
                 else if (i.id == "gold")
                 {
-                    droppedGolds += i.value;
+                    droppedGolds += Random.Range(i.minValue, i.maxValue);
 
                     SpriteRenderer renderer = i.droppedItemPrefab.GetComponent<SpriteRenderer>();
                     renderer.sprite = goldSprite;
@@ -290,8 +301,14 @@ public class Dungeon : MonoBehaviour
 
     public void OnPickupItem()
     {
-        GameDataManager.instance.playerInfo.gold += droppedGolds;
+        //골드 획득
+        if(droppedGolds > 0)
+        {
+            GameDataManager.instance.playerInfo.gold += droppedGolds;
+            StartCoroutine(PickupNotice(droppedGolds.ToString() + " 골드를 획득 했습니다."));
+        }
 
+        // 아이템 획득
         var inventory = GameDataManager.instance.playerInfo.items;
         foreach (Item item in droppedItems)
         {
@@ -308,19 +325,25 @@ public class Dungeon : MonoBehaviour
                     }
                 }
                 if (!hasItem)
+                {
+                    StartCoroutine(PickupNotice(item.id + "을(를) 획득 했습니다"));
                     inventory.Add(item);
+                }
+                
             }
             else
             {
+                StartCoroutine(PickupNotice(item.id + "을(를) 획득 했습니다"));
                 inventory.Add(item);
             }
         }
-
+        // 필드 위애 아이템 표시 모두 제거
         foreach (GameObject go in droppedPrefabs)
         {
             Destroy(go);
         }
 
+        //
         droppedGolds = 0;
         droppedItems.Clear();
         droppedPrefabs.Clear();
@@ -339,5 +362,37 @@ public class Dungeon : MonoBehaviour
             };
         }
         return item;
+    }
+
+    IEnumerator PickupNotice(string text)
+    {
+
+        var go = Instantiate(textPrefab, grid);
+        var _text = go.GetComponent<TextMeshProUGUI>();
+        var spriteRenderer = go.GetComponent<SpriteRenderer>();
+
+        _text.text = text;
+
+        yield return new WaitForSeconds(2f);
+
+        //float elapsedTime = 0f;
+
+        //var originalColor = spriteRenderer.color;
+
+        //while (elapsedTime < fadeDuration)
+        //{
+        //    elapsedTime += Time.deltaTime;
+        //    float alpha = Mathf.Lerp(1.0f, 0.0f, elapsedTime / fadeDuration);
+
+        //    Color newColor = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+        //    spriteRenderer.color = newColor;
+  
+
+        //    yield return null;
+        //}
+
+        // 페이드 아웃이 완료되면 게임 오브젝트 제거
+        Destroy(go);
+        yield return new WaitForSeconds(0.1f);
     }
 }

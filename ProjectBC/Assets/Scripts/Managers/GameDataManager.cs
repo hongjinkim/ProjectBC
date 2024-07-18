@@ -48,6 +48,8 @@ public class GameDataManager : MonoBehaviour
 
     [SerializeField] public EquipmentStatData[] equipmentStatData;
 
+    public Transform noticeTransform;
+
     void OnApplicationQuit()
     {
         SaveGame();
