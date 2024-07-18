@@ -14,7 +14,7 @@ public class Loot
 public class Dungeon : MonoBehaviour
 {
     [Header("BasicInformation")]
-    public TilemapManagerGG tilemapManager;
+    //public TilemapManagerGG tilemapManager;
     public string _themeCode;
     public string _themeName;
     public string _stageCode;
@@ -64,7 +64,7 @@ public class Dungeon : MonoBehaviour
     }
     void Start()
     {   
-        tilemapManager.CalculateTileCenters();
+        //tilemapManager.CalculateTileCenters();
         // 테스트용
         //SetHeroList();
         SetEnemyList();
@@ -101,7 +101,7 @@ public class Dungeon : MonoBehaviour
         foreach (var character in _allCharacterList)
         {
             character.dungeon = this;
-            character.tilemapManager = tilemapManager;
+            //character.tilemapManager = tilemapManager;
         }
     }
 
@@ -209,7 +209,7 @@ public class Dungeon : MonoBehaviour
             _allCharacterList.Add(hero);
 
             hero.dungeon = this;
-            hero.tilemapManager = tilemapManager;
+            //hero.tilemapManager = tilemapManager;
 
             // 필요한 경우 추가 초기화
             // hero.Initialize();
