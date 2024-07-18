@@ -11369,7 +11369,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 367464652999288938, guid: f434736121df6e648a40c2ba388f026d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1417243620041174319, guid: f434736121df6e648a40c2ba388f026d, type: 3}
       propertyPath: m_TagString
@@ -15731,7 +15731,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7858580071494584065, guid: 871d95b17ee14c64bae0e2cf16b10a4d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7981873026576980590, guid: 871d95b17ee14c64bae0e2cf16b10a4d, type: 3}
       propertyPath: _heroPool.Array.size
@@ -17680,51 +17680,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2688839496518315863, guid: 3057751c73b84ab40b0fe099653c0236, type: 3}
   m_PrefabInstance: {fileID: 2088155085}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2095619359
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2095619361}
-  - component: {fileID: 2095619360}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2095619360
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2095619359}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5a388c6e50c77b4d86f3237bf45e26a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dungeonManager: {fileID: 0}
---- !u!4 &2095619361
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2095619359}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2108266749
 GameObject:
   m_ObjectHideFlags: 0
@@ -24624,4 +24579,3 @@ SceneRoots:
   - {fileID: 1875507951}
   - {fileID: 1452461549}
   - {fileID: 110427182}
-  - {fileID: 2095619361}
