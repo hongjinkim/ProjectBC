@@ -1,43 +1,73 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class DungeonManager : MonoBehaviour
 {
     public Canvas canvasPrefab;
     public Canvas canvas;
 
+    public List<Dungeon> _allDungeonPrefabList = new List<Dungeon>();
     public List<Dungeon> _allDungeonList = new List<Dungeon>();
-    public List<Dungeon> _selectDungeonList = new List<Dungeon>();
+    public List<Dungeon> _themeList = new List<Dungeon>();
+
+    public Dungeon _selectDungeon;
 
     private void Awake()
     {
         GameManager.Instance.dungeonManager = this;
 
         canvas = Instantiate(canvasPrefab);
-        Camera mainCamera = Camera.main;
     }
 
     private void Start()
     {
-
+        ArrangeDungeon();
     }
 
-    private void Update() 
+    public void ArrangeDungeon()
     {
+        float xOffset = 6.0f;
+        float spacing = 6.0f;
+
+        foreach (var dungeon in _allDungeonPrefabList)
+        {
+            Dungeon dungeonInstance = Instantiate(dungeon, new Vector3(xOffset, 0, 0), Quaternion.identity);
+            xOffset += spacing;
+
+            _allDungeonList.Add(dungeonInstance);
+        }
+        
     }
 
-    void InitDungeonList(string code)
+    public void OpenAdventurePopup(string _themeCode)
     {
-        _selectDungeonList.Clear();
+        _themeList.Clear();
 
         foreach (var dungeon in _allDungeonList)
         {
-            if (dungeon._themeCode.Equals(code))
+            if (dungeon._themeCode.Equals(_themeCode) && !_themeList.Contains(dungeon))
             {
-                _selectDungeonList.Add(dungeon);
+                _themeList.Add(dungeon);
             }
         }
+
+        PopupManager.Instance.InitAdventurePopup(_themeList);
+
+        PopupManager.Instance.adventurePopup.SetActive(true);
+    }
+
+    public void SelectDungeon(int index)
+    {
+        _selectDungeon = _themeList[index];
+    }
+
+    public void EnterDungeon()
+    {
+        PopupManager.Instance.ChangeCameraPos(_selectDungeon.transform.position);
+        
+        PopupManager.Instance.ExitPopup(PopupManager.Instance.adventurePopup);
+
+        PopupManager.Instance.uiManager.ShowBattleScreen();
     }
 
     // void SetUnitList()

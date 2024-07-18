@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8103679271381771616}
-  - component: {fileID: 8558692025416284167}
   - component: {fileID: 6645916851249444840}
   m_Layer: 0
   m_Name: 'GrayRockPassage '
@@ -34,32 +33,6 @@ Transform:
   - {fileID: 4631727366326395560}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8558692025416284167
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 367464652999288938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f5d425daf6a98646bbb7a735cce7ef4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvasPrefab: {fileID: 7443810908536921684, guid: a5a9b68bd9b0d6d4994338c01a3b9136, type: 3}
-  canvas: {fileID: 0}
-  _dungeonList: []
-  _heroPool:
-  - {fileID: 6719724232351885715, guid: 0bc8621fae777ee4d92557c5fd70e1a9, type: 3}
-  _enemyPool:
-  - {fileID: 7141519928834900317, guid: fd5d84088134ca8439cea19433f5dee8, type: 3}
-  _activeHeroList: []
-  _activeEnemyList: []
-  _allCharacterList: []
-  _findTimer: 0.1
-  enemyQuantity: 7
-  spawnAreaMin: {x: 0, y: 0}
-  spawnAreaMax: {x: 0, y: 0}
 --- !u!114 &6645916851249444840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,8 +60,7 @@ MonoBehaviour:
   - {fileID: 7141519928834900317, guid: fd5d84088134ca8439cea19433f5dee8, type: 3}
   _ItemList: []
   _activeHeroList: []
-  _heroPool:
-  - {fileID: 6719724232351885715, guid: 0bc8621fae777ee4d92557c5fd70e1a9, type: 3}
+  _heroPool: []
 --- !u!1 &1417243620041174319
 GameObject:
   m_ObjectHideFlags: 0
