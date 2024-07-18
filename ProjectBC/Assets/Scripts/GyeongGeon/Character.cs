@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -97,6 +98,8 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     public bool autoMove;
 
+
+
     // 기존 Character 메서드와 Player에서 가져온 메서드 통합
     protected virtual void InitializeSkillBook() { }
     public virtual void IncreaseCharacteristic(float amount) { }
@@ -124,8 +127,9 @@ public abstract class Character : MonoBehaviour, IBehavior
     {
         CheckState();
 
-        if(currentHealth <= 0)
+        if(currentHealth <= 0 && _unitState != UnitState.death)
         {
+            SetState(UnitState.death);
             Die();
         }
     }
@@ -172,7 +176,7 @@ public abstract class Character : MonoBehaviour, IBehavior
         }
     }
 
-    public void Die()
+    public virtual void Die()
     {
         // switch (gameObject.tag)
         // {
@@ -184,11 +188,12 @@ public abstract class Character : MonoBehaviour, IBehavior
         //         break;
         // }
 
-        SetState(UnitState.death);
+       
         //gameObject.SetActive(false);
         InitFadeEffect();
         StartCoroutine(FadeOut());
     }
+    
 
     public bool Alive()
     {

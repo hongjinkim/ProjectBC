@@ -1,4 +1,4 @@
-public class Dragon : Character
+public class Dragon : Enemy
 {
     public string Stage;
 

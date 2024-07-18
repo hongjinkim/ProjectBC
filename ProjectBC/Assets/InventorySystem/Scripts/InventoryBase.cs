@@ -143,10 +143,10 @@ public class InventoryBase : ItemWorkspace
         Initialize(CrystalInventory, ref crystal);
 
 
-        Initialize(WeaponInventory, ref weapon);
-        Initialize(HelemtInventory, ref helmet);
-        Initialize(ArmorInventory, ref armor);
-        Initialize(BootsInventory, ref boots);
+        //Initialize(WeaponInventory, ref weapon);
+        //Initialize(HelemtInventory, ref helmet);
+        //Initialize(ArmorInventory, ref armor);
+        //Initialize(BootsInventory, ref boots);
 
     }
 

@@ -1,6 +1,16 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
+[Serializable]
+public class Loot
+{
+    public string id;
+    public float dropRate;
+    public int value;
+    public GameObject droppedItemPrefab;
+}
 public class Dungeon : MonoBehaviour
 {
     [Header("BasicInformation")]
@@ -23,13 +33,34 @@ public class Dungeon : MonoBehaviour
     public int _navigationProgress;
 
     [Header("UI_StageInformation")]
-    public List<Character> _enemyPool = new List<Character>();
+    public List<Enemy> _enemyPool = new List<Enemy>();
     public List<Item> _ItemList = new List<Item>();
     public List<Character> _activeHeroList = new List<Character>();
 
+    [Header("Item Loot System")]
+    public List<Loot> LootTable = new List<Loot>();
+    public Sprite goldSprite;
+    [SerializeField] private List<Item> droppedItems = new List<Item>();
+    [SerializeField] private List<GameObject> droppedPrefabs = new List<GameObject>();
+    [SerializeField] private int droppedGolds = 0;
+    [SerializeField] private float totalDropRate = 0;
+    public GameObject lootPrefab;
+
+    private void OnEnable()
+    {
+        
+    }
+    private void OnDisable()
+    {
+        
+    }
+
     private void Awake()
     {
-
+        foreach(Loot loot in LootTable)
+        {
+            loot.droppedItemPrefab = lootPrefab;
+        }
     }
     void Start()
     {   
@@ -38,6 +69,7 @@ public class Dungeon : MonoBehaviour
         //SetHeroList();
         SetEnemyList();
         DungeonInit();
+        InvokeRepeating("OnPickupItem", 0f, 5f);
     }
 
     // 테스트용
@@ -153,7 +185,7 @@ public class Dungeon : MonoBehaviour
         for(var i = 0; i < _enemyQuantity; i++)
         {
             _randomEnemyIndex = Random.Range(0, _enemyPool.Count);
-            Character enemy = Instantiate(_enemyPool[_randomEnemyIndex]);
+            Enemy enemy = Instantiate(_enemyPool[_randomEnemyIndex]);
 
             _activeEnemyList.Add(enemy);
             _allCharacterList.Add(enemy);
@@ -209,4 +241,103 @@ public class Dungeon : MonoBehaviour
         }
     }
 
+
+    /// Loot System
+    public void GetDroppedItem(Transform transform)
+    {
+        if (totalDropRate == 0)
+        {
+            foreach (Loot i in LootTable)
+            {
+                totalDropRate += i.dropRate;
+            }
+        }
+        float randomNumber = Random.value * totalDropRate;
+        float cumulativeRate = 0f;
+        foreach (Loot i in LootTable)
+        {
+            cumulativeRate += i.dropRate;
+            if (randomNumber <= cumulativeRate)
+            {
+                if (i.id == "none")
+                    return;
+                else if (i.id == "gold")
+                {
+                    droppedGolds += i.value;
+
+                    SpriteRenderer renderer = i.droppedItemPrefab.GetComponent<SpriteRenderer>();
+                    renderer.sprite = goldSprite;
+                    // 추후 오브젝트 풇로 변경
+                    droppedPrefabs.Add(Instantiate(i.droppedItemPrefab, transform.position, Quaternion.identity));
+                }
+                else
+                {
+                    var item = new Item(i.id);
+                    item = RandomStat(item);
+
+                    droppedItems.Add(item);
+
+                    SpriteRenderer renderer = i.droppedItemPrefab.GetComponent<SpriteRenderer>();
+                    renderer.sprite = ItemCollection.active.GetItemIcon(item).sprite;
+                    // 추후 오브젝트 풇로 변경
+                    droppedPrefabs.Add(Instantiate(i.droppedItemPrefab, transform.position, Quaternion.identity));
+                }
+                return;
+            }
+        }
+        return;
+    }
+
+    public void OnPickupItem()
+    {
+        GameDataManager.instance.playerInfo.gold += droppedGolds;
+
+        var inventory = GameDataManager.instance.playerInfo.items;
+        foreach (Item item in droppedItems)
+        {
+            if (item.Params.Type == ItemType.Usable || item.Params.Type == ItemType.Material || item.Params.Type == ItemType.Crystal)
+            {
+                bool hasItem = false;
+                foreach (Item _item in inventory)
+                {
+                    if (item.Params.Id == _item.Params.Id)
+                    {
+                        _item.Count++;
+                        hasItem = true;
+                        break;
+                    }
+                }
+                if (!hasItem)
+                    inventory.Add(item);
+            }
+            else
+            {
+                inventory.Add(item);
+            }
+        }
+
+        foreach (GameObject go in droppedPrefabs)
+        {
+            Destroy(go);
+        }
+
+        droppedGolds = 0;
+        droppedItems.Clear();
+        droppedPrefabs.Clear();
+        GameDataManager.instance.UpdateItem();
+        GameDataManager.instance.UpdateFunds();
+    }
+
+    public Item RandomStat(Item item)
+    {
+        if (item.IsEquipment)
+        {
+            var statData = GameDataManager.instance.equipmentStatData[item.Params.Index];
+            item.Stats = new List<Stat> { new Stat (statData.StatId1, UnityEngine.Random.Range(statData.StatValueMin1, statData.StatValueMax1)),
+                                                    new Stat (statData.StatId2, UnityEngine.Random.Range(statData.StatValueMin2, statData.StatValueMax2)),
+                                                    new Stat (statData.StatId3, UnityEngine.Random.Range(statData.StatValueMin3, statData.StatValueMax3)),
+            };
+        }
+        return item;
+    }
 }
