@@ -27,8 +27,7 @@ public class GameManager_2 : MonoBehaviour
     [SerializeField] private GameObject HeroPrefab_3;
     [SerializeField] private GameObject HeroPrefab_4;
     [SerializeField] private Dictionary<int, GameObject> heroPrefabs = new Dictionary<int, GameObject>();
-    [SerializeField] public List<GameObject> HeroDeckPrefab = new List<GameObject>();
-    [SerializeField] private List<GameObject> HeroDeckPrefabLive = new List<GameObject>(); // 4개로 제한
+    public List<GameObject> HeroDeckPrefab = new List<GameObject>();
 
     private void Awake()
     {
@@ -137,15 +136,7 @@ public class GameManager_2 : MonoBehaviour
                     {
                         dd.AddHeroToBattlefield(hero);
                     }
-                    else
-                    {
-                        Debug.LogWarning("No dungeon selected. Hero not added to battlefield.");
-                    }
                 }
-            }
-            else
-            {
-                Debug.LogError($"Hero instance with ID {heroId} not found in heroPrefabs dictionary.");
             }
         }
     }

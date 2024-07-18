@@ -287,22 +287,45 @@ public abstract class Character : MonoBehaviour, IBehavior
         return value;
     }
 
+    //void OnMove()
+    //{
+    //    //if(!CheckTarget()) return;
+    //    if(CheckDistance()) return;
+
+    //    _dirVec = (Vector2)(_target.transform.position - transform.position).normalized;
+
+    //    SetDirection();
+
+    //    //transform.position += (Vector3)_dirVec * moveSpeed * Time.deltaTime;
+    //    //transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+    //    MoveAlongPath();
+
+    //    if (path == null || path.Count == 0)
+    //    {
+    //        SnapToNearestTileCenter();
+    //    }
+    //}
     void OnMove()
     {
-        //if(!CheckTarget()) return;
-        if(CheckDistance()) return;
-        
+        if (_target == null)
+        {
+            Debug.LogWarning("Target is null in OnMove method");
+            SetState(UnitState.idle);
+            return;
+        }
+
+        if (CheckDistance()) return;
+
         _dirVec = (Vector2)(_target.transform.position - transform.position).normalized;
 
         SetDirection();
 
-        //transform.position += (Vector3)_dirVec * moveSpeed * Time.deltaTime;
-        //transform.position = new Vector3(transform.position.x, transform.position.y, 0);
         MoveAlongPath();
 
         if (path == null || path.Count == 0)
         {
             SnapToNearestTileCenter();
+            UpdatePath(); // 경로가 없으면 새로운 경로를 찾습니다.
         }
     }
 
@@ -632,16 +655,37 @@ public abstract class Character : MonoBehaviour, IBehavior
     //     return bestPosition;
     // }
 
+    //protected void SetNewPath(Vector3 target)
+    //{
+    //    Vector3 start = customTilemapManager.GetNearestValidPosition(transform.position);
+    //    path = customTilemapManager.FindPath(start, target);
+    //    currentPathIndex = 0;
+
+    //    if (path != null && path.Count > 0)
+    //    {
+    //        tilemapManager.SetDebugPath(path);
+    //    }
+    //}
+
     protected void SetNewPath(Vector3 target)
     {
+        if (customTilemapManager == null)
+        {
+            return;
+        }
+
         Vector3 start = customTilemapManager.GetNearestValidPosition(transform.position);
         path = customTilemapManager.FindPath(start, target);
         currentPathIndex = 0;
 
         if (path != null && path.Count > 0)
         {
-            tilemapManager.SetDebugPath(path);
+            if (tilemapManager != null)
+            {
+                tilemapManager.SetDebugPath(path);
+            }
         }
+
     }
 
     private void MoveAlongPath()
@@ -699,9 +743,29 @@ public abstract class Character : MonoBehaviour, IBehavior
         }
     }
 
+    //IEnumerator WaitAndFindNewPath()
+    //{
+    //    yield return new WaitForSeconds(0.2f);
+
+    //    GameObject closestObject = _target.gameObject;
+
+    //    if (closestObject != null)
+    //    {
+    //        Vector3 targetPosition = closestObject.transform.position;
+    //        SetNewPath(targetPosition);
+    //    }
+
+    //}
     IEnumerator WaitAndFindNewPath()
     {
         yield return new WaitForSeconds(0.2f);
+
+        if (_target == null)
+        {
+            Debug.LogWarning("Target is null in WaitAndFindNewPath");
+            SetState(UnitState.idle);
+            yield break;
+        }
 
         GameObject closestObject = _target.gameObject;
 
@@ -710,7 +774,11 @@ public abstract class Character : MonoBehaviour, IBehavior
             Vector3 targetPosition = closestObject.transform.position;
             SetNewPath(targetPosition);
         }
-        
+        else
+        {
+            Debug.LogWarning("Closest object is null in WaitAndFindNewPath");
+            SetState(UnitState.idle);
+        }
     }
 
     // 거리 체크 메서드

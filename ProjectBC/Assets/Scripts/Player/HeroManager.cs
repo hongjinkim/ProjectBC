@@ -29,11 +29,12 @@ public class HeroManager : MonoBehaviour
 
     private void Awake()
     {
-        InitializeSlots();
+
     }
 
     private void Start()
     {
+        InitializeSlots();
         InitializeAllHeroes();
         InitializeMyHeroes();
         UpdateHeroSlots();

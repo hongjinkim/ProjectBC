@@ -171,6 +171,8 @@ public class Dungeon : MonoBehaviour
     {
         if (hero != null)
         {
+            RemoveHeroFromAllDungeons(hero);
+
             _activeHeroList.Add(hero);
             _allCharacterList.Add(hero);
 
@@ -181,4 +183,30 @@ public class Dungeon : MonoBehaviour
             // hero.Initialize();
         }
     }
+    //private void RemoveHeroFromAllDungeons(Character hero)
+    //{
+    //    // 모든 던전을 순회하며 해당 영웅을 제거
+    //    Dungeon[] allDungeons = FindObjectsOfType<Dungeon>();
+    //    foreach (Dungeon dungeon in allDungeons)
+    //    {
+    //        dungeon._activeHeroList.RemoveAll(h => h == hero);
+    //        dungeon._allCharacterList.RemoveAll(c => c == hero);
+    //    }
+    //}
+
+    private void RemoveHeroFromAllDungeons(Character hero) //에러가 나와서 포기?
+    {
+
+
+        // DungeonManager의 인스턴스를 가져옵니다.
+        DungeonManager dungeonManager = GameManager.Instance.dungeonManager;
+
+        // _allDungeonList를 순회하며 해당 영웅을 제거합니다.
+        foreach (Dungeon dungeon in GameManager.Instance.dungeonManager._allDungeonList)
+        {
+            dungeon._activeHeroList.Remove(hero);
+            dungeon._allCharacterList.Remove(hero);
+        }
+    }
+
 }
