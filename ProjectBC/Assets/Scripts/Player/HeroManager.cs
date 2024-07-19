@@ -22,9 +22,11 @@ public class HeroManager : MonoBehaviour
     [SerializeField] private Transform heroSlotsParent;
     [SerializeField] private Transform deckSlotsParent;
     [SerializeField] private Transform battleDeckSlotsParent;
+    [SerializeField] private Transform myHeroDeckSlotsParent;
     private HeroSlot[] heroSlots;
     private DeckSlot[] deckSlots;
     private BattleDeckSlot[] battleDeckSlots;
+    private MyHeroSlot[] myHeroSlots;
     private int maxDeckSize = 4;
 
     private void Awake()
@@ -39,20 +41,22 @@ public class HeroManager : MonoBehaviour
         InitializeMyHeroes();
         UpdateHeroSlots();
         UpdateDeckSlots();
+        UpdateMyHeroSlots();
     }
     private void InitializeSlots()
     {
         heroSlots = heroSlotsParent.GetComponentsInChildren<HeroSlot>();
         deckSlots = deckSlotsParent.GetComponentsInChildren<DeckSlot>();
         battleDeckSlots = battleDeckSlotsParent.GetComponentsInChildren<BattleDeckSlot>();
+        myHeroSlots = myHeroDeckSlotsParent.GetComponentsInChildren<MyHeroSlot>();
     }
     private void InitializeAllHeroes()
     {
-        AllHeroes.Add(new Hero { id = 1001, name = "Warrior", level = 1, power = 10, speed = 5, hp = 150, sprite = Resources.Load<Sprite>("Images/currency/Gemstone") });
-        AllHeroes.Add(new Hero { id = 2001, name = "Priest", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/GreenGemstone") });
-        AllHeroes.Add(new Hero { id = 3001, name = "Archer", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/PurpleGemstone") });
-        AllHeroes.Add(new Hero { id = 3002, name = "Assassin", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/RedGemstone") });
-        AllHeroes.Add(new Hero { id = 3003, name = "Tanker", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/YellowGemstone") });
+        AllHeroes.Add(new Hero { id = 1001, name = "Warrior", level = 1, power = 10, speed = 5, hp = 150, sprite = Resources.Load<Sprite>("Images/currency/Warrior") });
+        AllHeroes.Add(new Hero { id = 2001, name = "Priest", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/Priest") });
+        AllHeroes.Add(new Hero { id = 3001, name = "Wizard", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/Wizard") });
+        AllHeroes.Add(new Hero { id = 3002, name = "Archer", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/Archer") });
+        AllHeroes.Add(new Hero { id = 3003, name = "non-slot", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/YellowGemstone") });
     }
 
     private void InitializeMyHeroes()
@@ -70,9 +74,26 @@ public class HeroManager : MonoBehaviour
         for (int i = 0; i < heroSlots.Length; i++)
         {
             if (i < MyHeroes.Count)
-                heroSlots[i].SetHeroData(MyHeroes[i], i);
+            {
+                heroSlots[i].SetHeroData(MyHeroes[i], i);               
+            }
+
             else
+            {
                 heroSlots[i].ClearSlot();
+            }
+
+        }
+    }
+
+    private void UpdateMyHeroSlots()
+    {
+        for (int i = 0; i < myHeroSlots.Length; i++)
+        {
+            if (i < MyHeroes.Count)
+            {
+                myHeroSlots[i].SetMyHeroData(MyHeroes[i], i);
+            }
         }
     }
 
