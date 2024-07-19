@@ -229,13 +229,13 @@ public class GameDataManager : MonoBehaviour
     // 히어로 관련 메서드 (추가)
     public List<HeroInfo> GetAllHeroes()
     {
+        Debug.Log($"GetAllHeroes: Returning {_playerInfo.heroes.Count} heroes");
         return _playerInfo.heroes;
     }
 
     public void AddHero(HeroInfo hero)
     {
         _playerInfo.heroes.Add(hero);
-        SaveGame();
         HeroesUpdated?.Invoke(_playerInfo.heroes);
     }
 
@@ -245,7 +245,6 @@ public class GameDataManager : MonoBehaviour
         if (index != -1)
         {
             _playerInfo.heroes[index] = hero;
-            SaveGame();
             HeroesUpdated?.Invoke(_playerInfo.heroes);
         }
     }
@@ -253,5 +252,23 @@ public class GameDataManager : MonoBehaviour
     public HeroInfo GetHero(int id)
     {
         return _playerInfo.heroes.Find(h => h.id == id);
+    }
+    public void UpdateHeroes(List<HeroInfo> heroes)
+    {
+        _playerInfo.heroes = heroes;
+        HeroesUpdated?.Invoke(_playerInfo.heroes);
+    }
+    public void RemoveHero(HeroInfo hero)
+    {
+        _playerInfo.heroes.Remove(hero);
+        HeroesUpdated?.Invoke(_playerInfo.heroes);
+    }
+    public void LogAllHeroes()
+    {
+        Debug.Log($"GameDataManager: Total heroes: {_playerInfo.heroes.Count}");
+        foreach (var hero in _playerInfo.heroes)
+        {
+            Debug.Log($"Hero: {hero.heroName}, Class: {hero.heroClass}, ID: {hero.id}");
+        }
     }
 }

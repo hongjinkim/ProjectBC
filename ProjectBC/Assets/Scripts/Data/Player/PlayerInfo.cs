@@ -16,7 +16,7 @@ public class PlayerInfo
     public int itemCapacity;
 
     [Header("Hero")]
-    public List<HeroInfo> heroes = new List<HeroInfo>();
+    public List<HeroInfo> heroes;
     [Header("PlayerInfo")]
     public string username;
     public int battlePoint;
@@ -29,7 +29,7 @@ public class PlayerInfo
     public PlayerInfo()
     {
         Init();
-
+        InitializeStartingHeroes();
     }
     private void Init()
     {
@@ -47,6 +47,16 @@ public class PlayerInfo
         this.itemCapacity = 30;
 
         InitInventory();
+    }
+    private void InitializeStartingHeroes()
+    {
+        // 게임 시작 시 기본 히어로 생성
+        heroes = new List<HeroInfo>();
+
+        
+            heroes.Add(HeroInfo.CreateNewHero("Warrior", HeroClass.Knight, CharacteristicType.MuscularStrength));
+            heroes.Add(HeroInfo.CreateNewHero("Wizard", HeroClass.Wizard, CharacteristicType.Intellect));
+        
     }
     public string HeroesToJson()
     {
