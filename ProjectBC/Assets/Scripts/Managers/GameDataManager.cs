@@ -101,15 +101,15 @@ public class GameDataManager : MonoBehaviour
         }
 
         // 히어로 데이터 로드 (추가)
-        if (FileManager.LoadFromFile("heroes_" + _saveFilename, out var heroesJsonString))
-        {
-            _playerInfo.LoadHeroesFromJson(heroesJsonString);
+        //if (FileManager.LoadFromFile("heroes_" + _saveFilename, out var heroesJsonString))
+        //{
+        //    _playerInfo.LoadHeroesFromJson(heroesJsonString);
 
-            if (_debugValues)
-            {
-                Debug.Log("SaveManager.LoadGame: heroes_" + _saveFilename + " json string: " + heroesJsonString);
-            }
-        }
+        //    if (_debugValues)
+        //    {
+        //        Debug.Log("SaveManager.LoadGame: heroes_" + _saveFilename + " json string: " + heroesJsonString);
+        //    }
+        //}
 
         // notify other game objects 
         if (_playerInfo != null)
@@ -122,15 +122,15 @@ public class GameDataManager : MonoBehaviour
     public void SaveGame()
     {
         string jsonFile = _playerInfo.ToJson();
-        string heroesJson = _playerInfo.HeroesToJson(); // 추가
+        //string heroesJson = _playerInfo.HeroesToJson(); // 추가
 
         // save to disk with FileDataHandler
-        if (FileManager.WriteToFile(_saveFilename, jsonFile) &&
-            FileManager.WriteToFile("heroes_" + _saveFilename, heroesJson) && // 추가
+        if (FileManager.WriteToFile(_saveFilename, jsonFile)/* &&
+            FileManager.WriteToFile("heroes_" + _saveFilename, heroesJson)*/ && // 추가
             _debugValues)
         {
             Debug.Log("SaveManager.SaveGame: " + _saveFilename + " json string: " + jsonFile);
-            Debug.Log("SaveManager.SaveGame: heroes_" + _saveFilename + " json string: " + heroesJson); // 추가
+            //Debug.Log("SaveManager.SaveGame: heroes_" + _saveFilename + " json string: " + heroesJson); // 추가
         }
     }
 

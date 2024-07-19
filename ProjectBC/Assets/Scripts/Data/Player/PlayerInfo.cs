@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,6 +16,7 @@ public class PlayerInfo
 
     [Header("Hero")]
     public List<HeroInfo> heroes;
+
     [Header("PlayerInfo")]
     public string username;
     public int battlePoint;
@@ -51,22 +51,21 @@ public class PlayerInfo
     private void InitializeStartingHeroes()
     {
         // 게임 시작 시 기본 히어로 생성
-        heroes = new List<HeroInfo>();
+        this.heroes = new List<HeroInfo>();
 
+        this.heroes.Add(HeroInfo.CreateNewHero("Warrior", HeroClass.Knight, CharacteristicType.MuscularStrength));
+        this.heroes.Add(HeroInfo.CreateNewHero("Wizard", HeroClass.Wizard, CharacteristicType.Intellect));
         
-            heroes.Add(HeroInfo.CreateNewHero("Warrior", HeroClass.Knight, CharacteristicType.MuscularStrength));
-            heroes.Add(HeroInfo.CreateNewHero("Wizard", HeroClass.Wizard, CharacteristicType.Intellect));
-        
     }
-    public string HeroesToJson()
-    {
-        return JsonUtility.ToJson(new SerializableList<HeroInfo> { list = heroes });
-    }
-    public void LoadHeroesFromJson(string json)
-    {
-        SerializableList<HeroInfo> loadedHeroes = JsonUtility.FromJson<SerializableList<HeroInfo>>(json);
-        heroes = loadedHeroes.list;
-    }
+    //public string HeroesToJson()
+    //{
+    //    return JsonUtility.ToJson(new SerializableList<HeroInfo> { list = heroes });
+    //}
+    //public void LoadHeroesFromJson(string json)
+    //{
+    //    SerializableList<HeroInfo> loadedHeroes = JsonUtility.FromJson<SerializableList<HeroInfo>>(json);
+    //    heroes = loadedHeroes.list;
+    //}
     // 디버깅 용 초기 인벤토리 상태 만들기
     private void InitInventory()
     {
@@ -82,10 +81,4 @@ public class PlayerInfo
     {
         JsonUtility.FromJsonOverwrite(jsonFilepath, this);
     }
-}
-
-[System.Serializable]
-public class SerializableList<T>
-{
-    public List<T> list;
 }
