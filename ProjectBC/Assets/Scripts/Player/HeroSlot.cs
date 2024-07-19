@@ -61,6 +61,6 @@ public class HeroSlot : MonoBehaviour
             spriteImage.sprite = null;
             spriteImage.enabled = false;
         }
-        gameObject.SetActive(false);
+        gameObject.SetActive(true);
     }
 }
