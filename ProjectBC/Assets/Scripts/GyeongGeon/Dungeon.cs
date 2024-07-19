@@ -50,10 +50,10 @@ public class Dungeon : MonoBehaviour
     [SerializeField] private float totalDropRate = 0;
     public GameObject lootPrefab;
 
-    [Header("popup")]
-    private Transform grid;
-    public GameObject textPrefab;
+    [Header("ItemPickupText")]
+    public ObjectPoolBehaviour objectPool;
     [SerializeField] private float fadeDuration = 2.0f;
+    private WaitForSeconds wait => new WaitForSeconds(fadeDuration);
 
     private void OnEnable()
     {
@@ -79,8 +79,6 @@ public class Dungeon : MonoBehaviour
         SetEnemyList();
         DungeonInit();
         InvokeRepeating("OnPickupItem", 0f, 5f);
-
-        grid = GameDataManager.instance.noticeTransform;
     }
 
     // 테스트용
@@ -366,33 +364,12 @@ public class Dungeon : MonoBehaviour
 
     IEnumerator PickupNotice(string text)
     {
+        GameObject textObject = objectPool.GetPooledObject();
+        textObject.GetComponent<ItemPickupText>().SetText(text);
+        textObject.SetActive(true);
 
-        var go = Instantiate(textPrefab, grid);
-        var _text = go.GetComponent<TextMeshProUGUI>();
-        var spriteRenderer = go.GetComponent<SpriteRenderer>();
+        yield return wait;
 
-        _text.text = text;
-
-        yield return new WaitForSeconds(2f);
-
-        //float elapsedTime = 0f;
-
-        //var originalColor = spriteRenderer.color;
-
-        //while (elapsedTime < fadeDuration)
-        //{
-        //    elapsedTime += Time.deltaTime;
-        //    float alpha = Mathf.Lerp(1.0f, 0.0f, elapsedTime / fadeDuration);
-
-        //    Color newColor = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
-        //    spriteRenderer.color = newColor;
-  
-
-        //    yield return null;
-        //}
-
-        // 페이드 아웃이 완료되면 게임 오브젝트 제거
-        Destroy(go);
-        yield return new WaitForSeconds(0.1f);
+        textObject.SetActive(false);
     }
 }
