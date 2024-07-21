@@ -60,8 +60,58 @@ MonoBehaviour:
   - {fileID: 7141519928834900317, guid: fd5d84088134ca8439cea19433f5dee8, type: 3}
   _ItemList: []
   _activeHeroList: []
-  LootTable: []
-  goldSprite: {fileID: 0}
+  LootTable:
+  - id: none
+    dropRate: 70
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: gold
+    dropRate: 20
+    minValue: 30
+    maxValue: 60
+    droppedItemPrefab: {fileID: 0}
+  - id: WarriorHelmet_Rare
+    dropRate: 2
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: WarriorArmor_Rare
+    dropRate: 2
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: WarriorLeggings_Rare
+    dropRate: 2
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: WarriorSword_Rare
+    dropRate: 2
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: WarriorHelmet_Epic
+    dropRate: 0.5
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: WarriorArmor_Epic
+    dropRate: 0.5
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: WarriorLeggings_Epic
+    dropRate: 0.5
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: WarriorSword_Epic
+    dropRate: 0.5
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  goldSprite: {fileID: 21300000, guid: eeb600b527962b247b9305aa09914320, type: 3}
   droppedItems: []
   droppedPrefabs: []
   droppedGolds: 0
