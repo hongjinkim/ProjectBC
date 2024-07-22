@@ -1,7 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HeroSlot : MonoBehaviour
+public class MyHeroSlot : MonoBehaviour
 {
     [SerializeField] private int id;
     [SerializeField] private string heroName;
@@ -9,22 +11,17 @@ public class HeroSlot : MonoBehaviour
     [SerializeField] private int power;
     [SerializeField] private int speed;
     [SerializeField] private int hp;
-    [SerializeField] private Button equipButton;
     [SerializeField] private Image spriteImage;
+
     private HeroManager heroManager;
     private int myHeroIndex;
 
     private void Awake()
     {
         heroManager = FindObjectOfType<HeroManager>();
-        equipButton.onClick.AddListener(OnEquipButtonClick);
     }
 
-    private void OnEquipButtonClick()
-    {
-        heroManager.AddHeroToDeck(myHeroIndex);
-    }
-    public void SetHeroData(HeroManager.Hero hero, int index)
+    public void SetMyHeroData(HeroManager.Hero hero, int index)
     {
         if (hero != null)
         {
@@ -47,6 +44,7 @@ public class HeroSlot : MonoBehaviour
             ClearSlot();
         }
     }
+
     public void ClearSlot()
     {
         id = 0;
@@ -61,6 +59,6 @@ public class HeroSlot : MonoBehaviour
             spriteImage.sprite = null;
             spriteImage.enabled = false;
         }
-        gameObject.SetActive(true);
+        gameObject.SetActive(false);
     }
 }

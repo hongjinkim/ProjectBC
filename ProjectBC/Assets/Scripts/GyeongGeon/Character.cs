@@ -861,7 +861,5 @@ public abstract class Character : MonoBehaviour, IBehavior
         playerStat.Stamina += (int)amount;
         playerStat.HP += (int)(10f * amount);
     }
-
     //public abstract void IncreaseCharacteristic(float amount);
-
 }

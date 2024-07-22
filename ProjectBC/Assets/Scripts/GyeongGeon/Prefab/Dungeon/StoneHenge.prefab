@@ -612,6 +612,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1431654455691587676}
   - component: {fileID: 7981873026576980590}
+  - component: {fileID: 7261146762021837015}
   m_Layer: 0
   m_Name: StoneHenge
   m_TagString: Untagged
@@ -719,5 +720,18 @@ MonoBehaviour:
   droppedGolds: 0
   totalDropRate: 0
   lootPrefab: {fileID: 6398687339744348316, guid: 78836114cce56cf4191abc5b2ca58fad, type: 3}
-  textPrefab: {fileID: 8446656736611996068, guid: 283537afdf47ed54482bddbfdc84c7b4, type: 3}
+  objectPool: {fileID: 7261146762021837015}
   fadeDuration: 2
+--- !u!114 &7261146762021837015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7858580071494584065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edf65d0a05d30ee4e9751b8050d698b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 721338a9d356a2248bdaf4e141b6d4c5, type: 2}
