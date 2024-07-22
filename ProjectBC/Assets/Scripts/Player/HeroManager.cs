@@ -22,6 +22,8 @@ public class HeroManager : MonoBehaviour
 
     private void Awake()
     {
+        gameDataManager = FindObjectOfType<GameDataManager>();
+        LoadMyHeroes();
     }
 
     private void Start()
@@ -33,10 +35,7 @@ public class HeroManager : MonoBehaviour
         UpdateDeckSlots();
         UpdateMyHeroSlots();
     }
-    private void Update()
-    {
-        Debug.Log($"Current MyHeroes count: {MyHeroes.Count}");
-    }
+
     //private void InitializeAllHeroes()
     //{
     //    // �⺻ ����� ���ø� �ʱ�ȭ
@@ -46,7 +45,7 @@ public class HeroManager : MonoBehaviour
     //}
     private void LoadMyHeroes()
     {
-        MyHeroes = gameDataManager.GetAllHeroes();
+        AllHeroes = gameDataManager.GetAllHeroes();
         Debug.Log($"LoadMyHeroes: Loaded {MyHeroes.Count} heroes");
         foreach (var hero in MyHeroes)
         {
