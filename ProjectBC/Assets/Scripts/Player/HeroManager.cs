@@ -13,35 +13,25 @@ public class HeroManager : MonoBehaviour
     [SerializeField] private Transform heroSlotsParent;
     [SerializeField] private Transform deckSlotsParent;
     [SerializeField] private Transform battleDeckSlotsParent;
+    [SerializeField] private Transform myHeroDeckSlotsParent;
     private HeroSlot[] heroSlots;
     private DeckSlot[] deckSlots;
     private BattleDeckSlot[] battleDeckSlots;
+    private MyHeroSlot[] myHeroSlots;
     private int maxDeckSize = 4;
 
     private void Awake()
     {
-        Debug.Log("HeroManager Awake");
-        gameDataManager = FindObjectOfType<GameDataManager>();
-
-        // heroSlots ÃÊ±âÈ­
-        heroSlots = heroSlotsParent.GetComponentsInChildren<HeroSlot>(true);
-        Debug.Log($"Found {heroSlots.Length} HeroSlots");
-
-        // deckSlots ÃÊ±âÈ­
-        deckSlots = deckSlotsParent.GetComponentsInChildren<DeckSlot>(true);
-        Debug.Log($"Found {deckSlots.Length} DeckSlots");
-        // battleDeckSlots ÃÊ±âÈ­
-        battleDeckSlots = battleDeckSlotsParent.GetComponentsInChildren<BattleDeckSlot>(true);
-        Debug.Log($"Found {battleDeckSlots.Length} BattleDeckSlots");
     }
 
     private void Start()
     {
-        Debug.Log("HeroManager Start");
-        gameDataManager.LogAllHeroes();
-        LoadMyHeroes();
+        InitializeSlots();
+        InitializeAllHeroes();
+        InitializeMyHeroes();
         UpdateHeroSlots();
         UpdateDeckSlots();
+        UpdateMyHeroSlots();
     }
     private void Update()
     {
@@ -49,10 +39,10 @@ public class HeroManager : MonoBehaviour
     }
     //private void InitializeAllHeroes()
     //{
-    //    // ±âº» È÷¾î·Î ÅÛÇÃ¸´ ÃÊ±âÈ­
+    //    // ï¿½âº» ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¸ï¿½ ï¿½Ê±ï¿½È­
     //    AllHeroes.Add(new HeroInfo { id = 1001, heroName = "Warrior", level = 1, attackDamage = 10, agility = 5, hp = 150, spritePath = "Images/currency/Gemstone" });
     //    AllHeroes.Add(new HeroInfo { id = 2001, heroName = "Priest", level = 1, attackDamage = 5, agility = 7, hp = 100, spritePath = "Images/currency/GreenGemstone" });
-    //    // ... ´Ù¸¥ ±âº» È÷¾î·Î Ãß°¡ ...
+    //    // ... ï¿½Ù¸ï¿½ ï¿½âº» ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ ...
     //}
     private void LoadMyHeroes()
     {
@@ -63,7 +53,7 @@ public class HeroManager : MonoBehaviour
             Debug.Log($"Hero: {hero.heroName}, Class: {hero.heroClass}, ID: {hero.id}");
         }
 
-        // Áßº¹ ¹æÁö¸¦ À§ÇÑ °Ë»ç
+        // ï¿½ßºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
         MyHeroes = MyHeroes.Distinct().ToList();
         Debug.Log($"After removing duplicates: {MyHeroes.Count} heroes");
     }
@@ -83,6 +73,15 @@ public class HeroManager : MonoBehaviour
         heroSlots = heroSlotsParent.GetComponentsInChildren<HeroSlot>();
         deckSlots = deckSlotsParent.GetComponentsInChildren<DeckSlot>();
         battleDeckSlots = battleDeckSlotsParent.GetComponentsInChildren<BattleDeckSlot>();
+        myHeroSlots = myHeroDeckSlotsParent.GetComponentsInChildren<MyHeroSlot>();
+    }
+    private void InitializeAllHeroes()
+    {
+        AllHeroes.Add(new Hero { id = 1001, name = "Warrior", level = 1, power = 10, speed = 5, hp = 150, sprite = Resources.Load<Sprite>("Images/currency/Warrior") });
+        AllHeroes.Add(new Hero { id = 2001, name = "Priest", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/Priest") });
+        AllHeroes.Add(new Hero { id = 3001, name = "Wizard", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/Wizard") });
+        AllHeroes.Add(new Hero { id = 3002, name = "Archer", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/Archer") });
+        AllHeroes.Add(new Hero { id = 3003, name = "non-slot", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/YellowGemstone") });
     }
 
     private void InitializeHeroes()
@@ -112,12 +111,24 @@ public class HeroManager : MonoBehaviour
 
             if (i < MyHeroes.Count)
             {
-                Debug.Log($"Setting hero data for slot {i}: {MyHeroes[i].heroName}");
-                heroSlots[i].SetHeroData(MyHeroes[i], i);
+                heroSlots[i].SetHeroData(MyHeroes[i], i);               
             }
+
             else
             {
                 heroSlots[i].ClearSlot();
+            }
+
+        }
+    }
+
+    private void UpdateMyHeroSlots()
+    {
+        for (int i = 0; i < myHeroSlots.Length; i++)
+        {
+            if (i < MyHeroes.Count)
+            {
+                myHeroSlots[i].SetMyHeroData(MyHeroes[i], i);
             }
         }
     }
@@ -204,5 +215,14 @@ public class HeroManager : MonoBehaviour
         MyHeroes.Remove(hero);
         UpdateHeroSlots();
         gameDataManager.UpdateHeroes(MyHeroes);
+    }
+
+    public int GetHeroIdFromDeckSlot(int slotIndex)
+    {
+        if (slotIndex >= 0 && slotIndex < Deck.Count)
+        {
+            return Deck[slotIndex].id;
+        }
+        return -1; // ï¿½ï¿½È¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ID
     }
 }

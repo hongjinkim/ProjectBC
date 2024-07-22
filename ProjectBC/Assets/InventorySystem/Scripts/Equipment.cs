@@ -24,9 +24,9 @@ public class Equipment : ItemContainer
     public CharacterBase preview;
 
     public Transform scheme;
-    public int bagSize;
+    //public int bagSize;
 
-    public readonly List<InventoryItem> inventoryItems = new List<InventoryItem>();
+    //public readonly List<InventoryItem> inventoryItems = new List<InventoryItem>();
 
     public void OnValidate()
     {
@@ -45,74 +45,27 @@ public class Equipment : ItemContainer
         //Character.Animator.SetBool("Ready", false);
     }
 
-    public void SetBagSize(int size)
-    {
-        bagSize = size;
+    //public void SetBagSize(int size)
+    //{
+    //    bagSize = size;
 
-        var supplies = GetComponentsInChildren<ItemSlot>(true).Where(i => i.types.Contains(ItemType.Supply)).ToList();
+    //    var supplies = GetComponentsInChildren<ItemSlot>(true).Where(i => i.types.Contains(ItemType.Supply)).ToList();
 
-        for (var i = 0; i < supplies.Count; i++)
-        {
-            supplies[i].Locked = i >= size;
-        }
-    }
-
-    public bool SelectAny()
-    {
-        if (inventoryItems.Count > 0)
-        {
-            inventoryItems[0].Select(true);
-
-            return true;
-        }
-
-        return false;
-    }
+    //    for (var i = 0; i < supplies.Count; i++)
+    //    {
+    //        supplies[i].Locked = i >= size;
+    //    }
+    //}
 
     public override void Refresh(Item selected)
     {
-        var items = slots.Select(FindItem).Where(i => i != null).ToList();
-        var toggleGroup = GetComponentInParent<ToggleGroup>(includeInactive: true);
-
-        Reset();
-
-        foreach (var slot in slots)
-        {
-            var item = FindItem(slot);
-
-            slot.gameObject.SetActive(item == null);
-
-            if (item == null) continue;
-
-            var inventoryItem = Instantiate(itemPrefab, slot.transform.parent).GetComponent<InventoryItem>();
-
-            inventoryItem.Initialize(item, toggleGroup);
-            inventoryItem.count.text = null;
-            inventoryItem.transform.position = slot.transform.position;
-            inventoryItem.transform.SetSiblingIndex(slot.transform.GetSiblingIndex());
-
-            if (AutoSelect) inventoryItem.Select(item == selected);
-
-            inventoryItems.Add(inventoryItem);
-        }
-
-        if (preview)
-        {
-            CharacterInventorySetup.Setup(preview, items);
-            preview.Initialize();
-        }
 
         onRefresh?.Invoke();
     }
 
     private void Reset()
     {
-        foreach (var inventoryItem in inventoryItems)
-        {
-            Destroy(inventoryItem.gameObject);
-        }
-
-        inventoryItems.Clear();
+        
     }
 
     private Item FindItem(ItemSlot slot)

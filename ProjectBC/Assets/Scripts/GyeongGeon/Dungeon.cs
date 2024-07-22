@@ -1,6 +1,20 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
+[Serializable]
+public class Loot
+{
+    public string id;
+    public float dropRate;
+    public int minValue;
+    public int maxValue;
+    public GameObject droppedItemPrefab;
+
+}
 public class Dungeon : MonoBehaviour
 {
     [Header("BasicInformation")]
@@ -23,13 +37,39 @@ public class Dungeon : MonoBehaviour
     public int _navigationProgress;
 
     [Header("UI_StageInformation")]
-    public List<Character> _enemyPool = new List<Character>();
+    public List<Enemy> _enemyPool = new List<Enemy>();
     public List<Item> _ItemList = new List<Item>();
     public List<Character> _activeHeroList = new List<Character>();
 
+    [Header("Item Loot System")]
+    public List<Loot> LootTable = new List<Loot>();
+    public Sprite goldSprite;
+    [SerializeField] private List<Item> droppedItems = new List<Item>();
+    [SerializeField] private List<GameObject> droppedPrefabs = new List<GameObject>();
+    [SerializeField] private int droppedGolds = 0;
+    [SerializeField] private float totalDropRate = 0;
+    public GameObject lootPrefab;
+
+    [Header("ItemPickupText")]
+    public ObjectPoolBehaviour objectPool;
+    [SerializeField] private float fadeDuration = 2.0f;
+    private WaitForSeconds wait => new WaitForSeconds(fadeDuration);
+
+    private void OnEnable()
+    {
+        
+    }
+    private void OnDisable()
+    {
+        
+    }
+
     private void Awake()
     {
-
+        foreach(Loot loot in LootTable)
+        {
+            loot.droppedItemPrefab = lootPrefab;
+        }
     }
     void Start()
     {   
@@ -38,6 +78,7 @@ public class Dungeon : MonoBehaviour
         //SetHeroList();
         SetEnemyList();
         DungeonInit();
+        InvokeRepeating("OnPickupItem", 0f, 5f);
     }
 
     // 테스트용
@@ -153,7 +194,7 @@ public class Dungeon : MonoBehaviour
         for(var i = 0; i < _enemyQuantity; i++)
         {
             _randomEnemyIndex = Random.Range(0, _enemyPool.Count);
-            Character enemy = Instantiate(_enemyPool[_randomEnemyIndex]);
+            Enemy enemy = Instantiate(_enemyPool[_randomEnemyIndex]);
 
             _activeEnemyList.Add(enemy);
             _allCharacterList.Add(enemy);
@@ -171,6 +212,8 @@ public class Dungeon : MonoBehaviour
     {
         if (hero != null)
         {
+            RemoveHeroFromAllDungeons(hero);
+
             _activeHeroList.Add(hero);
             _allCharacterList.Add(hero);
 
@@ -180,5 +223,153 @@ public class Dungeon : MonoBehaviour
             // 필요한 경우 추가 초기화
             // hero.Initialize();
         }
+    }
+    //private void RemoveHeroFromAllDungeons(Character hero)
+    //{
+    //    // 모든 던전을 순회하며 해당 영웅을 제거
+    //    Dungeon[] allDungeons = FindObjectsOfType<Dungeon>();
+    //    foreach (Dungeon dungeon in allDungeons)
+    //    {
+    //        dungeon._activeHeroList.RemoveAll(h => h == hero);
+    //        dungeon._allCharacterList.RemoveAll(c => c == hero);
+    //    }
+    //}
+
+    private void RemoveHeroFromAllDungeons(Character hero) //에러가 나와서 포기?
+    {
+
+
+        // DungeonManager의 인스턴스를 가져옵니다.
+        DungeonManager dungeonManager = GameManager.Instance.dungeonManager;
+
+        // _allDungeonList를 순회하며 해당 영웅을 제거합니다.
+        foreach (Dungeon dungeon in GameManager.Instance.dungeonManager._allDungeonList)
+        {
+            dungeon._activeHeroList.Remove(hero);
+            dungeon._allCharacterList.Remove(hero);
+        }
+    }
+
+
+    /// Loot System
+    public void GetDroppedItem(Transform transform)
+    {
+        if (totalDropRate == 0)
+        {
+            foreach (Loot i in LootTable)
+            {
+                totalDropRate += i.dropRate;
+            }
+        }
+        float randomNumber = Random.value * totalDropRate;
+        float cumulativeRate = 0f;
+        foreach (Loot i in LootTable)
+        {
+            cumulativeRate += i.dropRate;
+            if (randomNumber <= cumulativeRate)
+            {
+                if (i.id == "none")
+                    return;
+                else if (i.id == "gold")
+                {
+                    droppedGolds += Random.Range(i.minValue, i.maxValue);
+
+                    SpriteRenderer renderer = i.droppedItemPrefab.GetComponent<SpriteRenderer>();
+                    renderer.sprite = goldSprite;
+                    // 추후 오브젝트 풇로 변경
+                    droppedPrefabs.Add(Instantiate(i.droppedItemPrefab, transform.position, Quaternion.identity));
+                }
+                else
+                {
+                    var item = new Item(i.id);
+                    item = RandomStat(item);
+
+                    droppedItems.Add(item);
+
+                    SpriteRenderer renderer = i.droppedItemPrefab.GetComponent<SpriteRenderer>();
+                    renderer.sprite = ItemCollection.active.GetItemIcon(item).sprite;
+                    // 추후 오브젝트 풇로 변경
+                    droppedPrefabs.Add(Instantiate(i.droppedItemPrefab, transform.position, Quaternion.identity));
+                }
+                return;
+            }
+        }
+        return;
+    }
+
+    public void OnPickupItem()
+    {
+        //골드 획득
+        if(droppedGolds > 0)
+        {
+            GameDataManager.instance.playerInfo.gold += droppedGolds;
+            StartCoroutine(PickupNotice(droppedGolds.ToString() + " 골드를 획득 했습니다."));
+        }
+
+        // 아이템 획득
+        var inventory = GameDataManager.instance.playerInfo.items;
+        foreach (Item item in droppedItems)
+        {
+            if (item.Params.Type == ItemType.Usable || item.Params.Type == ItemType.Material || item.Params.Type == ItemType.Crystal)
+            {
+                bool hasItem = false;
+                foreach (Item _item in inventory)
+                {
+                    if (item.Params.Id == _item.Params.Id)
+                    {
+                        _item.Count++;
+                        hasItem = true;
+                        break;
+                    }
+                }
+                if (!hasItem)
+                {
+                    StartCoroutine(PickupNotice(item.id + "을(를) 획득 했습니다"));
+                    inventory.Add(item);
+                }
+                
+            }
+            else
+            {
+                StartCoroutine(PickupNotice(item.id + "을(를) 획득 했습니다"));
+                inventory.Add(item);
+            }
+        }
+        // 필드 위애 아이템 표시 모두 제거
+        foreach (GameObject go in droppedPrefabs)
+        {
+            Destroy(go);
+        }
+
+        //
+        droppedGolds = 0;
+        droppedItems.Clear();
+        droppedPrefabs.Clear();
+        GameDataManager.instance.UpdateItem();
+        GameDataManager.instance.UpdateFunds();
+    }
+
+    public Item RandomStat(Item item)
+    {
+        if (item.IsEquipment)
+        {
+            var statData = GameDataManager.instance.equipmentStatData[item.Params.Index];
+            item.Stats = new List<Stat> { new Stat (statData.StatId1, UnityEngine.Random.Range(statData.StatValueMin1, statData.StatValueMax1)),
+                                                    new Stat (statData.StatId2, UnityEngine.Random.Range(statData.StatValueMin2, statData.StatValueMax2)),
+                                                    new Stat (statData.StatId3, UnityEngine.Random.Range(statData.StatValueMin3, statData.StatValueMax3)),
+            };
+        }
+        return item;
+    }
+
+    IEnumerator PickupNotice(string text)
+    {
+        GameObject textObject = objectPool.GetPooledObject();
+        textObject.GetComponent<ItemPickupText>().SetText(text);
+        textObject.SetActive(true);
+
+        yield return wait;
+
+        textObject.SetActive(false);
     }
 }

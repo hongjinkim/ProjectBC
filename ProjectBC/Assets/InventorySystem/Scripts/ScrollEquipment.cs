@@ -2,30 +2,23 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Device;
 using UnityEngine.UI;
 
-public class ScrollInventory : ItemContainer
+public class ScrollEquipment : ItemContainer
 {
-    public int itemCapacity;
+    private int itemCapacity;
 
     [Tooltip("Sort items automatically using SortingFunc (can be redefined).")]
     public bool AutoSorting;
     [Tooltip("Add an extra empty row or a column at the end.")]
     public bool Extend;
-    [Tooltip("Add an extra empty slots")]
-    public bool MakeEmptySlots;
-    [Tooltip("Make Capacity Static")]
-    public bool StaticCapacity;
 
     [Header("UI")]
     public ScrollRect ScrollRect;
     public GridLayoutGroup Grid;
     public InventoryItem ItemPrefab;
-    public TextMeshProUGUI ItemCount;
-    public TextMeshProUGUI ItemCapacity;
 
     public Func<Item, int> SortingFunc = item => TypePriority.IndexOf(item.Params.Type); // You can override this.
     public Func<Item, bool> FilterFunc; // You can override this.
@@ -106,7 +99,6 @@ public class ScrollInventory : ItemContainer
 
         List<Item> items;
 
-
         if (AutoSorting && SortingFunc != null)
         {
             items = new List<Item>();
@@ -150,14 +142,6 @@ public class ScrollInventory : ItemContainer
         var columns = 0;
         var rows = 0;
 
-        if (MakeEmptySlots)
-        {
-            if (!StaticCapacity)
-                itemCapacity = GameDataManager.instance.playerInfo.itemCapacity;
-        }
-        else
-            itemCapacity = items.Count();
-
         switch (Grid.constraint)
         {
             case GridLayoutGroup.Constraint.FixedColumnCount:
@@ -165,7 +149,7 @@ public class ScrollInventory : ItemContainer
                     var height = Mathf.FloorToInt((ScrollRect.GetComponent<RectTransform>().rect.height + Grid.spacing.y) / (Grid.cellSize.y + Grid.spacing.y));
 
                     columns = Grid.constraintCount;
-                   
+                    itemCapacity = items.Count();//GameDataManager.instance.playerInfo.itemCapacity;
                     rows = itemCapacity/columns;//Mathf.Max(height, Mathf.FloorToInt((float)items.Count / columns));
 
                     if (Extend) rows++;
@@ -184,9 +168,6 @@ public class ScrollInventory : ItemContainer
                     break;
                 }
         }
-
-        ItemCount.text = items.Count().ToString();
-        ItemCapacity.text = itemCapacity.ToString();
 
         for (var i = items.Count; i < columns * rows; i++)
         {

@@ -48,6 +48,8 @@ public class GameDataManager : MonoBehaviour
 
     [SerializeField] public EquipmentStatData[] equipmentStatData;
 
+    public Transform noticeTransform;
+
     void OnApplicationQuit()
     {
         SaveGame();
@@ -157,19 +159,19 @@ public class GameDataManager : MonoBehaviour
         //UpdateAllInventorys();
     }
 
-    void UpdateFunds()
+    public void UpdateFunds()
     {
         if (_playerInfo != null)
             FundsUpdated?.Invoke(_playerInfo);
     }
 
-    void UpdateLevel()
+    public void UpdateLevel()
     {
         if (_playerInfo != null)
             LevelUpdated?.Invoke(_playerInfo);
     }
 
-    void UpdateBattlePoint()
+    public void UpdateBattlePoint()
     {
         if (_playerInfo != null)
             BattlePointUpdated?.Invoke(_playerInfo);
