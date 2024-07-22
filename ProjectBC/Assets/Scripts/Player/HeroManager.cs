@@ -28,7 +28,7 @@ public class HeroManager : MonoBehaviour
     {
         InitializeSlots();
         InitializeAllHeroes();
-        InitializeMyHeroes();
+        //InitializeMyHeroes();
         UpdateHeroSlots();
         UpdateDeckSlots();
         UpdateMyHeroSlots();
@@ -77,11 +77,11 @@ public class HeroManager : MonoBehaviour
     }
     private void InitializeAllHeroes()
     {
-        AllHeroes.Add(new Hero { id = 1001, name = "Warrior", level = 1, power = 10, speed = 5, hp = 150, sprite = Resources.Load<Sprite>("Images/currency/Warrior") });
-        AllHeroes.Add(new Hero { id = 2001, name = "Priest", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/Priest") });
-        AllHeroes.Add(new Hero { id = 3001, name = "Wizard", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/Wizard") });
-        AllHeroes.Add(new Hero { id = 3002, name = "Archer", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/Archer") });
-        AllHeroes.Add(new Hero { id = 3003, name = "non-slot", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/YellowGemstone") });
+        //AllHeroes.Add(new HeroInfo { id = 1001, name = "Warrior", level = 1, power = 10, speed = 5, hp = 150, sprite = Resources.Load<Sprite>("Images/currency/Warrior") });
+        //AllHeroes.Add(new Hero { id = 2001, name = "Priest", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/Priest") });
+        //AllHeroes.Add(new Hero { id = 3001, name = "Wizard", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/Wizard") });
+        //AllHeroes.Add(new Hero { id = 3002, name = "Archer", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/Archer") });
+        //AllHeroes.Add(new Hero { id = 3003, name = "non-slot", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/YellowGemstone") });
     }
 
     private void InitializeHeroes()
@@ -128,7 +128,7 @@ public class HeroManager : MonoBehaviour
         {
             if (i < MyHeroes.Count)
             {
-                myHeroSlots[i].SetMyHeroData(MyHeroes[i], i);
+                //myHeroSlots[i].SetMyHeroData(MyHeroes[i], i);
             }
         }
     }

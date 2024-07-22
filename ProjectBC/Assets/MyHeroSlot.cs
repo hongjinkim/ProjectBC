@@ -21,29 +21,29 @@ public class MyHeroSlot : MonoBehaviour
         heroManager = FindObjectOfType<HeroManager>();
     }
 
-    public void SetMyHeroData(HeroManager.Hero hero, int index)
-    {
-        if (hero != null)
-        {
-            id = hero.id;
-            heroName = hero.name;
-            level = hero.level;
-            power = hero.power;
-            speed = hero.speed;
-            hp = hero.hp;
-            myHeroIndex = index;
-            if (spriteImage != null)
-            {
-                spriteImage.sprite = hero.sprite;
-                spriteImage.enabled = true;
-            }
-            gameObject.SetActive(true);
-        }
-        else
-        {
-            ClearSlot();
-        }
-    }
+    //public void SetMyHeroData(HeroInfo hero, int index)
+    //{
+    //    if (hero != null)
+    //    {
+    //        id = hero.id;
+    //        heroName = hero.name;
+    //        level = hero.level;
+    //        power = hero.power;
+    //        speed = hero.speed;
+    //        hp = hero.hp;
+    //        myHeroIndex = index;
+    //        if (spriteImage != null)
+    //        {
+    //            spriteImage.sprite = hero.sprite;
+    //            spriteImage.enabled = true;
+    //        }
+    //        gameObject.SetActive(true);
+    //    }
+    //    else
+    //    {
+    //        ClearSlot();
+    //    }
+    //}
 
     public void ClearSlot()
     {
