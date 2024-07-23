@@ -62,6 +62,8 @@ public class GameDataManager : MonoBehaviour
             _instance = this;
         }
         savePath = Application.persistentDataPath;
+        InitializeHeroes();
+        Debug.Log($"GameDataManager Awake: Hero count = {_playerInfo?.heroes?.Count ?? 0}");
     }
 
     void Start()
@@ -72,6 +74,7 @@ public class GameDataManager : MonoBehaviour
         LoadGame();
 
         Init();
+        
     }
 
     public PlayerInfo NewGame()
@@ -120,7 +123,15 @@ public class GameDataManager : MonoBehaviour
             HeroesUpdated?.Invoke(_playerInfo.heroes); // 추가
         }
     }
-
+    public void InitializeHeroes()
+    {
+        if (_playerInfo == null || _playerInfo.heroes == null || _playerInfo.heroes.Count == 0)
+        {
+            _playerInfo = new PlayerInfo();
+            _playerInfo.InitializeStartingHeroes();
+        }
+        Debug.Log($"Heroes initialized: Count = {_playerInfo.heroes.Count}");
+    }
     public void SaveGame()
     {
         string jsonFile = _playerInfo.ToJson();
@@ -231,8 +242,13 @@ public class GameDataManager : MonoBehaviour
     // 히어로 관련 메서드 (추가)
     public List<HeroInfo> GetAllHeroes()
     {
-        Debug.Log($"GetAllHeroes: Returning {_playerInfo.heroes.Count} heroes");
-        return _playerInfo.heroes;
+        Debug.Log($"GetAllHeroes called: Hero count = {_playerInfo?.heroes?.Count ?? 0}");
+        if (_playerInfo == null || _playerInfo.heroes == null)
+        {
+            Debug.LogError("PlayerInfo or heroes list is null in GameDataManager");
+            return new List<HeroInfo>();
+        }
+        return new List<HeroInfo>(_playerInfo.heroes);
     }
 
     public void AddHero(HeroInfo hero)
