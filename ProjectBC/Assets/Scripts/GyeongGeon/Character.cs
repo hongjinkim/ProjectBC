@@ -312,21 +312,14 @@ public abstract class Character : MonoBehaviour, IBehavior
     //}
     void OnMove()
     {
-        if (_target == null)
-        {
-            Debug.LogWarning("Target is null in OnMove method");
-            SetState(UnitState.idle);
-            return;
-        }
-
-        if (CheckDistance()) return;
+        CheckDistance();
 
         _dirVec = (Vector2)(_target.transform.position - transform.position).normalized;
 
         SetDirection();
 
         transform.position += (Vector3)_dirVec * moveSpeed * Time.deltaTime;
-        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+        
 
         //MoveAlongPath();
 
@@ -391,12 +384,20 @@ public abstract class Character : MonoBehaviour, IBehavior
         Vector3 targetPosition = _target.transform.position;
         Vector3 currentPosition = transform.position;
 
-        if(IsWithinAttackRange(currentPosition, targetPosition, attackRange))
+        _tempDistance = (Vector2)(_target.transform.localPosition - transform.position);
+        float distanceSquared = _tempDistance.sqrMagnitude;
+
+        if(distanceSquared <= attackRange * attackRange)
         {
             SetState(UnitState.attack);
-
             return true;
         }
+        // if(IsWithinAttackRange(currentPosition, targetPosition, attackRange))
+        // {
+        //     SetState(UnitState.attack);
+
+        //     return true;
+        // }
         else
         {
             if (!CheckTarget())

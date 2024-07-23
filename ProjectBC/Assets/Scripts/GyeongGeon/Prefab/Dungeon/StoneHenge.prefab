@@ -647,12 +647,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cb006c91fd52684db32f00c12ee0cca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilemapManager: {fileID: 5344057798014446933}
   _themeCode: A
   _themeName: "\uD68C\uC0C9 \uBC14\uC704 \uC0B0\uB9C8\uB8E8"
   _stageCode: A3
   _findTimer: 0.1
   _enemyQuantity: 4
+  spawnAreaMin: {x: 0, y: 0}
+  spawnAreaMax: {x: 0, y: 0}
   _activeEnemyList: []
   _allCharacterList: []
   _stageName: "\uC2A4\uD1A4 \uD5E8\uC9C0"
@@ -661,7 +662,8 @@ MonoBehaviour:
   _enemyPool:
   - {fileID: 7141519928834900317, guid: fd5d84088134ca8439cea19433f5dee8, type: 3}
   _ItemList: []
-  _activeHeroList: []
+  _activeHeroList:
+  - {fileID: 4895118519149478533, guid: 66477feb2aacdc6439eccf5370d0b1ff, type: 3}
   LootTable: []
   goldSprite: {fileID: 0}
   droppedItems: []
