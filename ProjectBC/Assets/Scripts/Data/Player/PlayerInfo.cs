@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [System.Serializable]
 public class PlayerInfo
@@ -25,6 +26,7 @@ public class PlayerInfo
     [Header("Settings")]
     public float musicVolume;
     public float sfxVolume;
+
 
     public PlayerInfo()
     {
@@ -52,13 +54,12 @@ public class PlayerInfo
     public void InitializeStartingHeroes()
     {
         // 게임 시작 시 기본 히어로 생성
-        this.heroes = new List<HeroInfo>();
+        this.heroes = new List<HeroInfo>(6);
 
         this.heroes.Add(HeroInfo.CreateNewHero("Warrior", HeroClass.Knight, CharacteristicType.MuscularStrength));
         this.heroes.Add(HeroInfo.CreateNewHero("Wizard", HeroClass.Wizard, CharacteristicType.Intellect));
         this.heroes.Add(HeroInfo.CreateNewHero("Priest", HeroClass.Priest, CharacteristicType.Intellect));
         this.heroes.Add(HeroInfo.CreateNewHero("Archer", HeroClass.Archer, CharacteristicType.Agility));
-        Debug.Log($"InitializeStartingHeroes: Added {this.heroes.Count} heroes");
     }
     //public string HeroesToJson()
     //{

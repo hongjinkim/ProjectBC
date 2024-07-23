@@ -63,7 +63,7 @@ public class GameDataManager : MonoBehaviour
         }
         savePath = Application.persistentDataPath;
         InitializeHeroes();
-        Debug.Log($"GameDataManager Awake: Hero count = {_playerInfo?.heroes?.Count ?? 0}");
+
     }
 
     void Start()
@@ -90,7 +90,7 @@ public class GameDataManager : MonoBehaviour
         {
             if (_debugValues)
             {
-                Debug.Log("GAME DATA MANAGER LoadGame: Initializing game data.");
+
             }
 
             _playerInfo = NewGame();
@@ -101,7 +101,7 @@ public class GameDataManager : MonoBehaviour
 
             if (_debugValues)
             {
-                Debug.Log("SaveManager.LoadGame: " + _saveFilename + " json string: " + jsonString);
+
             }
         }
 
@@ -130,7 +130,7 @@ public class GameDataManager : MonoBehaviour
             _playerInfo = new PlayerInfo();
             _playerInfo.InitializeStartingHeroes();
         }
-        Debug.Log($"Heroes initialized: Count = {_playerInfo.heroes.Count}");
+
     }
     public void SaveGame()
     {
@@ -142,7 +142,7 @@ public class GameDataManager : MonoBehaviour
             FileManager.WriteToFile("heroes_" + _saveFilename, heroesJson)*/ && // 추가
             _debugValues)
         {
-            Debug.Log("SaveManager.SaveGame: " + _saveFilename + " json string: " + jsonFile);
+
             //Debug.Log("SaveManager.SaveGame: heroes_" + _saveFilename + " json string: " + heroesJson); // 추가
         }
     }
@@ -242,10 +242,9 @@ public class GameDataManager : MonoBehaviour
     // 히어로 관련 메서드 (추가)
     public List<HeroInfo> GetAllHeroes()
     {
-        Debug.Log($"GetAllHeroes called: Hero count = {_playerInfo?.heroes?.Count ?? 0}");
         if (_playerInfo == null || _playerInfo.heroes == null)
         {
-            Debug.LogError("PlayerInfo or heroes list is null in GameDataManager");
+
             return new List<HeroInfo>();
         }
         return new List<HeroInfo>(_playerInfo.heroes);
@@ -281,12 +280,5 @@ public class GameDataManager : MonoBehaviour
         _playerInfo.heroes.Remove(hero);
         HeroesUpdated?.Invoke(_playerInfo.heroes);
     }
-    public void LogAllHeroes()
-    {
-        Debug.Log($"GameDataManager: Total heroes: {_playerInfo.heroes.Count}");
-        foreach (var hero in _playerInfo.heroes)
-        {
-            Debug.Log($"Hero: {hero.heroName}, Class: {hero.heroClass}, ID: {hero.id}");
-        }
-    }
+
 }

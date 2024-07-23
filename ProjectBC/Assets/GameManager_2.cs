@@ -71,7 +71,7 @@ public class GameManager_2 : MonoBehaviour
                     GameObject instance = Instantiate(prefab);
                     instance.SetActive(false);
                     heroPrefabs[heroId] = instance;
-                    Debug.Log($"Added hero prefab. ID: {heroId}, Prefab name: {prefab.name}");
+
                 }
             }
         }
