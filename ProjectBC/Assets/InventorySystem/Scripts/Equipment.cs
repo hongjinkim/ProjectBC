@@ -21,9 +21,9 @@ public class Equipment : ItemContainer
     /// <summary>
     /// Character preview.
     /// </summary>
-    //public CharacterBase preview;
+    public CharacterBase preview;
 
-    //public Transform scheme;
+    public Transform scheme;
     //public int bagSize;
 
     //public readonly List<InventoryItem> inventoryItems = new List<InventoryItem>();
