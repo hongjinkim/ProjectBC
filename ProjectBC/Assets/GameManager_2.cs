@@ -6,16 +6,7 @@ public class GameManager_2 : MonoBehaviour
     private static GameManager_2 instance;
     public static GameManager_2 Instance
     {
-        get
-        {
-            if (instance == null)
-            {
-                GameObject go = new GameObject("GameManager_2");
-                instance = go.AddComponent<GameManager_2>();
-                DontDestroyOnLoad(go);
-            }
-            return instance;
-        }
+        get { return instance; }
     }
 
     private DungeonManager dungeonManager;
@@ -34,11 +25,6 @@ public class GameManager_2 : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
         }
     }
 

@@ -53,14 +53,14 @@ public class Knight : Character, IDragHandler, IEndDragHandler, IBeginDragHandle
     {
         Vector3 endPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         endPosition.z = 0;
-        Vector3 nearestValidEndPosition = base.customTilemapManager.GetNearestValidPosition(endPosition);
+        //Vector3 nearestValidEndPosition = base.customTilemapManager.GetNearestValidPosition(endPosition);
 
-        if (customTilemapManager.IsValidMovePosition(nearestValidEndPosition))
-        {
-            Vector3 start = customTilemapManager.GetNearestValidPosition(transform.position);
-            previewPath = customTilemapManager.FindPath(start, nearestValidEndPosition);
-            DrawPath(previewPath);
-        }
+        // if (customTilemapManager.IsValidMovePosition(nearestValidEndPosition))
+        // {
+        //     Vector3 start = customTilemapManager.GetNearestValidPosition(transform.position);
+        //     previewPath = customTilemapManager.FindPath(start, nearestValidEndPosition);
+        //     DrawPath(previewPath);
+        // }
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -90,12 +90,12 @@ public class Knight : Character, IDragHandler, IEndDragHandler, IBeginDragHandle
     {
         Vector3 endPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         endPosition.z = 0;
-        base.nearestValidPosition = customTilemapManager.GetNearestValidPosition(endPosition);
+        // base.nearestValidPosition = customTilemapManager.GetNearestValidPosition(endPosition);
 
-        if (customTilemapManager.IsValidMovePosition(nearestValidPosition))
-        {
-            base.SetNewPath(nearestValidPosition);
-        }
+        // if (customTilemapManager.IsValidMovePosition(nearestValidPosition))
+        // {
+        //     base.SetNewPath(nearestValidPosition);
+        // }
     }
     public void UseSkill()
     {

@@ -34,7 +34,10 @@ public class DungeonManager : MonoBehaviour
         foreach (var dungeon in _allDungeonPrefabList)
         {
             Dungeon dungeonInstance = Instantiate(dungeon, new Vector3(xOffset, 0, 0), Quaternion.identity);
+            
+            dungeonInstance.spawnAreaMin.x = xOffset;
             xOffset += spacing;
+            dungeonInstance.spawnAreaMax.x = xOffset;
 
             _allDungeonList.Add(dungeonInstance);
         }

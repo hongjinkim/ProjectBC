@@ -22,20 +22,15 @@ public class HeroManager : MonoBehaviour
 
     private void Awake()
     {
-        gameDataManager = FindObjectOfType<GameDataManager>();
-        if (gameDataManager == null)
-        {
-            Debug.LogError("GameDataManager not found in the scene!");
-            return;
-        }
-        LoadMyHeroes();
-
+        
+        //InitializeSlots();
     }
 
     private void Start()
     {
-        InitializeSlots();
-        InitializeAllHeroes();
+        gameDataManager = GameDataManager.instance;
+        LoadMyHeroes();
+        //InitializeAllHeroes();
         //InitializeMyHeroes();
         UpdateHeroSlots();
         UpdateDeckSlots();
@@ -51,13 +46,9 @@ public class HeroManager : MonoBehaviour
     //    // ... �ٸ� �⺻ ����� �߰� ...
     //}
     private void LoadMyHeroes()
-    {
-
-        List<HeroInfo> loadedHeroes = gameDataManager.GetAllHeroes();
-
-
-        AllHeroes = new List<HeroInfo>(loadedHeroes);
-        MyHeroes = new List<HeroInfo>(loadedHeroes);
+    { 
+        AllHeroes = new List<HeroInfo>(gameDataManager.playerInfo.heroes);
+        MyHeroes = new List<HeroInfo>(AllHeroes);
 
         foreach (var hero in MyHeroes)
         {
@@ -66,7 +57,7 @@ public class HeroManager : MonoBehaviour
 
 
         // 중복 제거 로직 (필요한 경우)
-        MyHeroes = MyHeroes.Distinct().ToList();
+        //MyHeroes = MyHeroes.Distinct().ToList();
 
 
     }
@@ -97,12 +88,12 @@ public class HeroManager : MonoBehaviour
         //AllHeroes.Add(new Hero { id = 3003, name = "non-slot", level = 1, power = 5, speed = 7, hp = 100, sprite = Resources.Load<Sprite>("Images/currency/YellowGemstone") });
     }
 
-    private void InitializeHeroes()
-    {
-        AllHeroes = gameDataManager.GetAllHeroes();
-        MyHeroes = new List<HeroInfo>(AllHeroes);
-        Deck = new List<HeroInfo>();
-    }
+    //private void InitializeHeroes()
+    //{
+    //    AllHeroes = gameDataManager.GetAllHeroes();
+    //    MyHeroes = new List<HeroInfo>(AllHeroes);
+    //    Deck = new List<HeroInfo>();
+    //}
 
     private void UpdateHeroSlots()
     {

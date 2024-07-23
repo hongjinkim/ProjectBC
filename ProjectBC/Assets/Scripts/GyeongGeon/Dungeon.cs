@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
 [Serializable]
@@ -18,7 +19,7 @@ public class Loot
 public class Dungeon : MonoBehaviour
 {
     [Header("BasicInformation")]
-    public TilemapManagerGG tilemapManager;
+    //public TilemapManagerGG tilemapManager;
     public string _themeCode;
     public string _themeName;
     public string _stageCode;
@@ -26,6 +27,9 @@ public class Dungeon : MonoBehaviour
     public int _enemyQuantity;
     private int _randomEnemyIndex;
     private int _randomTileIndex;
+    public Vector2 spawnAreaMin;
+    public Vector2 spawnAreaMax;
+    Camera mainCamera;
 
     [Header("ActiveList")]
     public List<Character> _activeEnemyList = new List<Character>();
@@ -70,12 +74,25 @@ public class Dungeon : MonoBehaviour
         {
             loot.droppedItemPrefab = lootPrefab;
         }
+
+        mainCamera = Camera.main;
     }
     void Start()
     {   
-        tilemapManager.CalculateTileCenters();
+        //tilemapManager.CalculateTileCenters();
         // 테스트용
         //SetHeroList();
+
+        
+        // if (mainCamera != null)
+        // {
+        //     Vector3 bottomLeft = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, mainCamera.nearClipPlane));
+        //     Vector3 topRight = mainCamera.ViewportToWorldPoint(new Vector3(1, 1, mainCamera.nearClipPlane));
+            
+        //     spawnAreaMin = new Vector2(bottomLeft.x, bottomLeft.y);
+        //     spawnAreaMax = new Vector2(topRight.x, topRight.y);
+        // }
+
         SetEnemyList();
         DungeonInit();
         InvokeRepeating("OnPickupItem", 0f, 5f);
@@ -110,7 +127,7 @@ public class Dungeon : MonoBehaviour
         foreach (var character in _allCharacterList)
         {
             character.dungeon = this;
-            character.tilemapManager = tilemapManager;
+            //character.tilemapManager = tilemapManager;
         }
     }
 
@@ -201,8 +218,20 @@ public class Dungeon : MonoBehaviour
 
             _activeEnemyList[i].gameObject.tag = "Enemy";
 
-            _randomTileIndex = Random.Range(0, tilemapManager.tileCenters.Count);
-            enemy.transform.position = tilemapManager.tileCenters[_randomTileIndex];
+            // _randomTileIndex = Random.Range(0, tilemapManager.tileCenters.Count);
+            // enemy.transform.position = tilemapManager.tileCenters[_randomTileIndex];
+
+            TilemapCollider2D collider = this.transform.GetChild(0).GetChild(0).GetComponent<TilemapCollider2D>();
+            Vector2 min = collider.bounds.min;
+            Vector2 max = collider.bounds.max;
+
+            // 추후에 position 변경해야함
+            Vector2 randomPosition = new Vector2(
+                Random.Range(min.x, max.x),
+                Random.Range(min.y, max.y)
+            );
+
+            enemy.transform.position = randomPosition;
 
             _activeEnemyList[i].gameObject.SetActive(true);
         }
@@ -218,7 +247,7 @@ public class Dungeon : MonoBehaviour
             _allCharacterList.Add(hero);
 
             hero.dungeon = this;
-            hero.tilemapManager = tilemapManager;
+            //hero.tilemapManager = tilemapManager;
 
             // 필요한 경우 추가 초기화
             // hero.Initialize();

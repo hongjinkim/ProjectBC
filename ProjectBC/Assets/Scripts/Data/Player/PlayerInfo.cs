@@ -54,12 +54,13 @@ public class PlayerInfo
     public void InitializeStartingHeroes()
     {
         // 게임 시작 시 기본 히어로 생성
-        this.heroes = new List<HeroInfo>(6);
-
-        this.heroes.Add(HeroInfo.CreateNewHero("Warrior", HeroClass.Knight, CharacteristicType.MuscularStrength));
-        this.heroes.Add(HeroInfo.CreateNewHero("Wizard", HeroClass.Wizard, CharacteristicType.Intellect));
-        this.heroes.Add(HeroInfo.CreateNewHero("Priest", HeroClass.Priest, CharacteristicType.Intellect));
-        this.heroes.Add(HeroInfo.CreateNewHero("Archer", HeroClass.Archer, CharacteristicType.Agility));
+        heroes = new List<HeroInfo>()
+        {
+            new HeroInfo("Warrior", HeroClass.Knight, CharacteristicType.MuscularStrength),
+            new HeroInfo("Wizard", HeroClass.Wizard, CharacteristicType.Intellect),
+            new HeroInfo("Priest", HeroClass.Priest, CharacteristicType.Intellect),
+            new HeroInfo("Archer", HeroClass.Archer, CharacteristicType.Agility)
+        };
     }
     //public string HeroesToJson()
     //{

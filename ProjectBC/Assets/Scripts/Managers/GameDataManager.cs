@@ -62,18 +62,19 @@ public class GameDataManager : MonoBehaviour
             _instance = this;
         }
         savePath = Application.persistentDataPath;
-        InitializeHeroes();
+        //InitializeHeroes();
+
+        LoadDatas();
+
+        LoadGame();
+
+        Init();
 
     }
 
     void Start()
     {
-        LoadDatas();
-        //if saved data exists, load saved data
-
-        LoadGame();
-
-        Init();
+        
         
     }
 
@@ -88,21 +89,11 @@ public class GameDataManager : MonoBehaviour
 
         if (_playerInfo == null || _resetGame)
         {
-            if (_debugValues)
-            {
-
-            }
-
             _playerInfo = NewGame();
         }
         else if (FileManager.LoadFromFile(_saveFilename, out var jsonString))
         {
             _playerInfo.LoadJson(jsonString);
-
-            if (_debugValues)
-            {
-
-            }
         }
 
         // 히어로 데이터 로드 (추가)
@@ -122,15 +113,6 @@ public class GameDataManager : MonoBehaviour
             GameDataLoaded?.Invoke(_playerInfo);
             HeroesUpdated?.Invoke(_playerInfo.heroes); // 추가
         }
-    }
-    public void InitializeHeroes()
-    {
-        if (_playerInfo == null || _playerInfo.heroes == null || _playerInfo.heroes.Count == 0)
-        {
-            _playerInfo = new PlayerInfo();
-            _playerInfo.InitializeStartingHeroes();
-        }
-
     }
     public void SaveGame()
     {

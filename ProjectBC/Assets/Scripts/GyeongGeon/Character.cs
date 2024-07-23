@@ -70,20 +70,20 @@ public abstract class Character : MonoBehaviour, IBehavior
     private Color[] originalColors;
     public float fadeDuration = 1.0f;
 
-    [Header("TileMap")]
-    public TilemapManagerGG tilemapManager;
-    public CustomTilemapManagerGG customTilemapManager;
-    public float updatePathInterval = 1f;
-    private int currentPathIndex;
-    private float lastPathUpdateTime = 0f;
+    //[Header("TileMap")]
+    // public TilemapManagerGG tilemapManager;
+    // public CustomTilemapManagerGG customTilemapManager;
+    // public float updatePathInterval = 1f;
+    // private int currentPathIndex;
+    // private float lastPathUpdateTime = 0f;
 
-    private Vector3 targetPosition;
-    private Vector3 currentPosition;
-    protected Vector3 nearestValidPosition;
-    private List<Vector3> path;
+    // private Vector3 targetPosition;
+    // private Vector3 currentPosition;
+    // protected Vector3 nearestValidPosition;
+    // private List<Vector3> path;
 
-    private const float PositionTolerance = 0.13f;
-    private const float PositionToleranceSquared = PositionTolerance * PositionTolerance;
+    // private const float PositionTolerance = 0.13f;
+    // private const float PositionToleranceSquared = PositionTolerance * PositionTolerance;
 
     public Sprite Icon { get; protected set; }
     public float currentExp;
@@ -112,13 +112,13 @@ public abstract class Character : MonoBehaviour, IBehavior
             playerStat = gameObject.AddComponent<PlayerStat>();
         }
         //customTilemapManager = new CustomTilemapManagerGG(tilemapManager, this);
-        customTilemapManager = gameObject.AddComponent<CustomTilemapManagerGG>();
-        customTilemapManager.Initialize(tilemapManager, this);
+        //customTilemapManager = gameObject.AddComponent<CustomTilemapManagerGG>();
+        //customTilemapManager.Initialize(tilemapManager, this);
 
         //dungeon._allCharacterList.Add(this);
         //dungeon.DungeonInit();
-        transform.position = customTilemapManager.GetNearestValidPosition(transform.position);
-        StartCoroutine(AutoMoveCoroutine());
+        //transform.position = customTilemapManager.GetNearestValidPosition(transform.position);
+        //StartCoroutine(AutoMoveCoroutine());
 
         currentHealth = maxHealth;
     }
@@ -312,26 +312,22 @@ public abstract class Character : MonoBehaviour, IBehavior
     //}
     void OnMove()
     {
-        if (_target == null)
-        {
-            Debug.LogWarning("Target is null in OnMove method");
-            SetState(UnitState.idle);
-            return;
-        }
-
-        if (CheckDistance()) return;
+        CheckDistance();
 
         _dirVec = (Vector2)(_target.transform.position - transform.position).normalized;
 
         SetDirection();
 
-        MoveAlongPath();
+        transform.position += (Vector3)_dirVec * moveSpeed * Time.deltaTime;
+        
 
-        if (path == null || path.Count == 0)
-        {
-            SnapToNearestTileCenter();
-            UpdatePath(); // 경로가 없으면 새로운 경로를 찾습니다.
-        }
+        //MoveAlongPath();
+
+        // if (path == null || path.Count == 0)
+        // {
+        //     SnapToNearestTileCenter();
+        //     UpdatePath(); // 경로가 없으면 새로운 경로를 찾습니다.
+        // }
     }
 
     void SetDirection()
@@ -372,6 +368,11 @@ public abstract class Character : MonoBehaviour, IBehavior
         }
     }
 
+    void SetMove()
+    {
+        
+    }
+
     bool CheckDistance()
     {
         if (_target == null)
@@ -383,12 +384,20 @@ public abstract class Character : MonoBehaviour, IBehavior
         Vector3 targetPosition = _target.transform.position;
         Vector3 currentPosition = transform.position;
 
-        if(IsWithinAttackRange(currentPosition, targetPosition, attackRange))
+        _tempDistance = (Vector2)(_target.transform.localPosition - transform.position);
+        float distanceSquared = _tempDistance.sqrMagnitude;
+
+        if(distanceSquared <= attackRange * attackRange)
         {
             SetState(UnitState.attack);
-
             return true;
         }
+        // if(IsWithinAttackRange(currentPosition, targetPosition, attackRange))
+        // {
+        //     SetState(UnitState.attack);
+
+        //     return true;
+        // }
         else
         {
             if (!CheckTarget())
@@ -543,56 +552,56 @@ public abstract class Character : MonoBehaviour, IBehavior
 
 
 
-    IEnumerator AutoMoveCoroutine()
-    {
-        WaitForSeconds wait = new WaitForSeconds(updatePathInterval);
+    // IEnumerator AutoMoveCoroutine()
+    // {
+    //     WaitForSeconds wait = new WaitForSeconds(updatePathInterval);
 
-        while (true)
-        {
-            yield return wait;
+    //     while (true)
+    //     {
+    //         yield return wait;
 
-            UpdatePath();
+    //         UpdatePath();
             
-        }
-    }
+    //     }
+    // }
 
-    void UpdatePath()
-    {
-        if (_target != null)
-        {
-            GameObject closestObject = _target.gameObject;
+    // void UpdatePath()
+    // {
+    //     if (_target != null)
+    //     {
+    //         GameObject closestObject = _target.gameObject;
 
-            if (closestObject != null)
-            {
-                targetPosition = closestObject.transform.position;
-                currentPosition = customTilemapManager.GetNearestValidPosition(transform.position);
+    //         if (closestObject != null)
+    //         {
+    //             targetPosition = closestObject.transform.position;
+    //             currentPosition = customTilemapManager.GetNearestValidPosition(transform.position);
 
-                if ((currentPosition - targetPosition).sqrMagnitude > PositionToleranceSquared)
-                {
-                    List<Vector3> surroundingPositions = GetSurroundingPositions(targetPosition);
+    //             if ((currentPosition - targetPosition).sqrMagnitude > PositionToleranceSquared)
+    //             {
+    //                 List<Vector3> surroundingPositions = GetSurroundingPositions(targetPosition);
 
-                    Vector3? bestPosition = FindBestPosition(surroundingPositions, currentPosition);
+    //                 Vector3? bestPosition = FindBestPosition(surroundingPositions, currentPosition);
 
-                    if (bestPosition.HasValue)
-                    {
-                        SetNewPath(bestPosition.Value);
-                    }
-                    else
-                    {
-                        path = null;
-                    }
-                }
-                else
-                {
-                    transform.position = currentPosition;
-                    path = null;
-                }
-            }
+    //                 if (bestPosition.HasValue)
+    //                 {
+    //                     SetNewPath(bestPosition.Value);
+    //                 }
+    //                 else
+    //                 {
+    //                     path = null;
+    //                 }
+    //             }
+    //             else
+    //             {
+    //                 transform.position = currentPosition;
+    //                 path = null;
+    //             }
+    //         }
             
-            lastPathUpdateTime = Time.time;
-        }
+    //         lastPathUpdateTime = Time.time;
+    //     }
 
-    }
+    // }
 
     private List<Vector3> GetSurroundingPositions(Vector3 targetPosition)
     {
@@ -611,26 +620,26 @@ public abstract class Character : MonoBehaviour, IBehavior
         return surroundingPositions;
     }
 
-    private Vector3? FindBestPosition(List<Vector3> positions, Vector3 currentPosition)
-    {
-        Vector3? bestPosition = null;
-        float minSqrDistance = float.MaxValue;
+    // private Vector3? FindBestPosition(List<Vector3> positions, Vector3 currentPosition)
+    // {
+    //     Vector3? bestPosition = null;
+    //     float minSqrDistance = float.MaxValue;
 
-        for (int i = 0; i < positions.Count; i++)
-        {
-            if (customTilemapManager.IsValidMovePosition(positions[i]))
-            {
-                float sqrDistance = (currentPosition - positions[i]).sqrMagnitude;
-                if (sqrDistance < minSqrDistance)
-                {
-                    minSqrDistance = sqrDistance;
-                    bestPosition = positions[i];
-                }
-            }
-        }
+    //     for (int i = 0; i < positions.Count; i++)
+    //     {
+    //         if (customTilemapManager.IsValidMovePosition(positions[i]))
+    //         {
+    //             float sqrDistance = (currentPosition - positions[i]).sqrMagnitude;
+    //             if (sqrDistance < minSqrDistance)
+    //             {
+    //                 minSqrDistance = sqrDistance;
+    //                 bestPosition = positions[i];
+    //             }
+    //         }
+    //     }
 
-        return bestPosition;
-    }
+    //     return bestPosition;
+    // }
 
     // private Vector3? FindBestPosition(List<Vector3> positions, Vector3 currentPosition)
     // {
@@ -672,81 +681,81 @@ public abstract class Character : MonoBehaviour, IBehavior
     //    }
     //}
 
-    protected void SetNewPath(Vector3 target)
-    {
-        if (customTilemapManager == null)
-        {
-            return;
-        }
+    // protected void SetNewPath(Vector3 target)
+    // {
+    //     if (customTilemapManager == null)
+    //     {
+    //         return;
+    //     }
 
-        Vector3 start = customTilemapManager.GetNearestValidPosition(transform.position);
-        path = customTilemapManager.FindPath(start, target);
-        currentPathIndex = 0;
+    //     Vector3 start = customTilemapManager.GetNearestValidPosition(transform.position);
+    //     path = customTilemapManager.FindPath(start, target);
+    //     currentPathIndex = 0;
 
-        if (path != null && path.Count > 0)
-        {
-            if (tilemapManager != null)
-            {
-                tilemapManager.SetDebugPath(path);
-            }
-        }
+    //     if (path != null && path.Count > 0)
+    //     {
+    //         if (tilemapManager != null)
+    //         {
+    //             tilemapManager.SetDebugPath(path);
+    //         }
+    //     }
 
-    }
+    // }
 
-    private void MoveAlongPath()
-    {
-        if (path != null && currentPathIndex < path.Count)
-        {
-            Vector3 targetPosition = path[currentPathIndex];
-            //targetPosition.z = 0; // 추가: z 값을 0으로 설정
+    // private void MoveAlongPath()
+    // {
+    //     if (path != null && currentPathIndex < path.Count)
+    //     {
+    //         Vector3 targetPosition = path[currentPathIndex];
+    //         //targetPosition.z = 0; // 추가: z 값을 0으로 설정
 
-            if (!customTilemapManager.IsValidMovePosition(targetPosition))
-            {
-                UpdatePath();
-                return;
-            }
+    //         if (!customTilemapManager.IsValidMovePosition(targetPosition))
+    //         {
+    //             UpdatePath();
+    //             return;
+    //         }
 
-            if ((transform.position - targetPosition).sqrMagnitude > PositionToleranceSquared)
-            {
-                Vector3 newPosition = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-                //newPosition.z = 0; // 추가: z 값을 0으로 설정
-                transform.position = newPosition;
-            }
-            else
-            {
-                //transform.position = targetPosition;
-                //transform.position = new Vector3(targetPosition.x, targetPosition.y, 0); // 추가: z 값을 0으로 설정
-                currentPathIndex++;
-            }
+    //         if ((transform.position - targetPosition).sqrMagnitude > PositionToleranceSquared)
+    //         {
+    //             Vector3 newPosition = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+    //             //newPosition.z = 0; // 추가: z 값을 0으로 설정
+    //             transform.position = newPosition;
+    //         }
+    //         else
+    //         {
+    //             //transform.position = targetPosition;
+    //             //transform.position = new Vector3(targetPosition.x, targetPosition.y, 0); // 추가: z 값을 0으로 설정
+    //             currentPathIndex++;
+    //         }
 
-            if (currentPathIndex >= path.Count)
-            {
-                path = null;
+    //         if (currentPathIndex >= path.Count)
+    //         {
+    //             path = null;
 
-                SnapToNearestTileCenter();
+    //             SnapToNearestTileCenter();
 
-                OnPathComplete();
-            }
-        }
-    }
+    //             OnPathComplete();
+    //         }
+    //     }
+    // }
 
-    protected virtual void OnPathComplete()
-    {
-        autoMove = true;  // 예시: 플레이어 제어 상태 해제
-        SetState(UnitState.idle);    // 상태를 idle로 변경
-        StartCoroutine(WaitAndFindNewPath());
-    }
+    // protected virtual void OnPathComplete()
+    // {
+    //     autoMove = true;  // 예시: 플레이어 제어 상태 해제
+    //     SetState(UnitState.idle);    // 상태를 idle로 변경
+    //     StartCoroutine(WaitAndFindNewPath());
+    // }
 
-    private void SnapToNearestTileCenter()
-    {
-        nearestValidPosition = customTilemapManager.GetNearestValidPosition(transform.position);
-        nearestValidPosition.z = 0; // 추가: z 값을 0으로 설정
+    // private void SnapToNearestTileCenter()
+    // {
+    //     nearestValidPosition = customTilemapManager.GetNearestValidPosition(transform.position);
+    //     nearestValidPosition.z = 0; // 추가: z 값을 0으로 설정
 
-        if ((transform.position - nearestValidPosition).sqrMagnitude < PositionToleranceSquared)
-        {
-            transform.position = nearestValidPosition;
-        }
-    }
+    //     if ((transform.position - nearestValidPosition).sqrMagnitude < PositionToleranceSquared)
+    //     {
+    //         transform.position = nearestValidPosition;
+    //     }
+    // }
 
     //IEnumerator WaitAndFindNewPath()
     //{
@@ -761,30 +770,30 @@ public abstract class Character : MonoBehaviour, IBehavior
     //    }
 
     //}
-    IEnumerator WaitAndFindNewPath()
-    {
-        yield return new WaitForSeconds(0.2f);
+    // IEnumerator WaitAndFindNewPath()
+    // {
+    //     yield return new WaitForSeconds(0.2f);
 
-        if (_target == null)
-        {
-            Debug.LogWarning("Target is null in WaitAndFindNewPath");
-            SetState(UnitState.idle);
-            yield break;
-        }
+    //     if (_target == null)
+    //     {
+    //         Debug.LogWarning("Target is null in WaitAndFindNewPath");
+    //         SetState(UnitState.idle);
+    //         yield break;
+    //     }
 
-        GameObject closestObject = _target.gameObject;
+    //     GameObject closestObject = _target.gameObject;
 
-        if (closestObject != null)
-        {
-            Vector3 targetPosition = closestObject.transform.position;
-            SetNewPath(targetPosition);
-        }
-        else
-        {
-            Debug.LogWarning("Closest object is null in WaitAndFindNewPath");
-            SetState(UnitState.idle);
-        }
-    }
+    //     if (closestObject != null)
+    //     {
+    //         Vector3 targetPosition = closestObject.transform.position;
+    //         SetNewPath(targetPosition);
+    //     }
+    //     else
+    //     {
+    //         Debug.LogWarning("Closest object is null in WaitAndFindNewPath");
+    //         SetState(UnitState.idle);
+    //     }
+    // }
 
     // 거리 체크 메서드
     public bool IsWithinAttackRange(Vector3 currentPosition, Vector3 targetPosition, int attackRange)
