@@ -23,7 +23,13 @@ public class HeroManager : MonoBehaviour
     private void Awake()
     {
         gameDataManager = FindObjectOfType<GameDataManager>();
+        if (gameDataManager == null)
+        {
+            Debug.LogError("GameDataManager not found in the scene!");
+            return;
+        }
         LoadMyHeroes();
+
     }
 
     private void Start()
@@ -34,6 +40,7 @@ public class HeroManager : MonoBehaviour
         UpdateHeroSlots();
         UpdateDeckSlots();
         UpdateMyHeroSlots();
+       
     }
 
     //private void InitializeAllHeroes()
@@ -45,16 +52,23 @@ public class HeroManager : MonoBehaviour
     //}
     private void LoadMyHeroes()
     {
-        AllHeroes = gameDataManager.GetAllHeroes();
-        Debug.Log($"LoadMyHeroes: Loaded {MyHeroes.Count} heroes");
+
+        List<HeroInfo> loadedHeroes = gameDataManager.GetAllHeroes();
+
+
+        AllHeroes = new List<HeroInfo>(loadedHeroes);
+        MyHeroes = new List<HeroInfo>(loadedHeroes);
+
         foreach (var hero in MyHeroes)
         {
-            Debug.Log($"Hero: {hero.heroName}, Class: {hero.heroClass}, ID: {hero.id}");
+
         }
 
-        // �ߺ� ������ ���� �˻�
+
+        // 중복 제거 로직 (필요한 경우)
         MyHeroes = MyHeroes.Distinct().ToList();
-        Debug.Log($"After removing duplicates: {MyHeroes.Count} heroes");
+
+
     }
     public void UpdateHeroInfo(HeroInfo updatedHero)
     {
@@ -92,11 +106,11 @@ public class HeroManager : MonoBehaviour
 
     private void UpdateHeroSlots()
     {
-        Debug.Log($"Updating hero slots. MyHeroes count: {MyHeroes.Count}, heroSlots count: {heroSlots?.Length ?? 0}");
+
 
         if (heroSlots == null || heroSlots.Length == 0)
         {
-            Debug.LogError("heroSlots is not initialized properly!");
+
             return;
         }
 
@@ -104,7 +118,7 @@ public class HeroManager : MonoBehaviour
         {
             if (heroSlots[i] == null)
             {
-                Debug.LogError($"heroSlot at index {i} is null!");
+
                 continue;
             }
 

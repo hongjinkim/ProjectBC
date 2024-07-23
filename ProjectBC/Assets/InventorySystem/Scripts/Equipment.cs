@@ -67,22 +67,4 @@ public class Equipment : ItemContainer
     {
         
     }
-
-    private Item FindItem(ItemSlot slot)
-    {
-        if (slot.types.Contains(ItemType.Shield))
-        {
-            var copy = Items.SingleOrDefault(i => i.Params.Type == ItemType.Weapon && (i.IsTwoHanded || i.IsFirearm));
-
-            if (copy != null)
-            {
-                return copy;
-            }
-        }
-
-        var index = slots.Where(i => i.types.SequenceEqual(slot.types)).ToList().IndexOf(slot);
-        var items = Items.Where(slot.Supports).ToList();
-
-        return index < items.Count ? items[index] : null;
-    }
 }
