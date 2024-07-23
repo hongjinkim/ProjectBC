@@ -143,10 +143,6 @@ public class InventoryBase : ItemWorkspace
         Initialize(CrystalInventory, ref crystal);
 
 
-        //Initialize(WeaponInventory, ref weapon);
-        //Initialize(HelemtInventory, ref helmet);
-        //Initialize(ArmorInventory, ref armor);
-        //Initialize(BootsInventory, ref boots);
 
     }
 
@@ -155,11 +151,7 @@ public class InventoryBase : ItemWorkspace
         RegisterCallbacks();
         container.Initialize(ref inventory);
     }
-    public void Initialize(ScrollEquipment container, ref List<Item> inventory/*, ref List<Item> equipped, int bagSize, Action onRefresh*/)
-    {
-        RegisterCallbacks();
-        container.Initialize(ref inventory);
-    }
+
 
     public void RegisterCallbacks()
     {
