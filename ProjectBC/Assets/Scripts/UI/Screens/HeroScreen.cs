@@ -1,18 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
 
 public class HeroScreen : MenuScreen
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public event Action<HeroInfo> HeroSelected;
+    public event Action<HeroInfo> EquipmentUpdated;
 
-    // Update is called once per frame
-    void Update()
+    public void HeroSelect(int idx)
     {
-        
+        //HeroSelected?.Invoke();
     }
 }

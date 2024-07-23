@@ -21,9 +21,9 @@ public class Equipment : ItemContainer
     /// <summary>
     /// Character preview.
     /// </summary>
-    public CharacterBase preview;
+    //public CharacterBase preview;
 
-    public Transform scheme;
+    //public Transform scheme;
     //public int bagSize;
 
     //public readonly List<InventoryItem> inventoryItems = new List<InventoryItem>();
@@ -66,23 +66,5 @@ public class Equipment : ItemContainer
     private void Reset()
     {
         
-    }
-
-    private Item FindItem(ItemSlot slot)
-    {
-        if (slot.types.Contains(ItemType.Shield))
-        {
-            var copy = Items.SingleOrDefault(i => i.Params.Type == ItemType.Weapon && (i.IsTwoHanded || i.IsFirearm));
-
-            if (copy != null)
-            {
-                return copy;
-            }
-        }
-
-        var index = slots.Where(i => i.types.SequenceEqual(slot.types)).ToList().IndexOf(slot);
-        var items = Items.Where(slot.Supports).ToList();
-
-        return index < items.Count ? items[index] : null;
     }
 }
