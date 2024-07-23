@@ -24,21 +24,22 @@ public class HeroSlot : MonoBehaviour
     {
         heroManager.AddHeroToDeck(myHeroIndex);
     }
-    public void SetHeroData(HeroManager.Hero hero, int index)
+    public void SetHeroData(HeroInfo hero, int index)
     {
+        Debug.Log($"Setting hero data in slot: {hero.heroName}");
         if (hero != null)
         {
             id = hero.id;
-            heroName = hero.name;
+            heroName = hero.heroName;
             level = hero.level;
-            power = hero.power;
-            speed = hero.speed;
+            power = hero.attackDamage;
+            speed = hero.agility;
             hp = hero.hp;
             myHeroIndex = index;
             if (spriteImage != null)
             {
-                spriteImage.sprite = hero.sprite;
-                spriteImage.enabled = true;
+                spriteImage.sprite = hero.Sprite;
+                spriteImage.enabled = hero.Sprite != null;
             }
             gameObject.SetActive(true);
         }
@@ -46,7 +47,9 @@ public class HeroSlot : MonoBehaviour
         {
             ClearSlot();
         }
+
     }
+
     public void ClearSlot()
     {
         id = 0;
@@ -61,6 +64,6 @@ public class HeroSlot : MonoBehaviour
             spriteImage.sprite = null;
             spriteImage.enabled = false;
         }
-        gameObject.SetActive(false);
+        gameObject.SetActive(true);
     }
 }

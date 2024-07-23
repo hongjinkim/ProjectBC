@@ -612,6 +612,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1431654455691587676}
   - component: {fileID: 7981873026576980590}
+  - component: {fileID: 7261146762021837015}
   m_Layer: 0
   m_Name: StoneHenge
   m_TagString: Untagged
@@ -647,13 +648,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cb006c91fd52684db32f00c12ee0cca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tilemapManager: {fileID: 5344057798014446933}
   _themeCode: A
   _themeName: "\uD68C\uC0C9 \uBC14\uC704 \uC0B0\uB9C8\uB8E8"
   _stageCode: A3
   _findTimer: 0.1
   _enemyQuantity: 4
-  spawnAreaMin: {x: 0, y: 0}
-  spawnAreaMax: {x: 0, y: 0}
   _activeEnemyList: []
   _allCharacterList: []
   _stageName: "\uC2A4\uD1A4 \uD5E8\uC9C0"
@@ -662,14 +662,76 @@ MonoBehaviour:
   _enemyPool:
   - {fileID: 7141519928834900317, guid: fd5d84088134ca8439cea19433f5dee8, type: 3}
   _ItemList: []
-  _activeHeroList:
-  - {fileID: 4895118519149478533, guid: 66477feb2aacdc6439eccf5370d0b1ff, type: 3}
-  LootTable: []
-  goldSprite: {fileID: 0}
+  _activeHeroList: []
+  LootTable:
+  - id: none
+    dropRate: 70
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: gold
+    dropRate: 20
+    minValue: 100
+    maxValue: 200
+    droppedItemPrefab: {fileID: 0}
+  - id: WarriorHelemt_Epic
+    dropRate: 2.4
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: WarriorArmor_Epic
+    dropRate: 2.4
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: WarriorLeggings_Epic
+    dropRate: 2.4
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: WarriorSword_Epic
+    dropRate: 2.4
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: WarriorHelemet_Legendary
+    dropRate: 0.1
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: WarriorArmor_Legendary
+    dropRate: 0.1
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: WarriorLeggings_Legendary
+    dropRate: 0.1
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: WarriorSword_Legendary
+    dropRate: 0.1
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  goldSprite: {fileID: 21300000, guid: eeb600b527962b247b9305aa09914320, type: 3}
   droppedItems: []
   droppedPrefabs: []
   droppedGolds: 0
   totalDropRate: 0
   lootPrefab: {fileID: 6398687339744348316, guid: 78836114cce56cf4191abc5b2ca58fad, type: 3}
-  textPrefab: {fileID: 8446656736611996068, guid: 283537afdf47ed54482bddbfdc84c7b4, type: 3}
+  objectPool: {fileID: 7261146762021837015}
   fadeDuration: 2
+--- !u!114 &7261146762021837015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7858580071494584065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edf65d0a05d30ee4e9751b8050d698b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 721338a9d356a2248bdaf4e141b6d4c5, type: 2}

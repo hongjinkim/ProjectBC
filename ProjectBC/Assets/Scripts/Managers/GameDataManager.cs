@@ -62,6 +62,8 @@ public class GameDataManager : MonoBehaviour
             _instance = this;
         }
         savePath = Application.persistentDataPath;
+        InitializeHeroes();
+
     }
 
     void Start()
@@ -72,6 +74,7 @@ public class GameDataManager : MonoBehaviour
         LoadGame();
 
         Init();
+        
     }
 
     public PlayerInfo NewGame()
@@ -87,7 +90,7 @@ public class GameDataManager : MonoBehaviour
         {
             if (_debugValues)
             {
-                Debug.Log("GAME DATA MANAGER LoadGame: Initializing game data.");
+
             }
 
             _playerInfo = NewGame();
@@ -98,20 +101,20 @@ public class GameDataManager : MonoBehaviour
 
             if (_debugValues)
             {
-                Debug.Log("SaveManager.LoadGame: " + _saveFilename + " json string: " + jsonString);
+
             }
         }
 
         // 히어로 데이터 로드 (추가)
-        if (FileManager.LoadFromFile("heroes_" + _saveFilename, out var heroesJsonString))
-        {
-            _playerInfo.LoadHeroesFromJson(heroesJsonString);
+        //if (FileManager.LoadFromFile("heroes_" + _saveFilename, out var heroesJsonString))
+        //{
+        //    _playerInfo.LoadHeroesFromJson(heroesJsonString);
 
-            if (_debugValues)
-            {
-                Debug.Log("SaveManager.LoadGame: heroes_" + _saveFilename + " json string: " + heroesJsonString);
-            }
-        }
+        //    if (_debugValues)
+        //    {
+        //        Debug.Log("SaveManager.LoadGame: heroes_" + _saveFilename + " json string: " + heroesJsonString);
+        //    }
+        //}
 
         // notify other game objects 
         if (_playerInfo != null)
@@ -120,19 +123,27 @@ public class GameDataManager : MonoBehaviour
             HeroesUpdated?.Invoke(_playerInfo.heroes); // 추가
         }
     }
+    public void InitializeHeroes()
+    {
+        if (_playerInfo == null || _playerInfo.heroes == null || _playerInfo.heroes.Count == 0)
+        {
+            _playerInfo = new PlayerInfo();
+            _playerInfo.InitializeStartingHeroes();
+        }
 
+    }
     public void SaveGame()
     {
         string jsonFile = _playerInfo.ToJson();
-        string heroesJson = _playerInfo.HeroesToJson(); // 추가
+        //string heroesJson = _playerInfo.HeroesToJson(); // 추가
 
         // save to disk with FileDataHandler
-        if (FileManager.WriteToFile(_saveFilename, jsonFile) &&
-            FileManager.WriteToFile("heroes_" + _saveFilename, heroesJson) && // 추가
+        if (FileManager.WriteToFile(_saveFilename, jsonFile)/* &&
+            FileManager.WriteToFile("heroes_" + _saveFilename, heroesJson)*/ && // 추가
             _debugValues)
         {
-            Debug.Log("SaveManager.SaveGame: " + _saveFilename + " json string: " + jsonFile);
-            Debug.Log("SaveManager.SaveGame: heroes_" + _saveFilename + " json string: " + heroesJson); // 추가
+
+            //Debug.Log("SaveManager.SaveGame: heroes_" + _saveFilename + " json string: " + heroesJson); // 추가
         }
     }
 
@@ -231,13 +242,17 @@ public class GameDataManager : MonoBehaviour
     // 히어로 관련 메서드 (추가)
     public List<HeroInfo> GetAllHeroes()
     {
-        return _playerInfo.heroes;
+        if (_playerInfo == null || _playerInfo.heroes == null)
+        {
+
+            return new List<HeroInfo>();
+        }
+        return new List<HeroInfo>(_playerInfo.heroes);
     }
 
     public void AddHero(HeroInfo hero)
     {
         _playerInfo.heroes.Add(hero);
-        SaveGame();
         HeroesUpdated?.Invoke(_playerInfo.heroes);
     }
 
@@ -247,7 +262,6 @@ public class GameDataManager : MonoBehaviour
         if (index != -1)
         {
             _playerInfo.heroes[index] = hero;
-            SaveGame();
             HeroesUpdated?.Invoke(_playerInfo.heroes);
         }
     }
@@ -256,4 +270,15 @@ public class GameDataManager : MonoBehaviour
     {
         return _playerInfo.heroes.Find(h => h.id == id);
     }
+    public void UpdateHeroes(List<HeroInfo> heroes)
+    {
+        _playerInfo.heroes = heroes;
+        HeroesUpdated?.Invoke(_playerInfo.heroes);
+    }
+    public void RemoveHero(HeroInfo hero)
+    {
+        _playerInfo.heroes.Remove(hero);
+        HeroesUpdated?.Invoke(_playerInfo.heroes);
+    }
+
 }

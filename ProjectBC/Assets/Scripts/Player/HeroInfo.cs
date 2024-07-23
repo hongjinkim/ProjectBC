@@ -29,22 +29,55 @@ public class HeroInfo
     public float healthRegen;
     public float energyRegen;
     public int attackRange;
-
+    public string spritePath;
     public List<Trait> traits = new List<Trait>();
     public List<PlayerSkill> skills = new List<PlayerSkill>();
     public PlayerSkill activeSkill;
-
-    public HeroInfo(string name, HeroClass heroClass, CharacteristicType characteristicType)
+    private Sprite _sprite;
+    public HeroInfo() { }
+    public Sprite Sprite
     {
-        this.heroName = name;
-        this.heroClass = heroClass;
-        this.characteristicType = characteristicType;
-        this.level = 1;
-        this.currentExp = 0;
-        this.neededExp = 100;
-        InitializeBaseStats();
+        get
+        {
+            if (_sprite == null && !string.IsNullOrEmpty(spritePath))
+            {
+                _sprite = Resources.Load<Sprite>(spritePath);
+            }
+            return _sprite;
+        }
     }
-
+    public HeroInfo(HeroInfo other)
+    {
+        this.id = other.id;
+        this.heroName = other.heroName;
+        this.level = other.level;
+        this.attackDamage = other.attackDamage;
+        this.agility = other.agility;
+        this.hp = other.hp;
+        this.spritePath = other.spritePath;
+        // ... 다른 속성들도 복사 ...
+    }
+    public static HeroInfo CreateNewHero(string name, HeroClass heroClass, CharacteristicType characteristicType)
+    {
+        return new HeroInfo
+        {
+            heroName = name,
+            heroClass = heroClass,
+            characteristicType = characteristicType,
+            level = 1,
+            currentExp = 0,
+            neededExp = 100,
+            // 기본 스탯 설정
+            strength = 10,
+            agility = 10,
+            intelligence = 10,
+            stamina = 10,
+            // 추가 스탯 계산
+            hp = 200,
+            attackDamage = 10,
+            // ... 기타 스탯 초기화
+        };
+    }
     private void InitializeBaseStats()
     {
         // 1레벨 히어로 기본 스탯 설정

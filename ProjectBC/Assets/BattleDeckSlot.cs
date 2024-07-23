@@ -42,27 +42,23 @@ public class BattleDeckSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IBeg
     }
 
 
-    public void SetHeroData(HeroManager.Hero hero, int index)
+    public void SetHeroData(HeroInfo hero, int index)
     {
         slotIndex = index;
-
         if (hero != null)
         {
             id = hero.id;
-            heroName = hero.name;
+            heroName = hero.heroName;
             level = hero.level;
-            power = hero.power;
-            speed = hero.speed;
+            power = hero.attackDamage;
+            speed = hero.agility;
             hp = hero.hp;
             if (heroImage != null)
             {
-                heroImage.sprite = hero.sprite;
-                heroImage.enabled = true;
+                heroImage.sprite = hero.Sprite;
+                heroImage.enabled = hero.Sprite != null;
             }
             gameObject.SetActive(true);
-
-            // ΩΩ∑‘¿« ¿Œµ¶Ω∫∏¶ ¿˙¿Â
-            slotIndex = index;
         }
         else
         {
