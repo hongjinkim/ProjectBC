@@ -97,7 +97,7 @@ public abstract class Character : MonoBehaviour, IBehavior
     protected HeroSkills skills;
 
     public bool autoMove;
-
+    public GameObject attackEffectPrefab;
 
 
     // 기존 Character 메서드와 Player에서 가져온 메서드 통합
@@ -454,10 +454,29 @@ public abstract class Character : MonoBehaviour, IBehavior
                 {
                     projectile.InitProjectileRotation(_target.transform.position);
                 }
+                // 원거리 공격의 경우, 투사체가 타겟에 도달했을 때 이펙트 생성
+                StartCoroutine(CreateProjectileHitEffect(projectileInstance, _target.transform.position));
             }
         }
-
+        else
+        {
+            CreateAttackEffect(_target.transform.position);
+        }
         TakeDamage(_target, attackDamage);
+    }
+    IEnumerator CreateProjectileHitEffect(GameObject projectile, Vector3 targetPosition)
+    {
+        // 투사체가 타겟에 도달할 때까지 대기
+        while (projectile != null && Vector3.Distance(projectile.transform.position, targetPosition) > 0.1f)
+        {
+            yield return null;
+        }
+
+        // 투사체가 타겟에 도달했거나 파괴되었을 때 이펙트 생성
+        CreateAttackEffect(targetPosition);
+
+        // 필요하다면 여기서 투사체를 파괴할 수 있습니다
+         if (projectile != null) Destroy(projectile);
     }
 
     void InstantiateDmgTxtObj(float damage)
@@ -871,4 +890,23 @@ public abstract class Character : MonoBehaviour, IBehavior
         playerStat.HP += (int)(10f * amount);
     }
     //public abstract void IncreaseCharacteristic(float amount);
+    void CreateAttackEffect(Vector3 targetPosition)
+    {
+        if (attackEffectPrefab != null)
+        {
+            // 이펙트 생성 위치를 타겟의 위치로 설정
+            Vector3 effectPosition = targetPosition;
+
+            // 이펙트 회전 계산 (히어로에서 타겟을 향하는 방향)
+            Vector2 direction = (targetPosition - transform.position).normalized;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            Quaternion rotation = Quaternion.Euler(0, 0, angle);
+
+            // 이펙트 생성
+            GameObject effectInstance = Instantiate(attackEffectPrefab, effectPosition, rotation);
+
+            // 필요하다면 이펙트 지속 시간 후 삭제
+            Destroy(effectInstance, 1f); // 1초 후 삭제 (원하는 시간으로 조정 가능)
+        }
+    }
 }

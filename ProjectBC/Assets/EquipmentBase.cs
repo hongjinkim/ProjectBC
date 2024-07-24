@@ -51,7 +51,7 @@ public class EquipmentBase : ItemWorkspace
         var weapon = new List<Item>();
         var helmet = new List<Item>();
         var armor = new List<Item>();
-        var boots = new List<Item>();
+        var leggings = new List<Item>();
 
         foreach (Item item in inventory)
         {
@@ -66,8 +66,8 @@ public class EquipmentBase : ItemWorkspace
                 case ItemType.Armor:
                     armor.Add(item);
                     break;
-                case ItemType.Boots:
-                    boots.Add(item);
+                case ItemType.Leggings:
+                    leggings.Add(item);
                     break;
                 default:
                     break;
@@ -78,7 +78,7 @@ public class EquipmentBase : ItemWorkspace
         Initialize(WeaponInventory, ref weapon);
         Initialize(HelmetInventory, ref helmet);
         Initialize(ArmorInventory, ref armor);
-        Initialize(LeggingsInventory, ref boots);
+        Initialize(LeggingsInventory, ref leggings);
 
     }
 

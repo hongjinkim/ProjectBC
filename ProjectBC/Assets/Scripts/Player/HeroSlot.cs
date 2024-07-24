@@ -3,16 +3,17 @@ using UnityEngine.UI;
 
 public class HeroSlot : MonoBehaviour
 {
-    [SerializeField] private int id;
+    [SerializeField] private Button equipButton;
+    [SerializeField] private Image heroImage; // 새로 추가된 Image 컴포넌트
+    [SerializeField] private int heroId;
     [SerializeField] private string heroName;
     [SerializeField] private int level;
-    [SerializeField] private int power;
-    [SerializeField] private int speed;
+    [SerializeField] private int attackDamage;
+    [SerializeField] private int agility;
     [SerializeField] private int hp;
-    [SerializeField] private Button equipButton;
-    [SerializeField] private Image spriteImage;
     private HeroManager heroManager;
     private int myHeroIndex;
+    private HeroInfo currentHero;
 
     private void Awake()
     {
@@ -24,46 +25,60 @@ public class HeroSlot : MonoBehaviour
     {
         heroManager.AddHeroToDeck(myHeroIndex);
     }
+
     public void SetHeroData(HeroInfo hero, int index)
     {
-        Debug.Log($"Setting hero data in slot: {hero.heroName}");
+        currentHero = hero;
+        myHeroIndex = index;
         if (hero != null)
         {
-            id = hero.id;
+            heroId = hero.id;
             heroName = hero.heroName;
             level = hero.level;
-            power = hero.attackDamage;
-            speed = hero.agility;
+            attackDamage = hero.attackDamage;
+            agility = hero.agility;
             hp = hero.hp;
-            myHeroIndex = index;
-            if (spriteImage != null)
+
+            // 이미지 로드 및 설정
+            Sprite heroSprite = Resources.Load<Sprite>(hero.imagePath);
+            if (heroSprite != null)
             {
-                spriteImage.sprite = hero.Sprite;
-                spriteImage.enabled = hero.Sprite != null;
+                heroImage.sprite = heroSprite;
+                heroImage.gameObject.SetActive(true);
             }
+            else
+            {
+                Debug.LogWarning($"Failed to load hero image: {hero.imagePath}");
+                heroImage.gameObject.SetActive(false);
+            }
+
+            Debug.Log($"Setting hero data in slot {index}: {heroName}, ID: {heroId}, Level: {level}, ATK: {attackDamage}, AGI: {agility}, HP: {hp}");
             gameObject.SetActive(true);
         }
         else
         {
             ClearSlot();
         }
-
     }
 
     public void ClearSlot()
     {
-        id = 0;
+        currentHero = null;
+        myHeroIndex = -1;
+        heroId = 0;
         heroName = "";
         level = 0;
-        power = 0;
-        speed = 0;
+        attackDamage = 0;
+        agility = 0;
         hp = 0;
-        myHeroIndex = -1;
-        if (spriteImage != null)
-        {
-            spriteImage.sprite = null;
-            spriteImage.enabled = false;
-        }
-        gameObject.SetActive(true);
+        heroImage.sprite = null;
+        heroImage.gameObject.SetActive(false);
+        Debug.Log($"Clearing slot");
+        gameObject.SetActive(false);
+    }
+
+    public HeroInfo GetHeroInfo()
+    {
+        return currentHero;
     }
 }

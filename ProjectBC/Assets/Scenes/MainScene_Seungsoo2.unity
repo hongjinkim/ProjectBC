@@ -17525,7 +17525,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
       propertyPath: _resetGame
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
       propertyPath: itemCollection
@@ -17540,12 +17540,28 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
+      propertyPath: _playerInfo.heroes.Array.data[0].id
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
+      propertyPath: _playerInfo.heroes.Array.data[1].id
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
       propertyPath: _playerInfo.heroes.Array.data[2].hp
       value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
+      propertyPath: _playerInfo.heroes.Array.data[2].id
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
       propertyPath: _playerInfo.heroes.Array.data[3].hp
       value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
+      propertyPath: _playerInfo.heroes.Array.data[3].id
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
       propertyPath: _playerInfo.heroes.Array.data[4].hp

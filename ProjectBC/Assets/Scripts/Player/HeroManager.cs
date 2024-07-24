@@ -23,14 +23,14 @@ public class HeroManager : MonoBehaviour
     private void Awake()
     {
         
-        //InitializeSlots();
+        InitializeSlots();
     }
 
     private void Start()
     {
         gameDataManager = GameDataManager.instance;
         LoadMyHeroes();
-        //InitializeAllHeroes();
+
         //InitializeMyHeroes();
         UpdateHeroSlots();
         UpdateDeckSlots();
@@ -38,16 +38,12 @@ public class HeroManager : MonoBehaviour
        
     }
 
-    //private void InitializeAllHeroes()
-    //{
-    //    // �⺻ ����� ���ø� �ʱ�ȭ
-    //    AllHeroes.Add(new HeroInfo { id = 1001, heroName = "Warrior", level = 1, attackDamage = 10, agility = 5, hp = 150, spritePath = "Images/currency/Gemstone" });
-    //    AllHeroes.Add(new HeroInfo { id = 2001, heroName = "Priest", level = 1, attackDamage = 5, agility = 7, hp = 100, spritePath = "Images/currency/GreenGemstone" });
-    //    // ... �ٸ� �⺻ ����� �߰� ...
-    //}
+
     private void LoadMyHeroes()
-    { 
-        AllHeroes = new List<HeroInfo>(gameDataManager.playerInfo.heroes);
+    {
+        
+
+        AllHeroes = gameDataManager.playerInfo.heroes;
         MyHeroes = new List<HeroInfo>(AllHeroes);
 
         foreach (var hero in MyHeroes)
@@ -97,33 +93,44 @@ public class HeroManager : MonoBehaviour
 
     private void UpdateHeroSlots()
     {
-
+        Debug.Log("Updating hero slots...");
 
         if (heroSlots == null || heroSlots.Length == 0)
         {
-
+            Debug.LogWarning("No hero slots found to update.");
             return;
         }
+
+        if (MyHeroes == null)
+        {
+            Debug.LogError("MyHeroes list is null.");
+            return;
+        }
+
+        Debug.Log($"Number of MyHeroes: {MyHeroes.Count}");
+        Debug.Log($"Number of hero slots: {heroSlots.Length}");
 
         for (int i = 0; i < heroSlots.Length; i++)
         {
             if (heroSlots[i] == null)
             {
-
+                Debug.LogWarning($"Hero slot at index {i} is null.");
                 continue;
             }
 
             if (i < MyHeroes.Count)
             {
-                heroSlots[i].SetHeroData(MyHeroes[i], i);               
+                heroSlots[i].SetHeroData(MyHeroes[i], i);
+                Debug.Log($"Set hero data for slot {i}: {MyHeroes[i].heroName}");
             }
-
             else
             {
                 heroSlots[i].ClearSlot();
+                Debug.Log($"Cleared slot {i}");
             }
-
         }
+
+        Debug.Log("Hero slots update completed.");
     }
 
     private void UpdateMyHeroSlots()
@@ -132,7 +139,7 @@ public class HeroManager : MonoBehaviour
         {
             if (i < MyHeroes.Count)
             {
-                //myHeroSlots[i].SetMyHeroData(MyHeroes[i], i);
+                myHeroSlots[i].SetMyHeroData(MyHeroes[i], i);
             }
         }
     }
@@ -184,7 +191,6 @@ public class HeroManager : MonoBehaviour
         UpdateHeroSlots();
         UpdateDeckSlots();
 
-        gameDataManager.UpdateHeroes(MyHeroes);
         GameManager_2.Instance.UpdateHeroDeckPrefab(Deck.Count - 1, hero.id);
     }
 
@@ -199,7 +205,6 @@ public class HeroManager : MonoBehaviour
         UpdateHeroSlots();
         UpdateDeckSlots();
 
-        gameDataManager.UpdateHeroes(MyHeroes);
 
         for (int i = deckIndex; i < maxDeckSize; i++)
         {
@@ -218,7 +223,6 @@ public class HeroManager : MonoBehaviour
     {
         MyHeroes.Remove(hero);
         UpdateHeroSlots();
-        gameDataManager.UpdateHeroes(MyHeroes);
     }
 
     public int GetHeroIdFromDeckSlot(int slotIndex)
