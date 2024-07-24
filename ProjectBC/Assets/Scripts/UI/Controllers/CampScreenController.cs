@@ -14,6 +14,21 @@ public class CampScreenController : MonoBehaviour
     [SerializeField] private Button dailyStoreBackBtn;
     [SerializeField] private GameObject campScreen_DailyStore;
 
+    [Header("Forge")]
+    [SerializeField] private Button forgeBtn;
+
+    [Header("DailyQuest")]
+    [SerializeField] private Button dailyQuestBtn;
+
+    [Header("PvP")]
+    [SerializeField] private Button PvpBtn;
+
+    [Header("Stone")]
+    [SerializeField] private Button StoneBtn;
+
+    [Header("DailyDungeon")]
+    [SerializeField] private Button DailyDungeonBtn;
+
     [SerializeField] private PlayerInfoBar playerInfoBar;
     private event Action OnDailyStoreOpened;
     private event Action OnDailyStoreClosed;
@@ -31,5 +46,11 @@ public class CampScreenController : MonoBehaviour
 
         dailyStoreBtn.onClick.AddListener(() => { campScreen_DailyStore.SetActive(true); OnDailyStoreOpened?.Invoke(); });
         dailyStoreBackBtn.onClick.AddListener(() => { campScreen_DailyStore.SetActive(false); OnDailyStoreClosed?.Invoke(); });
+
+        forgeBtn.onClick.AddListener(() => ToastMsg.Instance.ShowMessage("개발중입니다", 0.5f));
+        dailyQuestBtn.onClick.AddListener(() => ToastMsg.Instance.ShowMessage("개발중입니다", 0.5f));
+        PvpBtn.onClick.AddListener(() => ToastMsg.Instance.ShowMessage("개발중입니다", 0.5f));
+        StoneBtn.onClick.AddListener(() => ToastMsg.Instance.ShowMessage("개발중입니다", 0.5f));
+        DailyDungeonBtn.onClick.AddListener(() => ToastMsg.Instance.ShowMessage("개발중입니다", 0.5f));
     }
 }
