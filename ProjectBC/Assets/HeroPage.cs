@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class HeroPage : HeroScreen
 {
-    private HeroInfo _info;
+    [SerializeField]private HeroInfo _info;
     public HeroMenuManager heroMenuManager;
 
     [Header("Images")]
@@ -34,7 +34,7 @@ public class HeroPage : HeroScreen
         HeroSelected -= OnHeroSelected;
     }
 
-    void OnHeroSelected(HeroInfo info)
+    public void OnHeroSelected(HeroInfo info)
     {
         _UIManager.ToggleMenuBar(false);
         _UIManager.TogglePlayerInfo(false);
@@ -42,7 +42,7 @@ public class HeroPage : HeroScreen
         Initialize();
         transform.SetAsLastSibling();
     }
-    void Initialize()
+    public void Initialize()
     {
         character.sprite = _info.Sprite;
 

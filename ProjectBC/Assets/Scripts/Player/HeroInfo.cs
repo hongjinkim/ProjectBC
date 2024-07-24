@@ -35,7 +35,7 @@ public class HeroInfo
     public List<Trait> traits = new List<Trait>();
     public List<PlayerSkill> skills = new List<PlayerSkill>();
     public PlayerSkill activeSkill;
-    public Sprite _sprite;
+    private Sprite _sprite;
     public HeroInfo(string name, HeroClass heroClass, CharacteristicType characteristicType, int id, string imagePath)
     {
         this.id = id;
@@ -55,23 +55,28 @@ public class HeroInfo
         // 추가 스탯 계산
         this.hp = 200;
         this.attackDamage = 10;
+        
         // ... 기타 스탯 초기화
     }
 
     // 이미지를 로드하는 메서드
-    public Sprite LoadImage()
-    {
-        return Resources.Load<Sprite>(imagePath);
-    }
+    //public Sprite LoadImage()
+    //{
+    //    return Resources.Load<Sprite>(imagePath);
+    //}
     public Sprite Sprite
     {
         get
         {
-            if (_sprite == null && !string.IsNullOrEmpty(spritePath))
+            if (_sprite == null)
             {
-                _sprite = Resources.Load<Sprite>(spritePath);
+                _sprite = Resources.Load<Sprite>(imagePath);
+                if (_sprite != null)
+                {
+                    return _sprite;
+                }
             }
-            return _sprite;
+            return null;
         }
     }
     public HeroInfo(HeroInfo other)

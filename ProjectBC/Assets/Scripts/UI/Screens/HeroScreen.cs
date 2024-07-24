@@ -2,11 +2,11 @@ using System;
 
 public class HeroScreen : MenuScreen
 {
-    public event Action<HeroInfo> HeroSelected;
+    public static event Action<HeroInfo> HeroSelected;
     public event Action<HeroInfo> EquipmentUpdated;
 
-    public void HeroSelect(int idx)
+    public void HeroSelect(HeroInfo info)
     {
-        //HeroSelected?.Invoke();
+        HeroSelected?.Invoke(info);
     }
 }
