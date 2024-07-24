@@ -6,11 +6,15 @@ using UnityEngine.UI;
 
 public class HeroPage : HeroScreen
 {
-    private HeroInfo _info;
+
     public HeroMenuManager heroMenuManager;
 
+    [Header("current  hero info")]
+    [SerializeField] private HeroInfo _info;
+    public int _idx;
+
     [Header("Images")]
-    public Image character;
+    public Image characterImage;
 
     [Header("Texts")]
     public TextMeshProUGUI levlText;
@@ -27,24 +31,27 @@ public class HeroPage : HeroScreen
 
     private void OnEnable()
     {
-        HeroSelected += OnHeroSelected;
+
     }
     private void OnDisable()
     {
-        HeroSelected -= OnHeroSelected;
+
     }
 
-    void OnHeroSelected(HeroInfo info)
+    public void OnHeroSelected(HeroInfo info, int idx)
     {
         _UIManager.ToggleMenuBar(false);
         _UIManager.TogglePlayerInfo(false);
+        _idx = idx;
         _info = info;
         Initialize();
         transform.SetAsLastSibling();
     }
-    void Initialize()
+    public void Initialize()
     {
-        character.sprite = _info.Sprite;
+        
+        characterImage.sprite = _info.Sprite;
+
 
         levlText.text = _info.level.ToString();
         //BattlePointText.text

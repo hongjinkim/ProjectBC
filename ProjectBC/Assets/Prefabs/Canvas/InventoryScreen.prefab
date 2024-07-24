@@ -91,11 +91,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Stacked: 1
   AutoSelect: 1
+  itemCapacity: 0
   AutoSorting: 1
   Extend: 0
+  MakeEmptySlots: 0
+  StaticCapacity: 0
   ScrollRect: {fileID: 4025536969772002089}
   Grid: {fileID: 5487710960475090197}
   ItemPrefab: {fileID: 114791408668212760, guid: 4c72fd7c00716c841922cf3119debd9b, type: 3}
+  ItemCount: {fileID: 0}
+  ItemCapacity: {fileID: 0}
 --- !u!1 &85412147131268160
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,11 +192,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Stacked: 1
   AutoSelect: 1
+  itemCapacity: 0
   AutoSorting: 0
   Extend: 0
+  MakeEmptySlots: 0
+  StaticCapacity: 0
   ScrollRect: {fileID: 6509904023188706578}
   Grid: {fileID: 6294484114815633352}
   ItemPrefab: {fileID: 114791408668212760, guid: 4c72fd7c00716c841922cf3119debd9b, type: 3}
+  ItemCount: {fileID: 0}
+  ItemCapacity: {fileID: 0}
 --- !u!1 &123233691377305529
 GameObject:
   m_ObjectHideFlags: 0
@@ -874,6 +884,10 @@ MonoBehaviour:
   UsableInventory: {fileID: 7505627736632850200}
   MaterialInventory: {fileID: 8850852338572612042}
   CrystalInventory: {fileID: 3546330998835294440}
+  WeaponInventory: {fileID: 0}
+  HelemtInventory: {fileID: 0}
+  ArmorInventory: {fileID: 0}
+  BootsInventory: {fileID: 0}
   inventories: []
   InitializeExample: 1
 --- !u!1 &1088115541285612703
@@ -967,11 +981,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Stacked: 1
   AutoSelect: 1
+  itemCapacity: 0
   AutoSorting: 1
   Extend: 0
+  MakeEmptySlots: 0
+  StaticCapacity: 0
   ScrollRect: {fileID: 8925505758902312138}
   Grid: {fileID: 6968912655869758147}
   ItemPrefab: {fileID: 114791408668212760, guid: 4c72fd7c00716c841922cf3119debd9b, type: 3}
+  ItemCount: {fileID: 0}
+  ItemCapacity: {fileID: 0}
 --- !u!1 &1154272113386973092
 GameObject:
   m_ObjectHideFlags: 0
@@ -3503,7 +3522,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -300, y: 195909.83}
+  m_AnchoredPosition: {x: -300, y: 196557.75}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &6294484114815633352
@@ -3875,7 +3894,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -300, y: 195909.83}
+  m_AnchoredPosition: {x: -300, y: 196557.75}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &5034314033971123723
@@ -4597,7 +4616,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -300, y: 195909.83}
+  m_AnchoredPosition: {x: -300, y: 196557.75}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &6968912655869758147
@@ -4851,7 +4870,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -300, y: 195909.83}
+  m_AnchoredPosition: {x: -300, y: 196557.75}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &5487710960475090197
@@ -5846,11 +5865,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Stacked: 0
   AutoSelect: 1
+  itemCapacity: 0
   AutoSorting: 1
   Extend: 0
+  MakeEmptySlots: 0
+  StaticCapacity: 0
   ScrollRect: {fileID: 1633919038686971009}
   Grid: {fileID: 5034314033971123723}
   ItemPrefab: {fileID: 114791408668212760, guid: 4c72fd7c00716c841922cf3119debd9b, type: 3}
+  ItemCount: {fileID: 0}
+  ItemCapacity: {fileID: 0}
 --- !u!1 &8620711910065480297
 GameObject:
   m_ObjectHideFlags: 0

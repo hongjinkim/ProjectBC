@@ -30,7 +30,7 @@ public class HeroManager : MonoBehaviour
     {
         gameDataManager = GameDataManager.instance;
         LoadMyHeroes();
-        //InitializeAllHeroes();
+
         //InitializeMyHeroes();
         UpdateHeroSlots();
         UpdateDeckSlots();
@@ -38,16 +38,12 @@ public class HeroManager : MonoBehaviour
        
     }
 
-    //private void InitializeAllHeroes()
-    //{
-    //    // �⺻ ����� ���ø� �ʱ�ȭ
-    //    AllHeroes.Add(new HeroInfo { id = 1001, heroName = "Warrior", level = 1, attackDamage = 10, agility = 5, hp = 150, spritePath = "Images/currency/Gemstone" });
-    //    AllHeroes.Add(new HeroInfo { id = 2001, heroName = "Priest", level = 1, attackDamage = 5, agility = 7, hp = 100, spritePath = "Images/currency/GreenGemstone" });
-    //    // ... �ٸ� �⺻ ����� �߰� ...
-    //}
+
     private void LoadMyHeroes()
-    { 
-        AllHeroes = new List<HeroInfo>(gameDataManager.playerInfo.heroes);
+    {
+        
+
+        AllHeroes = gameDataManager.playerInfo.heroes;
         MyHeroes = new List<HeroInfo>(AllHeroes);
 
         foreach (var hero in MyHeroes)
@@ -143,7 +139,7 @@ public class HeroManager : MonoBehaviour
         {
             if (i < MyHeroes.Count)
             {
-                //myHeroSlots[i].SetMyHeroData(MyHeroes[i], i);
+                myHeroSlots[i].SetMyHeroData(MyHeroes[i], i);
             }
         }
     }
@@ -195,7 +191,6 @@ public class HeroManager : MonoBehaviour
         UpdateHeroSlots();
         UpdateDeckSlots();
 
-        gameDataManager.UpdateHeroes(MyHeroes);
         GameManager_2.Instance.UpdateHeroDeckPrefab(Deck.Count - 1, hero.id);
     }
 
@@ -210,7 +205,6 @@ public class HeroManager : MonoBehaviour
         UpdateHeroSlots();
         UpdateDeckSlots();
 
-        gameDataManager.UpdateHeroes(MyHeroes);
 
         for (int i = deckIndex; i < maxDeckSize; i++)
         {
@@ -229,7 +223,6 @@ public class HeroManager : MonoBehaviour
     {
         MyHeroes.Remove(hero);
         UpdateHeroSlots();
-        gameDataManager.UpdateHeroes(MyHeroes);
     }
 
     public int GetHeroIdFromDeckSlot(int slotIndex)
