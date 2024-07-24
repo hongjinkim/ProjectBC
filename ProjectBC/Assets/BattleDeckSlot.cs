@@ -13,14 +13,11 @@ public class BattleDeckSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IBeg
     [SerializeField] private int speed;
     [SerializeField] private int hp;
     [SerializeField] private Image heroImage;
-
     private Vector3 originalPosition;
     public Canvas canvas;
     private CanvasGroup canvasGroup;
     private RectTransform rectTransform;
     private Camera mainCamera;
-
-    // /////////
     [SerializeField] private int slotIndex;
 
     private void Awake()
@@ -28,19 +25,20 @@ public class BattleDeckSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IBeg
         InitializeComponents();
         mainCamera = Camera.main;
     }
+
     private void InitializeComponents()
     {
         canvas = GetComponentInParent<Canvas>();
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
-
         if (canvas == null)
             Debug.LogError($"No Canvas found for BattleDeckSlot: {gameObject.name}");
         if (canvasGroup == null)
+        {
             Debug.LogWarning($"No CanvasGroup found for BattleDeckSlot: {gameObject.name}. Adding one.");
-        canvasGroup = gameObject.AddComponent<CanvasGroup>();
+            canvasGroup = gameObject.AddComponent<CanvasGroup>();
+        }
     }
-
 
     public void SetHeroData(HeroInfo hero, int index)
     {
@@ -53,10 +51,21 @@ public class BattleDeckSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IBeg
             power = hero.attackDamage;
             speed = hero.agility;
             hp = hero.hp;
+
             if (heroImage != null)
             {
-                heroImage.sprite = hero.Sprite;
-                heroImage.enabled = hero.Sprite != null;
+                // 이미지 로드 및 설정
+                Sprite heroSprite = Resources.Load<Sprite>(hero.imagePath);
+                if (heroSprite != null)
+                {
+                    heroImage.sprite = heroSprite;
+                    heroImage.enabled = true;
+                }
+                else
+                {
+                    Debug.LogWarning($"Failed to load hero image: {hero.imagePath}");
+                    heroImage.enabled = false;
+                }
             }
             gameObject.SetActive(true);
         }

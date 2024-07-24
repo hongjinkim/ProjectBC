@@ -10,7 +10,6 @@ public class DeckSlot : MonoBehaviour
     [SerializeField] private int power;
     [SerializeField] private int speed;
     [SerializeField] private int hp;
-
     [SerializeField] private Button unequipButton;
     private HeroManager heroManager;
     private int deckIndex;
@@ -37,24 +36,28 @@ public class DeckSlot : MonoBehaviour
             power = hero.attackDamage;
             speed = hero.agility;
             hp = hero.hp;
+
+            // 이미지 로드 및 설정
             if (heroImage != null)
             {
-                heroImage.sprite = hero.Sprite;
-                heroImage.enabled = hero.Sprite != null;
+                Sprite heroSprite = Resources.Load<Sprite>(hero.imagePath);
+                if (heroSprite != null)
+                {
+                    heroImage.sprite = heroSprite;
+                    heroImage.enabled = true;
+                }
+                else
+                {
+                    Debug.LogWarning($"Failed to load hero image: {hero.imagePath}");
+                    heroImage.enabled = false;
+                }
             }
+
             gameObject.SetActive(true);
         }
         else
         {
             ClearSlot();
-        }
-    }
-    private void SetHeroImage(Sprite sprite)
-    {
-        if (heroImage != null)
-        {
-            heroImage.sprite = sprite;
-            heroImage.enabled = sprite != null;
         }
     }
 
@@ -66,16 +69,16 @@ public class DeckSlot : MonoBehaviour
         power = 0;
         speed = 0;
         hp = 0;
-        SetHeroImage(null);
+        if (heroImage != null)
+        {
+            heroImage.sprite = null;
+            heroImage.enabled = false;
+        }
         gameObject.SetActive(true);  // 비어있는 슬롯도 보이도록 함
     }
 
     public bool CheckUIElements()
     {
-        if (heroImage == null)
-        {
-            return false;
-        }
-        return true;
+        return heroImage != null;
     }
 }
