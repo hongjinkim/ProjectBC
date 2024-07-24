@@ -93,11 +93,6 @@ public class InventoryBase : ItemWorkspace
         var material = new List<Item>();
         var crystal = new List<Item>();
 
-        var weapon = new List<Item>();
-        var helmet = new List<Item>();
-        var armor = new List<Item>();
-        var boots = new List<Item>();
-
         foreach (Item item in inventory)
         {
             switch(item.Params.Type)

@@ -16,14 +16,14 @@ public class MyHeroSlot : MonoBehaviour
 
     [SerializeField]private HeroInfo _info;
 
-    //private int myHeroIndex;
+    private int myHeroIndex;
 
     private void Awake()
     {
         
     }
 
-    public void SetMyHeroData(HeroInfo heroInfo/*, int index*/)
+    public void SetMyHeroData(HeroInfo heroInfo, int index)
     {
         if (heroInfo != null)
         {
@@ -33,7 +33,7 @@ public class MyHeroSlot : MonoBehaviour
             //power = hero.attackDamage;
             //speed = hero.agility;
             //hp = hero.hp;
-            //myHeroIndex = index;
+            myHeroIndex = index;
 
             _info = heroInfo;
             if (spriteImage != null)
@@ -69,7 +69,6 @@ public class MyHeroSlot : MonoBehaviour
 
     public void OnButtonClicked()
     {
-        heroPage.OnHeroSelected(_info);
-        heroPage.Initialize();
+        heroPage.OnHeroSelected(_info, myHeroIndex);
     }
 }

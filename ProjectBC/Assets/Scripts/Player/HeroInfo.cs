@@ -76,7 +76,7 @@ public class HeroInfo
                     return _sprite;
                 }
             }
-            return null;
+            return _sprite;
         }
     }
     public HeroInfo(HeroInfo other)
