@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [Serializable]
 public class HeroInfo
@@ -13,6 +14,7 @@ public class HeroInfo
     public int level;
     public float currentExp;
     public float neededExp;
+    public string imagePath;
 
     // 기본 스탯
     public int strength;
@@ -34,8 +36,11 @@ public class HeroInfo
     public List<PlayerSkill> skills = new List<PlayerSkill>();
     public PlayerSkill activeSkill;
     private Sprite _sprite;
-    public HeroInfo(string name, HeroClass heroClass, CharacteristicType characteristicType)
+    public HeroInfo(string name, HeroClass heroClass, CharacteristicType characteristicType, int id, string imagePath)
     {
+        this.id = id;
+        //this.image = image;
+        this.imagePath = imagePath; // 이미지 경로 저장
         this.heroName = name;
         this.heroClass = heroClass;
         this.characteristicType = characteristicType;
@@ -51,6 +56,12 @@ public class HeroInfo
         this.hp = 200;
         this.attackDamage = 10;
         // ... 기타 스탯 초기화
+    }
+
+    // 이미지를 로드하는 메서드
+    public Sprite LoadImage()
+    {
+        return Resources.Load<Sprite>(imagePath);
     }
     public Sprite Sprite
     {

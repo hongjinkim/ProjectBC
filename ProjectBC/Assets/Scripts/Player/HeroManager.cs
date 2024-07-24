@@ -23,7 +23,7 @@ public class HeroManager : MonoBehaviour
     private void Awake()
     {
         
-        //InitializeSlots();
+        InitializeSlots();
     }
 
     private void Start()
@@ -97,32 +97,44 @@ public class HeroManager : MonoBehaviour
 
     private void UpdateHeroSlots()
     {
-        Debug.Log($"Updating hero slots. MyHeroes count: {MyHeroes.Count}");
+        Debug.Log("Updating hero slots...");
+
         if (heroSlots == null || heroSlots.Length == 0)
         {
-            Debug.LogWarning("Hero slots are not initialized");
+            Debug.LogWarning("No hero slots found to update.");
             return;
         }
+
+        if (MyHeroes == null)
+        {
+            Debug.LogError("MyHeroes list is null.");
+            return;
+        }
+
+        Debug.Log($"Number of MyHeroes: {MyHeroes.Count}");
+        Debug.Log($"Number of hero slots: {heroSlots.Length}");
 
         for (int i = 0; i < heroSlots.Length; i++)
         {
             if (heroSlots[i] == null)
             {
-                Debug.LogWarning($"Hero slot at index {i} is null");
+                Debug.LogWarning($"Hero slot at index {i} is null.");
                 continue;
             }
 
             if (i < MyHeroes.Count)
             {
-                Debug.Log($"Setting hero data for slot {i}: {MyHeroes[i].heroName}");
                 heroSlots[i].SetHeroData(MyHeroes[i], i);
+                Debug.Log($"Set hero data for slot {i}: {MyHeroes[i].heroName}");
             }
             else
             {
-                Debug.Log($"Clearing slot {i}");
                 heroSlots[i].ClearSlot();
+                Debug.Log($"Cleared slot {i}");
             }
         }
+
+        Debug.Log("Hero slots update completed.");
     }
 
     private void UpdateMyHeroSlots()
