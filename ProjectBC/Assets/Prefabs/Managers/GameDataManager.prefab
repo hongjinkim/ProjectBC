@@ -47,18 +47,122 @@ MonoBehaviour:
   savePath: 
   _saveFilename: savegame.dat
   _debugValues: 0
-  _resetGame: 1
+  _resetGame: 0
   _playerInfo:
     gold: 0
     diamond: 0
     gem: 0
     items: []
     itemCapacity: 200
+    heroes:
+    - id: 1001
+      equippedItemIds: []
+      heroName: Warrior
+      heroClass: 0
+      characteristicType: 0
+      level: 1
+      currentExp: 0
+      neededExp: 100
+      imagePath: Images/currency/Warrior
+      strength: 10
+      agility: 10
+      intelligence: 10
+      stamina: 10
+      hp: 200
+      attackDamage: 10
+      defense: 0
+      magicResistance: 0
+      attackSpeed: 0
+      healthRegen: 0
+      energyRegen: 0
+      attackRange: 0
+      spritePath: 
+      traits: []
+      skills: []
+      activeSkill: {fileID: 0}
+    - id: 1002
+      equippedItemIds: []
+      heroName: Wizard
+      heroClass: 3
+      characteristicType: 2
+      level: 1
+      currentExp: 0
+      neededExp: 100
+      imagePath: Images/currency/Wizard
+      strength: 10
+      agility: 10
+      intelligence: 10
+      stamina: 10
+      hp: 200
+      attackDamage: 10
+      defense: 0
+      magicResistance: 0
+      attackSpeed: 0
+      healthRegen: 0
+      energyRegen: 0
+      attackRange: 0
+      spritePath: 
+      traits: []
+      skills: []
+      activeSkill: {fileID: 0}
+    - id: 1003
+      equippedItemIds: []
+      heroName: Wizard
+      heroClass: 3
+      characteristicType: 2
+      level: 1
+      currentExp: 0
+      neededExp: 100
+      imagePath: Images/currency/Priest
+      strength: 10
+      agility: 10
+      intelligence: 10
+      stamina: 10
+      hp: 200
+      attackDamage: 10
+      defense: 0
+      magicResistance: 0
+      attackSpeed: 0
+      healthRegen: 0
+      energyRegen: 0
+      attackRange: 0
+      spritePath: 
+      traits: []
+      skills: []
+      activeSkill: {fileID: 0}
+    - id: 1004
+      equippedItemIds: []
+      heroName: Wizard
+      heroClass: 3
+      characteristicType: 2
+      level: 1
+      currentExp: 0
+      neededExp: 100
+      imagePath: Images/currency/Archer
+      strength: 10
+      agility: 10
+      intelligence: 10
+      stamina: 10
+      hp: 200
+      attackDamage: 10
+      defense: 0
+      magicResistance: 0
+      attackSpeed: 0
+      healthRegen: 0
+      energyRegen: 0
+      attackRange: 0
+      spritePath: 
+      traits: []
+      skills: []
+      activeSkill: {fileID: 0}
     username: GUEST_123456
     battlePoint: 0
     level: 1
     musicVolume: 80
     sfxVolume: 80
   itemCollection: {fileID: 11400000, guid: 3496197cc8159e14987beb99d0b1629c, type: 2}
-  _characterBaseData: []
-  _equipmentBaseData: []
+  characterBaseData: []
+  equipmentBaseData: []
+  itemBaseData: []
+  equipmentStatData: []
+  noticeTransform: {fileID: 0}
