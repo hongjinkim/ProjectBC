@@ -54,7 +54,6 @@ public class HeroManager : MonoBehaviour
 
         // 중복 제거 로직 (필요한 경우)
         //MyHeroes = MyHeroes.Distinct().ToList();
-        // 테스트
 
 
     }
