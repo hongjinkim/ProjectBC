@@ -97,11 +97,10 @@ public class HeroManager : MonoBehaviour
 
     private void UpdateHeroSlots()
     {
-
-
+        Debug.Log($"Updating hero slots. MyHeroes count: {MyHeroes.Count}");
         if (heroSlots == null || heroSlots.Length == 0)
         {
-
+            Debug.LogWarning("Hero slots are not initialized");
             return;
         }
 
@@ -109,20 +108,20 @@ public class HeroManager : MonoBehaviour
         {
             if (heroSlots[i] == null)
             {
-
+                Debug.LogWarning($"Hero slot at index {i} is null");
                 continue;
             }
 
             if (i < MyHeroes.Count)
             {
-                heroSlots[i].SetHeroData(MyHeroes[i], i);               
+                Debug.Log($"Setting hero data for slot {i}: {MyHeroes[i].heroName}");
+                heroSlots[i].SetHeroData(MyHeroes[i], i);
             }
-
             else
             {
+                Debug.Log($"Clearing slot {i}");
                 heroSlots[i].ClearSlot();
             }
-
         }
     }
 
