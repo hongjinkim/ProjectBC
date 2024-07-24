@@ -12,7 +12,6 @@ public class MyHeroSlot : MonoBehaviour
     [SerializeField] private int speed;
     [SerializeField] private int hp;
     [SerializeField] private Image spriteImage;
-
     private HeroManager heroManager;
     private int myHeroIndex;
 
@@ -32,10 +31,20 @@ public class MyHeroSlot : MonoBehaviour
             speed = hero.agility;
             hp = hero.hp;
             myHeroIndex = index;
+
             if (spriteImage != null)
             {
-                spriteImage.sprite = hero.Sprite;
-                spriteImage.enabled = true;
+                // 이미지 로드 및 설정
+                Sprite heroSprite = Resources.Load<Sprite>(hero.imagePath);
+                if (heroSprite != null)
+                {
+                    spriteImage.sprite = heroSprite;
+                    spriteImage.enabled = true;
+                }
+                else
+                {
+                    spriteImage.enabled = false;
+                }
             }
             gameObject.SetActive(true);
         }
