@@ -35,7 +35,7 @@ public class HeroInfo
     public List<Trait> traits = new List<Trait>();
     public List<PlayerSkill> skills = new List<PlayerSkill>();
     public PlayerSkill activeSkill;
-    private Sprite _sprite;
+    public Sprite _sprite;
     public HeroInfo(string name, HeroClass heroClass, CharacteristicType characteristicType, int id, string imagePath)
     {
         this.id = id;

@@ -15,15 +15,14 @@ public class InventoryBase : ItemWorkspace
     public ScrollInventory MaterialInventory;
     public ScrollInventory CrystalInventory;
 
-    [Header("Sort Equipments by Type")]
-    public ScrollInventory WeaponInventory;
-    public ScrollInventory HelemtInventory;
-    public ScrollInventory ArmorInventory;
-    public ScrollInventory BootsInventory;
+    //[Header("Sort Equipments by Type")]
+    //public ScrollInventory WeaponInventory;
+    //public ScrollInventory HelemtInventory;
+    //public ScrollInventory ArmorInventory;
+    //public ScrollInventory BootsInventory;
 
     public List<ScrollInventory> inventories;
 
-    public bool InitializeExample;
 
     // These callbacks can be used outside;
     public Action<Item> OnRefresh;
@@ -115,22 +114,22 @@ public class InventoryBase : ItemWorkspace
                 case ItemType.Crystal:
                     crystal.Add(item);
                     break;
-                case ItemType.Weapon:
-                    equipment.Add(item);
-                    weapon.Add(item);
-                    break;
-                case ItemType.Helmet:
-                    equipment.Add(item);
-                    helmet.Add(item);
-                    break;
-                case ItemType.Armor:
-                    equipment.Add(item);
-                    armor.Add(item);
-                    break;
-                case ItemType.Boots:
-                    equipment.Add(item);
-                    boots.Add(item);
-                    break;
+                //case ItemType.Weapon:
+                //    equipment.Add(item);
+                //    weapon.Add(item);
+                //    break;
+                //case ItemType.Helmet:
+                //    equipment.Add(item);
+                //    helmet.Add(item);
+                //    break;
+                //case ItemType.Armor:
+                //    equipment.Add(item);
+                //    armor.Add(item);
+                //    break;
+                //case ItemType.Boots:
+                //    equipment.Add(item);
+                //    boots.Add(item);
+                //    break;
                 default:
                     equipment.Add(item);
                     break;
