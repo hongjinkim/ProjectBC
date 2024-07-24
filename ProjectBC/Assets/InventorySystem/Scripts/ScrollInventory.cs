@@ -185,7 +185,10 @@ public class ScrollInventory : ItemContainer
                 }
         }
 
-        ItemCount.text = items.Count().ToString();
+        if (items.Count() > 0)
+            ItemCount.text = items.Count().ToString();
+        else
+            ItemCount.text = "0";
         ItemCapacity.text = itemCapacity.ToString();
 
         for (var i = items.Count; i < columns * rows; i++)

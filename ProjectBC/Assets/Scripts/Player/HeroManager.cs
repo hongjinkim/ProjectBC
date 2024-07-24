@@ -40,8 +40,10 @@ public class HeroManager : MonoBehaviour
 
 
     private void LoadMyHeroes()
-    { 
-        AllHeroes = new List<HeroInfo>(gameDataManager.playerInfo.heroes);
+    {
+        
+
+        AllHeroes = gameDataManager.playerInfo.heroes;
         MyHeroes = new List<HeroInfo>(AllHeroes);
 
         foreach (var hero in MyHeroes)
@@ -189,7 +191,6 @@ public class HeroManager : MonoBehaviour
         UpdateHeroSlots();
         UpdateDeckSlots();
 
-        gameDataManager.UpdateHeroes(MyHeroes);
         GameManager_2.Instance.UpdateHeroDeckPrefab(Deck.Count - 1, hero.id);
     }
 
@@ -204,7 +205,6 @@ public class HeroManager : MonoBehaviour
         UpdateHeroSlots();
         UpdateDeckSlots();
 
-        gameDataManager.UpdateHeroes(MyHeroes);
 
         for (int i = deckIndex; i < maxDeckSize; i++)
         {
@@ -223,7 +223,6 @@ public class HeroManager : MonoBehaviour
     {
         MyHeroes.Remove(hero);
         UpdateHeroSlots();
-        gameDataManager.UpdateHeroes(MyHeroes);
     }
 
     public int GetHeroIdFromDeckSlot(int slotIndex)
