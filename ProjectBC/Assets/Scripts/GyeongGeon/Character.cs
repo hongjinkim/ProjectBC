@@ -905,6 +905,9 @@ public abstract class Character : MonoBehaviour, IBehavior
             // 이펙트 생성
             GameObject effectInstance = Instantiate(attackEffectPrefab, effectPosition, rotation);
 
+            // 이펙트 크기를 4분의 1로 줄임
+            effectInstance.transform.localScale *= 0.25f;
+
             // 필요하다면 이펙트 지속 시간 후 삭제
             Destroy(effectInstance, 1f); // 1초 후 삭제 (원하는 시간으로 조정 가능)
         }
