@@ -100,8 +100,8 @@ public class Dungeon : MonoBehaviour
 
     // 테스트용
     //public List<Character> _heroPool = new List<Character>();
-    //void SetHeroList()
-    //{
+    // void SetHeroList()
+    // {
     //    for (var i = 0; i < _heroPool.Count; i++)
     //    {
     //        Character hero = Instantiate(_heroPool[i]);
@@ -115,7 +115,7 @@ public class Dungeon : MonoBehaviour
     //        _activeHeroList[i].gameObject.SetActive(true);
     //        //hero.customTilemapManager.allCharacters.Add(hero);
     //    }
-    //}
+    // }
 
     void Update()
     {
