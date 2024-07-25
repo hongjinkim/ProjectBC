@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8326466135123671854}
   - component: {fileID: 5478200503041952839}
-  - component: {fileID: 3412116306422996925}
   m_Layer: 0
   m_Name: GameDataManager
   m_TagString: Untagged
@@ -45,15 +44,125 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c7b985148d1874b887b8ee6f29ca30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3412116306422996925
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7473203989753717561}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f325af297edae314081432e271efb8c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  savePath: 
+  _saveFilename: savegame.dat
+  _debugValues: 0
+  _resetGame: 0
+  _playerInfo:
+    gold: 0
+    diamond: 0
+    gem: 0
+    items: []
+    itemCapacity: 200
+    heroes:
+    - id: 1001
+      equippedItemIds: []
+      heroName: Warrior
+      heroClass: 0
+      characteristicType: 0
+      level: 1
+      currentExp: 0
+      neededExp: 100
+      imagePath: Images/currency/Warrior
+      strength: 10
+      agility: 10
+      intelligence: 10
+      stamina: 10
+      hp: 200
+      attackDamage: 10
+      defense: 0
+      magicResistance: 0
+      attackSpeed: 0
+      healthRegen: 0
+      energyRegen: 0
+      attackRange: 0
+      spritePath: 
+      traits: []
+      skills: []
+      activeSkill: {fileID: 0}
+    - id: 1002
+      equippedItemIds: []
+      heroName: Wizard
+      heroClass: 3
+      characteristicType: 2
+      level: 1
+      currentExp: 0
+      neededExp: 100
+      imagePath: Images/currency/Wizard
+      strength: 10
+      agility: 10
+      intelligence: 10
+      stamina: 10
+      hp: 200
+      attackDamage: 10
+      defense: 0
+      magicResistance: 0
+      attackSpeed: 0
+      healthRegen: 0
+      energyRegen: 0
+      attackRange: 0
+      spritePath: 
+      traits: []
+      skills: []
+      activeSkill: {fileID: 0}
+    - id: 1003
+      equippedItemIds: []
+      heroName: Wizard
+      heroClass: 3
+      characteristicType: 2
+      level: 1
+      currentExp: 0
+      neededExp: 100
+      imagePath: Images/currency/Priest
+      strength: 10
+      agility: 10
+      intelligence: 10
+      stamina: 10
+      hp: 200
+      attackDamage: 10
+      defense: 0
+      magicResistance: 0
+      attackSpeed: 0
+      healthRegen: 0
+      energyRegen: 0
+      attackRange: 0
+      spritePath: 
+      traits: []
+      skills: []
+      activeSkill: {fileID: 0}
+    - id: 1004
+      equippedItemIds: []
+      heroName: Wizard
+      heroClass: 3
+      characteristicType: 2
+      level: 1
+      currentExp: 0
+      neededExp: 100
+      imagePath: Images/currency/Archer
+      strength: 10
+      agility: 10
+      intelligence: 10
+      stamina: 10
+      hp: 200
+      attackDamage: 10
+      defense: 0
+      magicResistance: 0
+      attackSpeed: 0
+      healthRegen: 0
+      energyRegen: 0
+      attackRange: 0
+      spritePath: 
+      traits: []
+      skills: []
+      activeSkill: {fileID: 0}
+    username: GUEST_123456
+    battlePoint: 0
+    level: 1
+    musicVolume: 80
+    sfxVolume: 80
+  itemCollection: {fileID: 11400000, guid: 3496197cc8159e14987beb99d0b1629c, type: 2}
+  characterBaseData: []
+  equipmentBaseData: []
+  itemBaseData: []
+  equipmentStatData: []
+  noticeTransform: {fileID: 0}
