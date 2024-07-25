@@ -90,6 +90,8 @@ public class Knight : Character, IDragHandler, IEndDragHandler, IBeginDragHandle
     {
         Vector3 endPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         endPosition.z = 0;
+
+        Move();
         // base.nearestValidPosition = customTilemapManager.GetNearestValidPosition(endPosition);
 
         // if (customTilemapManager.IsValidMovePosition(nearestValidPosition))
