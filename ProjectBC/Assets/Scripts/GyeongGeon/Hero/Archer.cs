@@ -1,4 +1,4 @@
-public class Archer : Character
+public class Archer : Hero
 {
     public HeroClass _heroClass;
 

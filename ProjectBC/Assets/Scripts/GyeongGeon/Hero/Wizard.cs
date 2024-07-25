@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Wizard : Character, IDragHandler, IEndDragHandler, IBeginDragHandler
+public class Wizard : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
     public HeroClass _heroClass;
     private LineRenderer lineRenderer;

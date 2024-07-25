@@ -145,6 +145,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a57852021a524b4bbaf9487fc283480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &134669836 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1386364200445775209, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
+  m_PrefabInstance: {fileID: 1411080236}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &145869596 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5582651185492710436, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
@@ -3836,113 +3841,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: _resetGame
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: itemCollection
-      value: 
-      objectReference: {fileID: 11400000, guid: 3496197cc8159e14987beb99d0b1629c, type: 2}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
       propertyPath: noticeTransform
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: _playerInfo.itemCollection
-      value: 
-      objectReference: {fileID: 11400000, guid: 3496197cc8159e14987beb99d0b1629c, type: 2}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: _playerInfo.heroes.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: _playerInfo.heroes.Array.data[2].hp
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: _playerInfo.heroes.Array.data[3].hp
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: _playerInfo.heroes.Array.data[2].level
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: _playerInfo.heroes.Array.data[3].level
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: _playerInfo.heroes.Array.data[2].agility
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: _playerInfo.heroes.Array.data[2].stamina
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: _playerInfo.heroes.Array.data[3].agility
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: _playerInfo.heroes.Array.data[3].stamina
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: _playerInfo.heroes.Array.data[2].heroName
-      value: Wizard
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: _playerInfo.heroes.Array.data[2].strength
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: _playerInfo.heroes.Array.data[3].heroName
-      value: Wizard
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: _playerInfo.heroes.Array.data[3].strength
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: _playerInfo.heroes.Array.data[2].heroClass
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: _playerInfo.heroes.Array.data[2].neededExp
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: _playerInfo.heroes.Array.data[3].heroClass
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: _playerInfo.heroes.Array.data[3].neededExp
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: _playerInfo.heroes.Array.data[2].attackDamage
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: _playerInfo.heroes.Array.data[2].intelligence
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: _playerInfo.heroes.Array.data[3].attackDamage
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: _playerInfo.heroes.Array.data[3].intelligence
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: _playerInfo.heroes.Array.data[2].characteristicType
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5478200503041952839, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
-      propertyPath: _playerInfo.heroes.Array.data[3].characteristicType
-      value: 2
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 134669836}
     - target: {fileID: 7473203989753717561, guid: 06cebeecaef8d5f48a58b1cb8ecfe52b, type: 3}
       propertyPath: m_Name
       value: GameDataManager
