@@ -53,6 +53,10 @@ public abstract class Character : MonoBehaviour, IBehavior
     public AttackType attackType;
     public CharacterDirection characterDirection;
 
+    public Character attacker;
+
+    [Header("Infos")]
+    public HeroInfo info;
     public float maxHealth;
     public float currentHealth;
     public float moveSpeed;
@@ -171,6 +175,7 @@ public abstract class Character : MonoBehaviour, IBehavior
     {
         if (target != null)
         {
+            target.attacker = this;
             target.currentHealth -= _damage;
             InstantiateDmgTxtObj(_damage);
         }

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Priest : Character, IDragHandler, IEndDragHandler, IBeginDragHandler
+public class Priest : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
     public HeroClass _heroClass;
     private LineRenderer lineRenderer;

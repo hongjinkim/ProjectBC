@@ -55,6 +55,9 @@ public class GameManager_2 : MonoBehaviour
                 {
                     int heroId = heroManager.AllHeroes[i].id; // 1¹ø ÇÁ¸®ÆÕÀÇ id = 1001
                     GameObject instance = Instantiate(prefab);
+
+                    instance.GetComponent<Character>().info = GameDataManager.instance.playerInfo.heroes[i];
+
                     instance.SetActive(false);
                     heroPrefabs[heroId] = instance;
 

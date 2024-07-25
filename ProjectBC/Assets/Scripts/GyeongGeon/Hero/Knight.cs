@@ -10,7 +10,7 @@ public enum HeroClass
     Wizard
 }
 
-public class Knight : Character, IDragHandler, IEndDragHandler, IBeginDragHandler
+public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
     public HeroClass _heroClass;
     private LineRenderer lineRenderer;
