@@ -13,6 +13,7 @@ Unity 2D 방치형 게임 개발 프로젝트
 드래그 앤 드롭으로 히어로 전투 배치
 
 
+![draganddrop](https://github.com/user-attachments/assets/f3a5acbf-8965-49ff-a651-447077c9fd67)
 
 
 
