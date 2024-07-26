@@ -67,5 +67,11 @@ public class HeroPage : HeroScreen
         _UIManager.TogglePlayerInfo(true);
     }
 
-
+    public void OnLevelupButtonClicked()
+    {
+        if (_info.level >= 40 && _info.currentExp == _info.neededExp)
+        {
+            _info.LevelUp();
+        }
+    }
 }

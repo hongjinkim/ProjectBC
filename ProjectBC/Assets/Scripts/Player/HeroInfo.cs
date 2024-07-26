@@ -46,7 +46,7 @@ public class HeroInfo
         this.characteristicType = characteristicType;
         this.level = 1;
         this.currentExp = 0;
-        this.neededExp = 100;
+        this.neededExp = 2;
         // 기본 스탯 설정
         this.strength = 10;
         this.agility = 10;
@@ -198,14 +198,20 @@ public class HeroInfo
 
     public void AddExp(float exp)
     {
-        currentExp += exp;
-        while (currentExp >= neededExp)
+        if (level >= 40 && currentExp >= neededExp)
+        {
+            return;
+        }
+
+        currentExp = Mathf.Min(currentExp + exp, neededExp);
+
+        if (level < 40 && currentExp >= neededExp)
         {
             LevelUp();
         }
     }
 
-    private void LevelUp()
+    public void LevelUp()
     {
         level++;
         currentExp -= neededExp;
