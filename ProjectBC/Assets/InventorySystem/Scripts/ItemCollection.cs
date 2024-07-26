@@ -31,7 +31,7 @@ public class ItemCollection : ScriptableObject
 
     public void OnEnable()
     {
-        items.ForEach(i => i.Properties.ForEach(p => p.ParseValue()));
+        //items.ForEach(i => i.Properties.ForEach(p => p.ParseValue()));
     }
 
     public ItemParams GetItemParams(Item item)
