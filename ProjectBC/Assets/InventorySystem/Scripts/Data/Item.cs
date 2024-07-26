@@ -15,6 +15,7 @@ public class Item
     public List<Stat> Stats = new();
 
     public int Count;
+    public int index;
 
     public Item()
     {

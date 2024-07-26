@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +10,8 @@ public class HeroPage : HeroScreen
 {
 
     public HeroMenuManager heroMenuManager;
+    public ItemCollection itemCollection;
+    public ExpScroll expScroll;
 
     [Header("current  hero info")]
     [SerializeField] private HeroInfo _info;
@@ -67,15 +71,57 @@ public class HeroPage : HeroScreen
         _UIManager.TogglePlayerInfo(true);
     }
 
-    public void OnAddExpButtonClicked(int exp)
+    //public int ExpScrollUse(int amount)
+    //{
+    //    for (int i = 0; i < GameDataManager.instance.playerInfo.items.Count; i++)
+    //    {
+
+    //    }
+    //}
+    public bool UseExpScroll(string scrollType)
     {
-        // 경험치 책 만큼 exp 획득
-        // 아이템 개수 제거
-        // UI 갱신
-        // 아이템 있을 때만 사용 로직 필요
-        
-        Debug.Log(exp + "경험치 획득");
-        _info.AddExp(exp);
+        var ExpItem = GameDataManager.instance.playerInfo.items;
+
+        for (int i = 0; i < ExpItem.Count; i++)
+        {
+            if (ExpItem[i].id == scrollType)
+            {
+                if (ExpItem[i].Count > 0)
+                {
+                    ExpItem[i].Count--;
+                    if (ExpItem[i].Count == 0)
+                    {
+                        ExpItem.RemoveAt(i);
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void OnAddExpButtonClicked(int buttonType)
+    {
+        string scrollType = "";
+        int exp = 0;
+
+        switch (buttonType)
+        {
+            case 0: scrollType = "Exp_Basic"; exp = 1; break;
+            case 1: scrollType = "Exp_Common"; exp = 2; break;
+            case 2: scrollType = "Exp_Rare"; exp = 3; break;
+            case 3: scrollType = "Exp_Epic"; exp = 4; break;
+            case 4: scrollType = "Exp_Legendary"; exp = 5; break;
+        }
+
+        if (UseExpScroll(scrollType))
+        {
+            _info.AddExp(exp);
+        }
+        else
+        {
+            Debug.Log($"{scrollType} 경험치 스크롤이 없습니다.");
+        }
     }
 
     public void OnLevelupButtonClicked()

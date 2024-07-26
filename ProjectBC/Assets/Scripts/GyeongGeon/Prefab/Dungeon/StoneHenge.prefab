@@ -762,7 +762,7 @@ MonoBehaviour:
   _activeHeroList: []
   LootTable:
   - id: none
-    dropRate: 70
+    dropRate: 60
     minValue: 0
     maxValue: 0
     droppedItemPrefab: {fileID: 0}
@@ -808,6 +808,11 @@ MonoBehaviour:
     droppedItemPrefab: {fileID: 0}
   - id: WarriorSword_Legendary
     dropRate: 0.1
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: Exp_Basic
+    dropRate: 10
     minValue: 0
     maxValue: 0
     droppedItemPrefab: {fileID: 0}
