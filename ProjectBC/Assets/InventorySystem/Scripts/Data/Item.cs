@@ -43,7 +43,7 @@ public class Item
     [JsonIgnore] public ItemIcon Icon => ItemCollection.active.GetItemIcon(this);
 
     [JsonIgnore] public int Hash => $"{id}.{modifier?.id}.{modifier?.level}".GetHashCode();
-    [JsonIgnore] public bool IsModified => modifier != null && modifier.id != ItemModifier.None;
+    [JsonIgnore] public bool IsModified => modifier != null && modifier.id != MagicStat.None;
     [JsonIgnore] public bool IsEquipment => Params.Type == ItemType.Helmet || Params.Type == ItemType.Armor || Params.Type == ItemType.Vest || Params.Type == ItemType.Bracers || Params.Type == ItemType.Leggings || Params.Type == ItemType.Weapon || Params.Type == ItemType.Shield;
     [JsonIgnore] public bool IsArmor => Params.Type == ItemType.Helmet || Params.Type == ItemType.Armor || Params.Type == ItemType.Vest || Params.Type == ItemType.Bracers || Params.Type == ItemType.Leggings;
     [JsonIgnore] public bool IsWeapon => Params.Type == ItemType.Weapon;

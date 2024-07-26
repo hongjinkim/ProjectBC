@@ -27,10 +27,6 @@ public class ScrollEquipment : ItemContainer
 
     private static readonly List<ItemType> TypePriority = new List<ItemType>
         {
-            ItemType.Currency,
-            ItemType.Container,
-            ItemType.Booster,
-            ItemType.Supply,
             ItemType.Weapon,
             ItemType.Helmet,
             ItemType.Armor,
@@ -38,12 +34,8 @@ public class ScrollEquipment : ItemContainer
             ItemType.Bracers,
             ItemType.Leggings,
             ItemType.Shield,
-            ItemType.Fragment,
             ItemType.Backpack,
-            ItemType.Jewelry,
-            ItemType.Loot,
-            ItemType.Recipe,
-            ItemType.Material
+            ItemType.Jewelry
         };
     private readonly List<InventoryItem> _itemInstances = new List<InventoryItem>(); // Reusing instances to reduce Instantiate() calls.
 

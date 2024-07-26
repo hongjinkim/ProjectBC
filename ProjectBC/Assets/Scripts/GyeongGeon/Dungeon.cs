@@ -339,7 +339,7 @@ public class Dungeon : MonoBehaviour
         var inventory = GameDataManager.instance.playerInfo.items;
         foreach (Item item in droppedItems)
         {
-            if (item.Params.Type == ItemType.Usable || item.Params.Type == ItemType.Material || item.Params.Type == ItemType.Crystal)
+            if (item.Params.Type == ItemType.Usable || item.Params.Type == ItemType.Material || item.Params.Type == ItemType.Crystal || item.Params.Type == ItemType.Exp)
             {
                 bool hasItem = false;
                 foreach (Item _item in inventory)
@@ -353,14 +353,14 @@ public class Dungeon : MonoBehaviour
                 }
                 if (!hasItem)
                 {
-                    StartCoroutine(PickupNotice(item.id + "을(를) 획득 했습니다"));
+                    StartCoroutine(PickupNotice(item.Params.Name + "을(를) 획득 했습니다"));
                     inventory.Add(item);
                 }
                 
             }
             else
             {
-                StartCoroutine(PickupNotice(item.id + "을(를) 획득 했습니다"));
+                StartCoroutine(PickupNotice(item.Params.Name + "을(를) 획득 했습니다"));
                 inventory.Add(item);
             }
         }

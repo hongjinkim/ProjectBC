@@ -11,16 +11,15 @@ using static DB;
 public class ItemParams
 {
     public int Index;
+    public string Name;
     public string Id;
     public int Level;
     public ItemRarity Rarity;
     public ItemType Type;
     public ItemClass Class;
     public List<ItemTag> Tags = new List<ItemTag>();
-    public List<Property> Properties = new List<Property>();
+    //public List<Property> Properties = new List<Property>();
     public int Price;
-    public int Weight;
-    public ItemMaterial Material;
     public string IconId;
     public string SpriteId;
     public string Meta;
@@ -29,19 +28,19 @@ public class ItemParams
 
     public char Grade => (char)(65 + Level);
 
-    public Property FindProperty(PropertyId id)
-    {
-        var target = Properties.SingleOrDefault(i => i.id == id && i.element == ElementId.Physic);
+    //public Property FindProperty(BasicStat id)
+    //{
+    //    var target = Properties.SingleOrDefault(i => i.id == id && i.element == ElementId.Physic);
 
-        return target;
-    }
+    //    return target;
+    //}
 
-    public Property FindProperty(PropertyId id, ElementId element)
-    {
-        var target = Properties.SingleOrDefault(i => i.id == id && i.element == element);
+    //public Property FindProperty(BasicStat id, ElementId element)
+    //{
+    //    var target = Properties.SingleOrDefault(i => i.id == id && i.element == element);
 
-        return target;
-    }
+    //    return target;
+    //}
 
     public string GetLocalizedName(string language)
     {
@@ -66,10 +65,8 @@ public class ItemParams
             Type = Type,
             Class = Class,
             Tags = Tags.ToList(),
-            Properties = Properties.Select(i => i.Copy()).ToList(),
+            //Properties = Properties.Select(i => i.Copy()).ToList(),
             Price = Price,
-            Weight = Weight,
-            Material = Material,
             IconId = IconId,
             SpriteId = SpriteId,
             Meta = Meta

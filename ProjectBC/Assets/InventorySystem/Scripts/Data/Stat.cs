@@ -6,14 +6,14 @@ using UnityEngine;
 [Serializable]
 public class Stat
 {
-    public StatId id;
+    public BasicStat id;
     public int value;
 
     public Stat()
     {
     }
 
-    public Stat(StatId id, int value)
+    public Stat(BasicStat id, int value)
     {
         this.id = id;
         this.value = value;
