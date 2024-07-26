@@ -67,11 +67,27 @@ public class HeroPage : HeroScreen
         _UIManager.TogglePlayerInfo(true);
     }
 
+    public void OnAddExpButtonClicked(int exp)
+    {
+        // 경험치 책 만큼 exp 획득
+        // 아이템 개수 제거
+        // UI 갱신
+        // 아이템 있을 때만 사용 로직 필요
+        
+        Debug.Log(exp + "경험치 획득");
+        _info.AddExp(exp);
+    }
+
     public void OnLevelupButtonClicked()
     {
         if (_info.level >= 40 && _info.currentExp == _info.neededExp)
         {
             _info.LevelUp();
         }
+    }
+
+    public void OnBookUseLevelupButtonClicked()
+    {
+        // neededEXP만큼 경험치 책 사용
     }
 }
