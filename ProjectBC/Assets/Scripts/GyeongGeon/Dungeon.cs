@@ -339,7 +339,7 @@ public class Dungeon : MonoBehaviour
         var inventory = GameDataManager.instance.playerInfo.items;
         foreach (Item item in droppedItems)
         {
-            if (item.Params.Type == ItemType.Usable || item.Params.Type == ItemType.Material || item.Params.Type == ItemType.Crystal)
+            if (item.Params.Type == ItemType.Usable || item.Params.Type == ItemType.Material || item.Params.Type == ItemType.Crystal || item.Params.Type == ItemType.Exp)
             {
                 bool hasItem = false;
                 foreach (Item _item in inventory)
