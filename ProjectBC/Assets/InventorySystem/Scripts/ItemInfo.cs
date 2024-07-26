@@ -71,7 +71,7 @@ public class ItemInfo : MonoBehaviour
         iconFrame.raycastTarget = true;
 
         level.text = "Lv. " + item.Params.Level.ToString("D2");
-        name.text = item.id;
+        name.text = item.Params.Name;
         rarity.text = "З°Бъ : " + item.Params.Rarity.ToString();
         type.text = item.Params.Type.ToString();
 

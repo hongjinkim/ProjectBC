@@ -128,10 +128,10 @@ public class ItemCollection : ScriptableObject
         {
             case ItemRarity.Legacy: return backgroundGrey;
             case ItemRarity.Basic: return backgroundGrey;
-            case ItemRarity.Common: return backgroundBrown;
-            case ItemRarity.Rare: return backgroundRed;
-            case ItemRarity.Epic: return backgroundBlue;
-            case ItemRarity.Legendary: return backgroundPurple;
+            case ItemRarity.Common: return backgroundGreen;
+            case ItemRarity.Rare: return backgroundBlue;
+            case ItemRarity.Epic: return backgroundPurple;
+            case ItemRarity.Legendary: return backgroundRed;
             default: throw new NotImplementedException();
         }
     }
