@@ -211,10 +211,9 @@ public class GameDataManager : MonoBehaviour
             Type = data.Type,
             Class = data.Class,
             Tags = new List<ItemTag> { data.Tag1, data.Tag2, data.Tag3 },
-            Properties = new List<Property> { new Property(data.PropertyId1, data.PropertyValue1), new Property(data.PropertyId2, data.PropertyValue2) },
+            //Properties = new List<Property> { new Property(data.PropertyId1, data.PropertyValue1), new Property(data.PropertyId2, data.PropertyValue2) },
             Price = data.Price,
-            Weight = data.Weight,
-            Material = data.Material,
+
             IconId = data.IconId,
             SpriteId = data.SpriteId,
             Meta = data.Meta

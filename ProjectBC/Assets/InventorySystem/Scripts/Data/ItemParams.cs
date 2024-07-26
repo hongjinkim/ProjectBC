@@ -29,14 +29,14 @@ public class ItemParams
 
     public char Grade => (char)(65 + Level);
 
-    public Property FindProperty(PropertyId id)
+    public Property FindProperty(BasicStat id)
     {
         var target = Properties.SingleOrDefault(i => i.id == id && i.element == ElementId.Physic);
 
         return target;
     }
 
-    public Property FindProperty(PropertyId id, ElementId element)
+    public Property FindProperty(BasicStat id, ElementId element)
     {
         var target = Properties.SingleOrDefault(i => i.id == id && i.element == element);
 
