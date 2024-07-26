@@ -65,11 +65,11 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
             count.text = item.Count.ToString();
         }
 
-        if (fragment)
-        {
-            fragment.SetActive(true);
-            fragment.SetActive(this.item.Params.Type == ItemType.Fragment);
-        }
+        //if (fragment)
+        //{
+        //    fragment.SetActive(true);
+        //    fragment.SetActive(this.item.Params.Type == ItemType.Fragment);
+        //}
 
         if (toggle)
         {
@@ -78,7 +78,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
 
         if (modificator)
         {
-            var mod = this.item.modifier != null && this.item.modifier.id != ItemModifier.None;
+            var mod = this.item.modifier != null && this.item.modifier.id != MagicStat.None;
 
             modificator.SetActive(mod);
 
@@ -88,8 +88,8 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
 
                 switch (this.item.modifier.id)
                 {
-                    case ItemModifier.LevelDown: text = "G-"; break;
-                    case ItemModifier.LevelUp: text = "G+"; break;
+                    //case MagicStat.LevelDown: text = "G-"; break;
+                    //case MagicStat.LevelUp: text = "G+"; break;
                     default: text = this.item.modifier.id.ToString().ToUpper()[0].ToString(); break;
                 }
 

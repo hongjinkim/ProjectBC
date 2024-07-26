@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public class Property
 {
-    public PropertyId id;
+    public BasicStat id;
     public string value;
 
     [HideInInspector][NonSerialized] public int valueInt;
@@ -20,7 +20,7 @@ public class Property
     {
     }
 
-    public Property(PropertyId id, object value)
+    public Property(BasicStat id, object value)
     {
         this.id = id;
         this.value = value.ToString();
@@ -31,22 +31,22 @@ public class Property
     {
         var parts = value.Split('/');
 
-        if (id == PropertyId.Damage || id == PropertyId.Resistance)
-        {
-            switch (parts.Length)
-            {
-                case 2:
-                    element = parts[1].ToEnum<ElementId>();
-                    break;
-                case 3:
-                    element = parts[1].ToEnum<ElementId>();
-                    duration = int.Parse(parts[2]);
-                    break;
-                default:
-                    element = ElementId.Physic;
-                    break;
-            }
-        }
+        //if (id == BasicStat.Damage || id == BasicStat.Resistance)
+        //{
+        //    switch (parts.Length)
+        //    {
+        //        case 2:
+        //            element = parts[1].ToEnum<ElementId>();
+        //            break;
+        //        case 3:
+        //            element = parts[1].ToEnum<ElementId>();
+        //            duration = int.Parse(parts[2]);
+        //            break;
+        //        default:
+        //            element = ElementId.Physic;
+        //            break;
+        //    }
+        //}
 
         if (Regex.IsMatch(parts[0], @"^\d+-\d+$"))
         {
@@ -125,7 +125,7 @@ public class Property
         var parts = value.Split('=');
         var property = new Property
         {
-            id = parts[0].ToEnum<PropertyId>(),
+            id = parts[0].ToEnum<BasicStat>(),
             value = parts[1]
         };
 

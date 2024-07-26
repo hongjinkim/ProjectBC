@@ -97,10 +97,8 @@ public class InventoryBase : ItemWorkspace
         {
             switch(item.Params.Type)
             {
-                case ItemType.Container:
-                case ItemType.Booster:
-                case ItemType.Coupon:
                 case ItemType.Usable:
+                case ItemType.Exp:
                     usable.Add(item);
                     break;
                 case ItemType.Material:
@@ -186,37 +184,37 @@ public class InventoryBase : ItemWorkspace
 
     public Item Assemble()
     {
-        if (SelectedItem != null && SelectedItem.Params.Type == ItemType.Fragment && SelectedItem.Count >= SelectedItem.Params.FindProperty(PropertyId.Fragments).valueInt)
-        {
-            SelectedItem.Count -= SelectedItem.Params.FindProperty(PropertyId.Fragments).valueInt;
+        //if (SelectedItem != null && SelectedItem.Params.Type == ItemType.Fragment && SelectedItem.Count >= SelectedItem.Params.FindProperty(BasicStat.Fragments).valueInt)
+        //{
+        //    SelectedItem.Count -= SelectedItem.Params.FindProperty(BasicStat.Fragments).valueInt;
 
-            var crafted = new Item(SelectedItem.Params.FindProperty(PropertyId.Craft).value);
-            var existed = EquipmentInventory.Items.SingleOrDefault(i => i.Hash == crafted.Hash);
+        //    var crafted = new Item(SelectedItem.Params.FindProperty(BasicStat.Craft).value);
+        //    var existed = EquipmentInventory.Items.SingleOrDefault(i => i.Hash == crafted.Hash);
 
-            if (existed == null)
-            {
-                EquipmentInventory.Items.Add(crafted);
-            }
-            else
-            {
-                existed.Count++;
-            }
+        //    if (existed == null)
+        //    {
+        //        EquipmentInventory.Items.Add(crafted);
+        //    }
+        //    else
+        //    {
+        //        existed.Count++;
+        //    }
 
-            if (SelectedItem.Count == 0)
-            {
-                EquipmentInventory.Items.Remove(SelectedItem);
-                SelectedItem = crafted;
-            }
+        //    if (SelectedItem.Count == 0)
+        //    {
+        //        EquipmentInventory.Items.Remove(SelectedItem);
+        //        SelectedItem = crafted;
+        //    }
 
-            EquipmentInventory.Refresh(SelectedItem);
+        //    EquipmentInventory.Refresh(SelectedItem);
 
-            return crafted;
-        }
+        //    return crafted;
+        //}
 
         return null;
     }
 
-    private List<Item> MaterialList => SelectedItem.Params.FindProperty(PropertyId.Materials).value.Split(',').Select(i => i.Split(':')).Select(i => new Item(i[0], int.Parse(i[1]))).ToList();
+    //private List<Item> MaterialList => SelectedItem.Params.FindProperty(BasicStat.Materials).value.Split(',').Select(i => i.Split(':')).Select(i => new Item(i[0], int.Parse(i[1]))).ToList();
 
 
     private bool CanCraft(List<Item> materials)

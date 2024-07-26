@@ -103,108 +103,55 @@ public enum ItemTag
 }
 public enum ItemType
 {
-    Undefined = 1,
-    Currency = 2,
-    Loot = 3,
-    
-    Supply = 5,
-    Recipe = 6,
-    Weapon = 7,
-    Shield = 8,
-    Armor = 9,
-    Helmet = 10,
-    Pauldrons = 11,
-    Bracers = 12,
-    Gloves = 13,
-    Vest = 14,
-    Belt = 15,
-    Leggings = 16,
-    Boots = 17,
-    Jewelry =18 ,
-    Backpack = 19,
-    Container = 20,
-    Booster = 21,
-    Coupon = 22,
-    Fragment = 23,
-
-    Usable = 24,
-    Material = 4,
-    Crystal = 25
+    //default
+    Undefined,
+    //Equipments
+    Weapon = 0,
+    Shield = 1,
+    Armor = 2,
+    Helmet = 3,
+    Pauldrons = 4,
+    Bracers = 5,
+    Gloves = 6,
+    Vest = 7,
+    Belt = 8,
+    Leggings = 9,
+    Boots = 10,
+    Jewelry = 11,
+    Backpack = 12,
+    //Usables
+    Usable = 13,
+    Exp = 14,
+    //Material
+    Material = 15,
+    //Crystal
+    Crystal = 16
 }
-public enum ItemModifier
+public enum MagicStat
 {
     None = 0,
-    Reinforced = 1, // Increase damage/resistance and STR req.
-    Refined = 2, // Increase damage/resistance and DEX req.
-    Sharpened = 3, // Critical damage up.
-    Lightweight = 4, // Reduce weight.
-    Poison = 5, // Add poison damage/resistance.
-    Bleeding = 6, // Add bleeding damage/resistance.
-    Spread = 7, // Reduced damage in a column.
-    Onslaught = 8, // Reduced damage in a line;
-    Shieldbreaker = 9, // Ignore shield.
-    Fire = 10, // Add fire damage/resistance.
-    Ice = 11, // Add ice damage/resistance.
-    Lightning = 12, // Add lightning damage/resistance.
-    Light = 13, // Add healing ability and halved holy damage/resistance.
-    Darkness = 14, // Add darkness damage/resistance.
-    Vampiric = 15, // Restore HP after each hit.
-    LevelDown = 16,
-    LevelUp = 17,
-    HealthUp = 18,
-    HealthRecovery = 19,
-    StaminaUp = 20,
-    StaminaRecovery = 21,
-    Speed = 22,
-    Accuracy = 23,
-    Reloading = 24
+    AttackPower = 1,
+    Strength = 2,
+    Agillity = 3,
+    Intelligence = 4,
+    Defense = 5,
+    MagicResistance = 6,
+    Health = 7,
+    DamageBlock = 8,
+    HealthRegeneration = 9,
+    EnergyRegeneration = 10,
+    AttackSpeed = 11,
+    TrueDamage = 12
 }
-public enum PropertyId // TODO: Set indexes.
+public enum BasicStat
 {
-    Accuracy = 0,
-    Ammo = 1,
-    Antidote = 2,
-    Bandage = 3,
-    Blocking = 4,
-    BlockingFatigue = 5,
-    Capacity = 6,
-    ChargeSpeed = 7,
-    ChargeTimings = 8,
-    Craft = 9,
-    CriticalChance = 10,
-    CriticalDamage = 11,
-    CustomPrice = 12,
-    Damage = 13,
-    Duration = 14,
-    Effect = 15,
-    Exp = 16,
-    Fatigue = 17,
-    Gunpowder = 18,
-    HealthRecovery = 19,
-    HealthRestore = 20,
-    HealthMax = 21,
-    Immunity = 22,
-    Magazine = 23,
-    Materials = 24,
-    Mechanism = 25,
-    Radius = 26,
-    Range = 27,
-    Reloading = 28,
-    Resistance = 29,
-    ShopChance = 30,
-    SkillUp = 31,
-    Speed = 32,
-    StaminaRecovery = 33,
-    StaminaRestore = 34,
-    StaminaMax = 35,
-    Shock = 36,
-    Contains = 37,
-    DamageBonus = 38,
-    Multishot = 39,
-    Fragments = 40,
-    DropChance = 41,
-    ExpBonus = 42,
-    GoldBonus = 43
+    AttackPower = 1,
+    Strength = 2,
+    Agillity = 3,
+    Intelligence = 4,
+    Defense = 5,
+    MagicResistance = 6,
+    Health = 7
 }
 public enum TraitType
 {
@@ -278,19 +225,4 @@ public enum EquipmentPart
     Firearm1H,
     Firearm2H,
     Wings
-}
-
-public enum StatId
-{
-   Hp = 1,
-   AttackDamage = 2,
-   Defense = 3,
-   MagicResistance = 4,
-   Strength = 5,
-   Agility = 6,
-   Intelligence = 7,
-   Stamina = 8,
-   AttackSpeed = 9,
-   HealthRegen = 10,
-   EnergyRegen = 11
 }

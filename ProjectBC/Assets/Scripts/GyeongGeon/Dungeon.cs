@@ -353,14 +353,14 @@ public class Dungeon : MonoBehaviour
                 }
                 if (!hasItem)
                 {
-                    StartCoroutine(PickupNotice(item.id + "을(를) 획득 했습니다"));
+                    StartCoroutine(PickupNotice(item.Params.Name + "을(를) 획득 했습니다"));
                     inventory.Add(item);
                 }
                 
             }
             else
             {
-                StartCoroutine(PickupNotice(item.id + "을(를) 획득 했습니다"));
+                StartCoroutine(PickupNotice(item.Params.Name + "을(를) 획득 했습니다"));
                 inventory.Add(item);
             }
         }

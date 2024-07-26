@@ -6,14 +6,14 @@ using UnityEngine;
 [Serializable]
 public class Modifier
 {
-    public ItemModifier id;
+    public MagicStat id;
     public int level;
 
     public Modifier()
     {
     }
 
-    public Modifier(ItemModifier id, int level)
+    public Modifier(MagicStat id, int level)
     {
         this.id = id;
         this.level = level;
