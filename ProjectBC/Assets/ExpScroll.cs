@@ -3,14 +3,22 @@ using UnityEngine;
 
 public class ExpScroll : MonoBehaviour
 {
+    public static ExpScroll Instance { get; private set; }
     [SerializeField] private TextMeshProUGUI[] countTxts;
 
-    private void OnEnable()
+    private void Awake()
     {
-        UpdateExpScrollCount();
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
-    private void UpdateExpScrollCount()
+    public void UpdateExpScrollCount()
     {
         for (int i = 0; i < countTxts.Length; i++)
         {

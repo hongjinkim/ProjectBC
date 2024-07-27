@@ -89,6 +89,15 @@ public class HeroPage : HeroScreen
                 if (ExpItem[i].Count > 0)
                 {
                     ExpItem[i].Count--;
+
+                    GameDataManager.instance.UpdateItem();
+                    GameDataManager.instance.UpdateFunds();
+
+                    if (ExpScroll.Instance != null)
+                    {
+                        ExpScroll.Instance.UpdateExpScrollCount();
+                    }
+
                     if (ExpItem[i].Count == 0)
                     {
                         ExpItem.RemoveAt(i);
@@ -136,4 +145,7 @@ public class HeroPage : HeroScreen
     {
         // neededEXP만큼 경험치 책 사용
     }
+
+    // UI 갱신 필요
+    // 갱신 위치를 획득했을 때로 바꿀 필요 있음.
 }

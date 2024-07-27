@@ -376,6 +376,11 @@ public class Dungeon : MonoBehaviour
         droppedPrefabs.Clear();
         GameDataManager.instance.UpdateItem();
         GameDataManager.instance.UpdateFunds();
+
+        if (ExpScroll.Instance != null)
+        {
+            ExpScroll.Instance.UpdateExpScrollCount();
+        }
     }
 
     public Item RandomStat(Item item)
@@ -401,4 +406,6 @@ public class Dungeon : MonoBehaviour
 
         textObject.SetActive(false);
     }
+
+
 }
