@@ -10,6 +10,11 @@ public class HeroMenuManager : MonoBehaviour
     public Transform SkillMenu;
     public Transform TalentMenu;
 
+    [Header("Potion")]
+    public Button PotionEquipmentButton;
+    public Button PotionEquipmentCloseButton;
+    public Transform HeroScreen_Equipment;
+
     private void Awake()
     {
         EquipmentMenu.SetAsLastSibling();
@@ -38,5 +43,16 @@ public class HeroMenuManager : MonoBehaviour
     public void OnTalentButtonClicked()
     {
         TalentMenu.SetAsLastSibling();
+    }
+
+    public void OnPotionEquipmentClicked()
+    {
+        Debug.Log("¿Ö ¾ÈµÅ");
+        HeroScreen_Equipment.SetActive(true);
+    }
+
+    public void OpPotionEquipmentClosed()
+    {
+        HeroScreen_Equipment.SetActive(false);
     }
 }
