@@ -38,6 +38,9 @@ public class HeroInfo
     private Sprite _sprite;
 
     public HeroPage heroPage;
+
+    public event Action OnExperienceChanged;
+    public event Action OnLevelUp;
     public HeroInfo(string name, HeroClass heroClass, CharacteristicType characteristicType, int id, string imagePath)
     {
         this.id = id;
@@ -198,8 +201,6 @@ public class HeroInfo
         hp += 10 * amount;
     }
 
-    public event Action OnExperienceChanged;
-
     public void AddExp(float exp)
     {
         if (level >= 40 && currentExp >= neededExp)
@@ -223,6 +224,7 @@ public class HeroInfo
         currentExp -= neededExp;
         neededExp *= 1.2f;
         IncreaseStats();
+        OnLevelUp?.Invoke();
     }
 
     private void IncreaseStats()

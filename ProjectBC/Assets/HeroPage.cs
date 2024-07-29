@@ -38,11 +38,13 @@ public class HeroPage : HeroScreen
     private void OnEnable()
     {
         _info.OnExperienceChanged += GaugeBarUpdate;
+        _info.OnLevelUp += GaugeBarUpdate;
     }
 
     private void OnDisable()
     {
         _info.OnExperienceChanged -= GaugeBarUpdate;
+        _info.OnLevelUp -= GaugeBarUpdate;
     }
 
 
@@ -141,10 +143,38 @@ public class HeroPage : HeroScreen
 
     public void OnBookUseLevelupButtonClicked()
     {
-        // neededEXP만큼 경험치 책 사용
+        float neededExp = _info.neededExp - _info.currentExp;
+        if (neededExp <= 0) return;
+
+        string[] scrollTypes = { "Exp_Legendary", "Exp_Epic", "Exp_Rare", "Exp_Common", "Exp_Basic" };
+        int[] expValues = { 5, 4, 3, 2, 1 };
+
+        float totalExpGained = 0;
+
+        for (int i = 0; i < scrollTypes.Length; i++)
+        {
+            while (neededExp > 0)
+            {
+                if (UseExpScroll(scrollTypes[i]))
+                {
+                    totalExpGained += expValues[i];
+                    neededExp -= expValues[i];
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            if (neededExp <= 0) break;
+        }
+
+        if (totalExpGained > 0)
+        {
+            _info.AddExp(totalExpGained);
+        }
     }
 
- 
     public void GaugeBarUpdate()
     {
         gauge.fillAmount = Mathf.Clamp01(_info.currentExp / _info.neededExp);

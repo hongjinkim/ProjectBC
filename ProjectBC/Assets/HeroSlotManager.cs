@@ -67,10 +67,12 @@ public class HeroSlotManager : MonoBehaviour
         if (heroInfo != null)
         {
             heroInfo.OnExperienceChanged -= heroPage.GaugeBarUpdate;
+            heroInfo.OnLevelUp -= heroPage.GaugeBarUpdate;
         }
 
         heroInfo = hero[newIdx];
         heroInfo.OnExperienceChanged += heroPage.GaugeBarUpdate;
+        heroInfo.OnLevelUp += heroPage.GaugeBarUpdate;
 
         heroPage.GaugeBarUpdate();
     }
