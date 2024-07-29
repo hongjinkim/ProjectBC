@@ -7,6 +7,7 @@ public class HeroSlotManager : MonoBehaviour
 {
     public HeroManager heroManager;
     public HeroPage heroPage;
+    public HeroInfo heroInfo;
 
     public List<MyHeroSlot> slots;
 
@@ -44,6 +45,7 @@ public class HeroSlotManager : MonoBehaviour
             idx++;
 
         heroPage.OnHeroSelected(hero[idx], idx);
+        UpdateHeroSubscription(idx);
     }
 
     public void PrevHeroSelect()
@@ -57,6 +59,22 @@ public class HeroSlotManager : MonoBehaviour
             idx--;
 
         heroPage.OnHeroSelected(hero[idx], idx);
+        UpdateHeroSubscription(idx);
+    }
+
+    private void UpdateHeroSubscription(int newIdx)
+    {
+        if (heroInfo != null)
+        {
+            heroInfo.OnExperienceChanged -= heroPage.GaugeBarUpdate;
+            heroInfo.OnLevelUp -= heroPage.GaugeBarUpdate;
+        }
+
+        heroInfo = hero[newIdx];
+        heroInfo.OnExperienceChanged += heroPage.GaugeBarUpdate;
+        heroInfo.OnLevelUp += heroPage.GaugeBarUpdate;
+
+        heroPage.GaugeBarUpdate();
     }
 
 }
