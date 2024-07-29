@@ -36,6 +36,8 @@ public class HeroInfo
     public List<PlayerSkill> skills = new List<PlayerSkill>();
     public PlayerSkill activeSkill;
     private Sprite _sprite;
+
+    public HeroPage heroPage;
     public HeroInfo(string name, HeroClass heroClass, CharacteristicType characteristicType, int id, string imagePath)
     {
         this.id = id;
@@ -196,14 +198,18 @@ public class HeroInfo
         hp += 10 * amount;
     }
 
+    public event Action OnExperienceChanged;
+
     public void AddExp(float exp)
     {
         if (level >= 40 && currentExp >= neededExp)
         {
             return;
         }
-
+        
         currentExp = Mathf.Min(currentExp + exp, neededExp);
+
+        OnExperienceChanged?.Invoke();
 
         if (level < 40 && currentExp >= neededExp)
         {

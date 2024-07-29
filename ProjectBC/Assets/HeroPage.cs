@@ -11,7 +11,6 @@ public class HeroPage : HeroScreen
 
     public HeroMenuManager heroMenuManager;
     public ItemCollection itemCollection;
-    public ExpScroll expScroll;
 
     [Header("current  hero info")]
     [SerializeField] private HeroInfo _info;
@@ -28,6 +27,9 @@ public class HeroPage : HeroScreen
     public TextMeshProUGUI DefenseText;
     public TextMeshProUGUI ResistanceText;
 
+    [Header("ExpGaegu")]
+    public Image gauge;
+
     public void Start()
     {
         transform.SetAsFirstSibling();
@@ -35,12 +37,14 @@ public class HeroPage : HeroScreen
 
     private void OnEnable()
     {
-
+        _info.OnExperienceChanged += GaugeBarUpdate;
     }
+
     private void OnDisable()
     {
-
+        _info.OnExperienceChanged -= GaugeBarUpdate;
     }
+
 
     public void OnHeroSelected(HeroInfo info, int idx)
     {
@@ -71,13 +75,6 @@ public class HeroPage : HeroScreen
         _UIManager.TogglePlayerInfo(true);
     }
 
-    //public int ExpScrollUse(int amount)
-    //{
-    //    for (int i = 0; i < GameDataManager.instance.playerInfo.items.Count; i++)
-    //    {
-
-    //    }
-    //}
     public bool UseExpScroll(string scrollType)
     {
         var ExpItem = GameDataManager.instance.playerInfo.items;
@@ -131,6 +128,7 @@ public class HeroPage : HeroScreen
         {
             Debug.Log($"{scrollType} 경험치 스크롤이 없습니다.");
         }
+
     }
 
     public void OnLevelupButtonClicked()
@@ -146,6 +144,9 @@ public class HeroPage : HeroScreen
         // neededEXP만큼 경험치 책 사용
     }
 
-    // UI 갱신 필요
-    // 갱신 위치를 획득했을 때로 바꿀 필요 있음.
+ 
+    public void GaugeBarUpdate()
+    {
+        gauge.fillAmount = Mathf.Clamp01(_info.currentExp / _info.neededExp);
+    }
 }
