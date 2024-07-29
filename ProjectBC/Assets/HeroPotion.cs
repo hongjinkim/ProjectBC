@@ -5,6 +5,7 @@ public class HeroPotion : MonoBehaviour
 {
     public static HeroPotion Instance { get; private set; }
     [SerializeField] private TextMeshProUGUI[] countTxts;
+    private string[] healPotions = { "Potion_Green_S", "Potion_Green_M", "Potion_Yellow_S", "Potion_Yellow_M", "Potion_Red_S", "Potion_Red_M" };
 
     private void Awake()
     {
@@ -20,39 +21,18 @@ public class HeroPotion : MonoBehaviour
 
     public void UpdatePotionCount()
     {
+        var playerInfo = GameDataManager.instance.playerInfo;
+
         for (int i = 0; i < countTxts.Length; i++)
         {
-            countTxts[i].text = "0";
-        }
-
-        for (int i = 0; i < GameDataManager.instance.playerInfo.items.Count; i++)
-        {
-            Item item = GameDataManager.instance.playerInfo.items[i];
-            int Count;
-
-            if (item.id == "Potion_Green_S")
+            string healPotion = healPotions[i];
+            if (playerInfo.trackedItems.TryGetValue(healPotion, out int count))
             {
-                countTxts[0].text = item.Count.ToString();
+                countTxts[i].text = count.ToString();
             }
-            else if (item.id == "Potion_Green_M")
+            else
             {
-                countTxts[1].text = item.Count.ToString();
-            }
-            else if (item.id == "Potion_Yellow_S")
-            {
-                countTxts[2].text = item.Count.ToString();
-            }
-            else if (item.id == "Potion_Yellow_M")
-            {
-                countTxts[3].text = item.Count.ToString();
-            }
-            else if (item.id == "Potion_Red_S")
-            {
-                countTxts[4].text = item.Count.ToString();
-            }
-            else if (item.id == "Potion_Red_M")
-            {
-                countTxts[5].text = item.Count.ToString();
+                countTxts[i].text = "0";
             }
         }
     }
