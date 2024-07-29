@@ -25,32 +25,35 @@ public class ExpScroll : MonoBehaviour
             countTxts[i].text = "0";
         }
 
+
         for (int i = 0; i < GameDataManager.instance.playerInfo.items.Count; i++)
         {
+            Item item = GameDataManager.instance.playerInfo.items[i];
             int Count;
-            if (GameDataManager.instance.playerInfo.items[i].id == "Exp_Basic")
+
+            if (item.id == "Exp_Basic")
             {
-                Count = GameDataManager.instance.playerInfo.items[i].Count;
+                Count = item.Count;
                 countTxts[0].text = Count.ToString();
             }
-            else if (GameDataManager.instance.playerInfo.items[i].id == "Exp_Common")
+            else if (item.id == "Exp_Common")
             {
-                Count = GameDataManager.instance.playerInfo.items[i].Count;
+                Count = item.Count;
                 countTxts[1].text = Count.ToString();
             }
-            else if (GameDataManager.instance.playerInfo.items[i].id == "Exp_Rare")
+            else if (item.id == "Exp_Rare")
             {
-                Count = GameDataManager.instance.playerInfo.items[i].Count;
+                Count = item.Count;
                 countTxts[2].text = Count.ToString();
             }
-            else if (GameDataManager.instance.playerInfo.items[i].id == "Exp_Epic")
+            else if (item.id == "Exp_Epic")
             {
-                Count = GameDataManager.instance.playerInfo.items[i].Count;
+                Count = item.Count;
                 countTxts[3].text = Count.ToString();
             }
-            else if (GameDataManager.instance.playerInfo.items[i].id == "Exp_Legendary")
+            else if (item.id == "Exp_Legendary")
             {
-                Count = GameDataManager.instance.playerInfo.items[i].Count;
+                Count = item.Count;
                 countTxts[4].text = Count.ToString();
             }
         }
