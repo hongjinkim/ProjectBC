@@ -13,14 +13,14 @@ public abstract class Skill
     public SkillType Type { get; protected set; }
     public bool IsUnlocked { get; private set; }
     public int UnlockLevel { get; protected set; }
-    protected Skill(string name, string description, int maxLevel, SkillType type, int unlockLevel)
+    protected Skill(string name, string description, int unlockLevel, int maxLevel, SkillType type)
     {
         Name = name;
         Description = description;
-        MaxLevel = maxLevel;
-        Level = 0;
-        Type = type;
         UnlockLevel = unlockLevel;
+        MaxLevel = maxLevel;
+        Type = type;
+        Level = 1;
         IsUnlocked = false;
     }
     public void Unlock()

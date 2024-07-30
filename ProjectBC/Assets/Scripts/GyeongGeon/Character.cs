@@ -127,11 +127,11 @@ public abstract class Character : MonoBehaviour, IBehavior
         currentHealth = maxHealth;
     }
 
-    protected void Update()
+    protected virtual void Update()
     {
         CheckState();
 
-        if(currentHealth <= 0 && _unitState != UnitState.death)
+        if (currentHealth <= 0 && _unitState != UnitState.death)
         {
             SetState(UnitState.death);
             Die();

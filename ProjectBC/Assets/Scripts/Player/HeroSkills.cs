@@ -5,13 +5,17 @@ public abstract class HeroSkills
 {
     protected PlayerStat playerStat;
     protected List<Skill> skills = new List<Skill>();
+    protected ActiveSkill activeSkill;
     public int SkillPoints { get; private set; }
     public HeroSkills(PlayerStat stat)
     {
         playerStat = stat;
         InitializeSkills();
     }
-
+    public ActiveSkill GetActiveSkill()
+    {
+        return activeSkill;
+    }
     protected abstract void InitializeSkills();
 
     public void ApplyPassiveEffects()
@@ -52,13 +56,20 @@ public abstract class HeroSkills
             }
         }
     }
-
-    public void UseActiveSkill(string skillName)
+    public void CheckAndUseActiveSkill()
     {
-        var skill = skills.Find(s => s.Name == skillName) as ActiveSkill;
-        if (skill != null)
+        if (playerStat.Energy >= 100)
         {
-            skill.Use(playerStat);
+            UseActiveSkill();
+        }
+    }
+
+    public void UseActiveSkill()
+    {
+        if (activeSkill != null)
+        {
+            playerStat.Energy = 0;
+            activeSkill.Use(playerStat);
         }
     }
 }

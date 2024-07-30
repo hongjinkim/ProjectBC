@@ -16,7 +16,7 @@ public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     private LineRenderer lineRenderer;
     public bool isSelected = false;
     private List<Vector3> previewPath;
-
+    private KnightSkills knightSkills;
     private void Awake() 
     {
         lineRenderer = gameObject.AddComponent<LineRenderer>();
@@ -32,6 +32,16 @@ public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
         base.Start();
         _heroClass = HeroClass.Knight;
         playerStat.CharacteristicType = CharacteristicType.MuscularStrength;
+        knightSkills = new KnightSkills(playerStat);
+    }
+    protected override void Update()
+    {
+        base.Update();
+        knightSkills.CheckAndUseActiveSkill();
+    }
+    public void UsePowerfulStrike()
+    {
+        knightSkills.UseActiveSkill();
     }
     public override void IncreaseCharacteristic(float amount)
     {
