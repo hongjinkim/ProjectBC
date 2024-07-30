@@ -1,8 +1,24 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HeroPotion : MonoBehaviour
 {
+    [Header("PosionButton List")]
+    public Button[] _potionButtons;
+
+    [Header("PosionText List")]
+    [SerializeField] private TextMeshProUGUI[] _potionDescription;
+
+    [Header("SelectedPosion List")]
+    [SerializeField] private Button _selectedPosion;
+    [SerializeField] private TextMeshProUGUI _selectedPotionCount;
+
+    [Header("etc")]
+    public Button changeInformationButton;
+
+
+
     public static HeroPotion Instance { get; private set; }
     [SerializeField] private TextMeshProUGUI[] countTxts;
     private string[] healPotions = { "Potion_Green_S", "Potion_Green_M", "Potion_Yellow_S", "Potion_Yellow_M", "Potion_Red_S", "Potion_Red_M" };
@@ -19,6 +35,24 @@ public class HeroPotion : MonoBehaviour
         }
     }
 
+    //private void Start()
+    //{
+    //    Debug.Log("HeroPotion Start method called");
+    //    for (int i = 0; i < _potionButtons.Length; i++)
+    //    {
+    //        int index = i;
+    //        if (_potionButtons[i] != null)
+    //        {
+    //            _potionButtons[i].onClick.AddListener(() => SelectedPotion(index));
+    //            Debug.Log($"Added listener to button {i}");
+    //        }
+    //        else
+    //        {
+    //            Debug.LogError($"Potion button at index {i} is null");
+    //        }
+    //    }
+    //}
+
     public void UpdatePotionCount()
     {
         var playerInfo = GameDataManager.instance.playerInfo;
@@ -32,8 +66,33 @@ public class HeroPotion : MonoBehaviour
             }
             else
             {
-                countTxts[i].text = "0";
+                countTxts[i].text = string.Empty;
             }
         }
+    }
+
+    public int selectedPotionIndex = -1;  // 선택된 포션의 인덱스
+
+    //public void SelectedPotion(int buttonIndex)
+    //{
+    //    selectedPotionIndex = buttonIndex;
+    //    Debug.Log($"SelectedPotion called. New index: {buttonIndex}");
+    //    if (potionSlot != null)
+    //    {
+    //        //potionSlot.SetButtonInformation();
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError("PotionSlot reference is null");
+    //    }
+    //}
+
+    public Sprite GetSelectedPotionSprite()
+    {
+        if (selectedPotionIndex >= 0 && selectedPotionIndex < _potionButtons.Length)
+        {
+            return _potionButtons[selectedPotionIndex].image.sprite;
+        }
+        return null;
     }
 }

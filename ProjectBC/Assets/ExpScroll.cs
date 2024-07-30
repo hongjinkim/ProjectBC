@@ -73,7 +73,7 @@ public class ExpScroll : MonoBehaviour
             }
             else
             {
-                countTxts[i].text = "0";
+                countTxts[i].text = string.Empty;
             }
         }
     }
