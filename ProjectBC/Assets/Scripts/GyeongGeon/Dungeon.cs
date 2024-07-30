@@ -374,13 +374,19 @@ public class Dungeon : MonoBehaviour
         droppedGolds = 0;
         droppedItems.Clear();
         droppedPrefabs.Clear();
-        GameDataManager.instance.UpdateItem();
-        GameDataManager.instance.UpdateFunds();
+
 
         if (ExpScroll.Instance != null)
         {
             ExpScroll.Instance.UpdateExpScrollCount();
         }
+        if (HeroPotion.Instance != null)
+        {
+            HeroPotion.Instance.UpdatePotionCount();
+        }
+
+        GameDataManager.instance.UpdateItem();
+        GameDataManager.instance.UpdateFunds();
     }
     
 
@@ -408,10 +414,5 @@ public class Dungeon : MonoBehaviour
         textObject.SetActive(false);
     }
 
-    private bool ShouldTrackItem(Item item)
-    {
-        // 여기에 추적하고자 하는 아이템의 조건을 정의
-        return item.Params.Type == ItemType.Usable || item.Params.Type == ItemType.Exp;
-    }
 
 }

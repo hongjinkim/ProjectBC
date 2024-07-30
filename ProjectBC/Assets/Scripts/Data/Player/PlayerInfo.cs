@@ -15,8 +15,6 @@ public class PlayerInfo
     public List<Item> items;
     public int itemCapacity;
 
-    public Dictionary<string, int> trackedItems = new Dictionary<string, int>();
-
     [Header("Hero")]
     public List<HeroInfo> heroes;
 

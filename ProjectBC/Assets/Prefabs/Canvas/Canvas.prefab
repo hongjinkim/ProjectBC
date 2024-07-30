@@ -1021,7 +1021,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 5010570703122946424}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.26136363
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3065,7 +3065,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 3346997573196629100}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.26136363
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7406,7 +7406,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1930652484611274519}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.26136363
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -10537,7 +10537,6 @@ GameObject:
   - component: {fileID: 4954003919397470584}
   - component: {fileID: 4177128041485593513}
   - component: {fileID: 4851882695117983497}
-  - component: {fileID: 3368974699477039601}
   - component: {fileID: 5975008494001083586}
   m_Layer: 0
   m_Name: HeroScreen_Equipment
@@ -10604,39 +10603,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3368974699477039601
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3266366326142401230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52e6e83a50656e1429b7c3693e223dd1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _potionButtons:
-  - {fileID: 3732548946993484513}
-  - {fileID: 492366413511299186}
-  - {fileID: 7525408906840200159}
-  - {fileID: 3340931594254831133}
-  - {fileID: 8063029419656853158}
-  - {fileID: 871988668305225052}
-  _potionDescription:
-  - {fileID: 4927321993398601618}
-  - {fileID: 4939123572461020334}
-  _selectedPosion: {fileID: 4368071209117039709}
-  _selectedPotionCount: {fileID: 7428784402377847315}
-  changeInformationButton: {fileID: 0}
-  countTxts:
-  - {fileID: 6485675641475086892}
-  - {fileID: 2018110078814742078}
-  - {fileID: 4653021724400520319}
-  - {fileID: 1362044758386387817}
-  - {fileID: 7124643210615235529}
-  - {fileID: 1433353195651964390}
-  selectedPotionIndex: -1
 --- !u!114 &5975008494001083586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10653,7 +10619,7 @@ MonoBehaviour:
   potionBackground: {fileID: 4651842706731212806}
   potionFrame: {fileID: 2859878022684270551}
   potionCount: {fileID: 7428784402377847315}
-  heroPotion: {fileID: 3368974699477039601}
+  heroPotion: {fileID: 0}
 --- !u!1 &3273711156063887186
 GameObject:
   m_ObjectHideFlags: 0
@@ -11974,7 +11940,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 3024982966073951491}
         m_TargetAssemblyTypeName: HeroMenuManager, Assembly-CSharp
         m_MethodName: OpPotionEquipmentClosed
         m_Mode: 1
@@ -13097,7 +13063,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -300, y: 264.00006}
+  m_AnchoredPosition: {x: -300, y: 263.99994}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2775896700010915478
@@ -16868,7 +16834,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4090704008379586371}
-  - component: {fileID: 7388885237897248244}
   m_Layer: 0
   m_Name: Potion
   m_TagString: Untagged
@@ -16898,24 +16863,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7388885237897248244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4705254415428597434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3b2e09c324bafd459deb096f900b945, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  icon: {fileID: 6745543318720542813}
-  background: {fileID: 4048659187751452978}
-  activeSprite: {fileID: 21300000, guid: fef1144b00f657b4fa3174365c4c3b4b, type: 3}
-  lockedSprite: {fileID: 21300000, guid: 28f83d71ea6c28b499085210ea78cb72, type: 3}
-  types: 
-  classes: 
 --- !u!1 &4714366479547392522
 GameObject:
   m_ObjectHideFlags: 0
@@ -17528,7 +17475,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -300, y: 264.00006}
+  m_AnchoredPosition: {x: -300, y: 263.99994}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &8263320421168170766
@@ -21645,7 +21592,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 867155231242381803}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.26136363
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -22910,7 +22857,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 3024982966073951491}
         m_TargetAssemblyTypeName: HeroMenuManager, Assembly-CSharp
         m_MethodName: OnPotionEquipmentClicked
         m_Mode: 1
@@ -29714,7 +29661,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -300, y: 264.00006}
+  m_AnchoredPosition: {x: -300, y: 263.99994}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &5107752400363161530
@@ -33929,7 +33876,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -300, y: 264.00006}
+  m_AnchoredPosition: {x: -300, y: 263.99994}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &5445238455015384401
@@ -38129,7 +38076,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3314903333304477080, guid: 6b12b1e58ef5e3947a14331f0c06ef43, type: 3}
       propertyPath: slots.Array.size
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3314903333304477080, guid: 6b12b1e58ef5e3947a14331f0c06ef43, type: 3}
       propertyPath: slots.Array.data[0]
@@ -38159,10 +38106,6 @@ PrefabInstance:
       propertyPath: slots.Array.data[6]
       value: 
       objectReference: {fileID: 3450179877657875234}
-    - target: {fileID: 3314903333304477080, guid: 6b12b1e58ef5e3947a14331f0c06ef43, type: 3}
-      propertyPath: slots.Array.data[7]
-      value: 
-      objectReference: {fileID: 7388885237897248244}
     - target: {fileID: 3432314102350517633, guid: 6b12b1e58ef5e3947a14331f0c06ef43, type: 3}
       propertyPath: m_Value
       value: 0
@@ -38291,6 +38234,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 854
       objectReference: {fileID: 0}
+    - target: {fileID: 5232043834256033015, guid: 6b12b1e58ef5e3947a14331f0c06ef43, type: 3}
+      propertyPath: HeroScreen_Equipment
+      value: 
+      objectReference: {fileID: 4954003919397470584}
+    - target: {fileID: 5232043834256033015, guid: 6b12b1e58ef5e3947a14331f0c06ef43, type: 3}
+      propertyPath: PotionEquipmentButton
+      value: 
+      objectReference: {fileID: 4119560748853556462}
+    - target: {fileID: 5232043834256033015, guid: 6b12b1e58ef5e3947a14331f0c06ef43, type: 3}
+      propertyPath: PotionEquipmentCloseButton
+      value: 
+      objectReference: {fileID: 8812545717700121871}
     - target: {fileID: 6111859781053550615, guid: 6b12b1e58ef5e3947a14331f0c06ef43, type: 3}
       propertyPath: m_Color.b
       value: 0.47484314
@@ -38581,6 +38536,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3832641541039582376}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9054783672659188635, guid: 6b12b1e58ef5e3947a14331f0c06ef43, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2423773465454726394}
     - targetCorrespondingSourceObject: {fileID: 9069802481180715702, guid: 6b12b1e58ef5e3947a14331f0c06ef43, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7695171935407147826}
@@ -38619,11 +38577,59 @@ MonoBehaviour:
   - {fileID: 5793595415873543677}
   - {fileID: 1306979564892406643}
   - {fileID: 1265394486284554957}
+--- !u!1 &2073938518357514863 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9054783672659188635, guid: 6b12b1e58ef5e3947a14331f0c06ef43, type: 3}
+  m_PrefabInstance: {fileID: 7016909341855351284}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2423773465454726394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073938518357514863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52e6e83a50656e1429b7c3693e223dd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _potionButtons:
+  - {fileID: 3732548946993484513}
+  - {fileID: 492366413511299186}
+  - {fileID: 7525408906840200159}
+  - {fileID: 3340931594254831133}
+  - {fileID: 8063029419656853158}
+  - {fileID: 871988668305225052}
+  _potionDescription:
+  - {fileID: 4927321993398601618}
+  - {fileID: 4939123572461020334}
+  _selectedPosion: {fileID: 4368071209117039709}
+  _selectedPotionCount: {fileID: 7428784402377847315}
+  changeInformationButton: {fileID: 3653413711634092291}
+  countTxts:
+  - {fileID: 6485675641475086892}
+  - {fileID: 2018110078814742078}
+  - {fileID: 4653021724400520319}
+  - {fileID: 1362044758386387817}
+  - {fileID: 7124643210615235529}
+  - {fileID: 1433353195651964390}
 --- !u!224 &2211416328710743631 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9210308402941913019, guid: 6b12b1e58ef5e3947a14331f0c06ef43, type: 3}
   m_PrefabInstance: {fileID: 7016909341855351284}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3024982966073951491 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5232043834256033015, guid: 6b12b1e58ef5e3947a14331f0c06ef43, type: 3}
+  m_PrefabInstance: {fileID: 7016909341855351284}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1775377fe981bc4a9ca84965c5d35ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &3063731961814548037 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5468951191924768689, guid: 6b12b1e58ef5e3947a14331f0c06ef43, type: 3}

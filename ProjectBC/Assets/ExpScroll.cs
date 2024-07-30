@@ -5,25 +5,21 @@ public class ExpScroll : MonoBehaviour
 {
     public static ExpScroll Instance { get; private set; }
     [SerializeField] private TextMeshProUGUI[] countTxts;
-    private string[] expScrollIds = { "Exp_Basic", "Exp_Common", "Exp_Rare", "Exp_Epic", "Exp_Legendary" };
+    //private string[] expScrollIds = { "Exp_Basic", "Exp_Common", "Exp_Rare", "Exp_Epic", "Exp_Legendary" };
 
     private void Awake()
     {
         if (Instance == null)
-        {
             Instance = this;
-        }
         else
-        {
             Destroy(gameObject);
-        }
     }
 
     public void UpdateExpScrollCount()
     {
         for (int i = 0; i < countTxts.Length; i++)
         {
-            countTxts[i].text = "0";
+            countTxts[i].text = string.Empty;
         }
 
 
