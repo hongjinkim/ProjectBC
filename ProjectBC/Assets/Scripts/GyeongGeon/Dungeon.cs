@@ -363,6 +363,19 @@ public class Dungeon : MonoBehaviour
                 StartCoroutine(PickupNotice(item.Params.Name + "을(를) 획득 했습니다"));
                 inventory.Add(item);
             }
+            // 특정 아이템만 딕셔너리에 추가 또는 업데이트
+            var playerInfo = GameDataManager.instance.playerInfo;
+            if (ShouldTrackItem(item))
+            {
+                if (playerInfo.trackedItems.ContainsKey(item.Params.Id))
+                {
+                    playerInfo.trackedItems[item.Params.Id]++;
+                }
+                else
+                {
+                    playerInfo.trackedItems[item.Params.Id] = 1;
+                }
+            }
         }
         // 필드 위애 아이템 표시 모두 제거
         foreach (GameObject go in droppedPrefabs)
@@ -380,6 +393,10 @@ public class Dungeon : MonoBehaviour
         if (ExpScroll.Instance != null)
         {
             ExpScroll.Instance.UpdateExpScrollCount();
+        }
+        if (HeroPotion.Instance != null)
+        {
+            HeroPotion.Instance.UpdatePotionCount();
         }
     }
 
@@ -407,5 +424,10 @@ public class Dungeon : MonoBehaviour
         textObject.SetActive(false);
     }
 
+    private bool ShouldTrackItem(Item item)
+    {
+        // 여기에 추적하고자 하는 아이템의 조건을 정의
+        return item.Params.Type == ItemType.Usable || item.Params.Type == ItemType.Exp;
+    }
 
 }
