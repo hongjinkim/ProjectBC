@@ -47,7 +47,6 @@ public class HeroMenuManager : MonoBehaviour
 
     public void OnPotionEquipmentClicked()
     {
-        Debug.Log("¿Ö ¾ÈµÅ");
         HeroScreen_Equipment.SetActive(true);
     }
 
