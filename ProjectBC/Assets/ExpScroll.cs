@@ -19,62 +19,62 @@ public class ExpScroll : MonoBehaviour
         }
     }
 
-    //public void UpdateExpScrollCount()
-    //{
-    //    for (int i = 0; i < countTxts.Length; i++)
-    //    {
-    //        countTxts[i].text = "0";
-    //    }
-
-
-    //    for (int i = 0; i < GameDataManager.instance.playerInfo.items.Count; i++)
-    //    {
-    //        Item item = GameDataManager.instance.playerInfo.items[i];
-    //        int Count;
-
-    //        if (item.id == "Exp_Basic")
-    //        {
-    //            Count = item.Count;
-    //            countTxts[0].text = Count.ToString();
-    //        }
-    //        else if (item.id == "Exp_Common")
-    //        {
-    //            Count = item.Count;
-    //            countTxts[1].text = Count.ToString();
-    //        }
-    //        else if (item.id == "Exp_Rare")
-    //        {
-    //            Count = item.Count;
-    //            countTxts[2].text = Count.ToString();
-    //        }
-    //        else if (item.id == "Exp_Epic")
-    //        {
-    //            Count = item.Count;
-    //            countTxts[3].text = Count.ToString();
-    //        }
-    //        else if (item.id == "Exp_Legendary")
-    //        {
-    //            Count = item.Count;
-    //            countTxts[4].text = Count.ToString();
-    //        }
-    //    }
-    //}
-
     public void UpdateExpScrollCount()
     {
-        var playerInfo = GameDataManager.instance.playerInfo;
-
         for (int i = 0; i < countTxts.Length; i++)
         {
-            string expScrollId = expScrollIds[i];
-            if (playerInfo.trackedItems.TryGetValue(expScrollId, out int count))
+            countTxts[i].text = "0";
+        }
+
+
+        for (int i = 0; i < GameDataManager.instance.playerInfo.items.Count; i++)
+        {
+            Item item = GameDataManager.instance.playerInfo.items[i];
+            int Count;
+
+            if (item.id == "Exp_Basic")
             {
-                countTxts[i].text = count.ToString();
+                Count = item.Count;
+                countTxts[0].text = Count.ToString();
             }
-            else
+            else if (item.id == "Exp_Common")
             {
-                countTxts[i].text = string.Empty;
+                Count = item.Count;
+                countTxts[1].text = Count.ToString();
+            }
+            else if (item.id == "Exp_Rare")
+            {
+                Count = item.Count;
+                countTxts[2].text = Count.ToString();
+            }
+            else if (item.id == "Exp_Epic")
+            {
+                Count = item.Count;
+                countTxts[3].text = Count.ToString();
+            }
+            else if (item.id == "Exp_Legendary")
+            {
+                Count = item.Count;
+                countTxts[4].text = Count.ToString();
             }
         }
     }
+
+    //public void UpdateExpScrollCount()
+    //{
+    //    var playerInfo = GameDataManager.instance.playerInfo;
+
+    //    for (int i = 0; i < countTxts.Length; i++)
+    //    {
+    //        string expScrollId = expScrollIds[i];
+    //        if (playerInfo.trackedItems.TryGetValue(expScrollId, out int count))
+    //        {
+    //            countTxts[i].text = count.ToString();
+    //        }
+    //        else
+    //        {
+    //            countTxts[i].text = string.Empty;
+    //        }
+    //    }
+    //}
 }

@@ -329,7 +329,7 @@ public class Dungeon : MonoBehaviour
     public void OnPickupItem()
     {
         //골드 획득
-        if(droppedGolds > 0)
+        if (droppedGolds > 0)
         {
             GameDataManager.instance.playerInfo.gold += droppedGolds;
             StartCoroutine(PickupNotice(droppedGolds.ToString() + " 골드를 획득 했습니다."));
@@ -356,25 +356,12 @@ public class Dungeon : MonoBehaviour
                     StartCoroutine(PickupNotice(item.Params.Name + "을(를) 획득 했습니다"));
                     inventory.Add(item);
                 }
-                
+
             }
             else
             {
                 StartCoroutine(PickupNotice(item.Params.Name + "을(를) 획득 했습니다"));
                 inventory.Add(item);
-            }
-            // 특정 아이템만 딕셔너리에 추가 또는 업데이트
-            var playerInfo = GameDataManager.instance.playerInfo;
-            if (ShouldTrackItem(item))
-            {
-                if (playerInfo.trackedItems.ContainsKey(item.Params.Id))
-                {
-                    playerInfo.trackedItems[item.Params.Id]++;
-                }
-                else
-                {
-                    playerInfo.trackedItems[item.Params.Id] = 1;
-                }
             }
         }
         // 필드 위애 아이템 표시 모두 제거
@@ -394,11 +381,8 @@ public class Dungeon : MonoBehaviour
         {
             ExpScroll.Instance.UpdateExpScrollCount();
         }
-        if (HeroPotion.Instance != null)
-        {
-            HeroPotion.Instance.UpdatePotionCount();
-        }
     }
+    
 
     public Item RandomStat(Item item)
     {

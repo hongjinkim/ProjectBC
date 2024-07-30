@@ -77,6 +77,7 @@ public class HeroPage : HeroScreen
         _UIManager.TogglePlayerInfo(true);
     }
 
+
     public bool UseExpScroll(string scrollType)
     {
         var ExpItem = GameDataManager.instance.playerInfo.items;
