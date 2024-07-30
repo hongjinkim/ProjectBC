@@ -9,26 +9,26 @@ public class HeroPotion : MonoBehaviour
     {
         public string name;
         public string description;
+        public Image icon;
+        public TextMeshProUGUI count;
     }
 
-    [Header("PosionButton List")]
+    [Header("PotionButton List")]
     public Button[] _potionButtons;
 
-    [Header("PosionText List")]
+    [Header("PotionText List")]
     [SerializeField] private TextMeshProUGUI _potionName;
     [SerializeField] private TextMeshProUGUI _potionDescription;
     [SerializeField] private PotionInfo[] potionInfos;
+    [SerializeField] private Button swapButton;
+    [SerializeField] private Image selectedSlotImage;
+    [SerializeField] private TextMeshProUGUI selectedPotionCountText;
 
-    //[Header("SelectedPosion List")]
-    //[SerializeField] private Button _selectedPosion;
-    //[SerializeField] private TextMeshProUGUI _selectedPotionCount;
-
-    //[Header("etc")]
-    //public Button changeInformationButton;
+    [SerializeField] private Color normalColor = Color.white;
+    [SerializeField] private Color selectedColor = Color.yellow;
+    private int currentSelectedIndex = -1;
 
     public static HeroPotion Instance { get; private set; }
-    [SerializeField] private TextMeshProUGUI[] countTxts;
-    //private string[] healPotions = { "Potion_Green_S", "Potion_Green_M", "Potion_Yellow_S", "Potion_Yellow_M", "Potion_Red_S", "Potion_Red_M" };
 
     private void Awake()
     {
@@ -37,70 +37,118 @@ public class HeroPotion : MonoBehaviour
         else
             Destroy(gameObject);
     }
+
     private void Start()
     {
         for (int i = 0; i < _potionButtons.Length; i++)
         {
             int index = i;
-            _potionButtons[i].onClick.AddListener(() => UpdateDescription(index));
+            if (_potionButtons[i] != null)
+            {
+                _potionButtons[i].onClick.AddListener(() => SelectPotion(index));
+            }
         }
 
-        UpdateDescription(0);
+        if (swapButton != null)
+        {
+            swapButton.onClick.AddListener(SwapPotion);
+        }
+
+        SelectPotion(0);
     }
 
     public void UpdatePotionCount()
     {
-        for (int i = 0; i < countTxts.Length; i++)
+        for (int i = 0; i < potionInfos.Length; i++)
         {
-            countTxts[i].text = string.Empty;
+            potionInfos[i].count.text = string.Empty;
         }
-
 
         for (int i = 0; i < GameDataManager.instance.playerInfo.items.Count; i++)
         {
             Item item = GameDataManager.instance.playerInfo.items[i];
-            int Count;
+            int count = item.Count;
 
-            if (item.id == "Potion_Green_S")
+            switch (item.id)
             {
-                Count = item.Count;
-                countTxts[0].text = Count.ToString();
+                case "Potion_Green_S":
+                    potionInfos[0].count.text = count.ToString();
+                    break;
+                case "Potion_Green_M":
+                    potionInfos[1].count.text = count.ToString();
+                    break;
+                case "Potion_Yellow_S":
+                    potionInfos[2].count.text = count.ToString();
+                    break;
+                case "Potion_Yellow_M":
+                    potionInfos[3].count.text = count.ToString();
+                    break;
+                case "Potion_Red_S":
+                    potionInfos[4].count.text = count.ToString();
+                    break;
+                case "Potion_Red_M":
+                    potionInfos[5].count.text = count.ToString();
+                    break;
             }
-            else if (item.id == "Potion_Green_M")
-            {
-                Count = item.Count;
-                countTxts[1].text = Count.ToString();
-            }
-            else if (item.id == "Potion_Yellow_S")
-            {
-                Count = item.Count;
-                countTxts[2].text = Count.ToString();
-            }
-            else if (item.id == "Potion_Yellow_M")
-            {
-                Count = item.Count;
-                countTxts[3].text = Count.ToString();
-            }
-            else if (item.id == "Potion_Red_S")
-            {
-                Count = item.Count;
-                countTxts[4].text = Count.ToString();
-            }
-            else if (item.id == "Potion_Red_M")
-            {
-                Count = item.Count;
-                countTxts[5].text = Count.ToString();
-            }
+        }
+
+        if (currentSelectedIndex >= 0 && currentSelectedIndex < potionInfos.Length)
+        {
+            UpdateSelectedPotionCount();
         }
     }
 
-    private void UpdateDescription(int potionIndex)
+    private void SelectPotion(int potionIndex)
     {
-        if (potionIndex >= 0 && potionIndex < potionInfos.Length)
+        if (potionIndex < 0 || potionIndex >= potionInfos.Length)
+            return;
+
+        if (currentSelectedIndex >= 0 && currentSelectedIndex < _potionButtons.Length)
+        {
+            Image currentImage = _potionButtons[currentSelectedIndex].GetComponent<Image>();
+            if (currentImage != null)
+            {
+                currentImage.color = normalColor;
+            }
+        }
+
+        Image newImage = _potionButtons[potionIndex].GetComponent<Image>();
+        if (newImage != null)
+        {
+            newImage.color = selectedColor;
+        }
+
+        if (_potionName != null)
         {
             _potionName.text = potionInfos[potionIndex].name;
+        }
+
+        if (_potionDescription != null)
+        {
             _potionDescription.text = potionInfos[potionIndex].description;
+        }
+
+        currentSelectedIndex = potionIndex;
+    }
+
+    private void SwapPotion()
+    {
+        if (currentSelectedIndex >= 0 && currentSelectedIndex < potionInfos.Length)
+        {
+            if (selectedSlotImage != null && potionInfos[currentSelectedIndex].icon != null)
+            {
+                selectedSlotImage.sprite = potionInfos[currentSelectedIndex].icon.sprite;
+                selectedSlotImage.color = Color.white;
+            }
+            UpdateSelectedPotionCount();
         }
     }
 
+    private void UpdateSelectedPotionCount()
+    {
+        if (selectedPotionCountText != null && currentSelectedIndex >= 0 && currentSelectedIndex < potionInfos.Length)
+        {
+            selectedPotionCountText.text = potionInfos[currentSelectedIndex].count.text;
+        }
+    }
 }

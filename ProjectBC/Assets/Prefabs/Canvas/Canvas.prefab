@@ -1021,7 +1021,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 5010570703122946424}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.26136363
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3065,7 +3065,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 3346997573196629100}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.26136363
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5267,8 +5267,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1171155569030916937}
   - {fileID: 165872868666795441}
+  - {fileID: 1171155569030916937}
   - {fileID: 8062111277170189847}
   - {fileID: 2277195227359062205}
   m_Father: {fileID: 6645294386497309162}
@@ -7406,7 +7406,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1930652484611274519}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.26136363
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -10619,7 +10619,6 @@ MonoBehaviour:
   potionBackground: {fileID: 4651842706731212806}
   potionFrame: {fileID: 2859878022684270551}
   potionCount: {fileID: 7428784402377847315}
-  heroPotion: {fileID: 0}
 --- !u!1 &3273711156063887186
 GameObject:
   m_ObjectHideFlags: 0
@@ -17904,8 +17903,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -17928,7 +17927,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -21592,7 +21591,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 867155231242381803}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.26136363
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -38601,19 +38600,15 @@ MonoBehaviour:
   - {fileID: 3340931594254831133}
   - {fileID: 8063029419656853158}
   - {fileID: 871988668305225052}
-  _potionDescription:
-  - {fileID: 4927321993398601618}
-  - {fileID: 4939123572461020334}
-  _selectedPosion: {fileID: 4368071209117039709}
-  _selectedPotionCount: {fileID: 7428784402377847315}
-  changeInformationButton: {fileID: 3653413711634092291}
-  countTxts:
-  - {fileID: 6485675641475086892}
-  - {fileID: 2018110078814742078}
-  - {fileID: 4653021724400520319}
-  - {fileID: 1362044758386387817}
-  - {fileID: 7124643210615235529}
-  - {fileID: 1433353195651964390}
+  _potionName: {fileID: 0}
+  _potionDescription: {fileID: 0}
+  potionInfos: []
+  swapButton: {fileID: 0}
+  selectedSlotImage: {fileID: 0}
+  selectedPotionNameText: {fileID: 0}
+  selectedPotionCountText: {fileID: 0}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!224 &2211416328710743631 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9210308402941913019, guid: 6b12b1e58ef5e3947a14331f0c06ef43, type: 3}
