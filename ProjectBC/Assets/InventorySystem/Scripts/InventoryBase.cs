@@ -15,6 +15,9 @@ public class InventoryBase : ItemWorkspace
     public ScrollInventory MaterialInventory;
     public ScrollInventory CrystalInventory;
 
+    [Header("Disassembly")]
+    public GameObject DisassemblyPopup;
+    public Disassembly disassembly;
     //[Header("Sort Equipments by Type")]
     //public ScrollInventory WeaponInventory;
     //public ScrollInventory HelemtInventory;
@@ -178,6 +181,16 @@ public class InventoryBase : ItemWorkspace
     public void OnCrystalButtonClicked()
     {
         ShowInventory(CrystalInventory);
+    }
+
+    public void OnDisassemblyButtonClicked()
+    {
+        if (DisassemblyPopup != null && disassembly.isPopup == false)
+        {
+            DisassemblyPopup.SetActive(true);
+
+            disassembly.disassemblyText.text = "분해하기";
+        }
     }
 
 
