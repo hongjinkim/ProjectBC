@@ -117,13 +117,26 @@ public class Disassembly : MonoBehaviour
         foreach (Item item in itemsToRemove)
         {
             GameDataManager.instance.playerInfo.items.Remove(item);
-
-            // 여기에 아이템 분해에 대한 추가 로직을 구현할 수 있습니다.
-            // 예: 재료 획득, 경험치 획득 등
+      
         }
-        selectedItems.Clear();
+        DisassemblyReward();
 
+        selectedItems.Clear();
         UpdateUI();
         GameDataManager.instance.UpdateItem();
+    }
+
+    public void DisassemblyReward()
+    {
+        int totalGold = 0;
+
+        foreach (Item item in selectedItems)
+        {
+            totalGold += item.Params.Price;
+        }
+
+        GameDataManager.instance.playerInfo.gold += totalGold;
+        Debug.Log($"Gained {totalGold} gold from disassembly");
+        GameDataManager.instance.UpdateFunds();
     }
 }
