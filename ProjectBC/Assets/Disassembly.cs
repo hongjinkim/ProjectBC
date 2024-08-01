@@ -11,16 +11,18 @@ public class Disassembly : MonoBehaviour
     {
         public ItemRarity rarity;
         public List<string> rewardItemIds;
-        public int rewardAmount = 1;
+        public int baseRewardAmount = 1;
+        public int rewardAmountPerLevel = 1;
+        public int levelInterval = 10;
     }
 
     [SerializeField]
     private List<RarityReward> rarityRewards = new List<RarityReward>
     {
-        new RarityReward { rarity = ItemRarity.Common, rewardItemIds = new List<string> { "Material_Iron" }, rewardAmount = 1 },
-        new RarityReward { rarity = ItemRarity.Rare, rewardItemIds = new List<string> { "Material_Silver" }, rewardAmount = 1 },
-        new RarityReward { rarity = ItemRarity.Epic, rewardItemIds = new List<string> { "Material_Gold" }, rewardAmount = 1 },
-        new RarityReward { rarity = ItemRarity.Legendary, rewardItemIds = new List<string> { "Material_Iron", "Material_Silver", "Material_Gold" }, rewardAmount = 1 }
+        new RarityReward { rarity = ItemRarity.Common, rewardItemIds = new List<string> { "Material_Iron" }, baseRewardAmount = 1, rewardAmountPerLevel = 1, levelInterval = 10 },
+        new RarityReward { rarity = ItemRarity.Rare, rewardItemIds = new List<string> { "Material_Silver" }, baseRewardAmount = 1, rewardAmountPerLevel = 1, levelInterval = 10 },
+        new RarityReward { rarity = ItemRarity.Epic, rewardItemIds = new List<string> { "Material_Gold" }, baseRewardAmount = 1, rewardAmountPerLevel = 1, levelInterval = 10 },
+        new RarityReward { rarity = ItemRarity.Legendary, rewardItemIds = new List<string> { "Material_Iron", "Material_Silver", "Material_Gold" }, baseRewardAmount = 1, rewardAmountPerLevel = 1, levelInterval = 10 }
     };
 
     public Button disassemblyButton;
@@ -158,11 +160,12 @@ public class Disassembly : MonoBehaviour
             RarityReward reward = rarityRewards.Find(r => r.rarity == item.Params.Rarity);
             if (reward != null)
             {
+                int rewardAmount = CalculateRewardAmount(reward, item.Params.Level);
                 foreach (string rewardItemId in reward.rewardItemIds)
                 {
                     if (!rewardItems.ContainsKey(rewardItemId))
                         rewardItems[rewardItemId] = 0;
-                    rewardItems[rewardItemId] += reward.rewardAmount;
+                    rewardItems[rewardItemId] += rewardAmount;
                 }
             }
         }
@@ -200,5 +203,10 @@ public class Disassembly : MonoBehaviour
         GameDataManager.instance.UpdateFunds();
         GameDataManager.instance.UpdateItem();
         inventoryBase.InitializeInventory();
+    }
+    private int CalculateRewardAmount(RarityReward reward, int itemLevel)
+    {
+        int levelBonus = (itemLevel - 1) / reward.levelInterval;
+        return reward.baseRewardAmount + (levelBonus * reward.rewardAmountPerLevel);
     }
 }
