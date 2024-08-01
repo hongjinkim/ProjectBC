@@ -1,7 +1,8 @@
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
-
+using static GameDataManager;
 [Serializable]
 public class PlayerStat : MonoBehaviour
 {
@@ -24,7 +25,7 @@ public class PlayerStat : MonoBehaviour
     private int _trueDamage;
     private int _energy;
     private int _fixedDamage; // 추가 고정 피해 추가
-
+    public HeroClass heroClass;
     public int FixedDamage // 추가 고정 피해 속성 추가
     {
         get { return _fixedDamage; }
@@ -120,10 +121,69 @@ public class PlayerStat : MonoBehaviour
     }
     private void Start()
     {
-        // 초기값 설정
-        _energy = 100; // 기본 에너지 설정
-        _energyRegen = 5; // 에너지 재생 속도 설정
+        InitializeStats();
         StartCoroutine(RegenerateEnergy());
+    }
+    public void InitializeStats()
+    {
+        if (GameDataManager.instance != null)
+        {
+            CharacterBaseData baseData = GameDataManager.instance.characterBaseData
+                .FirstOrDefault(d => d.name.ToLower() == heroClass.ToString().ToLower());
+
+            if (baseData != null)
+            {
+                InitializeFromBaseData(baseData);
+            }
+            else
+            {
+                Debug.LogError($"CharacterBaseData not found for {heroClass}");
+                // 기본값으로 초기화하는 로직 추가
+            }
+        }
+        else
+        {
+            Debug.LogError("GameDataManager instance is null");
+            // 기본값으로 초기화하는 로직 추가
+        }
+    }
+    public void InitializeFromBaseData(GameDataManager.CharacterBaseData baseData)
+    {
+        HP = baseData.hp;
+        AttackDamage = baseData.attackDamage;
+        Defense = baseData.defense;
+        MagicResistance = baseData.magicResistance;
+        Strength = baseData.strength;
+        Agility = baseData.agility;
+        Intelligence = baseData.intelligence;
+        Stamina = baseData.stamina;
+        AttackSpeed = baseData.attackSpeed;
+        HealthRegen = baseData.healthRegen;
+        EnergyRegen = baseData.energyRegen;
+        AttackRange = baseData.attackRange;
+        ExpAmplification = baseData.expAmplification;
+        TrueDamage = baseData.trueDamage;
+        Energy = 100; // 이 값은 baseData에 없으므로 기본값 사용
+        FixedDamage = 0; // 이 값도 baseData에 없으므로 기본값 사용
+
+        // 캐릭터 타입에 따른 추가 초기화 로직
+        ApplyCharacteristicBonus();
+    }
+
+    private void ApplyCharacteristicBonus()
+    {
+        switch (CharacteristicType)
+        {
+            case CharacteristicType.MuscularStrength:
+                Strength += 5;
+                break;
+            case CharacteristicType.Agility:
+                Agility += 5;
+                break;
+            case CharacteristicType.Intellect:
+                Intelligence += 5;
+                break;
+        }
     }
 
     private IEnumerator RegenerateEnergy()

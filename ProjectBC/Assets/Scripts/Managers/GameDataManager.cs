@@ -50,6 +50,33 @@ public class GameDataManager : MonoBehaviour
 
     public Transform noticeTransform;
 
+    [System.Serializable]
+    public class CharacterBaseData
+    {
+        public string name;
+        public string characteristic;
+        public int hp;
+        public int attackDamage;
+        public int defense;
+        public int magicResistance;
+        public int strength;
+        public int agility;
+        public int intelligence;
+        public int stamina;
+        public int attackSpeed;
+        public int healthRegen;
+        public int energyRegen;
+        public int attackRange;
+        public int expAmplification;
+        public int trueDamage;
+        public int damageBlock;
+        public int lifeSteal;
+        public int damageAmplification;
+        public int damageReduction;
+        public int criticalChance;
+        public int criticalDamage;
+        public int defensePenetration;
+    }
     void OnApplicationQuit()
     {
         SaveGame();
@@ -263,5 +290,14 @@ public class GameDataManager : MonoBehaviour
         _playerInfo.heroes.Remove(hero);
         HeroesUpdated?.Invoke(_playerInfo.heroes);
     }
-
+    public void UpdateHeroInfo(HeroInfo updatedHero)
+    {
+        int index = playerInfo.heroes.FindIndex(h => h.id == updatedHero.id);
+        if (index != -1)
+        {
+            playerInfo.heroes[index] = updatedHero;
+            SaveGame(); // 변경사항 저장
+            HeroesUpdated?.Invoke(playerInfo.heroes); // 이벤트 발생
+        }
+    }
 }

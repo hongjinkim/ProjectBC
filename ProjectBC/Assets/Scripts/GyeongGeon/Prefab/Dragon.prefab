@@ -175,6 +175,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02c0a2d3941687d47a9c8e6fd20f8814, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dungeon: {fileID: 0}
+  Parts: []
+  Shadows: []
+  animator: {fileID: 0}
   projectilePrefab: {fileID: 353356689362784121, guid: 3399f6028daab624384d08d9005a5de7, type: 3}
   canvas: {fileID: 0}
   PrefabDmgTxt: {fileID: 6964111845844443664, guid: 2319ff9401275794e8062c7694642646, type: 3}
@@ -183,6 +187,36 @@ MonoBehaviour:
   _dirVec: {x: 0, y: 0}
   _unitState: 0
   attackType: 0
+  characterDirection: 0
+  attacker: {fileID: 58311297533978579}
+  info:
+    id: 0
+    equippedItemIds: []
+    heroName: 
+    heroClass: 0
+    characteristicType: 0
+    level: 0
+    currentExp: 0
+    neededExp: 0
+    imagePath: 
+    strength: 0
+    agility: 0
+    intelligence: 0
+    stamina: 0
+    hp: 0
+    attackDamage: 0
+    defense: 0
+    magicResistance: 0
+    attackSpeed: 0
+    healthRegen: 0
+    energyRegen: 0
+    attackRange: 0
+    spritePath: 
+    traits: []
+    skills: []
+    activeSkill: {fileID: 0}
+    playerStat: {fileID: 0}
+    heroPage: {fileID: 0}
   maxHealth: 100
   currentHealth: 100
   moveSpeed: 1
@@ -192,6 +226,15 @@ MonoBehaviour:
   findRange: 1000
   findTimer: 0.1101275
   attackTimer: 0
+  fadeObject: {fileID: 0}
+  spriteRenderers: []
+  fadeDuration: 1
+  currentExp: 0
+  needexp: 0
+  autoMove: 0
+  attackEffectPrefab: {fileID: 0}
+  expToGive: 0
+  Stage: 
 --- !u!114 &4497569447078756827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,3 +249,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 0}
   prefabHpBar: {fileID: 5007069763672503864, guid: cff3db33975fd044394c02c5d2ecfa0e, type: 3}
+  prefabEnergyBar: {fileID: 0}

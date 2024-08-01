@@ -60,7 +60,7 @@ public class Archer : Hero
     {
         base.Update();
         archerSkills.CheckAndUseActiveSkill();
-        //UpdateSkillRangeIndicator(); // 매 프레임마다 스킬 범위 표시를 업데이트합니다
+        UpdateSkillRangeIndicator(); // 매 프레임마다 스킬 범위 표시를 업데이트합니다
     }
     protected override void OnAnimAttack()
     {

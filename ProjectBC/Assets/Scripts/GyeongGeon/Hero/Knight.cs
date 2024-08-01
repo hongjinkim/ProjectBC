@@ -33,11 +33,28 @@ public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
         _heroClass = HeroClass.Knight;
         playerStat.CharacteristicType = CharacteristicType.MuscularStrength;
         knightSkills = new KnightSkills(playerStat);
+        SetStat();
     }
     protected override void Update()
     {
         base.Update();
         knightSkills.CheckAndUseActiveSkill();
+    }
+    public override void SetStat()
+    {
+        base.SetStat(); // Hero의 SetStat 호출
+        AdjustKnightStats(); // Knight 특유의 스탯 조정
+        UpdateStatsFromPlayerStat(); // 최종 동기화
+    }
+    private void AdjustKnightStats()
+    {
+        playerStat.HP = info.hp;
+        playerStat.AttackDamage = info.attackDamage;
+        playerStat.Defense = info.defense;
+        // Knight 특성에 맞는 추가 스탯 조정
+        playerStat.Strength += 5; // 예: 기본 힘 증가
+        playerStat.Defense += 3; // 예: 기본 방어력 증가
+        UpdateStatsFromPlayerStat(); // 조정된 스탯 반영
     }
     public void UsePowerfulStrike()
     {

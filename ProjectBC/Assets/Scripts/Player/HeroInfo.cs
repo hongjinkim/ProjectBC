@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-
+using static GameDataManager;
 [Serializable]
 public class HeroInfo
 {
@@ -36,7 +37,7 @@ public class HeroInfo
     public List<PlayerSkill> skills = new List<PlayerSkill>();
     public PlayerSkill activeSkill;
     private Sprite _sprite;
-
+    public PlayerStat playerStat;
     public HeroPage heroPage;
 
     public event Action OnExperienceChanged;
@@ -44,7 +45,6 @@ public class HeroInfo
     public HeroInfo(string name, HeroClass heroClass, CharacteristicType characteristicType, int id, string imagePath)
     {
         this.id = id;
-        //this.image = image;
         this.imagePath = imagePath; // 이미지 경로 저장
         this.heroName = name;
         this.heroClass = heroClass;
@@ -52,16 +52,42 @@ public class HeroInfo
         this.level = 1;
         this.currentExp = 0;
         this.neededExp = 2;
-        // 기본 스탯 설정
-        this.strength = 10;
-        this.agility = 10;
-        this.intelligence = 10;
-        this.stamina = 10;
-        // 추가 스탯 계산
-        this.hp = 200;
-        this.attackDamage = 10;
-        
+
+        // CharacterBaseData에서 초기 스탯 로드
+        CharacterBaseData baseData = GameDataManager.instance.characterBaseData.FirstOrDefault(d => d.name.ToLower() == heroClass.ToString().ToLower());
+        if (GameDataManager.instance != null && GameDataManager.instance.characterBaseData != null)
+        {
+            this.hp = baseData.hp;
+            this.attackDamage = baseData.attackDamage;
+            this.defense = baseData.defense;
+            this.magicResistance = baseData.magicResistance;
+            this.strength = baseData.strength;
+            this.agility = baseData.agility;
+            this.intelligence = baseData.intelligence;
+            this.stamina = baseData.stamina;
+            // ... 다른 스탯들 설정 ...
+        }
+        else
+        {
+            // baseData가 null인 경우 기본값 설정
+            this.hp = 200;
+            this.attackDamage = 10;
+            this.strength = 10;
+            this.agility = 10;
+            this.intelligence = 10;
+            this.stamina = 10;
+            // ... 다른 기본 스탯들 설정 ...
+        }
         // ... 기타 스탯 초기화
+        // 추가 스탯 초기 계산
+        RecalculateStats();
+
+        // PlayerStat 초기화
+        playerStat = new PlayerStat();
+        InitializePlayerStat();
+
+        // 스킬 초기화 (예시)
+        //InitializeSkills();
     }
 
     // 이미지를 로드하는 메서드
@@ -141,6 +167,22 @@ public class HeroInfo
 
         // 특성에 따른 추가 계산
         ApplyCharacteristicBonuses();
+    }
+    private void InitializePlayerStat()
+    {
+        playerStat.HP = hp;
+        playerStat.AttackDamage = attackDamage;
+        playerStat.Defense = defense;
+        playerStat.MagicResistance = magicResistance;
+        playerStat.AttackSpeed = (int)attackSpeed;
+        playerStat.HealthRegen = (int)healthRegen;
+        playerStat.EnergyRegen = (int)energyRegen;
+        playerStat.AttackRange = attackRange;
+        playerStat.Strength = strength;
+        playerStat.Agility = agility;
+        playerStat.Intelligence = intelligence;
+        playerStat.Stamina = stamina;
+        playerStat.CharacteristicType = characteristicType;
     }
 
     private void ApplyCharacteristicBonuses()
@@ -252,5 +294,33 @@ public class HeroInfo
     public void SetActiveSkill(PlayerSkill skill)
     {
         activeSkill = skill;
+    }
+    //public void LevelUpPassiveSkill(int skillIndex)
+    //{
+    //    if (skillIndex >= 0 && skillIndex < skills.Count)
+    //    {
+    //        PlayerSkill skill = skills[skillIndex];
+    //        if (skill.SkillType == SkillType.Passive)
+    //        {
+    //            skill.LevelUp();
+    //            ApplyPassiveSkillEffect(skill);
+    //        }
+    //    }
+    //}
+    private void ApplyPassiveSkillEffect(PlayerSkill skill)
+    {
+        // 스킬 효과에 따라 스탯 업데이트 (예시)
+        switch (skill.Name)
+        {
+            case "Iron Skin":
+                defense += 5 * skill.Level;
+                break;
+            case "Swift Movement":
+                attackSpeed += 5 * skill.Level;
+                break;
+                // 다른 패시브 스킬 효과들...
+        }
+        RecalculateStats();
+        InitializePlayerStat(); // PlayerStat 갱신
     }
 }

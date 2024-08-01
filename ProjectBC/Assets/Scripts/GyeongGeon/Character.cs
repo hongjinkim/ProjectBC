@@ -110,11 +110,7 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     protected virtual void Start()
     {
-        playerStat = GetComponent<PlayerStat>();
-        if (playerStat == null)
-        {
-            playerStat = gameObject.AddComponent<PlayerStat>();
-        }
+        InitializeStats();
         //customTilemapManager = new CustomTilemapManagerGG(tilemapManager, this);
         //customTilemapManager = gameObject.AddComponent<CustomTilemapManagerGG>();
         //customTilemapManager.Initialize(tilemapManager, this);
@@ -123,10 +119,64 @@ public abstract class Character : MonoBehaviour, IBehavior
         //dungeon.DungeonInit();
         //transform.position = customTilemapManager.GetNearestValidPosition(transform.position);
         //StartCoroutine(AutoMoveCoroutine());
+        
+    }
+    protected virtual void InitializeStats()
+    {
+        playerStat = GetComponent<PlayerStat>();
+        if (playerStat == null)
+        {
+            playerStat = gameObject.AddComponent<PlayerStat>();
+        }
+
+        if (info != null)
+        {
+            ApplyHeroInfo();
+        }
+
+        UpdateStatsFromPlayerStat();
+        ValidateStats();
 
         currentHealth = maxHealth;
     }
 
+    protected virtual void ApplyHeroInfo()
+    {
+        playerStat.HP = info.hp;
+        playerStat.AttackDamage = info.attackDamage;
+        playerStat.AttackSpeed = (int)info.attackSpeed;
+        playerStat.AttackRange = info.attackRange;
+        // 다른 스탯들도 여기에 추가
+    }
+    protected virtual void UpdateStatsFromPlayerStat()
+    {
+        if (playerStat != null)
+        {
+            maxHealth = playerStat.HP;
+            attackDamage = playerStat.AttackDamage;
+            attackSpeed = playerStat.AttackSpeed;
+            attackRange = playerStat.AttackRange;
+            moveSpeed = 1; // 예시: 이동 속도를 민첩성과 연결
+        }
+    }
+    protected virtual void ValidateStats()
+    {
+        maxHealth = Mathf.Max(1, maxHealth);
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        attackDamage = Mathf.Max(0, attackDamage);
+        attackSpeed = Mathf.Max(0, attackSpeed);
+        attackRange = Mathf.Max(0, attackRange);
+        moveSpeed = Mathf.Max(0, moveSpeed);
+    }
+    public virtual void SyncStatsWithInfo()
+    {
+        if (info != null)
+        {
+            ApplyHeroInfo();
+            UpdateStatsFromPlayerStat();
+            ValidateStats();
+        }
+    }
     protected virtual void Update()
     {
         CheckState();
@@ -176,8 +226,9 @@ public abstract class Character : MonoBehaviour, IBehavior
         if (target != null)
         {
             target.attacker = this;
-            target.currentHealth -= _damage;
-            InstantiateDmgTxtObj(_damage);
+            float actualDamage = _damage + attackDamage;  // playerStat의 AttackDamage 추가
+            target.currentHealth -= actualDamage;
+            InstantiateDmgTxtObj(actualDamage);
         }
     }
 
@@ -233,6 +284,11 @@ public abstract class Character : MonoBehaviour, IBehavior
             case UnitState.death:
                 break;
         }
+    }
+    public virtual void SetStat()
+    {
+        InitializeStats();
+        UpdateStatsFromPlayerStat();
     }
 
     void SetState(UnitState state)
@@ -326,12 +382,12 @@ public abstract class Character : MonoBehaviour, IBehavior
         transform.position += (Vector3)_dirVec * moveSpeed * Time.deltaTime;
         
 
+        //     SnapToNearestTileCenter();
+        //     Upd
         //MoveAlongPath();
 
         // if (path == null || path.Count == 0)
-        // {
-        //     SnapToNearestTileCenter();
-        //     UpdatePath(); // 경로가 없으면 새로운 경로를 찾습니다.
+        // {atePath(); // 경로가 없으면 새로운 경로를 찾습니다.
         // }
     }
 
@@ -422,7 +478,7 @@ public abstract class Character : MonoBehaviour, IBehavior
     {
         if(!CheckTarget()) return;
         if(!CheckDistance()) return;
-
+        if (attackDamage <= 0) return;
         attackTimer += Time.deltaTime;
 
         if(attackTimer > attackSpeed)
