@@ -124,19 +124,52 @@ public class Disassembly : MonoBehaviour
         selectedItems.Clear();
         UpdateUI();
         GameDataManager.instance.UpdateItem();
+
+        inventoryBase.InitializeInventory();
     }
 
     public void DisassemblyReward()
     {
         int totalGold = 0;
+        int disassembledCount = 0;
+        string rewardItemId = "Material_Iron"; // 지급할 아이템의 ID
 
         foreach (Item item in selectedItems)
         {
             totalGold += item.Params.Price;
+            disassembledCount++;
         }
 
+        // 골드 지급
         GameDataManager.instance.playerInfo.gold += totalGold;
+
+        // 특정 아이템 지급 (던전에서의 아이템 획득 로직과 유사)
+        var inventory = GameDataManager.instance.playerInfo.items;
+        bool itemExists = false;
+
+        foreach (Item item in inventory)
+        {
+            if (item.Params.Id == rewardItemId)
+            {
+                item.Count += disassembledCount;
+                itemExists = true;
+                break;
+            }
+        }
+
+        if (!itemExists)
+        {
+            Item newItem = new Item(rewardItemId);
+            newItem.Count = disassembledCount;
+            inventory.Add(newItem);
+        }
+
         Debug.Log($"Gained {totalGold} gold from disassembly");
+        Debug.Log($"Gained {disassembledCount} of reward item (ID: {rewardItemId})");
+
         GameDataManager.instance.UpdateFunds();
+        GameDataManager.instance.UpdateItem();
+
+        inventoryBase.InitializeInventory();
     }
 }
