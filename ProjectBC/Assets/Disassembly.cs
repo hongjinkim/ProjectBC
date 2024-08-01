@@ -14,8 +14,8 @@ public class Disassembly : MonoBehaviour
     private Dictionary<Toggle, ItemRarity> toggleRarityMap;
     private List<ItemRarity> selectedRarities = new List<ItemRarity>();
 
-    [SerializeField]
-    private List<Item> selectedItems = new List<Item>();
+    [SerializeField] private List<Item> selectedItems = new List<Item>();
+    [SerializeField] private List<ItemType> allowedTypes = new List<ItemType> { ItemType.Weapon, ItemType.Armor, ItemType.Helmet, ItemType.Leggings };
 
     private void Awake()
     {
@@ -45,7 +45,6 @@ public class Disassembly : MonoBehaviour
     {
         if (!toggleRarityMap.TryGetValue(toggle, out ItemRarity rarity))
         {
-            Debug.LogError($"Toggle {toggle.name} is not mapped to any rarity.");
             return;
         }
 
@@ -69,13 +68,11 @@ public class Disassembly : MonoBehaviour
 
         foreach (var item in items)
         {
-            if (selectedRarities.Contains(item.Params.Rarity))
+            if (selectedRarities.Contains(item.Params.Rarity) && allowedTypes.Contains(item.Params.Type))
             {
                 selectedItems.Add(item);
             }
         }
-
-        Debug.Log($"Updated selected items count: {selectedItems.Count}");
 
         if (gameObject.activeInHierarchy)
         {
@@ -115,28 +112,18 @@ public class Disassembly : MonoBehaviour
 
     public void ItemDisassembly()
     {
-        // 선택된 아이템들의 복사본을 만듭니다. 
-        // 이는 리스트를 순회하면서 항목을 제거할 때 발생할 수 있는 문제를 방지합니다.
         List<Item> itemsToRemove = new List<Item>(selectedItems);
 
         foreach (Item item in itemsToRemove)
         {
-            // 인벤토리에서 아이템 제거
             GameDataManager.instance.playerInfo.items.Remove(item);
 
             // 여기에 아이템 분해에 대한 추가 로직을 구현할 수 있습니다.
             // 예: 재료 획득, 경험치 획득 등
         }
-
-        // selectedItems 리스트 비우기
         selectedItems.Clear();
 
-        // UI 업데이트
         UpdateUI();
-
-        // GameDataManager에 아이템 업데이트를 알림
         GameDataManager.instance.UpdateItem();
-
-        Debug.Log($"Disassembled {itemsToRemove.Count} items.");
     }
 }
