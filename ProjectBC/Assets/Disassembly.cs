@@ -26,7 +26,7 @@ public class Disassembly : MonoBehaviour
             toggles[i].onValueChanged.AddListener((isOn) => OnToggleValueChanged(toggles[index], isOn));
         }
 
-        GameDataManager.ItemUpdated += UpdateSelectedItems;
+        EventManager.StartListening(EventType.ItemUpdated, UpdateSelectedItems);
         disassemblyButton.onClick.AddListener(ItemAllDisassemblyButton);
     }
 
@@ -58,10 +58,10 @@ public class Disassembly : MonoBehaviour
             selectedRarities.Remove(rarity);
         }
 
-        UpdateSelectedItems();
+        UpdateSelectedItems(null);
     }
 
-    public void UpdateSelectedItems()
+    public void UpdateSelectedItems(Dictionary<string, object> message)
     {
         selectedItems.Clear(); // 기존 리스트를 비우고 재사용
         var items = GameDataManager.instance.playerInfo.items;
@@ -123,9 +123,10 @@ public class Disassembly : MonoBehaviour
 
         selectedItems.Clear();
         UpdateUI();
-        GameDataManager.instance.UpdateItem();
+        //GameDataManager.instance.UpdateItem();
+        EventManager.TriggerEvent(EventType.ItemUpdated, null);
 
-        inventoryBase.InitializeInventory();
+        inventoryBase.InitializeInventory(null);
     }
 
     public void DisassemblyReward()
@@ -167,9 +168,11 @@ public class Disassembly : MonoBehaviour
         Debug.Log($"Gained {totalGold} gold from disassembly");
         Debug.Log($"Gained {disassembledCount} of reward item (ID: {rewardItemId})");
 
-        GameDataManager.instance.UpdateFunds();
-        GameDataManager.instance.UpdateItem();
+        //GameDataManager.instance.UpdateFunds();
+        //GameDataManager.instance.UpdateItem();
+        EventManager.TriggerEvent(EventType.FundsUpdated, null);
+        EventManager.TriggerEvent(EventType.ItemUpdated, null);
 
-        inventoryBase.InitializeInventory();
+        inventoryBase.InitializeInventory(null);
     }
 }

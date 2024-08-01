@@ -27,24 +27,24 @@ public class EquipmentBase : ItemWorkspace
 
     void OnApplicationQuit()
     {
-        GameDataManager.ItemUpdated -= InitializeInventory;
+        EventManager.StartListening(EventType.ItemUpdated, InitializeInventory);
     }
 
     public void Awake()
     {
-        GameDataManager.ItemUpdated += InitializeInventory;
+        EventManager.StopListening(EventType.ItemUpdated, InitializeInventory);
         ItemCollection.active = ItemCollection;
     }
 
     public void Start()
     {
-        InitializeInventory();
+        InitializeInventory(null);
     }
 
     /// <summary>
     /// Initialize owned items (just for example).
     /// </summary>
-    public void InitializeInventory()
+    public void InitializeInventory(Dictionary<string, object> message)
     {
         var inventory = GameDataManager.instance.playerInfo.items; // inventory.Clear();
 

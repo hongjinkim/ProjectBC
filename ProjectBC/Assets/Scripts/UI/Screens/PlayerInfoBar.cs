@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,16 +19,13 @@ public class PlayerInfoBar : MenuScreen
 
     private void OnEnable()
     {
-        GameDataManager.FundsUpdated += OnFundsUpdated;
-        GameDataManager.LevelUpdated += OnLevelUpdated;
-        GameDataManager.BattlePointUpdated += OnBattlePointUpdated;
+        EventManager.StartListening(EventType.FundsUpdated, OnFundsUpdated);
+
     }
 
     private void OnDisable()
     {
-        GameDataManager.FundsUpdated -= OnFundsUpdated;
-        GameDataManager.FundsUpdated -= OnLevelUpdated;
-        GameDataManager.FundsUpdated -= OnBattlePointUpdated;
+
     }
 
     void Start()
@@ -35,11 +33,11 @@ public class PlayerInfoBar : MenuScreen
 
     }
 
-    void OnFundsUpdated(PlayerInfo info)
+    void OnFundsUpdated(Dictionary<string, object> message)
     {
-        gold.text = info.gold.ToString();
-        diamond.text = info.diamond.ToString();
-        gem.text = info.gem.ToString();
+        gold.text = GameDataManager.instance.playerInfo.gold.ToString();
+        diamond.text = GameDataManager.instance.playerInfo.diamond.ToString();
+        gem.text = GameDataManager.instance.playerInfo.gem.ToString();
     }
 
     void OnLevelUpdated(PlayerInfo info)

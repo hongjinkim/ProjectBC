@@ -6,35 +6,16 @@ using static DB;
 using static JsonHelper;
 using Unity.VisualScripting;
 
-public class GameDataManager : MonoBehaviour
+public class GameDataManager : MonoSingleton<GameDataManager>
 {
     [SerializeField] private string savePath;
-
-    private static GameDataManager _instance;
-    public static GameDataManager instance
-    {
-        get { return _instance; }
-    }
 
     [SerializeField] private string _saveFilename = "savegame.dat";
 
     [SerializeField] private bool _debugValues;
     [SerializeField] private bool _resetGame;
 
-    //playerInfo Event
-    public static event Action<PlayerInfo> FundsUpdated;
-    public static event Action<PlayerInfo> LevelUpdated;
-    public static event Action<PlayerInfo> BattlePointUpdated;
-
-    public static event Action<PlayerInfo> GameDataLoaded;
-
-    //characterData Event
-
-    //itemData Event
-    public static event Action ItemUpdated;
-
-    // Hero Event (추가)
-    public static event Action<List<HeroInfo>> HeroesUpdated;
+    
 
     // private class
     [SerializeField] PlayerInfo _playerInfo;
@@ -62,10 +43,6 @@ public class GameDataManager : MonoBehaviour
 
     private void Awake()
     {
-        if (_instance == null)
-        {
-            _instance = this;
-        }
         savePath = Application.persistentDataPath;
         //InitializeHeroes();
 
@@ -113,8 +90,8 @@ public class GameDataManager : MonoBehaviour
         // notify other game objects 
         if (_playerInfo != null)
         {
-            GameDataLoaded?.Invoke(_playerInfo);
-            HeroesUpdated?.Invoke(_playerInfo.heroes); // 추가
+            //EventManager.instance.GameDataLoaded?.Invoke(_playerInfo);
+            //HeroesUpdated?.Invoke(_playerInfo.heroes); // 추가
         }
     }
     public void SaveGame()
@@ -132,52 +109,51 @@ public class GameDataManager : MonoBehaviour
         }
     }
 
-    void OnSettingsShown()
-    {
-        // pass the GameData to the Settings Screen
-        if (_playerInfo != null)
-        {
-            GameDataLoaded?.Invoke(_playerInfo);
-        }
-    }
+    //void OnSettingsShown()
+    //{
+    //    // pass the GameData to the Settings Screen
+    //    if (_playerInfo != null)
+    //    {
+    //        GameDataLoaded?.Invoke(_playerInfo);
+    //    }
+    //}
 
-    void OnSettingsUpdated(PlayerInfo playerInfo)
-    {
-        _playerInfo = playerInfo;
-        SaveGame();
-    }
+    //void OnSettingsUpdated(PlayerInfo playerInfo)
+    //{
+    //    _playerInfo = playerInfo;
+    //    SaveGame();
+    //}
 
     void Init()
     {
         UpdateFunds();
-        UpdateLevel();
-        UpdateBattlePoint();
+        //UpdateLevel();
+        //UpdateBattlePoint();
         //UpdateAllInventorys();
     }
 
     public void UpdateFunds()
     {
-        if (_playerInfo != null)
-            FundsUpdated?.Invoke(_playerInfo);
+        EventManager.TriggerEvent(EventType.FundsUpdated, null);
     }
 
-    public void UpdateLevel()
-    {
-        if (_playerInfo != null)
-            LevelUpdated?.Invoke(_playerInfo);
-    }
+    //public void UpdateLevel()
+    //{
+    //    if (_playerInfo != null)
+    //        LevelUpdated?.Invoke(_playerInfo);
+    //}
 
-    public void UpdateBattlePoint()
-    {
-        if (_playerInfo != null)
-            BattlePointUpdated?.Invoke(_playerInfo);
-    }
+    //public void UpdateBattlePoint()
+    //{
+    //    if (_playerInfo != null)
+    //        BattlePointUpdated?.Invoke(_playerInfo);
+    //}
 
-    public void UpdateItem()
-    {
-        if (_playerInfo != null)
-            ItemUpdated?.Invoke();
-    }
+    //public void UpdateItem()
+    //{
+    //    if (_playerInfo != null)
+    //        ItemUpdated?.Invoke();
+    //}
 
     private void LoadDatas()
     {
@@ -226,21 +202,21 @@ public class GameDataManager : MonoBehaviour
     }
 
     // 히어로 관련 메서드 (추가)
-    public List<HeroInfo> GetAllHeroes()
-    {
-        if (_playerInfo == null || _playerInfo.heroes == null)
-        {
+    //public List<HeroInfo> GetAllHeroes()
+    //{
+    //    if (_playerInfo == null || _playerInfo.heroes == null)
+    //    {
 
-            return new List<HeroInfo>();
-        }
-        return new List<HeroInfo>(_playerInfo.heroes);
-    }
+    //        return new List<HeroInfo>();
+    //    }
+    //    return new List<HeroInfo>(_playerInfo.heroes);
+    //}
 
-    public void AddHero(HeroInfo hero)
-    {
-        _playerInfo.heroes.Add(hero);
-        HeroesUpdated?.Invoke(_playerInfo.heroes);
-    }
+    //public void AddHero(HeroInfo hero)
+    //{
+    //    _playerInfo.heroes.Add(hero);
+    //    HeroesUpdated?.Invoke(_playerInfo.heroes);
+    //}
 
     public void UpdateHero(HeroInfo hero)
     {
@@ -248,23 +224,24 @@ public class GameDataManager : MonoBehaviour
         if (index != -1)
         {
             _playerInfo.heroes[index] = hero;
-            HeroesUpdated?.Invoke(_playerInfo.heroes);
+            EventManager.TriggerEvent(EventType.HeroUpdated, new Dictionary<string, object> { { "heroes", _playerInfo.heroes } });
+            //HeroesUpdated.Invoke(_playerInfo.heroes);
         }
     }
 
-    public HeroInfo GetHero(int id)
-    {
-        return _playerInfo.heroes.Find(h => h.id == id);
-    }
-    public void UpdateHeroes(List<HeroInfo> heroes)
-    {
-        _playerInfo.heroes = heroes;
-        HeroesUpdated?.Invoke(_playerInfo.heroes);
-    }
-    public void RemoveHero(HeroInfo hero)
-    {
-        _playerInfo.heroes.Remove(hero);
-        HeroesUpdated?.Invoke(_playerInfo.heroes);
-    }
+    //public HeroInfo GetHero(int id)
+    //{
+    //    return _playerInfo.heroes.Find(h => h.id == id);
+    //}
+    //public void UpdateHeroes(List<HeroInfo> heroes)
+    //{
+    //    _playerInfo.heroes = heroes;
+    //    HeroesUpdated?.Invoke(_playerInfo.heroes);
+    //}
+    //public void RemoveHero(HeroInfo hero)
+    //{
+    //    _playerInfo.heroes.Remove(hero);
+    //    HeroesUpdated?.Invoke(_playerInfo.heroes);
+    //}
 
 }

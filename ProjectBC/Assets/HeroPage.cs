@@ -90,8 +90,10 @@ public class HeroPage : HeroScreen
                 {
                     ExpItem[i].Count--;
 
-                    GameDataManager.instance.UpdateItem();
-                    GameDataManager.instance.UpdateFunds();
+                    //GameDataManager.instance.UpdateItem();
+                    //GameDataManager.instance.UpdateFunds();
+                    EventManager.TriggerEvent(EventType.FundsUpdated, null);
+                    EventManager.TriggerEvent(EventType.ItemUpdated, null);
 
                     if (ExpScroll.Instance != null)
                     {

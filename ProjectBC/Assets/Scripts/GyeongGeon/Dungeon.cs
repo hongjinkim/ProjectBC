@@ -385,8 +385,8 @@ public class Dungeon : MonoBehaviour
             HeroPotion.Instance.UpdatePotionCount();
         }
 
-        GameDataManager.instance.UpdateItem();
-        GameDataManager.instance.UpdateFunds();
+        EventManager.TriggerEvent(EventType.FundsUpdated, null);
+        EventManager.TriggerEvent(EventType.ItemUpdated, null);
     }
     
 
