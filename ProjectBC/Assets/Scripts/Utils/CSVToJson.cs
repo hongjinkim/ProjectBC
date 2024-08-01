@@ -13,10 +13,14 @@ public class CSVToJson : MonoBehaviour
     char[] TRIM_CHARS = { '\"' };
 
 
-    void Awake()
+    private void OnValidate()
+    {
+        MakeJson();
+    }
+    void MakeJson()
     {
         GetAllCSV();
-        foreach(TextAsset data in _csvFiles)
+        foreach (TextAsset data in _csvFiles)
         {
             string json = JsonConvert.SerializeObject(Read(data), Formatting.Indented);
             File.WriteAllText(Application.dataPath + "/Resources/Jsons/" + data.name + ".json", json);

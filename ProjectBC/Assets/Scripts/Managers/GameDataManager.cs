@@ -55,6 +55,11 @@ public class GameDataManager : MonoBehaviour
         SaveGame();
     }
 
+    private void OnValidate()
+    {
+        LoadDatas();
+    }
+
     private void Awake()
     {
         if (_instance == null)
@@ -63,8 +68,6 @@ public class GameDataManager : MonoBehaviour
         }
         savePath = Application.persistentDataPath;
         //InitializeHeroes();
-
-        LoadDatas();
 
         LoadGame();
 
