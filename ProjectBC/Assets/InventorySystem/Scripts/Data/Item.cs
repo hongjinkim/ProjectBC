@@ -16,7 +16,7 @@ public class Item
 
     public int Count;
     public int index;
-
+    public ItemRarity Rarity => Params.Rarity;
     public Item()
     {
 
