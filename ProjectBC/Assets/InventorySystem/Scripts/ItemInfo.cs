@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,23 +20,28 @@ public class ItemInfo : MonoBehaviour
     public TextMeshProUGUI stat2;
     public TextMeshProUGUI stat3;
 
-    //[Header("Magic Stat")]
+    [Header("Lock")]
+    [SerializeField] private Button lockButton;
+    [SerializeField] private TextMeshProUGUI buttonText;
 
-    //[Header("Rune")]
+    [Header("View")]
+    public Button nextViewBtn;
+    public Button prevViewBtn;
 
-    //[Header("Buttons")]
-
-    //public Button backButton;
-
+    public bool isLocked = false;
     public Item Item { get; protected set; }
+    public int currentIndex; // 새로 추가된 필드
 
-    //protected static readonly List<PropertyId> Sorting = new List<PropertyId>
-    //    {
-    //        PropertyId.Damage,
-    //        PropertyId.StaminaMax,
-    //        PropertyId.Blocking,
-    //        PropertyId.Resistance
-    //    };
+    public GearBase gearBase;
+
+    public void Awake()
+    {
+        lockButton.onClick.AddListener(ToggleItemLock);
+        nextViewBtn.onClick.AddListener(gearBase.SelectNextItem);
+        prevViewBtn.onClick.AddListener(gearBase.SelectPreviousItem);
+
+        UpdateButtonUI();
+    }
 
     public void OnEnable()
     {
@@ -53,28 +56,24 @@ public class ItemInfo : MonoBehaviour
         transform.SetAsFirstSibling();
     }
 
-    public virtual void Initialize(Item item)
+    public virtual void Initialize(Item item, int index)
     {
         Item = item;
-
+        this.currentIndex = index;
         if (item == null)
         {
             Reset();
             return;
         }
-
         transform.SetAsLastSibling();
-
         icon.sprite = ItemCollection.active.GetItemIcon(item).sprite;
         iconBackground.sprite = ItemCollection.active.GetBackground(item) ?? ItemCollection.active.backgroundBrown;
         iconBackground.color = Color.white;
         iconFrame.raycastTarget = true;
-
         level.text = "Lv. " + item.Params.Level.ToString("D2");
         name.text = item.Params.Name;
         rarity.text = "품질 : " + item.Params.Rarity.ToString();
         type.text = item.Params.Type.ToString();
-
         if (item.IsEquipment)
         {
             stat1.text = item.Stats[0].value <= 0 ? null : item.Stats[0].id.ToString() + "  " + "+" + item.Stats[0].value.ToString();
@@ -88,10 +87,22 @@ public class ItemInfo : MonoBehaviour
             stat2.text = null;
             stat3.text = null;
         }
-        
     }
+
     public void OnBackButtonClicked()
     {
         transform.SetSiblingIndex(0);
+    }
+
+    private void ToggleItemLock()
+    {
+        isLocked = !isLocked;
+        UpdateButtonUI();
+        Debug.Log($"Item is now {(isLocked ? "locked" : "unlocked")}");
+    }
+
+    private void UpdateButtonUI()
+    {
+        buttonText.text = isLocked ? "Unlock" : "Lock";
     }
 }

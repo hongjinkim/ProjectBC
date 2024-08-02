@@ -162,7 +162,11 @@ public class InventoryBase : ItemWorkspace
     public void SelectItem(Item item)
     {
         SelectedItem = item;
-        ItemInfo.Initialize(SelectedItem);
+        if (item != null)
+        {
+            int index = GameDataManager.instance.playerInfo.items.IndexOf(item);
+            ItemInfo.Initialize(SelectedItem, index);
+        }
         Refresh();
     }
 
