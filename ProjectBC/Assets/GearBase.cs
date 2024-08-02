@@ -74,16 +74,48 @@ public class GearBase : ItemWorkspace
     {
         OnRefresh?.Invoke(SelectedItem);
     }
+
+    public InventoryBase inventoryBase;
     public void SelectPreviousItem()
     {
-        int currentIndex = GameDataManager.instance.playerInfo.items.IndexOf(SelectedItem);
-        int previousIndex = (currentIndex - 1 + GameDataManager.instance.playerInfo.items.Count) % GameDataManager.instance.playerInfo.items.Count;
-        SelectItem(GameDataManager.instance.playerInfo.items[previousIndex]);
+        List<Item> currentItems = inventoryBase.inventoryItems[inventoryBase.currentInventoryType];
+        if (currentItems.Count == 0)
+        {
+            Debug.Log("Current inventory is empty.");
+            return;
+        }
+
+        int currentIndex = SelectedItem != null ? currentItems.IndexOf(SelectedItem) : -1;
+        if (currentIndex == -1)
+        {
+            // 현재 선택된 아이템이 없거나 현재 인벤토리에 없는 경우, 마지막 아이템 선택
+            SelectItem(currentItems[currentItems.Count - 1]);
+        }
+        else
+        {
+            int previousIndex = (currentIndex - 1 + currentItems.Count) % currentItems.Count;
+            SelectItem(currentItems[previousIndex]);
+        }
     }
     public void SelectNextItem()
     {
-        int currentIndex = GameDataManager.instance.playerInfo.items.IndexOf(SelectedItem);
-        int nextIndex = (currentIndex + 1) % GameDataManager.instance.playerInfo.items.Count;
-        SelectItem(GameDataManager.instance.playerInfo.items[nextIndex]);
+        List<Item> currentItems = inventoryBase.inventoryItems[inventoryBase.currentInventoryType];
+        if (currentItems.Count == 0)
+        {
+            Debug.Log("Current inventory is empty.");
+            return;
+        }
+
+        int currentIndex = SelectedItem != null ? currentItems.IndexOf(SelectedItem) : -1;
+        if (currentIndex == -1)
+        {
+            // 현재 선택된 아이템이 없거나 현재 인벤토리에 없는 경우, 첫 번째 아이템 선택
+            SelectItem(currentItems[0]);
+        }
+        else
+        {
+            int nextIndex = (currentIndex + 1) % currentItems.Count;
+            SelectItem(currentItems[nextIndex]);
+        }
     }
 }

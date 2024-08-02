@@ -649,7 +649,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 10, y: 0}
+  m_AnchoredPosition: {x: 10, y: -180}
   m_SizeDelta: {x: 70, y: 70}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &295417377
@@ -3663,7 +3663,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -10, y: 0}
+  m_AnchoredPosition: {x: -10, y: -180}
   m_SizeDelta: {x: 70, y: 70}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1115927581
@@ -7191,6 +7191,7 @@ MonoBehaviour:
   ItemInfo: {fileID: 1671784292}
   Equipment: {fileID: 0}
   InitializeExample: 0
+  inventoryBase: {fileID: 1853415992}
 --- !u!114 &1683922496 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2687348973187646180, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
