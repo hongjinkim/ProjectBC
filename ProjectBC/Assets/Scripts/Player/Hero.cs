@@ -43,8 +43,8 @@ public class Hero : Character
             maxHealth = info.hp;
             currentHealth = maxHealth;
             attackDamage = info.attackDamage;
-            attackSpeed = info.attackSpeed;
-            attackRange = info.attackRange;
+            //attackSpeed = info.attackSpeed;
+            
 
             // 새로 추가된 스탯들
             energy = info.energy;

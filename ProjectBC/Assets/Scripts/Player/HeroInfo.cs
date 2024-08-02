@@ -71,7 +71,7 @@ public class HeroInfo
         this.attackDamage = 10;
         this.defense = 10;
         this.magicResistance = 10;
-        this.attackSpeed = 100;
+        //this.attackSpeed = 100;
         this.healthRegen = 0;
         this.energyRegen = 5;
         this.expAmplification=0;
