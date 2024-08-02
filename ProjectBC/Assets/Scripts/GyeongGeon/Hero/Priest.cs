@@ -23,7 +23,8 @@ public class Priest : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     {
         base.Start();
         _heroClass = HeroClass.Priest;
-        playerStat.CharacteristicType = CharacteristicType.Intellect;
+        info.characteristicType = CharacteristicType.Intellect;
+        info.attackRange = 4;
     }
     public override void IncreaseCharacteristic(float amount)
     {
@@ -36,9 +37,9 @@ public class Priest : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     }
     public void UseSkill()
     {
-        if (playerStat.Energy >= 100)
+        if (info.energy >= 100)
         {
-            playerStat.Energy = 0;
+            info.energy = 0;
             // ��ų ��� ����...
         }
     }

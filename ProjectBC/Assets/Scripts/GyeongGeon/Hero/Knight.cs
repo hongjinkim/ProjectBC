@@ -31,7 +31,8 @@ public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     {
         base.Start();
         _heroClass = HeroClass.Knight;
-        playerStat.CharacteristicType = CharacteristicType.MuscularStrength;
+        info.characteristicType = CharacteristicType.MuscularStrength;
+        info.attackRange = 1; // 근접 공격 범위
     }
     public override void IncreaseCharacteristic(float amount)
     {
@@ -101,9 +102,9 @@ public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     }
     public void UseSkill()
     {
-        if (playerStat.Energy >= 100)
+        if (info.energy >= 100)
         {
-            playerStat.Energy = 0;
+            info.energy = 0;
             // ��ų ��� ����...
         }
     }

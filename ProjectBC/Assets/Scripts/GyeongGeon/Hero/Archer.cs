@@ -6,7 +6,8 @@ public class Archer : Hero
     {
         base.Start();
         _heroClass = HeroClass.Archer;
-        playerStat.CharacteristicType = CharacteristicType.Agility;
+        info.characteristicType = CharacteristicType.Agility;
+        info.attackRange = 4;
     }
 
     protected override void OnAnimAttack()
@@ -22,9 +23,9 @@ public class Archer : Hero
     // Archer 특유의 메서드 추가
     public void UseSkill()
     {
-        if (playerStat.Energy >= 100)
+        if (info.energy >= 100)
         {
-            playerStat.Energy = 0;
+            info.energy = 0;
             // 스킬 사용 로직...
         }
     }

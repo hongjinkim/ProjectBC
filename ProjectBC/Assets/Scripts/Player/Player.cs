@@ -159,7 +159,7 @@ namespace PlayerClasses
 
     public class Archer : Player
     {
-        
+
         protected override void Start()
         {
             base.Start();
