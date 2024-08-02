@@ -82,7 +82,7 @@ public class ItemInfo : MonoBehaviour
         type.text = item.Params.Type.ToString();
         if (item.IsEquipment)
         {
-            luckyPoint.text = "럭키포인트: " + item.LuckyPoint.ToString() + "(" +((int)(item.LuckyPoint*100 / item.MaxLuckyPoint)).ToString()+ "%)";
+            luckyPoint.text = "럭키포인트: " + item.LuckyPoint.ToString() + "(" +item.LuckyPercent.ToString()+ "%)";
 
             for(int i = 0; i < item.Stat.basic.Count; i++)
             {
