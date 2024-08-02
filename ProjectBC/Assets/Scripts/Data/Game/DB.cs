@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using static UnityEditor.Progress;
+using static UnityEngine.Rendering.DebugUI;
 
 
 public class DB
@@ -100,6 +101,8 @@ public class DB
         public int StatValueMin3;
         public int StatValueMax3;
 
-        public List<Stat> Stats;
+        public List<Basic> BasicStats => new List<Basic>{new Basic{id = StatId1, value = UnityEngine.Random.Range(StatValueMin1, StatValueMax1), minValue = StatValueMin1, maxValue = StatValueMax1},
+                                                         new Basic{id = StatId2, value = UnityEngine.Random.Range(StatValueMin2, StatValueMax2) ,minValue = StatValueMin2, maxValue = StatValueMax2},
+                                                         new Basic{id = StatId3, value = UnityEngine.Random.Range(StatValueMin3, StatValueMax3) , minValue = StatValueMin3, maxValue = StatValueMax3}};
     }
 }

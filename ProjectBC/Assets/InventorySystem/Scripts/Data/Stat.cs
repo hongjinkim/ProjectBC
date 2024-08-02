@@ -1,26 +1,40 @@
-using System.Runtime.Serialization;
-using System.Text.RegularExpressions;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
 public class Stat
 {
-    public BasicStat id;
-    public int value;
+    public List<Basic> basic;
+    public List<Magic> magic;
+    
 
     public Stat()
     {
     }
 
-    public Stat(BasicStat id, int value)
+    public Stat(List<Basic> basic)
     {
-        this.id = id;
-        this.value = value;
+        this.basic = basic;
+        this.magic = new List<Magic>();
     }
 
-    public Stat Copy()
-    {
-        return new Stat(id, value);
-    }
+}
+[Serializable]
+public struct Basic
+{
+    public BasicStat id;
+    public int value;
+
+    public int minValue;
+    public int maxValue;
+}
+[Serializable]
+public struct Magic
+{
+    public MagicStat id;
+    public int value;
+
+    //public int minValue;
+    //public int maxValue;
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
@@ -395,10 +396,24 @@ public class Dungeon : MonoBehaviour
         if (item.IsEquipment)
         {
             var statData = GameDataManager.instance.equipmentStatData[item.Params.Index];
-            item.Stats = new List<Stat> { new Stat (statData.StatId1, UnityEngine.Random.Range(statData.StatValueMin1, statData.StatValueMax1)),
-                                                    new Stat (statData.StatId2, UnityEngine.Random.Range(statData.StatValueMin2, statData.StatValueMax2)),
-                                                    new Stat (statData.StatId3, UnityEngine.Random.Range(statData.StatValueMin3, statData.StatValueMax3)),
-            };
+            item.Stat = new Stat(statData.BasicStats);
+
+            for(int i = 0; i < item.Stat.basic.Count; i++)
+            {
+                item.MaxLuckyPoint += item.Stat.basic[i].maxValue;
+                item.LuckyPoint += item.Stat.basic[i].value - item.Stat.basic[i].minValue;
+            }
+
+            var rarity = item.Params.Rarity;
+            List<MagicStat> enumValues = new List<MagicStat>((MagicStat[])Enum.GetValues(typeof(MagicStat)));
+
+            for (int i = 0; i<= (int)(rarity); i++)
+            {
+                var randomIndex = Random.Range(0, enumValues.Count);
+
+                item.Stat.magic.Add(new Magic { id = (MagicStat)enumValues[randomIndex], value = 1/*추후 값  수정*/}) ;
+                enumValues.RemoveAt(randomIndex);
+            }
         }
         return item;
     }
