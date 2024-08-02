@@ -239,4 +239,9 @@ public class ScrollInventory : ItemContainer
 
         ScrollRect.content.anchoredPosition = pos;
     }
+
+    public int GetItemIndex(Item item)
+    {
+        return Items.IndexOf(item);
+    }
 }
