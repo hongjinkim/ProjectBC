@@ -26,12 +26,14 @@ public class InventoryBase : ItemWorkspace
 
     public List<ScrollInventory> inventories;
 
+    public enum InventoryType { Equipment, Usable, Material, Crystal }
+    public InventoryType currentInventoryType = InventoryType.Equipment;
+    public Dictionary<InventoryType, List<Item>> inventoryItems;
 
     // These callbacks can be used outside;
     public Action<Item> OnRefresh;
     public Action<Item> OnEquip;
     public Func<Item, bool> CanEquip = i => true;
-
 
     void OnEnable()
     {
@@ -78,6 +80,11 @@ public class InventoryBase : ItemWorkspace
         //GameDataManager.ItemUpdated += InitializeInventory;
         ItemCollection.active = ItemCollection;
         SetupInventories();
+        inventoryItems = new Dictionary<InventoryType, List<Item>>();
+        foreach (InventoryType type in Enum.GetValues(typeof(InventoryType)))
+        {
+            inventoryItems[type] = new List<Item>();
+        }
     }
 
     public void Start()
@@ -90,64 +97,56 @@ public class InventoryBase : ItemWorkspace
     /// </summary>
     public void InitializeInventory(Dictionary<string, object> message)
     {
-        var inventory = GameDataManager.instance.playerInfo.items; // inventory.Clear();
+        var allItems = GameDataManager.instance.playerInfo.items;
 
-        var equipment = new List<Item>();
-        var usable = new List<Item>();
-        var material = new List<Item>();
-        var crystal = new List<Item>();
-
-        foreach (Item item in inventory)
+        // 기존 아이템 리스트 초기화
+        foreach (var list in inventoryItems.Values)
         {
-            switch(item.Params.Type)
+            list.Clear();
+        }
+
+        foreach (Item item in allItems)
+        {
+            switch (item.Params.Type)
             {
                 case ItemType.Usable:
                 case ItemType.Exp:
-                    usable.Add(item);
+                    inventoryItems[InventoryType.Usable].Add(item);
                     break;
                 case ItemType.Material:
-                    material.Add(item);
+                    inventoryItems[InventoryType.Material].Add(item);
                     break;
                 case ItemType.Crystal:
-                    crystal.Add(item);
+                    inventoryItems[InventoryType.Crystal].Add(item);
                     break;
-                //case ItemType.Weapon:
-                //    equipment.Add(item);
-                //    weapon.Add(item);
-                //    break;
-                //case ItemType.Helmet:
-                //    equipment.Add(item);
-                //    helmet.Add(item);
-                //    break;
-                //case ItemType.Armor:
-                //    equipment.Add(item);
-                //    armor.Add(item);
-                //    break;
-                //case ItemType.Boots:
-                //    equipment.Add(item);
-                //    boots.Add(item);
-                //    break;
                 default:
-                    equipment.Add(item);
+                    inventoryItems[InventoryType.Equipment].Add(item);
                     break;
             }
         }
 
-        Initialize(EquipmentInventory, ref equipment);
-        Initialize(UsableInventory, ref usable);
-        Initialize(MaterialInventory, ref material);
-        Initialize(CrystalInventory, ref crystal);
-
-
-
+        Initialize(EquipmentInventory, inventoryItems[InventoryType.Equipment]);
+        Initialize(UsableInventory, inventoryItems[InventoryType.Usable]);
+        Initialize(MaterialInventory, inventoryItems[InventoryType.Material]);
+        Initialize(CrystalInventory, inventoryItems[InventoryType.Crystal]);
     }
 
-    public void Initialize(ScrollInventory container, ref List<Item> inventory/*, ref List<Item> equipped, int bagSize, Action onRefresh*/)
+    public void Initialize(ScrollInventory container, List<Item> inventory)
     {
         RegisterCallbacks();
         container.Initialize(ref inventory);
     }
-
+    private void SwitchInventoryType(InventoryType newType)
+    {
+        currentInventoryType = newType;
+        ShowInventory(GetInventoryByType(newType));
+        SelectedItem = null;
+        if (ItemInfo != null)
+        {
+            ItemInfo.Reset();
+        }
+        Refresh();
+    }
 
     public void RegisterCallbacks()
     {
@@ -163,25 +162,32 @@ public class InventoryBase : ItemWorkspace
     public void SelectItem(Item item)
     {
         SelectedItem = item;
-        ItemInfo.Initialize(SelectedItem);
+        if (item != null)
+        {
+            int index = GameDataManager.instance.playerInfo.items.IndexOf(item);
+            ItemInfo.Initialize(SelectedItem, index);
+        }
         Refresh();
     }
 
     public void OnEquipmentButtonClicked()
     {
-        ShowInventory(EquipmentInventory);
+        SwitchInventoryType(InventoryType.Equipment);
     }
+
     public void OnUsableButtonClicked()
     {
-        ShowInventory(UsableInventory);
+        SwitchInventoryType(InventoryType.Usable);
     }
+
     public void OnMaterialButtonClicked()
     {
-        ShowInventory(MaterialInventory);
+        SwitchInventoryType(InventoryType.Material);
     }
+
     public void OnCrystalButtonClicked()
     {
-        ShowInventory(CrystalInventory);
+        SwitchInventoryType(InventoryType.Crystal);
     }
 
     public void OnDisassemblyButtonClicked()
@@ -245,5 +251,22 @@ public class InventoryBase : ItemWorkspace
 
 
         OnRefresh?.Invoke(SelectedItem);
+    }
+
+    private ScrollInventory GetInventoryByType(InventoryType type)
+    {
+        switch (type)
+        {
+            case InventoryType.Equipment:
+                return EquipmentInventory;
+            case InventoryType.Usable:
+                return UsableInventory;
+            case InventoryType.Material:
+                return MaterialInventory;
+            case InventoryType.Crystal:
+                return CrystalInventory;
+            default:
+                return null;
+        }
     }
 }

@@ -31,7 +31,7 @@ public abstract class Character : MonoBehaviour, IBehavior
     }
 
     public Dungeon dungeon;
-    protected PlayerStat playerStat;
+    //protected PlayerStat playerStat;
     private List<ISkill> skillList;
     private IObjectPool<DamageText> DamageTextPool;
     public List<GameObject> Parts;
@@ -67,6 +67,27 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     public float findTimer;
     public float attackTimer;
+    // 새로 추가된 변수들
+    public float energy;
+    public float strength;
+    public float agility;
+    public float intelligence;
+    public float stamina;
+    public float defense;
+    public float magicResistance;
+    public float healthRegen;
+    public float energyRegen;
+    public float expAmplification;
+    public float trueDamage;
+    public float damageBlock;
+    public float lifeSteal;
+    public float damageAmplification;
+    public float damageReduction;
+    public float criticalChance;
+    public float criticalDamage;
+    public float defensePenetration;
+
+   
 
     [Header("DieEffect")]
     public GameObject fadeObject;
@@ -110,11 +131,11 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     protected virtual void Start()
     {
-        playerStat = GetComponent<PlayerStat>();
-        if (playerStat == null)
-        {
-            playerStat = gameObject.AddComponent<PlayerStat>();
-        }
+        //playerStat = GetComponent<PlayerStat>();
+        //if (playerStat == null)
+        //{
+        //    playerStat = gameObject.AddComponent<PlayerStat>();
+        //}
         //customTilemapManager = new CustomTilemapManagerGG(tilemapManager, this);
         //customTilemapManager = gameObject.AddComponent<CustomTilemapManagerGG>();
         //customTilemapManager.Initialize(tilemapManager, this);
@@ -853,47 +874,7 @@ public abstract class Character : MonoBehaviour, IBehavior
 
         return attackableRangePositions;
     }
-    protected void IncreaseStrength(float amount)
-    {
-        playerStat.Strength += (int)amount;
-        playerStat.HealthRegen += (int)(0.1f * amount);
-        playerStat.HP += (int)(1f * amount);
-
-        if (playerStat.CharacteristicType == CharacteristicType.MuscularStrength)
-        {
-            playerStat.AttackDamage += (int)(0.7f * amount);
-        }
-    }
-
-    protected void IncreaseAgility(float amount)
-    {
-        playerStat.Agility += (int)amount;
-        playerStat.AttackSpeed += (int)(0.1f * amount);
-        playerStat.Defense += (int)(0.1f * amount);
-
-        if (playerStat.CharacteristicType == CharacteristicType.Agility)
-        {
-            playerStat.AttackDamage += (int)(0.9f * amount);
-        }
-    }
-
-    protected void IncreaseIntelligence(float amount)
-    {
-        playerStat.Intelligence += (int)amount;
-        playerStat.EnergyRegen += (int)(0.1f * amount);
-        playerStat.MagicResistance += (int)(0.1f * amount);
-
-        if (playerStat.CharacteristicType == CharacteristicType.Intellect)
-        {
-            playerStat.AttackDamage += (int)(0.9f * amount);
-        }
-    }
-
-    protected void IncreaseStamina(float amount)
-    {
-        playerStat.Stamina += (int)amount;
-        playerStat.HP += (int)(10f * amount);
-    }
+    
     //public abstract void IncreaseCharacteristic(float amount);
     void CreateAttackEffect(Vector3 targetPosition)
     {

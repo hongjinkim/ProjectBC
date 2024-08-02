@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -5,6 +6,25 @@ using UnityEngine.UI;
 
 public class Disassembly : MonoBehaviour
 {
+    [Serializable]
+    public class RarityReward
+    {
+        public ItemRarity rarity;
+        public List<string> rewardItemIds;
+        public int baseRewardAmount = 1;
+        public int rewardAmountPerLevel = 1;
+        public int levelInterval = 10;
+    }
+
+    [SerializeField]
+    private List<RarityReward> rarityRewards = new List<RarityReward>
+    {
+        new RarityReward { rarity = ItemRarity.Common, rewardItemIds = new List<string> { "Material_Iron" }, baseRewardAmount = 1, rewardAmountPerLevel = 1, levelInterval = 10 },
+        new RarityReward { rarity = ItemRarity.Rare, rewardItemIds = new List<string> { "Material_Silver" }, baseRewardAmount = 1, rewardAmountPerLevel = 1, levelInterval = 10 },
+        new RarityReward { rarity = ItemRarity.Epic, rewardItemIds = new List<string> { "Material_Gold" }, baseRewardAmount = 1, rewardAmountPerLevel = 1, levelInterval = 10 },
+        new RarityReward { rarity = ItemRarity.Legendary, rewardItemIds = new List<string> { "Material_Iron", "Material_Silver", "Material_Gold" }, baseRewardAmount = 1, rewardAmountPerLevel = 1, levelInterval = 10 }
+    };
+
     public Button disassemblyButton;
     public TextMeshProUGUI disassemblyText;
     public InventoryBase inventoryBase;
@@ -63,7 +83,7 @@ public class Disassembly : MonoBehaviour
 
     public void UpdateSelectedItems(Dictionary<string, object> message)
     {
-        selectedItems.Clear(); // ±âÁ¸ ¸®½ºÆ®¸¦ ºñ¿ì°í Àç»ç¿ë
+        selectedItems.Clear(); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         var items = GameDataManager.instance.playerInfo.items;
 
         foreach (var item in items)
@@ -86,10 +106,10 @@ public class Disassembly : MonoBehaviour
             GetComponent<Text>().text = $"Selected items: {selectedItems.Count}";
         }
     }
-    // ÇÊ¿äÇÑ °æ¿ì selectedItems¿¡ Á¢±ÙÇÏ´Â ¸Þ¼­µå
+    // ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ selectedItemsï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
     public List<Item> GetSelectedItems()
     {
-        return new List<Item>(selectedItems); // º¹»çº» ¹ÝÈ¯
+        return new List<Item>(selectedItems); // ï¿½ï¿½ï¿½çº» ï¿½ï¿½È¯
     }
 
     public void ItemAllDisassemblyButton()
@@ -105,7 +125,7 @@ public class Disassembly : MonoBehaviour
             ItemDisassembly();
 
             inventoryBase.DisassemblyPopup.SetActive(false);
-            disassemblyText.text = "ÀÏ°ý ºÐÇØ";
+            disassemblyText.text = "ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½";
             isPopup = false;
         }
     }
@@ -132,41 +152,54 @@ public class Disassembly : MonoBehaviour
     public void DisassemblyReward()
     {
         int totalGold = 0;
-        int disassembledCount = 0;
-        string rewardItemId = "Material_Iron"; // Áö±ÞÇÒ ¾ÆÀÌÅÛÀÇ ID
+        Dictionary<string, int> rewardItems = new Dictionary<string, int>();
 
         foreach (Item item in selectedItems)
         {
             totalGold += item.Params.Price;
-            disassembledCount++;
-        }
 
-        // °ñµå Áö±Þ
-        GameDataManager.instance.playerInfo.gold += totalGold;
-
-        // Æ¯Á¤ ¾ÆÀÌÅÛ Áö±Þ (´øÀü¿¡¼­ÀÇ ¾ÆÀÌÅÛ È¹µæ ·ÎÁ÷°ú À¯»ç)
-        var inventory = GameDataManager.instance.playerInfo.items;
-        bool itemExists = false;
-
-        foreach (Item item in inventory)
-        {
-            if (item.Params.Id == rewardItemId)
+            RarityReward reward = rarityRewards.Find(r => r.rarity == item.Params.Rarity);
+            if (reward != null)
             {
-                item.Count += disassembledCount;
-                itemExists = true;
-                break;
+                int rewardAmount = CalculateRewardAmount(reward, item.Params.Level);
+                foreach (string rewardItemId in reward.rewardItemIds)
+                {
+                    if (!rewardItems.ContainsKey(rewardItemId))
+                        rewardItems[rewardItemId] = 0;
+                    rewardItems[rewardItemId] += rewardAmount;
+                }
             }
         }
 
-        if (!itemExists)
+        // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        GameDataManager.instance.playerInfo.gold += totalGold;
+
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        var inventory = GameDataManager.instance.playerInfo.items;
+        foreach (var rewardItem in rewardItems)
         {
-            Item newItem = new Item(rewardItemId);
-            newItem.Count = disassembledCount;
-            inventory.Add(newItem);
+            bool itemExists = false;
+            foreach (Item item in inventory)
+            {
+                if (item.Params.Id == rewardItem.Key)
+                {
+                    item.Count += rewardItem.Value;
+                    itemExists = true;
+                    break;
+                }
+            }
+
+            if (!itemExists)
+            {
+                Item newItem = new Item(rewardItem.Key);
+                newItem.Count = rewardItem.Value;
+                inventory.Add(newItem);
+            }
+
+            Debug.Log($"Gained {rewardItem.Value} of reward item (ID: {rewardItem.Key})");
         }
 
         Debug.Log($"Gained {totalGold} gold from disassembly");
-        Debug.Log($"Gained {disassembledCount} of reward item (ID: {rewardItemId})");
 
         //GameDataManager.instance.UpdateFunds();
         //GameDataManager.instance.UpdateItem();
@@ -174,5 +207,10 @@ public class Disassembly : MonoBehaviour
         EventManager.TriggerEvent(EventType.ItemUpdated, null);
 
         inventoryBase.InitializeInventory(null);
+    }
+    private int CalculateRewardAmount(RarityReward reward, int itemLevel)
+    {
+        int levelBonus = (itemLevel - 1) / reward.levelInterval;
+        return reward.baseRewardAmount + (levelBonus * reward.rewardAmountPerLevel);
     }
 }

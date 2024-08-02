@@ -78,7 +78,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
 
         if (modificator)
         {
-            var mod = this.item.modifier != null && this.item.modifier.id != MagicStat.None;
+            var mod = this.item.modifier != null ;
 
             modificator.SetActive(mod);
 

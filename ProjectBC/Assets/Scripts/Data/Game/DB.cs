@@ -3,8 +3,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using static UnityEditor.Progress;
+using static UnityEngine.Rendering.DebugUI;
 
 
 public class DB
@@ -100,6 +102,49 @@ public class DB
         public int StatValueMin3;
         public int StatValueMax3;
 
-        public List<Stat> Stats;
+        public List<Basic> BasicStats
+        {
+            get
+            {
+                var basicStats = new List<Basic>();
+
+                // 각 StatValueMin에 따라 Basic 객체 추가
+                if (StatValueMin1 > 0)
+                {
+                    basicStats.Add(new Basic
+                    {
+                        id = StatId1,
+                        value = UnityEngine.Random.Range(StatValueMin1, StatValueMax1),
+                        minValue = StatValueMin1,
+                        maxValue = StatValueMax1
+                    });
+                }
+
+                if (StatValueMin2 > 0)
+                {
+                    basicStats.Add(new Basic
+                    {
+                        id = StatId2,
+                        value = UnityEngine.Random.Range(StatValueMin2, StatValueMax2),
+                        minValue = StatValueMin2,
+                        maxValue = StatValueMax2
+                    });
+                }
+
+                if (StatValueMin3 > 0)
+                {
+                    basicStats.Add(new Basic
+                    {
+                        id = StatId3,
+                        value = UnityEngine.Random.Range(StatValueMin3, StatValueMax3),
+                        minValue = StatValueMin3,
+                        maxValue = StatValueMax3
+                    });
+                }
+
+                return basicStats;
+            }
+        }
+ 
     }
 }

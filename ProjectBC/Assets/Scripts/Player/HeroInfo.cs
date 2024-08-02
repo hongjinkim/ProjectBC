@@ -23,6 +23,7 @@ public class HeroInfo
     public int stamina;
 
     // 추가 스탯
+    public float energy;
     public int hp;
     public int attackDamage;
     public int defense;
@@ -31,6 +32,15 @@ public class HeroInfo
     public float healthRegen;
     public float energyRegen;
     public int attackRange;
+    public int expAmplification;
+    public int trueDamage;
+    public int damageBlock;
+    public int lifeSteal;
+    public int damageAmplification;
+    public int damageReduction;
+    public int criticalChance;
+    public int criticalDamage;
+    public int defensePenetration;
     public string spritePath;
     public List<Trait> traits = new List<Trait>();
     public List<PlayerSkill> skills = new List<PlayerSkill>();
@@ -41,28 +51,41 @@ public class HeroInfo
 
     public event Action OnExperienceChanged;
     public event Action OnLevelUp;
-    public HeroInfo(string name, HeroClass heroClass, CharacteristicType characteristicType, int id, string imagePath)
+    public HeroInfo(string name, HeroClass heroClass, int id, string imagePath)
     {
         this.id = id;
-        //this.image = image;
-        this.imagePath = imagePath; // 이미지 경로 저장
+        this.imagePath = imagePath;
         this.heroName = name;
         this.heroClass = heroClass;
-        this.characteristicType = characteristicType;
         this.level = 1;
         this.currentExp = 0;
         this.neededExp = 2;
-        // 기본 스탯 설정
-        this.strength = 10;
-        this.agility = 10;
-        this.intelligence = 10;
-        this.stamina = 10;
-        // 추가 스탯 계산
+
+        // 공통 기본 스탯 설정
+        this.energy = 0;
+        this.strength = 0;
+        this.agility = 0;
+        this.intelligence = 0;
+        this.stamina = 0;
         this.hp = 200;
         this.attackDamage = 10;
-        
-        // ... 기타 스탯 초기화
-    }
+        this.defense = 10;
+        this.magicResistance = 10;
+        //this.attackSpeed = 100;
+        this.healthRegen = 0;
+        this.energyRegen = 5;
+        this.expAmplification=0;
+        this.trueDamage = 0;
+        this.damageBlock = 0;
+        this.lifeSteal = 0;
+        this.damageAmplification = 0;
+        this.damageReduction = 0;
+        this.criticalChance = 0;
+        this.criticalDamage = 150;
+        this.defensePenetration = 0;
+        // attackRange와 characteristicType은 여기서 설정하지 않음
+   
+}
 
     // 이미지를 로드하는 메서드
     //public Sprite LoadImage()
@@ -84,38 +107,7 @@ public class HeroInfo
             return _sprite;
         }
     }
-    public HeroInfo(HeroInfo other)
-    {
-        this.id = other.id;
-        this.heroName = other.heroName;
-        this.level = other.level;
-        this.attackDamage = other.attackDamage;
-        this.agility = other.agility;
-        this.hp = other.hp;
-        this.spritePath = other.spritePath;
-        // ... 다른 속성들도 복사 ...
-    }
-    //public static HeroInfo CreateNewHero(string name, HeroClass heroClass, CharacteristicType characteristicType)
-    //{
-    //    return new HeroInfo
-    //    {
-    //        heroName = name,
-    //        heroClass = heroClass,
-    //        characteristicType = characteristicType,
-    //        level = 1,
-    //        currentExp = 0,
-    //        neededExp = 100,
-    //        // 기본 스탯 설정
-    //        strength = 10,
-    //        agility = 10,
-    //        intelligence = 10,
-    //        stamina = 10,
-    //        // 추가 스탯 계산
-    //        hp = 200,
-    //        attackDamage = 10,
-    //        // ... 기타 스탯 초기화
-    //    };
-    //}
+    
     private void InitializeBaseStats()
     {
         // 1레벨 히어로 기본 스탯 설정

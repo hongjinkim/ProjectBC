@@ -56,10 +56,10 @@ public class PlayerInfo
         // 게임 시작 시 기본 히어로 생성
         heroes = new List<HeroInfo>()
         {
-            new HeroInfo("Warrior", HeroClass.Knight, CharacteristicType.MuscularStrength, 1001, "Images/currency/Warrior"),
-            new HeroInfo("Wizard", HeroClass.Wizard, CharacteristicType.Intellect, 1002, "Images/currency/Wizard"),
-            new HeroInfo("Priest", HeroClass.Priest, CharacteristicType.Intellect, 1003, "Images/currency/Priest"),
-            new HeroInfo("Archer", HeroClass.Archer, CharacteristicType.Agility, 1004, "Images/currency/Archer")
+            new HeroInfo("Warrior", HeroClass.Knight, 1001, "Images/currency/Warrior"),
+            new HeroInfo("Wizard", HeroClass.Wizard,  1002, "Images/currency/Wizard"),
+            new HeroInfo("Priest", HeroClass.Priest,  1003, "Images/currency/Priest"),
+            new HeroInfo("Archer", HeroClass.Archer,  1004, "Images/currency/Archer")
         };
     }
     //public string HeroesToJson()

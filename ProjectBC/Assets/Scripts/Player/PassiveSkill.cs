@@ -23,5 +23,5 @@ public abstract class PassiveSkill
         return false;
     }
 
-    public abstract void ApplyEffect(PlayerStat playerStat);
+    //public abstract void ApplyEffect(PlayerStat playerStat);
 }
