@@ -45,7 +45,7 @@ public class GearBase : ItemWorkspace
         if (item != null)
         {
             int index = GameDataManager.instance.playerInfo.items.IndexOf(item);
-            ItemInfo.Initialize(SelectedItem, index);
+            ItemInfo.Initialize(item, index);
         }
         Refresh();
     }

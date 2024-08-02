@@ -20,6 +20,8 @@ public class Item
     public int Count;
     public int index;
 
+    public bool isLocked { get; set; }
+
     public Item()
     {
 

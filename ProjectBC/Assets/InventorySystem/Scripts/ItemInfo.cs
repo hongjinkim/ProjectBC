@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,9 +21,12 @@ public class ItemInfo : MonoBehaviour
     public List<TextMeshProUGUI> basicStats;
     public List<TextMeshProUGUI> magicStats;
 
+
     [Header("Lock")]
     [SerializeField] private Button lockButton;
     [SerializeField] private TextMeshProUGUI buttonText;
+
+    public Item currentItem { get; private set; }
 
     [Header("View")]
     public Button nextViewBtn;
@@ -58,6 +62,8 @@ public class ItemInfo : MonoBehaviour
 
     public virtual void Initialize(Item item, int index)
     {
+        currentItem = item;
+
         Item = item;
         this.currentIndex = index;
         if (item == null)
@@ -101,6 +107,8 @@ public class ItemInfo : MonoBehaviour
                 text.text = null;
             }
         }
+
+        UpdateButtonUI();
     }
 
     public void OnBackButtonClicked()
@@ -110,13 +118,19 @@ public class ItemInfo : MonoBehaviour
 
     private void ToggleItemLock()
     {
-        isLocked = !isLocked;
-        UpdateButtonUI();
-        Debug.Log($"Item is now {(isLocked ? "locked" : "unlocked")}");
+        if (currentItem != null)
+        {
+            currentItem.isLocked = !currentItem.isLocked;
+            UpdateButtonUI();
+            Debug.Log($"Item {currentItem.Params.Name} is now {(currentItem.isLocked ? "locked" : "unlocked")}");
+        }
     }
 
     private void UpdateButtonUI()
     {
-        buttonText.text = isLocked ? "Unlock" : "Lock";
+        if (currentItem != null)
+        {
+            buttonText.text = currentItem.isLocked ? "Unlock" : "Lock";
+        }
     }
 }
