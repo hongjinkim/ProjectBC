@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -5,6 +6,25 @@ using UnityEngine.UI;
 
 public class Disassembly : MonoBehaviour
 {
+    [Serializable]
+    public class RarityReward
+    {
+        public ItemRarity rarity;
+        public List<string> rewardItemIds;
+        public int baseRewardAmount = 1;
+        public int rewardAmountPerLevel = 1;
+        public int levelInterval = 10;
+    }
+
+    [SerializeField]
+    private List<RarityReward> rarityRewards = new List<RarityReward>
+    {
+        new RarityReward { rarity = ItemRarity.Common, rewardItemIds = new List<string> { "Material_Iron" }, baseRewardAmount = 1, rewardAmountPerLevel = 1, levelInterval = 10 },
+        new RarityReward { rarity = ItemRarity.Rare, rewardItemIds = new List<string> { "Material_Silver" }, baseRewardAmount = 1, rewardAmountPerLevel = 1, levelInterval = 10 },
+        new RarityReward { rarity = ItemRarity.Epic, rewardItemIds = new List<string> { "Material_Gold" }, baseRewardAmount = 1, rewardAmountPerLevel = 1, levelInterval = 10 },
+        new RarityReward { rarity = ItemRarity.Legendary, rewardItemIds = new List<string> { "Material_Iron", "Material_Silver", "Material_Gold" }, baseRewardAmount = 1, rewardAmountPerLevel = 1, levelInterval = 10 }
+    };
+
     public Button disassemblyButton;
     public TextMeshProUGUI disassemblyText;
     public InventoryBase inventoryBase;
@@ -131,45 +151,62 @@ public class Disassembly : MonoBehaviour
     public void DisassemblyReward()
     {
         int totalGold = 0;
-        int disassembledCount = 0;
-        string rewardItemId = "Material_Iron"; // 지급할 아이템의 ID
+        Dictionary<string, int> rewardItems = new Dictionary<string, int>();
 
         foreach (Item item in selectedItems)
         {
             totalGold += item.Params.Price;
-            disassembledCount++;
+
+            RarityReward reward = rarityRewards.Find(r => r.rarity == item.Params.Rarity);
+            if (reward != null)
+            {
+                int rewardAmount = CalculateRewardAmount(reward, item.Params.Level);
+                foreach (string rewardItemId in reward.rewardItemIds)
+                {
+                    if (!rewardItems.ContainsKey(rewardItemId))
+                        rewardItems[rewardItemId] = 0;
+                    rewardItems[rewardItemId] += rewardAmount;
+                }
+            }
         }
 
         // 골드 지급
         GameDataManager.instance.playerInfo.gold += totalGold;
 
-        // 특정 아이템 지급 (던전에서의 아이템 획득 로직과 유사)
+        // 아이템 지급
         var inventory = GameDataManager.instance.playerInfo.items;
-        bool itemExists = false;
-
-        foreach (Item item in inventory)
+        foreach (var rewardItem in rewardItems)
         {
-            if (item.Params.Id == rewardItemId)
+            bool itemExists = false;
+            foreach (Item item in inventory)
             {
-                item.Count += disassembledCount;
-                itemExists = true;
-                break;
+                if (item.Params.Id == rewardItem.Key)
+                {
+                    item.Count += rewardItem.Value;
+                    itemExists = true;
+                    break;
+                }
             }
-        }
 
-        if (!itemExists)
-        {
-            Item newItem = new Item(rewardItemId);
-            newItem.Count = disassembledCount;
-            inventory.Add(newItem);
+            if (!itemExists)
+            {
+                Item newItem = new Item(rewardItem.Key);
+                newItem.Count = rewardItem.Value;
+                inventory.Add(newItem);
+            }
+
+            Debug.Log($"Gained {rewardItem.Value} of reward item (ID: {rewardItem.Key})");
         }
 
         Debug.Log($"Gained {totalGold} gold from disassembly");
-        Debug.Log($"Gained {disassembledCount} of reward item (ID: {rewardItemId})");
 
         GameDataManager.instance.UpdateFunds();
         GameDataManager.instance.UpdateItem();
-
         inventoryBase.InitializeInventory();
+    }
+    private int CalculateRewardAmount(RarityReward reward, int itemLevel)
+    {
+        int levelBonus = (itemLevel - 1) / reward.levelInterval;
+        return reward.baseRewardAmount + (levelBonus * reward.rewardAmountPerLevel);
     }
 }

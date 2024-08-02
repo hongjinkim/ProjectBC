@@ -129,7 +129,6 @@ public enum ItemType
 }
 public enum MagicStat
 {
-    None = 0,
     AttackPower = 1,
     Strength = 2,
     Agillity = 3,
