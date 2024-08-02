@@ -400,8 +400,8 @@ public class Dungeon : MonoBehaviour
 
             for(int i = 0; i < item.Stat.basic.Count; i++)
             {
-                item.MaxLuckyPoint += item.Stat.basic[i].maxValue;
                 item.LuckyPoint += item.Stat.basic[i].value - item.Stat.basic[i].minValue;
+                item.LuckyPercent += item.LuckyPoint*100 / item.Stat.basic[i].maxValue / item.Stat.basic.Count;
             }
 
             var rarity = item.Params.Rarity;

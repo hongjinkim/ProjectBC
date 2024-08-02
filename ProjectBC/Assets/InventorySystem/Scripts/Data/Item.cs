@@ -13,9 +13,8 @@ public class Item
     public Modifier modifier;
 
     public Stat Stat;
-    public int MaxLuckyPoint;
+    public int LuckyPercent = 0;
     public int LuckyPoint = 0;
-    public float LuckyPercent => LuckyPoint / MaxLuckyPoint * 100;
 
     public int Count;
     public int index;
