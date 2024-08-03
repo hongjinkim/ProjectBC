@@ -57,37 +57,40 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     [Header("Infos")]
     public HeroInfo info;
-    public float maxHealth;
-    public float currentHealth;
+    public int maxHealth => info != null ? info.hp : 100;
+    public int currentHealth;
     public float moveSpeed;
-    public float attackDamage;
+    public int attackDamage=>info.attackDamage;
     public float attackSpeed;
-    public int attackRange;
+    public int attackRange => info.attackRange;
     public float findRange;
-
+    public int level;
+    public float currentExp;
+    public float needexp;
     public float findTimer;
     public float attackTimer;
-    // 새로 추가된 변수들
-    public float energy;
-    public float strength;
-    public float agility;
-    public float intelligence;
-    public float stamina;
-    public float defense;
-    public float magicResistance;
-    public float healthRegen;
-    public float energyRegen;
-    public float expAmplification;
-    public float trueDamage;
-    public float damageBlock;
-    public float lifeSteal;
-    public float damageAmplification;
-    public float damageReduction;
-    public float criticalChance;
-    public float criticalDamage;
-    public float defensePenetration;
 
-   
+    // 새로 추가된 변수들
+    //public float energy;
+    //public int strength;
+    //public int agility;
+    //public int intelligence;
+    //public int stamina;
+    //public int defense;
+    //public int magicResistance;
+    //public float healthRegen;
+    //public float energyRegen;
+    //public int expAmplification;
+    //public int trueDamage;
+    //public int damageBlock;
+    //public int lifeSteal;
+    //public int damageAmplification;
+    //public int damageReduction;
+    //public int criticalChance;
+    //public int criticalDamage;
+    //public int defensePenetration;
+
+
 
     [Header("DieEffect")]
     public GameObject fadeObject;
@@ -111,8 +114,7 @@ public abstract class Character : MonoBehaviour, IBehavior
     // private const float PositionToleranceSquared = PositionTolerance * PositionTolerance;
 
     public Sprite Icon { get; protected set; }
-    public float currentExp;
-    public float needexp;
+    
     public int Level { get; protected set; }
     public List<Trait> Traits { get; protected set; } = new List<Trait>();
     public TraitType SelectedTraitType { get; protected set; }
@@ -131,6 +133,7 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     protected virtual void Start()
     {
+
         //playerStat = GetComponent<PlayerStat>();
         //if (playerStat == null)
         //{
@@ -145,6 +148,10 @@ public abstract class Character : MonoBehaviour, IBehavior
         //transform.position = customTilemapManager.GetNearestValidPosition(transform.position);
         //StartCoroutine(AutoMoveCoroutine());
 
+        InitializeHealth();
+    }
+    protected virtual void InitializeHealth()
+    {
         currentHealth = maxHealth;
     }
 
@@ -197,7 +204,7 @@ public abstract class Character : MonoBehaviour, IBehavior
         if (target != null)
         {
             target.attacker = this;
-            target.currentHealth -= _damage;
+            target.currentHealth -= (int)_damage;
             InstantiateDmgTxtObj(_damage);
         }
     }

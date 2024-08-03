@@ -28,7 +28,7 @@ public class Priest : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     }
     public override void IncreaseCharacteristic(float amount)
     {
-        IncreaseIntelligence(amount * 2);
+        //IncreaseIntelligence(amount * 2);
     }
     protected override void OnAnimAttack()
     {

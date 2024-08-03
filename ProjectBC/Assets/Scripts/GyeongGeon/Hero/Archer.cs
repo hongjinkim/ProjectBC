@@ -10,6 +10,15 @@ public class Archer : Hero
         info.attackRange = 4;
     }
 
+    //private void Update()
+    //{
+    //    if (info.energy >= 100)
+    //    {
+    //        info.energy = 0;
+    //        UseSkill();
+    //        // 스킬 사용 로직...
+    //    }
+    //}
     protected override void OnAnimAttack()
     {
 		animator.SetTrigger("ShotBow");
@@ -17,16 +26,12 @@ public class Archer : Hero
     }
     public override void IncreaseCharacteristic(float amount)
     {
-        IncreaseAgility(amount * 2);
+        //IncreaseAgility(amount * 2);
     }
 
     // Archer 특유의 메서드 추가
     public void UseSkill()
     {
-        if (info.energy >= 100)
-        {
-            info.energy = 0;
-            // 스킬 사용 로직...
-        }
+        
     }
 }

@@ -36,7 +36,7 @@ public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     }
     public override void IncreaseCharacteristic(float amount)
     {
-        IncreaseStrength(amount * 3);
+        //IncreaseStrength(amount * 3);
     }
     protected override void OnAnimAttack()
     {

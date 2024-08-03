@@ -14,6 +14,7 @@ public class HeroPage : HeroScreen
 
     [Header("current  hero info")]
     [SerializeField] private HeroInfo _info;
+    private Hero _currentHero;
     public int _idx;
 
     [Header("Images")]

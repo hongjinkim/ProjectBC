@@ -28,7 +28,7 @@ public class Wizard : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     }
     public override void IncreaseCharacteristic(float amount)
     {
-        IncreaseIntelligence(amount * 2);
+        //IncreaseIntelligence(amount * 2);
     }
     public void UseSkill()
     {
