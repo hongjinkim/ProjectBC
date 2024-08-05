@@ -21,7 +21,7 @@ public class Item
 
 
     public bool isLocked;
-
+    public bool isSelected { get; set; }
 
     public Item()
     {

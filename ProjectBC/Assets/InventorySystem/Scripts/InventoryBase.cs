@@ -163,6 +163,7 @@ public class InventoryBase : ItemWorkspace
         SelectedItem = item;
         if (item != null)
         {
+            SelectedItem.isSelected = true;
             int index = GameDataManager.instance.playerInfo.items.IndexOf(item);
             ItemInfo.Initialize(SelectedItem, index);
         }
