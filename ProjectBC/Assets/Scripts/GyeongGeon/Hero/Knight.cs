@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.TextCore.Text;
 
 public enum HeroClass
 {
@@ -25,6 +26,24 @@ public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         lineRenderer.startColor = Color.yellow;
         lineRenderer.endColor = Color.yellow;
+    }
+
+    private void OnEnable()
+    {
+        InstantFadeIn();
+    }
+
+
+    private void OnDisable()
+    {
+        // 비활성화 시 즉시 일정량 회복
+        currentHealth += 20f;
+        currentHealth = Mathf.Min(currentHealth, maxHealth);
+
+        if (_unitState == Character.UnitState.death)
+        {
+            Revive();
+        }
     }
 
     protected override void Start() 
