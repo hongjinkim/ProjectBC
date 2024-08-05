@@ -130,16 +130,48 @@ public class Disassembly : MonoBehaviour
         }
     }
 
+    //public void ItemDisassembly()
+    //{
+    //    List<Item> itemsToRemove = new List<Item>(selectedItems);
+
+    //    foreach (Item item in itemsToRemove)
+    //    {
+    //        GameDataManager.instance.playerInfo.items.Remove(item);
+
+    //    }
+    //    DisassemblyReward();
+
+    //    selectedItems.Clear();
+    //    UpdateUI();
+    //    GameDataManager.instance.UpdateItem();
+
+    //    inventoryBase.InitializeInventory();
+    //}
     public void ItemDisassembly()
     {
-        List<Item> itemsToRemove = new List<Item>(selectedItems);
+        List<Item> itemsToDisassemble = new List<Item>();
+        int excludedCount = 0;
 
-        foreach (Item item in itemsToRemove)
+        foreach (Item item in selectedItems)
+        {
+            if (!item.isLocked)
+            {
+                itemsToDisassemble.Add(item);
+            }
+            else
+            {
+                excludedCount++;
+            }
+        }
+
+        foreach (Item item in itemsToDisassemble)
         {
             GameDataManager.instance.playerInfo.items.Remove(item);
-      
         }
-        DisassemblyReward();
+
+        DisassemblyReward(itemsToDisassemble);
+
+        Debug.Log($"Disassembled {itemsToDisassemble.Count} items. {excludedCount} locked items were excluded.");
 
         selectedItems.Clear();
         UpdateUI();
@@ -148,7 +180,7 @@ public class Disassembly : MonoBehaviour
         inventoryBase.InitializeInventory();
     }
 
-    public void DisassemblyReward()
+    public void DisassemblyReward(List<Item> disassembledItems)
     {
         int totalGold = 0;
         Dictionary<string, int> rewardItems = new Dictionary<string, int>();
