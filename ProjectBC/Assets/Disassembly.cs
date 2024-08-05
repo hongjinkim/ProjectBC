@@ -169,7 +169,7 @@ public class Disassembly : MonoBehaviour
             GameDataManager.instance.playerInfo.items.Remove(item);
         }
 
-        DisassemblyReward(itemsToDisassemble);
+        DisassemblyReward(itemsToDisassemble);  // itemsToDisassemble 리스트 전달
 
         Debug.Log($"Disassembled {itemsToDisassemble.Count} items. {excludedCount} locked items were excluded.");
 
@@ -185,7 +185,7 @@ public class Disassembly : MonoBehaviour
         int totalGold = 0;
         Dictionary<string, int> rewardItems = new Dictionary<string, int>();
 
-        foreach (Item item in selectedItems)
+        foreach (Item item in disassembledItems)  // selectedItems 대신 disassembledItems 사용
         {
             totalGold += item.Params.Price;
 
