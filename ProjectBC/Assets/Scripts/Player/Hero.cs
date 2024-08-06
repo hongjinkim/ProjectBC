@@ -6,22 +6,32 @@ public class Hero : Character
 {
     private const float MAX_ENERGY = 100f;
 
+    private const float REGEN_INTERVAL = 1f;
+    private const float REGEN_PERCENT = 0.05f;
+    private bool isRegenerating = false;
+
     protected virtual void OnEnable()
     {
         InstantFadeIn();
+        if (isRegenerating)
+        {
+            CancelInvoke("RegenerateHealth");
+            isRegenerating = false;
+        }
     }
 
 
     protected virtual void OnDisable()
     {
-        // 비활성화 시 즉시 일정량 회복
-        currentHealth += 50f;
-        currentHealth = Mathf.Min(currentHealth, maxHealth);
+        if (!isRegenerating)
+        {
+            isRegenerating = true;
+            InvokeRepeating("RegenerateHealth", 0f, REGEN_INTERVAL);
+        }
 
         if (_unitState == Character.UnitState.death)
         {
             Revive();
-
         }
     }
 
@@ -131,5 +141,18 @@ public class Hero : Character
         info.stamina += (int)amount;
         info.hp += (int)(10f * amount);
         SetStat();
+    }
+
+    private void RegenerateHealth()
+    {
+        if (!gameObject.activeInHierarchy && currentHealth < maxHealth)
+        {
+            currentHealth = Mathf.Min(currentHealth + (maxHealth * REGEN_PERCENT), maxHealth);
+            if (currentHealth >= maxHealth)
+            {
+                CancelInvoke("RegenerateHealth");
+                isRegenerating = false;
+            }
+        }
     }
 }
