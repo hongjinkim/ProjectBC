@@ -54,6 +54,8 @@ public abstract class Character : MonoBehaviour, IBehavior
     public AttackType attackType;
     public CharacterDirection characterDirection;
 
+
+
     public Character attacker;
 
     [Header("Infos")]
@@ -274,6 +276,7 @@ public abstract class Character : MonoBehaviour, IBehavior
         //gameObject.SetActive(false);
         InitFadeEffect();
         StartCoroutine(FadeOut());
+
     }
     private void ApplyHealthRegen()
     {
@@ -970,5 +973,39 @@ public abstract class Character : MonoBehaviour, IBehavior
             // 필요하다면 이펙트 지속 시간 후 삭제
             Destroy(effectInstance, 1f); // 1초 후 삭제 (원하는 시간으로 조정 가능)
         }
+    }
+
+    public virtual void InstantFadeIn()
+    {
+        // 모든 스프라이트 렌더러의 알파 값을 1로 설정
+        foreach (var renderer in spriteRenderers)
+        {
+            Color color = renderer.color;
+            color.a = 1f;
+            renderer.color = color;
+        }
+
+        // 모든 파츠를 활성화
+        foreach (var part in Parts)
+        {
+            part.SetActive(true);
+        }
+
+        // fadeObject를 활성화
+        if (fadeObject != null)
+        {
+            fadeObject.SetActive(true);
+        }
+    }
+    public virtual void Revive()
+    {
+        // 상태를 Idle로 변경
+        SetState(UnitState.idle);
+
+        foreach (var part in Parts)
+        {
+            part.SetActive(true);
+        }
+
     }
 }

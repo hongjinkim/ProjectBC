@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using static Character;
 
 public class BattleDeckSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler
 {

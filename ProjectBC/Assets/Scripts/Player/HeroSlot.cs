@@ -52,7 +52,6 @@ public class HeroSlot : MonoBehaviour
                 heroImage.gameObject.SetActive(false);
             }
 
-            Debug.Log($"Setting hero data in slot {index}: {heroName}, ID: {heroId}, Level: {level}, ATK: {attackDamage}, AGI: {agility}, HP: {hp}");
             gameObject.SetActive(true);
         }
         else
@@ -73,7 +72,6 @@ public class HeroSlot : MonoBehaviour
         hp = 0;
         heroImage.sprite = null;
         heroImage.gameObject.SetActive(false);
-        Debug.Log($"Clearing slot");
         gameObject.SetActive(false);
     }
 
