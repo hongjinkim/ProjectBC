@@ -6,6 +6,25 @@ public class Hero : Character
 {
     private const float MAX_ENERGY = 100f;
 
+    protected virtual void OnEnable()
+    {
+        InstantFadeIn();
+    }
+
+
+    protected virtual void OnDisable()
+    {
+        // 비활성화 시 즉시 일정량 회복
+        currentHealth += 50f;
+        currentHealth = Mathf.Min(currentHealth, maxHealth);
+
+        if (_unitState == Character.UnitState.death)
+        {
+            Revive();
+
+        }
+    }
+
     protected override void Start()
     {
         base.Start();
