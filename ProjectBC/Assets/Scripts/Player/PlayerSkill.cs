@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class PlayerSkill : MonoBehaviour
+public abstract class PlayerSkill
 {
 
 
@@ -36,13 +36,6 @@ public class PlayerSkill : MonoBehaviour
         }
     }
 
-    public int GetDamage(int attackDamage)
-    {
-        if (Level > 0 && Level <= MaxLevel)
-        {
-            return BaseDamage[Level - 1] + (int)(attackDamage * Coefficients[Level - 1]);
-        }
-        return 0;
-    }
+    public abstract void UseSkill(Hero caster);
 }
 

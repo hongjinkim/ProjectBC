@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
         Level = 1;
         needexp = 100; // 초기 필요 경험치 설정
         Traits = new List<Trait>();
-        ActiveSkill = new PlayerSkill("기본 스킬", "기본 설명", 5, new int[] { 10, 20, 30, 40, 50 }, new float[] { 1.1f, 1.2f, 1.3f, 1.4f, 1.5f });
+        //ActiveSkill = new PlayerSkill("기본 스킬", "기본 설명", 5, new int[] { 10, 20, 30, 40, 50 }, new float[] { 1.1f, 1.2f, 1.3f, 1.4f, 1.5f });
         InitializeSkillBook();
         LoadIcon();
 

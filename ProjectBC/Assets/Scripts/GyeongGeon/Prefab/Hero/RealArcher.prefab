@@ -13822,6 +13822,7 @@ MonoBehaviour:
     agility: 0
     intelligence: 0
     stamina: 0
+    energy: 0
     hp: 0
     attackDamage: 0
     defense: 0
@@ -13830,25 +13831,30 @@ MonoBehaviour:
     healthRegen: 0
     energyRegen: 0
     attackRange: 0
+    expAmplification: 0
+    trueDamage: 0
+    damageBlock: 0
+    lifeSteal: 0
+    damageAmplification: 0
+    damageReduction: 0
+    criticalChance: 0
+    criticalDamage: 0
+    defensePenetration: 0
     spritePath: 
     traits: []
-    skills: []
-    activeSkill: {fileID: 0}
     heroPage: {fileID: 0}
-  maxHealth: 1000
   currentHealth: 0
   moveSpeed: 1
-  attackDamage: 10
   attackSpeed: 1
-  attackRange: 2
   findRange: 1000
+  level: 0
+  currentExp: 0
+  needexp: 0
   findTimer: 0
   attackTimer: 0
   fadeObject: {fileID: 8340941735757190716}
   spriteRenderers: []
   fadeDuration: 2
-  currentExp: 0
-  needexp: 0
   autoMove: 0
   attackEffectPrefab: {fileID: 5880797563127281583, guid: 265d3a5ba69981a4698ceabcedf368b0, type: 3}
   _heroClass: 1

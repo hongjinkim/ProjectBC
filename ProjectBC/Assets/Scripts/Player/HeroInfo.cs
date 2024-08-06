@@ -68,21 +68,21 @@ public class HeroInfo
         this.intelligence = 0;
         this.stamina = 0;
         this.hp = 200;
-        this.attackDamage = 10;
-        this.defense = 10;
-        this.magicResistance = 10;
-        //this.attackSpeed = 100;
-        this.healthRegen = 0;
-        this.energyRegen = 5;
-        this.expAmplification = 0;
-        this.trueDamage = 0;
-        this.damageBlock = 0;
-        this.lifeSteal = 0;
-        this.damageAmplification = 0;
-        this.damageReduction = 0;
-        this.criticalChance = 0;
-        this.criticalDamage = 150;
-        this.defensePenetration = 0;
+        this.attackDamage = 10;//공격피해
+        this.defense = 10;//방어
+        this.magicResistance = 10;//마법 저항
+        //this.attackSpeed = 100;//공격속도
+        this.healthRegen = 0;//체력재생
+        this.energyRegen = 5;//에너지재생
+        this.expAmplification = 0;//경험치증폭
+        this.trueDamage = 0;//고정피해
+        this.damageBlock = 0;//데미지블록 일단 보류
+        this.lifeSteal = 0;//생명흡수
+        this.damageAmplification = 0;//피해증폭
+        this.damageReduction = 0;//피해감소
+        this.criticalChance = 0;//크리티컬확률
+        this.criticalDamage = 150;//크리티컬데미지
+        this.defensePenetration = 0;//방어관통
         // attackRange와 characteristicType은 여기서 설정하지 않음
     }
 
@@ -159,8 +159,8 @@ public class HeroInfo
         {
             return;
         }
-        
-        currentExp = Mathf.Min(currentExp + exp, neededExp);
+        float amplifiedExp = exp * (1 + (expAmplification / 100f));
+        currentExp = Mathf.Min(currentExp + amplifiedExp, neededExp);
 
         OnExperienceChanged?.Invoke();
 

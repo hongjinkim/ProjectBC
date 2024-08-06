@@ -8,7 +8,7 @@ public class Wizard : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     private LineRenderer lineRenderer;
     public bool isSelected = false;
     private List<Vector3> previewPath;
-
+    public ScorchedEarth scorchedEarth;
     private void Awake() 
     {
         lineRenderer = gameObject.AddComponent<LineRenderer>();
@@ -25,17 +25,26 @@ public class Wizard : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
         _heroClass = HeroClass.Priest;
         info.characteristicType = CharacteristicType.Intellect;
         info.attackRange = 4;
+
+        scorchedEarth = new ScorchedEarth();
+        info.skills.Add(scorchedEarth);
+        info.activeSkill = scorchedEarth;
     }
-    public override void IncreaseCharacteristic(float amount)
+    protected override void Update()
     {
-        //IncreaseIntelligence(amount * 2);
+        base.Update();
+        CheckAndUseSkill();
+        
     }
-    public void UseSkill()
+    protected override void UseSkill()
     {
-        if (info.energy >= 100)
+        Debug.Log($"Wizard UseSkill method called. Current Energy: {Energy}");
+
+        if (Energy >= 100 && info.activeSkill != null)
         {
-            info.energy = 0;
-            // ��ų ��� ����...
+            Debug.Log($"Wizard energy is full, using {info.activeSkill.Name}");
+            info.activeSkill.UseSkill(this);
+            Energy = 0;  // 스킬 사용 후 에너지 리셋
         }
     }
     protected override void OnAnimAttack()

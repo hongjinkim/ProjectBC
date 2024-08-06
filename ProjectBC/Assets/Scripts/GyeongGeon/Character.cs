@@ -2,9 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Pool;
-
+using Random = UnityEngine.Random;
 public abstract class Character : MonoBehaviour, IBehavior
 {
     public enum UnitState
@@ -57,12 +58,12 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     [Header("Infos")]
     public HeroInfo info;
-    public int maxHealth => info != null ? info.hp : 100;
+    public int maxHealth => info?.hp ?? 100;
     public int currentHealth;
-    public float moveSpeed;
-    public int attackDamage=>info.attackDamage;
+    public float moveSpeed=1;
+    public int attackDamage => info?.attackDamage ?? 1;
     public float attackSpeed;
-    public int attackRange => info.attackRange;
+    public int attackRange => info?.attackRange ?? 1;
     public float findRange;
     public int level;
     public float currentExp;
@@ -71,24 +72,21 @@ public abstract class Character : MonoBehaviour, IBehavior
     public float attackTimer;
 
     // 새로 추가된 변수들
-    //public float energy;
-    //public int strength;
-    //public int agility;
-    //public int intelligence;
-    //public int stamina;
-    //public int defense;
-    //public int magicResistance;
-    //public float healthRegen;
-    //public float energyRegen;
-    //public int expAmplification;
-    //public int trueDamage;
-    //public int damageBlock;
-    //public int lifeSteal;
-    //public int damageAmplification;
-    //public int damageReduction;
-    //public int criticalChance;
-    //public int criticalDamage;
-    //public int defensePenetration;
+
+
+    public int defense => info?.defense ?? 10;
+    public int magicResistance=>info?.magicResistance ?? 10;
+    public float healthRegen=>info?.healthRegen ?? 0;
+    public float energyRegen=>info?.energyRegen ?? 5;
+    public int expAmplification=>info?.expAmplification??0;
+    public int trueDamage=>info?.trueDamage??0;
+    public int damageBlock => info?.damageBlock ?? 0;
+    public int lifeSteal => info?.lifeSteal ?? 0;
+    public int damageAmplification => info?.damageAmplification ?? 0;
+    public int damageReduction => info?.damageReduction ?? 0;
+    public int criticalChance => info?.criticalChance ?? 0;
+    public int criticalDamage => info?.criticalDamage ?? 150;
+    public int defensePenetration => info?.defensePenetration ?? 0;
 
 
 
@@ -125,7 +123,8 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     public bool autoMove;
     public GameObject attackEffectPrefab;
-
+    private float healthRegenTimer = 0f;
+    private const float HEALTH_REGEN_INTERVAL = 1f; // 1초마다 HP 회복
 
     // 기존 Character 메서드와 Player에서 가져온 메서드 통합
     protected virtual void InitializeSkillBook() { }
@@ -158,8 +157,8 @@ public abstract class Character : MonoBehaviour, IBehavior
     protected void Update()
     {
         CheckState();
-
-        if(currentHealth <= 0 && _unitState != UnitState.death)
+        ApplyHealthRegen();
+        if (currentHealth <= 0 && _unitState != UnitState.death)
         {
             SetState(UnitState.death);
             Die();
@@ -199,16 +198,66 @@ public abstract class Character : MonoBehaviour, IBehavior
         }
     }
 
-    public void TakeDamage(Character target, float _damage)
+    public virtual void TakeDamage(Character attacker, float damage)
     {
-        if (target != null)
+        if (this is Hero && attacker is Hero) return;
+
+        if (this != null)
         {
-            target.attacker = this;
-            target.currentHealth -= (int)_damage;
-            InstantiateDmgTxtObj(_damage);
+            this.attacker = attacker;
+
+            // 크리티컬 히트 계산
+            bool isCritical = attacker.RollForCritical();
+            float criticalMultiplier = isCritical ? attacker.criticalDamage / 100f : 1f;
+            float criticalDamage = damage * criticalMultiplier;
+
+            // 데미지 증폭 적용
+            float amplifiedDamage = attacker.AmplifyDamage(criticalDamage);
+
+            // 기존 데미지 감소 로직 적용
+            float reducedDamage = CalculateReducedDamage(amplifiedDamage);
+
+            // trueDamage 추가
+            float totalDamage = reducedDamage + attacker.trueDamage;
+
+            this.currentHealth -= (int)totalDamage;
+
+            // 총 데미지를 하나의 텍스트로 표시 (크리티컬 시 다른 색상으로)
+            attacker.InstantiateDmgTxtObj(totalDamage, this.transform.position, isCritical);
+
+            // Life Steal 적용
+            attacker.ApplyLifeSteal(totalDamage);
+
+            
         }
     }
+    private bool RollForCritical()
+    {
+        
+        return Random.Range(0, 100) < criticalChance;
+    }
+    private float AmplifyDamage(float originalDamage)
+    {
+        float amplificationMultiplier = 1 + (damageAmplification / 100f);
+        return originalDamage * amplificationMultiplier;
+    }
+    private void ApplyLifeSteal(float damageDealt)
+    {
+        if (lifeSteal > 0)
+        {
+            float healAmount = damageDealt * (lifeSteal / 100f);
+            int healedHealth = (int)healAmount;
+            currentHealth = Mathf.Min(currentHealth + healedHealth, maxHealth);
 
+            Debug.Log($"{name} healed for {healedHealth} HP from Life Steal. Current health: {currentHealth}");
+        }
+    }
+    private float CalculateReducedDamage(float originalDamage)
+    {
+        float damageReductionPercentage = damageReduction / 100f; // damageReduction을 백분율로 변환
+        float reducedDamage = originalDamage * (1 - damageReductionPercentage);
+        return Mathf.Max(reducedDamage, 0); // 데미지가 음수가 되지 않도록 보장
+    }
     public virtual void Die()
     {
         // switch (gameObject.tag)
@@ -226,7 +275,16 @@ public abstract class Character : MonoBehaviour, IBehavior
         InitFadeEffect();
         StartCoroutine(FadeOut());
     }
-    
+    private void ApplyHealthRegen()
+    {
+        healthRegenTimer += Time.deltaTime;
+        if (healthRegenTimer >= HEALTH_REGEN_INTERVAL)
+        {
+            float regenAmount = healthRegen * HEALTH_REGEN_INTERVAL;
+            currentHealth = Mathf.Min(currentHealth + (int)regenAmount, maxHealth);
+            healthRegenTimer = 0f;
+        }
+    }
 
     public bool Alive()
     {
@@ -495,7 +553,7 @@ public abstract class Character : MonoBehaviour, IBehavior
         {
             CreateAttackEffect(_target.transform.position);
         }
-        TakeDamage(_target, attackDamage);
+        _target.TakeDamage(this, attackDamage);
     }
     IEnumerator CreateProjectileHitEffect(GameObject projectile, Vector3 targetPosition)
     {
@@ -512,15 +570,23 @@ public abstract class Character : MonoBehaviour, IBehavior
          if (projectile != null) Destroy(projectile);
     }
 
-    void InstantiateDmgTxtObj(float damage)
+    protected virtual void InstantiateDmgTxtObj(float damage, Vector3 targetPosition, bool isCritical)
     {
-        //if (_target == null) return;
+        if (GameManager.Instance.dungeonManager.canvas == null) return;
 
         GameObject DamageTxtObj = Instantiate(PrefabDmgTxt, GameManager.Instance.dungeonManager.canvas.transform);
-        DamageTxtObj.GetComponent<TextMeshProUGUI>().text = damage.ToString();
+        TextMeshProUGUI damageText = DamageTxtObj.GetComponent<TextMeshProUGUI>();
+        damageText.text = Mathf.Round(damage).ToString();
 
-        Vector3 damagetxtPos = Camera.main.WorldToScreenPoint(new Vector3(_target.transform.position.x, _target.transform.position.y + height, 0));
-        DamageTxtObj.GetComponent<RectTransform>().position = damagetxtPos;
+        // 크리티컬 히트일 경우 텍스트 색상 변경 및 크기 증가
+        if (isCritical)
+        {
+            damageText.color = Color.red;
+            damageText.fontSize *= 1.5f;
+        }
+
+        Vector3 damageTxtPos = Camera.main.WorldToScreenPoint(new Vector3(targetPosition.x, targetPosition.y + height, 0));
+        DamageTxtObj.GetComponent<RectTransform>().position = damageTxtPos;
     }
 
     public bool IsAction

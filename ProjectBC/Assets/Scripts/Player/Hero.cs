@@ -1,18 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class Hero : Character
 {
     private const float MAX_ENERGY = 100f;
-
     protected override void Start()
     {
         base.Start();
         //SetStat();
         StartCoroutine(RegenerateEnergy());
     }
-
+    protected virtual void Update()
+    {
+        base.Update();
+        CheckAndUseSkill();
+    }
     private IEnumerator RegenerateEnergy()
     {
         while (true)
@@ -21,10 +23,10 @@ public class Hero : Character
             if (info != null)
             {
                 info.energy = Mathf.Min(info.energy + info.energyRegen, MAX_ENERGY);
+                
             }
         }
     }
-
     public float Energy
     {
         get { return info != null ? info.energy : 0; }
@@ -36,39 +38,27 @@ public class Hero : Character
             }
         }
     }
-    //public void SetStat()
-    //{
-    //    if(info != null)
-    //    {
-    //        level = info.level;
-    //        maxHealth = info.hp;
-    //        currentHealth = maxHealth;
-    //        attackDamage = info.attackDamage;
-    //        //attackSpeed = info.attackSpeed;
-    //        currentExp= info.currentExp;
-    //        needexp = info.neededExp;
-
-    //        // 새로 추가된 스탯들
-    //        energy = info.energy;
-    //        strength = info.strength;
-    //        agility = info.agility;
-    //        intelligence = info.intelligence;
-    //        stamina = info.stamina;
-    //        defense = info.defense;
-    //        magicResistance = info.magicResistance;
-    //        healthRegen = info.healthRegen;
-    //        energyRegen = info.energyRegen;
-    //        expAmplification = info.expAmplification;
-    //        trueDamage = info.trueDamage;
-    //        damageBlock = info.damageBlock;
-    //        lifeSteal = info.lifeSteal;
-    //        damageAmplification = info.damageAmplification;
-    //        damageReduction = info.damageReduction;
-    //        criticalChance = info.criticalChance;
-    //        criticalDamage = info.criticalDamage;
-    //        defensePenetration = info.defensePenetration;
-
-    //    }
-    //}
-    
+    protected virtual void UseSkill()
+    {
+        if (Energy >= 100)
+        {
+            
+            // 실제 스킬 사용 로직은 하위 클래스에서 구현
+            //Energy = 0;
+        }
+        else
+        {
+            
+        }
+    }
+    protected virtual void ApplyPassiveSkill1() { }
+    protected virtual void ApplyPassiveSkill2() { }
+    protected virtual void ApplyPassiveSkill3() { }
+    protected void CheckAndUseSkill()
+    {
+        if (info.energy >= 100)
+        {
+            UseSkill();
+        }
+    }
 }
