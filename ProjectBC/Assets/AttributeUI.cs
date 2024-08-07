@@ -37,8 +37,8 @@ public class AttributeUI : MonoBehaviour
     {
         property1Button.onClick.AddListener(() => LevelUp("HP"));
         property2Button.onClick.AddListener(() => LevelUp("Strength"));
-        property3Button.onClick.AddListener(() => LevelUp("Agility"));
-        property4Button.onClick.AddListener(() => LevelUp("Intelligence"));
+        property3Button.onClick.AddListener(() => LevelUp("Deffense"));
+        property4Button.onClick.AddListener(() => LevelUp("MasicResistance"));
     }
 
     private void OnEnable()
@@ -77,7 +77,7 @@ public class AttributeUI : MonoBehaviour
 
         UpdatePropertyDisplay("HP", property1Gold, property1Exp, property1Level, currentHero.hpLevel, currentHero.hp);
         UpdatePropertyDisplay("Strength", property2Gold, property2Exp, property2Level, currentHero.strengthLevel, currentHero.attackDamage);
-        UpdatePropertyDisplay("Deffense", property3Gold, property3Exp, property3Level, currentHero.deffenseLevel, currentHero.defense);
+        UpdatePropertyDisplay("Deffense", property3Gold, property3Exp, property3Level, currentHero.defenseLevel, currentHero.defense);
         UpdatePropertyDisplay("MasicResistance", property4Gold, property4Exp, property4Level, currentHero.masicResistanceLevel, currentHero.magicResistance);
     }
 
@@ -123,7 +123,7 @@ public class AttributeUI : MonoBehaviour
                     currentHero.attackDamage += 2;
                     break;
                 case "Deffense":
-                    currentHero.deffenseLevel++;
+                    currentHero.defenseLevel++;
                     currentHero.defense += 1;
                     break;
                 case "MasicResistance":
@@ -155,7 +155,7 @@ public class AttributeUI : MonoBehaviour
                 level = currentHero.strengthLevel;
                 break;
             case "Deffense":
-                level = currentHero.deffenseLevel;
+                level = currentHero.defenseLevel;
                 break;
             case "MasicResistance":
                 level = currentHero.masicResistanceLevel;
@@ -175,9 +175,9 @@ public class AttributeUI : MonoBehaviour
                 return currentHero.hpLevel;
             case "Strength":
                 return currentHero.strengthLevel;
-            case "Agility":
-                return currentHero.deffenseLevel;
-            case "Intelligence":
+            case "Deffense":
+                return currentHero.defenseLevel;
+            case "MasicResistance":
                 return currentHero.masicResistanceLevel;
             default:
                 return 0;

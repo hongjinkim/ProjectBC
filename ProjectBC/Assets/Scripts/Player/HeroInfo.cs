@@ -55,7 +55,7 @@ public class HeroInfo
     //
     public int hpLevel = 1;
     public int strengthLevel = 1;
-    public int deffenseLevel = 1;
+    public int defenseLevel = 1;
     public int masicResistanceLevel = 1;
     public HeroInfo(string name, HeroClass heroClass, int id, string imagePath)
     {

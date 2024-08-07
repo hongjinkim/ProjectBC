@@ -73,7 +73,6 @@ public class HeroPage : HeroScreen
         characterImage.sprite = _info.Sprite;
 
         levlText.text = _info.level.ToString();
-        //BattlePointText.text
         HealthText.text = _info.hp.ToString();
         AttackText.text = _info.attackDamage.ToString();
         DefenseText.text = _info.defense.ToString();
@@ -197,6 +196,21 @@ public class HeroPage : HeroScreen
     public void GaugeBarUpdate()
     {
         gauge.fillAmount = Mathf.Clamp01(_info.currentExp / _info.neededExp);
+
+        // 경험치나 레벨이 변경될 때마다 텍스트 필드를 업데이트합니다.
+        levlText.text = _info.level.ToString();
+        HealthText.text = _info.hp.ToString();
+        AttackText.text = _info.attackDamage.ToString();
+        DefenseText.text = _info.defense.ToString();
+        ResistanceText.text = _info.magicResistance.ToString();
+
+        int battlePoint = CalculateBattlePoint(_info);
+        BattlePointText.text = battlePoint.ToString();
     }
 
+    private int CalculateBattlePoint(HeroInfo hero)
+    {
+        // 이 계산식은 게임 밸런스에 따라 조정해야 할 수 있습니다.
+        return hero.hp / 10 + hero.attackDamage * 2 + hero.defense * 3 + hero.magicResistance * 3 + hero.level * 5;
+    }
 }
