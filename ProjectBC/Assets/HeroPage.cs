@@ -28,6 +28,7 @@ public class HeroPage : HeroScreen
     public Image gauge;
 
     [SerializeField] private AttributeUI attributeUI;
+    [SerializeField] private HeroPotion heroPotion;
 
     public void Start()
     {
@@ -58,6 +59,10 @@ public class HeroPage : HeroScreen
     {
         _info = updatedInfo;
         UpdateUITexts();
+        if (heroPotion != null)
+        {
+            heroPotion.UpdateCurrentHero(_info);  // HeroPotion 업데이트
+        }
     }
 
     public void OnHeroSelected(HeroInfo info, int idx)
@@ -68,6 +73,10 @@ public class HeroPage : HeroScreen
         _info = info;
         Initialize();
         attributeUI.UpdateHeroAttributes(info);
+        if (heroPotion != null)
+        {
+            heroPotion.UpdateCurrentHero(info);  // HeroPotion 업데이트
+        }
         transform.SetAsLastSibling();
     }
     public void Initialize()
@@ -89,6 +98,15 @@ public class HeroPage : HeroScreen
         else
         {
             Debug.LogError("attributeUI is null in Initialize");
+        }
+
+        if (heroPotion != null)
+        {
+            heroPotion.UpdateCurrentHero(_info);  // HeroPotion 업데이트
+        }
+        else
+        {
+            Debug.LogError("heroPotion is null in Initialize");
         }
     }
     public void OnBackButtonClicked()
@@ -200,6 +218,12 @@ public class HeroPage : HeroScreen
     public void GaugeBarUpdate()
     {
         gauge.fillAmount = Mathf.Clamp01(_info.currentExp / _info.neededExp);
+
+        UpdateUITexts();
+        if (heroPotion != null)
+        {
+            heroPotion.UpdateCurrentHero(_info);  // HeroPotion 업데이트
+        }
     }
 
     private void UpdateUITexts()
