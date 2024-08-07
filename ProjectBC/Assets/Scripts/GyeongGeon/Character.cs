@@ -575,9 +575,7 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     protected virtual void InstantiateDmgTxtObj(float damage, Vector3 targetPosition, bool isCritical)
     {
-        if (GameManager.Instance.dungeonManager.canvas == null) return;
-
-        GameObject DamageTxtObj = Instantiate(PrefabDmgTxt, GameManager.Instance.dungeonManager.canvas.transform);
+        GameObject DamageTxtObj = Instantiate(PrefabDmgTxt, GameManager.instance.dungeonManager.canvasTransform);
         TextMeshProUGUI damageText = DamageTxtObj.GetComponent<TextMeshProUGUI>();
         damageText.text = Mathf.Round(damage).ToString();
 

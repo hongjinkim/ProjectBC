@@ -68,6 +68,7 @@ MonoBehaviour:
       agility: 10
       intelligence: 10
       stamina: 10
+      energy: 0
       hp: 200
       attackDamage: 10
       defense: 0
@@ -76,10 +77,18 @@ MonoBehaviour:
       healthRegen: 0
       energyRegen: 0
       attackRange: 0
+      expAmplification: 0
+      trueDamage: 0
+      damageBlock: 0
+      lifeSteal: 0
+      damageAmplification: 0
+      damageReduction: 0
+      criticalChance: 0
+      criticalDamage: 150
+      defensePenetration: 0
       spritePath: 
       traits: []
-      skills: []
-      activeSkill: {fileID: 0}
+      heroPage: {fileID: 0}
     - id: 1002
       equippedItemIds: []
       heroName: Wizard
@@ -93,6 +102,7 @@ MonoBehaviour:
       agility: 10
       intelligence: 10
       stamina: 10
+      energy: 0
       hp: 200
       attackDamage: 10
       defense: 0
@@ -101,10 +111,18 @@ MonoBehaviour:
       healthRegen: 0
       energyRegen: 0
       attackRange: 0
+      expAmplification: 0
+      trueDamage: 0
+      damageBlock: 0
+      lifeSteal: 0
+      damageAmplification: 0
+      damageReduction: 0
+      criticalChance: 0
+      criticalDamage: 150
+      defensePenetration: 0
       spritePath: 
       traits: []
-      skills: []
-      activeSkill: {fileID: 0}
+      heroPage: {fileID: 0}
     - id: 1003
       equippedItemIds: []
       heroName: Wizard
@@ -118,6 +136,7 @@ MonoBehaviour:
       agility: 10
       intelligence: 10
       stamina: 10
+      energy: 0
       hp: 200
       attackDamage: 10
       defense: 0
@@ -126,10 +145,18 @@ MonoBehaviour:
       healthRegen: 0
       energyRegen: 0
       attackRange: 0
+      expAmplification: 0
+      trueDamage: 0
+      damageBlock: 0
+      lifeSteal: 0
+      damageAmplification: 0
+      damageReduction: 0
+      criticalChance: 0
+      criticalDamage: 150
+      defensePenetration: 0
       spritePath: 
       traits: []
-      skills: []
-      activeSkill: {fileID: 0}
+      heroPage: {fileID: 0}
     - id: 1004
       equippedItemIds: []
       heroName: Wizard
@@ -143,6 +170,7 @@ MonoBehaviour:
       agility: 10
       intelligence: 10
       stamina: 10
+      energy: 0
       hp: 200
       attackDamage: 10
       defense: 0
@@ -151,18 +179,788 @@ MonoBehaviour:
       healthRegen: 0
       energyRegen: 0
       attackRange: 0
+      expAmplification: 0
+      trueDamage: 0
+      damageBlock: 0
+      lifeSteal: 0
+      damageAmplification: 0
+      damageReduction: 0
+      criticalChance: 0
+      criticalDamage: 150
+      defensePenetration: 0
       spritePath: 
       traits: []
-      skills: []
-      activeSkill: {fileID: 0}
+      heroPage: {fileID: 0}
     username: GUEST_123456
     battlePoint: 0
     level: 1
     musicVolume: 80
     sfxVolume: 80
   itemCollection: {fileID: 11400000, guid: 3496197cc8159e14987beb99d0b1629c, type: 2}
-  characterBaseData: []
-  equipmentBaseData: []
-  itemBaseData: []
-  equipmentStatData: []
+  characterBaseData:
+  - idx: 0
+    name: warrior
+    characteristicType: 0
+    hp: 200
+    attackDamage: 10
+    defense: 10
+    magigResistance: 0
+    strength: 0
+    agility: 0
+    intelligence: 0
+    stamina: 0
+    attackSpeed: 100
+    healthRegen: 100
+    energyRegen: 100
+    attackRange: 1
+    expAmplification: 0
+    trueDamage: 0
+    damageBlock: 0
+    lifeSteal: 0
+    damageAmplification: 0
+    damageReduction: 0
+    criticalChance: 0
+    criticalDamage: 150
+    defensePenetration: 0
+  - idx: 0
+    name: archer
+    characteristicType: 0
+    hp: 200
+    attackDamage: 10
+    defense: 10
+    magigResistance: 0
+    strength: 0
+    agility: 0
+    intelligence: 0
+    stamina: 0
+    attackSpeed: 100
+    healthRegen: 100
+    energyRegen: 100
+    attackRange: 4
+    expAmplification: 0
+    trueDamage: 0
+    damageBlock: 0
+    lifeSteal: 0
+    damageAmplification: 0
+    damageReduction: 0
+    criticalChance: 0
+    criticalDamage: 150
+    defensePenetration: 0
+  - idx: 0
+    name: wizard
+    characteristicType: 0
+    hp: 200
+    attackDamage: 10
+    defense: 10
+    magigResistance: 0
+    strength: 0
+    agility: 0
+    intelligence: 0
+    stamina: 0
+    attackSpeed: 100
+    healthRegen: 100
+    energyRegen: 100
+    attackRange: 4
+    expAmplification: 0
+    trueDamage: 0
+    damageBlock: 0
+    lifeSteal: 0
+    damageAmplification: 0
+    damageReduction: 0
+    criticalChance: 0
+    criticalDamage: 150
+    defensePenetration: 0
+  - idx: 0
+    name: priests
+    characteristicType: 0
+    hp: 200
+    attackDamage: 10
+    defense: 10
+    magigResistance: 0
+    strength: 0
+    agility: 0
+    intelligence: 0
+    stamina: 0
+    attackSpeed: 100
+    healthRegen: 100
+    energyRegen: 100
+    attackRange: 4
+    expAmplification: 0
+    trueDamage: 0
+    damageBlock: 0
+    lifeSteal: 0
+    damageAmplification: 0
+    damageReduction: 0
+    criticalChance: 0
+    criticalDamage: 150
+    defensePenetration: 0
+  equipmentBaseData:
+  - Index: 0
+    Id: WarriorHelmet_Common
+    Name: "\uD5EC\uBA67"
+    Level: 1
+    Rarity: 0
+    Type: 3
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 10
+    IconId: FantasyHeroes.Basic.Helmet.WarriorArmor
+    SpriteId: FantasyHeroes.Basic.Helmet.WarriorArmor
+    Meta: 
+  - Index: 1
+    Id: WarriorHelmet_Rare
+    Name: "\uD5EC\uBA67"
+    Level: 10
+    Rarity: 1
+    Type: 3
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 100
+    IconId: FantasyHeroes.Basic.Helmet.WarriorArmor
+    SpriteId: FantasyHeroes.Basic.Helmet.WarriorArmor
+    Meta: 
+  - Index: 2
+    Id: WarriorHelmet_Epic
+    Name: "\uD5EC\uBA67"
+    Level: 20
+    Rarity: 2
+    Type: 3
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 200
+    IconId: FantasyHeroes.Basic.Helmet.WarriorArmor
+    SpriteId: FantasyHeroes.Basic.Helmet.WarriorArmor
+    Meta: 
+  - Index: 3
+    Id: WarriorHelmet_Legendary
+    Name: "\uD5EC\uBA67"
+    Level: 30
+    Rarity: 3
+    Type: 3
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 300
+    IconId: FantasyHeroes.Basic.Helmet.WarriorArmor
+    SpriteId: FantasyHeroes.Basic.Helmet.WarriorArmor
+    Meta: 
+  - Index: 4
+    Id: WarriorArmor_Common
+    Name: "\uAC11\uC637"
+    Level: 1
+    Rarity: 0
+    Type: 2
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 10
+    IconId: FantasyHeroes.Basic.Armor.WarriorArmor
+    SpriteId: FantasyHeroes.Basic.Armor.WarriorArmor
+    Meta: 
+  - Index: 5
+    Id: WarriorArmor_Rare
+    Name: "\uAC11\uC637"
+    Level: 10
+    Rarity: 1
+    Type: 2
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 100
+    IconId: FantasyHeroes.Basic.Armor.WarriorArmor
+    SpriteId: FantasyHeroes.Basic.Armor.WarriorArmor
+    Meta: 
+  - Index: 6
+    Id: WarriorArmor_Epic
+    Name: "\uAC11\uC637"
+    Level: 20
+    Rarity: 2
+    Type: 2
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 200
+    IconId: FantasyHeroes.Basic.Armor.WarriorArmor
+    SpriteId: FantasyHeroes.Basic.Armor.WarriorArmor
+    Meta: 
+  - Index: 7
+    Id: WarriorArmor_Legendary
+    Name: "\uAC11\uC637"
+    Level: 30
+    Rarity: 3
+    Type: 2
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 300
+    IconId: FantasyHeroes.Basic.Armor.WarriorArmor
+    SpriteId: FantasyHeroes.Basic.Armor.WarriorArmor
+    Meta: 
+  - Index: 8
+    Id: WarriorLeggings_Common
+    Name: "\uAC01\uBC18"
+    Level: 1
+    Rarity: 0
+    Type: 9
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 10
+    IconId: FantasyHeroes.Basic.Leggings.WarriorArmor
+    SpriteId: FantasyHeroes.Basic.Leggings.WarriorArmor
+    Meta: 
+  - Index: 9
+    Id: WarriorLeggings_Rare
+    Name: "\uAC01\uBC18"
+    Level: 10
+    Rarity: 1
+    Type: 9
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 100
+    IconId: FantasyHeroes.Basic.Leggings.WarriorArmor
+    SpriteId: FantasyHeroes.Basic.Leggings.WarriorArmor
+    Meta: 
+  - Index: 10
+    Id: WarriorLeggings_Epic
+    Name: "\uAC01\uBC18"
+    Level: 20
+    Rarity: 2
+    Type: 9
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 200
+    IconId: FantasyHeroes.Basic.Leggings.WarriorArmor
+    SpriteId: FantasyHeroes.Basic.Leggings.WarriorArmor
+    Meta: 
+  - Index: 11
+    Id: WarriorLeggings_Legendary
+    Name: "\uAC01\uBC18"
+    Level: 30
+    Rarity: 3
+    Type: 9
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 300
+    IconId: FantasyHeroes.Basic.Leggings.WarriorArmor
+    SpriteId: FantasyHeroes.Basic.Leggings.WarriorArmor
+    Meta: 
+  - Index: 12
+    Id: WarriorSword_Common
+    Name: "\uAC80"
+    Level: 1
+    Rarity: 0
+    Type: 0
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 10
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.WarriorGreatsword
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.WarriorGreatsword
+    Meta: 
+  - Index: 13
+    Id: WarriorSword_Rare
+    Name: "\uAC80"
+    Level: 10
+    Rarity: 1
+    Type: 0
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 100
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.WarriorGreatsword
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.WarriorGreatsword
+    Meta: 
+  - Index: 14
+    Id: WarriorSword_Epic
+    Name: "\uAC80"
+    Level: 20
+    Rarity: 2
+    Type: 0
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 200
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.WarriorGreatsword
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.WarriorGreatsword
+    Meta: 
+  - Index: 15
+    Id: WarriorSword_Legendary
+    Name: "\uAC80"
+    Level: 30
+    Rarity: 3
+    Type: 0
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 300
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.WarriorGreatsword
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.WarriorGreatsword
+    Meta: 
+  itemBaseData:
+  - Index: 0
+    Id: Exp_Basic
+    Name: "\uACBD\uD5D8\uCE58"
+    Level: 0
+    Rarity: -1
+    Type: 14
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.ScrollA
+    SpriteId: FantasyHeroes.Basic.Supplies.ScrollA
+    Meta: 
+  - Index: 1
+    Id: Exp_Common
+    Name: "\uACBD\uD5D8\uCE58"
+    Level: 0
+    Rarity: 0
+    Type: 14
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.ScrollA
+    SpriteId: FantasyHeroes.Basic.Supplies.ScrollA
+    Meta: 
+  - Index: 2
+    Id: Exp_Rare
+    Name: "\uACBD\uD5D8\uCE58"
+    Level: 0
+    Rarity: 1
+    Type: 14
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.ScrollA
+    SpriteId: FantasyHeroes.Basic.Supplies.ScrollA
+    Meta: 
+  - Index: 3
+    Id: Exp_Epic
+    Name: "\uACBD\uD5D8\uCE58"
+    Level: 0
+    Rarity: 2
+    Type: 14
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.ScrollA
+    SpriteId: FantasyHeroes.Basic.Supplies.ScrollA
+    Meta: 
+  - Index: 4
+    Id: Exp_Legendary
+    Name: "\uACBD\uD5D8\uCE58"
+    Level: 0
+    Rarity: 3
+    Type: 14
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.ScrollA
+    SpriteId: FantasyHeroes.Basic.Supplies.ScrollA
+    Meta: 
+  - Index: 5
+    Id: Potion_Green_S
+    Name: "\uD3EC\uC158"
+    Level: 0
+    Rarity: 0
+    Type: 13
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.GreenPotionS
+    SpriteId: FantasyHeroes.Basic.Supplies.GreenPotionS
+    Meta: 
+  - Index: 6
+    Id: Potion_Green_M
+    Name: "\uD3EC\uC158"
+    Level: 0
+    Rarity: 1
+    Type: 13
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.GreenPotionM
+    SpriteId: FantasyHeroes.Basic.Supplies.GreenPotionM
+    Meta: 
+  - Index: 7
+    Id: Potion_Red_S
+    Name: "\uD3EC\uC158"
+    Level: 0
+    Rarity: 0
+    Type: 13
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.RedPotionS
+    SpriteId: FantasyHeroes.Basic.Supplies.RedPotionS
+    Meta: 
+  - Index: 8
+    Id: Potion_Red_M
+    Name: "\uD3EC\uC158"
+    Level: 0
+    Rarity: 1
+    Type: 13
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.RedPotionM
+    SpriteId: FantasyHeroes.Basic.Supplies.RedPotionM
+    Meta: 
+  - Index: 9
+    Id: Potion_Yellow_S
+    Name: "\uD3EC\uC158"
+    Level: 0
+    Rarity: 0
+    Type: 13
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.YellowPotionS
+    SpriteId: FantasyHeroes.Basic.Supplies.YellowPotionS
+    Meta: 
+  - Index: 10
+    Id: Potion_Yellow_M
+    Name: "\uD3EC\uC158"
+    Level: 0
+    Rarity: 1
+    Type: 13
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.YellowPotionM
+    SpriteId: FantasyHeroes.Basic.Supplies.YellowPotionM
+    Meta: 
+  - Index: 11
+    Id: Material_Iron
+    Name: "\uC7AC\uB8CC"
+    Level: 0
+    Rarity: -1
+    Type: 15
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.IronOre
+    SpriteId: FantasyHeroes.Basic.Supplies.IronOre
+    Meta: 
+  - Index: 12
+    Id: Material_Silver
+    Name: "\uC7AC\uB8CC"
+    Level: 0
+    Rarity: 0
+    Type: 15
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.SilverOre
+    SpriteId: FantasyHeroes.Basic.Supplies.SilverOre
+    Meta: 
+  - Index: 13
+    Id: Material_Gold
+    Name: "\uC7AC\uB8CC"
+    Level: 0
+    Rarity: 1
+    Type: 15
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.GoldOre
+    SpriteId: FantasyHeroes.Basic.Supplies.GoldOre
+    Meta: 
+  - Index: 14
+    Id: Item_Banana
+    Name: "\uBC14\uB098\uB098"
+    Level: 0
+    Rarity: -1
+    Type: 15
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.Banana
+    SpriteId: FantasyHeroes.Basic.Supplies.Banana
+    Meta: 
+  - Index: 15
+    Id: Item_Burger
+    Name: "\uBC84\uAC70"
+    Level: 0
+    Rarity: -1
+    Type: 15
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.Burger
+    SpriteId: FantasyHeroes.Basic.Supplies.Burger
+    Meta: 
+  - Index: 16
+    Id: Item_Cake
+    Name: "\uCF00\uC774\uD06C"
+    Level: 0
+    Rarity: -1
+    Type: 15
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.Cake
+    SpriteId: FantasyHeroes.Basic.Supplies.Cake
+    Meta: 
+  - Index: 17
+    Id: Item_Carrot
+    Name: "\uB2F9\uADFC"
+    Level: 0
+    Rarity: -1
+    Type: 15
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.Carrot
+    SpriteId: FantasyHeroes.Basic.Supplies.Carrot
+    Meta: 
+  - Index: 18
+    Id: Item_Cherry
+    Name: "\uCCB4\uB9AC"
+    Level: 0
+    Rarity: -1
+    Type: 15
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.Cherry
+    SpriteId: FantasyHeroes.Basic.Supplies.Cherry
+    Meta: 
+  equipmentStatData:
+  - Index: 0
+    Id: WarriorHelmet_Common
+    StatId1: 2
+    StatValueMin1: 10
+    StatValueMax1: 20
+    StatId2: 7
+    StatValueMin2: 1
+    StatValueMax2: 10
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 1
+    Id: WarriorHelmet_Rare
+    StatId1: 2
+    StatValueMin1: 20
+    StatValueMax1: 30
+    StatId2: 7
+    StatValueMin2: 10
+    StatValueMax2: 20
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 2
+    Id: WarriorHelmet_Epic
+    StatId1: 2
+    StatValueMin1: 40
+    StatValueMax1: 70
+    StatId2: 7
+    StatValueMin2: 30
+    StatValueMax2: 50
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 3
+    Id: WarriorHelmet_Legendary
+    StatId1: 2
+    StatValueMin1: 80
+    StatValueMax1: 120
+    StatId2: 7
+    StatValueMin2: 60
+    StatValueMax2: 90
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 4
+    Id: WarriorArmor_Common
+    StatId1: 5
+    StatValueMin1: 10
+    StatValueMax1: 20
+    StatId2: 7
+    StatValueMin2: 1
+    StatValueMax2: 10
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 5
+    Id: WarriorArmor_Rare
+    StatId1: 5
+    StatValueMin1: 20
+    StatValueMax1: 30
+    StatId2: 7
+    StatValueMin2: 10
+    StatValueMax2: 20
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 6
+    Id: WarriorArmor_Epic
+    StatId1: 5
+    StatValueMin1: 40
+    StatValueMax1: 70
+    StatId2: 7
+    StatValueMin2: 30
+    StatValueMax2: 50
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 7
+    Id: WarriorArmor_Legendary
+    StatId1: 5
+    StatValueMin1: 80
+    StatValueMax1: 120
+    StatId2: 7
+    StatValueMin2: 60
+    StatValueMax2: 90
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 8
+    Id: WarriorLeggings_Common
+    StatId1: 6
+    StatValueMin1: 10
+    StatValueMax1: 20
+    StatId2: 7
+    StatValueMin2: 1
+    StatValueMax2: 10
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 9
+    Id: WarriorLeggings_Rare
+    StatId1: 6
+    StatValueMin1: 20
+    StatValueMax1: 30
+    StatId2: 7
+    StatValueMin2: 10
+    StatValueMax2: 20
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 10
+    Id: WarriorLeggings_Epic
+    StatId1: 6
+    StatValueMin1: 40
+    StatValueMax1: 70
+    StatId2: 7
+    StatValueMin2: 30
+    StatValueMax2: 50
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 11
+    Id: WarriorLeggings_Legendary
+    StatId1: 6
+    StatValueMin1: 80
+    StatValueMax1: 120
+    StatId2: 7
+    StatValueMin2: 60
+    StatValueMax2: 90
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 12
+    Id: WarriorSword_Common
+    StatId1: 1
+    StatValueMin1: 10
+    StatValueMax1: 20
+    StatId2: 2
+    StatValueMin2: 1
+    StatValueMax2: 10
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 13
+    Id: WarriorSword_Rare
+    StatId1: 1
+    StatValueMin1: 20
+    StatValueMax1: 30
+    StatId2: 2
+    StatValueMin2: 10
+    StatValueMax2: 20
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 14
+    Id: WarriorSword_Epic
+    StatId1: 1
+    StatValueMin1: 40
+    StatValueMax1: 70
+    StatId2: 2
+    StatValueMin2: 30
+    StatValueMax2: 50
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 15
+    Id: WarriorSword_Legendary
+    StatId1: 1
+    StatValueMin1: 80
+    StatValueMax1: 120
+    StatId2: 2
+    StatValueMin2: 60
+    StatValueMax2: 90
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
   noticeTransform: {fileID: 0}

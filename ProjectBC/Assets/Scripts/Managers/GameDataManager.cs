@@ -149,11 +149,10 @@ public class GameDataManager : MonoSingleton<GameDataManager>
     //        BattlePointUpdated?.Invoke(_playerInfo);
     //}
 
-    //public void UpdateItem()
-    //{
-    //    if (_playerInfo != null)
-    //        ItemUpdated?.Invoke();
-    //}
+    public void UpdateItem()
+    {
+        EventManager.TriggerEvent(EventType.ItemUpdated, null);
+    }
 
     private void LoadDatas()
     {

@@ -267,13 +267,8 @@ public class Dungeon : MonoBehaviour
 
     private void RemoveHeroFromAllDungeons(Character hero) //에러가 나와서 포기?
     {
-
-
-        // DungeonManager의 인스턴스를 가져옵니다.
-        DungeonManager dungeonManager = GameManager.Instance.dungeonManager;
-
         // _allDungeonList를 순회하며 해당 영웅을 제거합니다.
-        foreach (Dungeon dungeon in GameManager.Instance.dungeonManager._allDungeonList)
+        foreach (Dungeon dungeon in GameManager.instance.dungeonManager._allDungeonList)
         {
             dungeon._activeHeroList.Remove(hero);
             dungeon._allCharacterList.Remove(hero);

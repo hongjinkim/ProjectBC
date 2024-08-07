@@ -92,7 +92,7 @@ public class UIManager : MonoBehaviour
     public void ShowBattleScreen()
     {
         ShowScreen(_battleScreen);
-        GameManager.Instance.dungeonManager.popupManager.ChangeCameraPos( GameManager.Instance.dungeonManager._selectDungeon.transform.position);
+        GameManager.instance.dungeonManager.popupManager.ChangeCameraPos( GameManager.instance.dungeonManager._selectDungeon.transform.position);
     }
 
     public void ShowHeroScreen()

@@ -106,7 +106,7 @@ public class Disassembly : MonoBehaviour
             GetComponent<Text>().text = $"Selected items: {selectedItems.Count}";
         }
     }
-    // ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ selectedItemsï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
+    // ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿?selectedItemsï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
     public List<Item> GetSelectedItems()
     {
         return new List<Item>(selectedItems); // ï¿½ï¿½ï¿½çº» ï¿½ï¿½È¯
@@ -203,7 +203,7 @@ public class Disassembly : MonoBehaviour
             }
         }
 
-        // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        // ï¿½ï¿½ï¿?ï¿½ï¿½ï¿½ï¿½
         GameDataManager.instance.playerInfo.gold += totalGold;
 
         // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
@@ -279,7 +279,7 @@ public class Disassembly : MonoBehaviour
                 // ÀÎº¥Åä¸® ¹× UI ¾÷µ¥ÀÌÆ®
                 GameDataManager.instance.UpdateFunds();
                 GameDataManager.instance.UpdateItem();
-                inventoryBase.InitializeInventory();
+                inventoryBase.InitializeInventory(null);
                 UpdateUI();
             }
             else

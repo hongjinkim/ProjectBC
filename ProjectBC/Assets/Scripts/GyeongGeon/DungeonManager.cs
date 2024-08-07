@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class DungeonManager : MonoBehaviour
 {
-    public Canvas canvasPrefab;
-    public Canvas canvas;
+    public Transform canvasTransform;
 
     public List<Dungeon> _allDungeonPrefabList = new List<Dungeon>();
     public List<Dungeon> _allDungeonList = new List<Dungeon>();
@@ -13,11 +12,15 @@ public class DungeonManager : MonoBehaviour
     public PopupManager popupManager;
     public Dungeon _selectDungeon;
 
+    private void OnValidate()
+    {
+        if (GameManager.instance.dungeonManager == null)
+        {
+            GameManager.instance.dungeonManager = this;
+        }
+    }
     private void Awake()
     {
-        GameManager.Instance.dungeonManager = this;
-
-        canvas = Instantiate(canvasPrefab);
     }
 
     private void Start()

@@ -1,16 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager_2 : MonoBehaviour
+public class GameManager : MonoSingleton<GameManager>
 {
-    private static GameManager_2 instance;
-    public static GameManager_2 Instance
-    {
-        get { return instance; }
-    }
 
-    private DungeonManager dungeonManager;
-    private HeroManager heroManager;
+    public DungeonManager dungeonManager;
+    public HeroManager heroManager;
     private int maxDeckSize = 4;
 
     [SerializeField] private GameObject HeroPrefab_1;
@@ -20,19 +15,11 @@ public class GameManager_2 : MonoBehaviour
     [SerializeField] private Dictionary<int, GameObject> heroPrefabs = new Dictionary<int, GameObject>();
     public List<GameObject> HeroDeckPrefab = new List<GameObject>();
 
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-    }
 
     private void Start()
     {
         HeroDeckPrefab = new List<GameObject>(new GameObject[maxDeckSize]);
 
-        heroManager = FindObjectOfType<HeroManager>();
         Invoke("InitializeHeroPrefabs", 0.1f);
 
         // 초기 덱 상태 반영
@@ -120,7 +107,7 @@ public class GameManager_2 : MonoBehaviour
                 {
                     hero.gameObject.tag = "Hero";
 
-                    Dungeon dd = GameManager.Instance.dungeonManager._selectDungeon;
+                    Dungeon dd = GameManager.instance.dungeonManager._selectDungeon;
                     if (dd != null)
                     {
                         dd.AddHeroToBattlefield(hero);

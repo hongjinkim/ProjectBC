@@ -38,7 +38,7 @@ public class SetCharacterViewController : MonoBehaviour
 
     public void InitHpBar()
     {
-        hpBarObj = Instantiate(prefabHpBar, GameManager.Instance.dungeonManager.canvas.transform);
+        hpBarObj = Instantiate(prefabHpBar , GameManager.instance.dungeonManager.canvasTransform);
         hpBar = hpBarObj.GetComponent<RectTransform>();
         currentHpBarAmount = hpBar.transform.GetChild(0).GetChild(0).GetComponent<Image>();
     }
