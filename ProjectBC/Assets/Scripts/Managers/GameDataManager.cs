@@ -49,6 +49,7 @@ public class GameDataManager : MonoSingleton<GameDataManager>
         LoadGame();
 
         Init();
+        ItemCollection.active = itemCollection;
 
     }
 

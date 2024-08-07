@@ -33,7 +33,7 @@ public class EquipmentBase : ItemWorkspace
     public void Awake()
     {
         EventManager.instance.StopListening(EventType.ItemUpdated, InitializeInventory);
-        ItemCollection.active = ItemCollection;
+        //ItemCollection.active = ItemCollection;
     }
 
     public void Start()

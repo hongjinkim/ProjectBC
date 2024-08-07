@@ -8,10 +8,10 @@ public class GameManager : MonoSingleton<GameManager>
     public HeroManager heroManager;
     private int maxDeckSize = 4;
 
-    [SerializeField] private GameObject HeroPrefab_1;
-    [SerializeField] private GameObject HeroPrefab_2;
-    [SerializeField] private GameObject HeroPrefab_3;
-    [SerializeField] private GameObject HeroPrefab_4;
+    [SerializeField] private GameObject KnightPrefab;
+    [SerializeField] private GameObject WizardPrefab;
+    [SerializeField] private GameObject PriestPrefab;
+    [SerializeField] private GameObject ArcherPrefab;
     [SerializeField] private Dictionary<int, GameObject> heroPrefabs = new Dictionary<int, GameObject>();
     public List<GameObject> HeroDeckPrefab = new List<GameObject>();
 
@@ -34,7 +34,7 @@ public class GameManager : MonoSingleton<GameManager>
         heroPrefabs.Clear();
         if (heroManager != null && heroManager.AllHeroes != null)
         {
-            GameObject[] prefabArray = { HeroPrefab_1, HeroPrefab_2, HeroPrefab_3, HeroPrefab_4 };
+            GameObject[] prefabArray = { KnightPrefab, WizardPrefab, PriestPrefab, ArcherPrefab };
             for (int i = 0; i < heroManager.AllHeroes.Count && i < prefabArray.Length; i++)
             {
                 GameObject prefab = prefabArray[i];

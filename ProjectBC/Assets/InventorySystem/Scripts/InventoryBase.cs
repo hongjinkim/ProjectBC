@@ -78,7 +78,7 @@ public class InventoryBase : ItemWorkspace
     {
         EventManager.instance.StartListening(EventType.ItemUpdated, InitializeInventory);
         //GameDataManager.ItemUpdated += InitializeInventory;
-        ItemCollection.active = ItemCollection;
+        //ItemCollection.active = ItemCollection;
         SetupInventories();
         inventoryItems = new Dictionary<InventoryType, List<Item>>();
         foreach (InventoryType type in Enum.GetValues(typeof(InventoryType)))
