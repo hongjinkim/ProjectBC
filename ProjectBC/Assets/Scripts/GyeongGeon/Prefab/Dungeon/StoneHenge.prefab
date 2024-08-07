@@ -746,18 +746,22 @@ MonoBehaviour:
   _themeName: "\uD68C\uC0C9 \uBC14\uC704 \uC0B0\uB9C8\uB8E8"
   _stageCode: A3
   _findTimer: 0.1
-  _enemyQuantity: 4
+  _enemyQuantity: 3
+  _bossQuantity: 1
+  bossRespawnTime: 10
   spawnAreaMin: {x: 0, y: 0}
   spawnAreaMax: {x: 0, y: 0}
   _activeEnemyList: []
   _allCharacterList: []
+  _activeBossList: []
   _stageName: "\uC2A4\uD1A4 \uD5E8\uC9C0"
   _stageImage: {fileID: 0}
   _navigationProgress: 0
   _enemyPool:
-  - {fileID: 7407187012442510203, guid: 065b94bbcb6e6e34a895342b9e176636, type: 3}
   - {fileID: 7592349987027669045, guid: 228abd3f5f00846448984f9c675c8d85, type: 3}
   - {fileID: 3874690886171420138, guid: fe6cc7f111892f144a4775bddca43461, type: 3}
+  _bossPool:
+  - {fileID: 7298527131489777547, guid: 2e2f005ae07b750449f92355c7412468, type: 3}
   _ItemList: []
   _activeHeroList: []
   LootTable:

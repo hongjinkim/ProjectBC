@@ -26,8 +26,11 @@ public class Dungeon : MonoBehaviour
     public string _stageCode;
     public float _findTimer;
     public int _enemyQuantity;
+    public int _bossQuantity = 0;
     private int _randomEnemyIndex;
     private int _randomTileIndex;
+    public float bossRespawnTime = 10f;
+    private bool isBossRespawning = false;
     public Vector2 spawnAreaMin;
     public Vector2 spawnAreaMax;
     Camera mainCamera;
@@ -35,6 +38,7 @@ public class Dungeon : MonoBehaviour
     [Header("ActiveList")]
     public List<Character> _activeEnemyList = new List<Character>();
     public List<Character> _allCharacterList = new List<Character>();
+    public List<Character> _activeBossList = new List<Character>();
 
     [Header("UI_StageSlot")]
     public string _stageName;
@@ -43,6 +47,7 @@ public class Dungeon : MonoBehaviour
 
     [Header("UI_StageInformation")]
     public List<Enemy> _enemyPool = new List<Enemy>();
+    public List<Enemy> _bossPool = new List<Enemy>();
     public List<Item> _ItemList = new List<Item>();
     public List<Character> _activeHeroList = new List<Character>();
 
@@ -95,6 +100,7 @@ public class Dungeon : MonoBehaviour
         // }
 
         SetEnemyList();
+        SetBossList();
         DungeonInit();
         InvokeRepeating("OnPickupItem", 0f, 5f);
     }
@@ -121,6 +127,7 @@ public class Dungeon : MonoBehaviour
     void Update()
     {
         CheckAllEnemiesDead();
+        CheckAllBossesDead();
     }
 
     public void DungeonInit()
@@ -167,6 +174,7 @@ public class Dungeon : MonoBehaviour
             {
                 allDead = false;
                 break;
+
             }
         }
 
@@ -195,6 +203,14 @@ public class Dungeon : MonoBehaviour
                 }
             }
 
+            foreach (var boss in _activeBossList)
+            {
+                if(boss.gameObject.activeInHierarchy)
+                {
+                    _allCharacterList.Add(boss);
+                }
+            }
+
             foreach (var enemy in enemiesToDestroy)
             {
                 Destroy(enemy.gameObject);
@@ -203,6 +219,67 @@ public class Dungeon : MonoBehaviour
             _activeEnemyList.Clear();
             
             SetEnemyList();
+            DungeonInit();
+        }
+    }
+
+    void CheckAllBossesDead()
+    {
+        bool allDead = true;
+
+        foreach (var boss in _activeBossList)
+        {
+            if (boss != null && !(boss._unitState == Character.UnitState.death))
+            {
+                allDead = false;
+                break;
+                
+            }
+        }
+
+        if (allDead && !isBossRespawning)
+        {
+            isBossRespawning = true;
+
+            List<Character> enemiesToDestroy = new List<Character>();
+
+            foreach (var enemy in _activeBossList)
+            {
+                if (enemy != null)
+                {
+                    enemiesToDestroy.Add(enemy);
+                }
+            }
+
+            // 임시로 넣어놓은것이다. 추후에 히어로 추가되고 List에 담기게 해야 된다.
+            // Character a = _allCharacterList[0];
+            _allCharacterList.Clear();
+            // _allCharacterList.Add(a);
+
+            foreach (var hero in _activeHeroList)
+            {
+                if(hero.gameObject.activeInHierarchy)
+                {
+                    _allCharacterList.Add(hero);
+                }
+            }
+
+            foreach (var enemy in _activeEnemyList)
+            {
+                if(enemy.gameObject.activeInHierarchy)
+                {
+                    _allCharacterList.Add(enemy);
+                }
+            }
+
+            foreach (var enemy in enemiesToDestroy)
+            {
+                Destroy(enemy.gameObject);
+            }
+
+            _activeBossList.Clear();
+            
+            StartCoroutine(SetBossListCoroutine());
             DungeonInit();
         }
     }
@@ -237,6 +314,78 @@ public class Dungeon : MonoBehaviour
             _activeEnemyList[i].gameObject.SetActive(true);
         }
     }
+
+    void SetBossList()
+    {
+        for(var i = 0; i < _bossQuantity; i++)
+        {
+            _randomEnemyIndex = Random.Range(0, _bossPool.Count);
+            Enemy boss = Instantiate(_bossPool[_randomEnemyIndex]);
+
+            _activeBossList.Add(boss);
+            _allCharacterList.Add(boss);
+
+            _activeBossList[i].gameObject.tag = "Enemy";
+
+            // _randomTileIndex = Random.Range(0, tilemapManager.tileCenters.Count);
+            // enemy.transform.position = tilemapManager.tileCenters[_randomTileIndex];
+
+            TilemapCollider2D collider = this.transform.GetChild(0).GetChild(0).GetComponent<TilemapCollider2D>();
+            Vector2 min = collider.bounds.min;
+            Vector2 max = collider.bounds.max;
+
+            // 추후에 position 변경해야함
+            Vector2 randomPosition = new Vector2(
+                Random.Range(min.x, max.x),
+                Random.Range(min.y, max.y)
+            );
+
+            boss.transform.position = randomPosition;
+
+            _activeBossList[i].gameObject.SetActive(true);
+        }
+
+    }
+
+    IEnumerator SetBossListCoroutine()
+    {
+        yield return new WaitForSeconds(bossRespawnTime);
+
+        for(var i = 0; i < _bossQuantity; i++)
+        {
+            _randomEnemyIndex = Random.Range(0, _bossPool.Count);
+            Enemy boss = Instantiate(_bossPool[_randomEnemyIndex]);
+
+            _activeBossList.Add(boss);
+            _allCharacterList.Add(boss);
+
+            _activeBossList[i].gameObject.tag = "Enemy";
+
+            // _randomTileIndex = Random.Range(0, tilemapManager.tileCenters.Count);
+            // enemy.transform.position = tilemapManager.tileCenters[_randomTileIndex];
+
+            TilemapCollider2D collider = this.transform.GetChild(0).GetChild(0).GetComponent<TilemapCollider2D>();
+            Vector2 min = collider.bounds.min;
+            Vector2 max = collider.bounds.max;
+
+            // 추후에 position 변경해야함
+            Vector2 randomPosition = new Vector2(
+                Random.Range(min.x, max.x),
+                Random.Range(min.y, max.y)
+            );
+
+            boss.transform.position = randomPosition;
+
+            _activeBossList[i].gameObject.SetActive(true);
+        }
+
+        isBossRespawning = false;
+    }
+
+    // IEnumerator SetBossList()
+    // {
+
+    // }
 
     public void AddHeroToBattlefield(Character hero)
     {
