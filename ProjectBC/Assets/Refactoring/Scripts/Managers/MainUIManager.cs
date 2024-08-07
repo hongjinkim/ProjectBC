@@ -5,18 +5,24 @@ using UnityEngine;
 public class MainUIManager : MonoSingleton<MainUIManager>
 {
     [Header("Main Screens")]
-    [SerializeField] MainScreen _campScreen;
-    [SerializeField] MainScreen _exploreScreen;
-    [SerializeField] MainScreen _battleScreen;
-    [SerializeField] MainScreen _heroScreen;
-    [SerializeField] MainScreen _inventoryScreen;
+    public MainScreen _campScreen;
+    public MainScreen _exploreScreen;
+    public MainScreen _battleScreen;
+    public MainScreen _heroScreen;
+    public MainScreen _inventoryScreen;
 
     [Header("Toolbars")]
-    [SerializeField] BaseScreen _playerInfoBar;
-    [SerializeField] BaseScreen _menuBar;
+    public BaseScreen _playerInfoBar;
+    public BaseScreen _menuBar;
 
     [Header("PopUp")]
-    [SerializeField] PopUp _popUp;
+    public PopUp DailyStorePopUp;
+    public PopUp PortalPopUp;
+    public PopUp ForgePopUp;
+    public PopUp ItemInfoPopUp;
+    public PopUp DungeonThemePopUp;
+    public PopUp PotionPopUp;
+
 
     List<MainScreen> _allMainScreens = new List<MainScreen>();
 
@@ -92,7 +98,7 @@ public class MainUIManager : MonoSingleton<MainUIManager>
     public void ShowBattleScreen()
     {
         ShowMainScreen(_battleScreen);
-        GameManager.instance.dungeonManager.popupManager.ChangeCameraPos(GameManager.instance.dungeonManager._selectDungeon.transform.position);
+        ChangeCameraPos(GameManager.instance.dungeonManager._selectDungeon.transform.position);
     }
 
     public void ShowHeroScreen()
@@ -126,5 +132,9 @@ public class MainUIManager : MonoSingleton<MainUIManager>
     public void ResetCameraPos()
     {
         mainCamera.transform.position = new Vector3(0, 0, -10);
+    }
+    public void ChangeCameraPos(Vector3 position)
+    {
+        mainCamera.transform.position = new Vector3(position.x, mainCamera.transform.position.y, mainCamera.transform.position.z);
     }
 }

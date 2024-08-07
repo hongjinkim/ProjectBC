@@ -47,10 +47,10 @@ public class CampScreenController : MonoBehaviour
         dailyStoreBtn.onClick.AddListener(() => { campScreen_DailyStore.SetActive(true); OnDailyStoreOpened?.Invoke(); });
         dailyStoreBackBtn.onClick.AddListener(() => { campScreen_DailyStore.SetActive(false); OnDailyStoreClosed?.Invoke(); });
 
-        forgeBtn.onClick.AddListener(() => ToastMsg.Instance.ShowMessage("개발중입니다", 0.5f));
-        dailyQuestBtn.onClick.AddListener(() => ToastMsg.Instance.ShowMessage("개발중입니다", 0.5f));
-        PvpBtn.onClick.AddListener(() => ToastMsg.Instance.ShowMessage("개발중입니다", 0.5f));
-        StoneBtn.onClick.AddListener(() => ToastMsg.Instance.ShowMessage("개발중입니다", 0.5f));
-        DailyDungeonBtn.onClick.AddListener(() => ToastMsg.Instance.ShowMessage("개발중입니다", 0.5f));
+        forgeBtn.onClick.AddListener(() => ToastMsg.instance.ShowMessage("개발중입니다", 0.5f));
+        dailyQuestBtn.onClick.AddListener(() => ToastMsg.instance.ShowMessage("개발중입니다", 0.5f));
+        PvpBtn.onClick.AddListener(() => ToastMsg.instance.ShowMessage("개발중입니다", 0.5f));
+        StoneBtn.onClick.AddListener(() => ToastMsg.instance.ShowMessage("개발중입니다", 0.5f));
+        DailyDungeonBtn.onClick.AddListener(() => ToastMsg.instance.ShowMessage("개발중입니다", 0.5f));
     }
 }

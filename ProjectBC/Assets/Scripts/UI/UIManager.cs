@@ -92,7 +92,7 @@ public class UIManager : MonoBehaviour
     public void ShowBattleScreen()
     {
         ShowScreen(_battleScreen);
-        GameManager.instance.dungeonManager.popupManager.ChangeCameraPos( GameManager.instance.dungeonManager._selectDungeon.transform.position);
+        ChangeCameraPos( GameManager.instance.dungeonManager._selectDungeon.transform.position);
     }
 
     public void ShowHeroScreen()
@@ -126,6 +126,11 @@ public class UIManager : MonoBehaviour
     public void ResetCameraPos()
     {
         mainCamera.transform.position = new Vector3(0, 0, -10);
+    }
+
+    public void ChangeCameraPos(Vector3 position)
+    {
+        mainCamera.transform.position = new Vector3(position.x, mainCamera.transform.position.y, mainCamera.transform.position.z);
     }
 
     // overlay screen methods

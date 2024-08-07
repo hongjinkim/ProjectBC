@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -329,37 +330,43 @@ public class Dungeon : MonoBehaviour
         {
             GameDataManager.instance.playerInfo.gold += droppedGolds;
             StartCoroutine(PickupNotice(droppedGolds.ToString() + " 골드를 획득 했습니다."));
+            EventManager.instance.TriggerEvent(EventType.FundsUpdated, null);
         }
 
         // 아이템 획득
         var inventory = GameDataManager.instance.playerInfo.items;
-        foreach (Item item in droppedItems)
+        if(droppedItems != null)
         {
-            if (item.Params.Type == ItemType.Usable || item.Params.Type == ItemType.Material || item.Params.Type == ItemType.Crystal || item.Params.Type == ItemType.Exp)
+            foreach (Item item in droppedItems)
             {
-                bool hasItem = false;
-                foreach (Item _item in inventory)
+                if (item.Params.Type == ItemType.Usable || item.Params.Type == ItemType.Material || item.Params.Type == ItemType.Crystal || item.Params.Type == ItemType.Exp)
                 {
-                    if (item.Params.Id == _item.Params.Id)
+                    bool hasItem = false;
+                    foreach (Item _item in inventory)
                     {
-                        _item.Count++;
-                        hasItem = true;
-                        break;
+                        if (item.Params.Id == _item.Params.Id)
+                        {
+                            _item.Count++;
+                            hasItem = true;
+                            break;
+                        }
                     }
+                    if (!hasItem)
+                    {
+                        StartCoroutine(PickupNotice(item.Params.Name + "을(를) 획득 했습니다"));
+                        inventory.Add(item);
+                    }
+
                 }
-                if (!hasItem)
+                else
                 {
                     StartCoroutine(PickupNotice(item.Params.Name + "을(를) 획득 했습니다"));
                     inventory.Add(item);
                 }
-
             }
-            else
-            {
-                StartCoroutine(PickupNotice(item.Params.Name + "을(를) 획득 했습니다"));
-                inventory.Add(item);
-            }
+            EventManager.instance.TriggerEvent(EventType.ItemUpdated, null);
         }
+        
         // 필드 위애 아이템 표시 모두 제거
         foreach (GameObject go in droppedPrefabs)
         {
@@ -381,8 +388,8 @@ public class Dungeon : MonoBehaviour
             HeroPotion.Instance.UpdatePotionCount();
         }
 
-        EventManager.TriggerEvent(EventType.FundsUpdated, null);
-        EventManager.TriggerEvent(EventType.ItemUpdated, null);
+        
+        
     }
     
 

@@ -15,11 +15,11 @@ public class MenuBar : BaseScreen
 
     private void Start()
     {
-        campScreenButton.onClick.AddListener(() => _UIManager.ShowCampScreen());
-        exploreScreenButton.onClick.AddListener(() => _UIManager.ShowExploreScreen());
-        battleScreenButton.onClick.AddListener(() => _UIManager.ShowBattleScreen());
-        heroScreenButton.onClick.AddListener(() => _UIManager.ShowHeroScreen());
-        inventoryScreenButton.onClick.AddListener(() => _UIManager.ShowInventoryScreen());
+        campScreenButton.onClick.AddListener(_UIManager.ShowCampScreen);
+        exploreScreenButton.onClick.AddListener(_UIManager.ShowExploreScreen);
+        battleScreenButton.onClick.AddListener(_UIManager.ShowBattleScreen);
+        heroScreenButton.onClick.AddListener(_UIManager.ShowHeroScreen);
+        inventoryScreenButton.onClick.AddListener(_UIManager.ShowInventoryScreen);
     }
 
     

@@ -46,7 +46,7 @@ public class Disassembly : MonoBehaviour
             toggles[i].onValueChanged.AddListener((isOn) => OnToggleValueChanged(toggles[index], isOn));
         }
 
-        EventManager.StartListening(EventType.ItemUpdated, UpdateSelectedItems);
+        EventManager.instance.StartListening(EventType.ItemUpdated, UpdateSelectedItems);
         disassemblyButton.onClick.AddListener(ItemAllDisassemblyButton);
     }
 
@@ -83,16 +83,16 @@ public class Disassembly : MonoBehaviour
 
     public void UpdateSelectedItems(Dictionary<string, object> message)
     {
-        selectedItems.Clear(); // ���� ����Ʈ�� ���� ����
-        var items = GameDataManager.instance.playerInfo.items;
+        //selectedItems.Clear();
+        //var items = GameDataManager.instance.playerInfo.items;
 
-        foreach (var item in items)
-        {
-            if (selectedRarities.Contains(item.Params.Rarity) && allowedTypes.Contains(item.Params.Type))
-            {
-                selectedItems.Add(item);
-            }
-        }
+        //foreach (var item in items)
+        //{
+        //    if (selectedRarities.Contains(item.Params.Rarity) && allowedTypes.Contains(item.Params.Type))
+        //    {
+        //        selectedItems.Add(item);
+        //    }
+        //}
 
         if (gameObject.activeInHierarchy)
         {
@@ -176,7 +176,7 @@ public class Disassembly : MonoBehaviour
         selectedItems.Clear();
         UpdateUI();
         //GameDataManager.instance.UpdateItem();
-        EventManager.TriggerEvent(EventType.ItemUpdated, null);
+        EventManager.instance.TriggerEvent(EventType.ItemUpdated, null);
 
         inventoryBase.InitializeInventory(null);
     }
@@ -235,8 +235,8 @@ public class Disassembly : MonoBehaviour
 
         //GameDataManager.instance.UpdateFunds();
         //GameDataManager.instance.UpdateItem();
-        EventManager.TriggerEvent(EventType.FundsUpdated, null);
-        EventManager.TriggerEvent(EventType.ItemUpdated, null);
+        EventManager.instance.TriggerEvent(EventType.FundsUpdated, null);
+        EventManager.instance.TriggerEvent(EventType.ItemUpdated, null);
 
         inventoryBase.InitializeInventory(null);
     }

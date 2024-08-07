@@ -24,7 +24,7 @@ public class EventManager : MonoSingleton<EventManager>
         }
     }
 
-    public static void StartListening(EventType eventName, Action<Dictionary<string, object>> listener)
+    public void StartListening(EventType eventName, Action<Dictionary<string, object>> listener)
     {
         Action<Dictionary<string, object>> thisEvent;
 
@@ -40,7 +40,7 @@ public class EventManager : MonoSingleton<EventManager>
         }
     }
 
-    public static void StopListening(EventType eventName, Action<Dictionary<string, object>> listener)
+    public void StopListening(EventType eventName, Action<Dictionary<string, object>> listener)
     {
         Action<Dictionary<string, object>> thisEvent;
         if (instance.eventDictionary.TryGetValue(eventName, out thisEvent))
@@ -50,7 +50,7 @@ public class EventManager : MonoSingleton<EventManager>
         }
     }
 
-    public static void TriggerEvent(EventType eventName, Dictionary<string, object> message)
+    public void TriggerEvent(EventType eventName, Dictionary<string, object> message)
     {
         Action<Dictionary<string, object>> thisEvent = null;
         if (instance.eventDictionary.TryGetValue(eventName, out thisEvent))

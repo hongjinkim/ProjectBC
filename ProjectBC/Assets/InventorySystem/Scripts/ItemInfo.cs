@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
-public class ItemInfo : MonoBehaviour
+public class ItemInfo : PopUp
 {
     [Header("Head")]
     public Image iconBackground;
@@ -43,8 +43,9 @@ public class ItemInfo : MonoBehaviour
     public GearBase gearBase;
     public Disassembly disassembly;
 
-    public void Awake()
+    protected override void Start()
     {
+        base.Start();
         lockButton.onClick.AddListener(ToggleItemLock);
         nextViewBtn.onClick.AddListener(gearBase.SelectNextItem);
         prevViewBtn.onClick.AddListener(gearBase.SelectPreviousItem);
@@ -64,7 +65,7 @@ public class ItemInfo : MonoBehaviour
 
     public void Reset()
     {
-        transform.SetAsFirstSibling();
+
     }
 
     public virtual void Initialize(Item item, int index)
@@ -73,12 +74,9 @@ public class ItemInfo : MonoBehaviour
 
         Item = item;
         this.currentIndex = index;
-        if (item == null)
-        {
-            Reset();
-            return;
-        }
-        transform.SetAsLastSibling();
+
+        //ShowScreen();
+
         icon.sprite = ItemCollection.active.GetItemIcon(item).sprite;
         iconBackground.sprite = ItemCollection.active.GetBackground(item) ?? ItemCollection.active.backgroundBrown;
         iconBackground.color = Color.white;
@@ -120,7 +118,7 @@ public class ItemInfo : MonoBehaviour
 
     public void OnBackButtonClicked()
     {
-        transform.SetSiblingIndex(0);
+        HideScreen();
         Item.isSelected = false;
     }
 

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DungeonManager : MonoBehaviour
+public class DungeonManager : MonoSingleton<DungeonManager>
 {
     public Transform canvasTransform;
 
@@ -9,8 +9,10 @@ public class DungeonManager : MonoBehaviour
     public List<Dungeon> _allDungeonList = new List<Dungeon>();
     public List<Dungeon> _themeList = new List<Dungeon>();
 
-    public PopupManager popupManager;
+    //public PopupManager popupManager;
     public Dungeon _selectDungeon;
+
+    private MainUIManager _UIManager;
 
     private void OnValidate()
     {
@@ -21,6 +23,7 @@ public class DungeonManager : MonoBehaviour
     }
     private void Awake()
     {
+        _UIManager = MainUIManager.instance;
     }
 
     private void Start()
@@ -59,11 +62,11 @@ public class DungeonManager : MonoBehaviour
             }
         }
 
-        popupManager.InitAdventurePopup(_themeList);
+        //popupManager.InitAdventurePopup(_themeList);
 
         SelectDungeon(0);
 
-        popupManager.adventurePopup.SetActive(true);
+        //popupManager.adventurePopup.SetActive(true);
     }
 
     public void SelectDungeon(int index)
@@ -73,11 +76,13 @@ public class DungeonManager : MonoBehaviour
 
     public void EnterDungeon()
     {
-        popupManager.ChangeCameraPos(_selectDungeon.transform.position);
-        
-        popupManager.ExitPopup(popupManager.adventurePopup);
+        ChangeCameraPos(_selectDungeon.transform.position);
+        _UIManager.ShowBattleScreen();
+    }
 
-        popupManager.uiManager.ShowBattleScreen();
+    public void ChangeCameraPos(Vector3 position)
+    {
+        Camera.main.transform.position = new Vector3(position.x, Camera.main.transform.position.y, Camera.main.transform.position.z);
     }
 
     // void SetUnitList()
@@ -184,7 +189,7 @@ public class DungeonManager : MonoBehaviour
     //     // {
     //     //     Destroy(enemy);
     //     // }
-        
+
     //     // _ActiveEnemyList.Clear();
     //     // SetEnemyList();
 
@@ -230,7 +235,7 @@ public class DungeonManager : MonoBehaviour
     //         }
 
     //         _activeEnemyList.Clear();
-            
+
     //         SetEnemyList();
     //     }
     // }
@@ -251,7 +256,7 @@ public class DungeonManager : MonoBehaviour
     //             targetList = _activeHeroList;
     //             break;
     //     }
-        
+
     //     // closestDistance: 가장 가까운 유닛과의 거리를 저장하는 변수입니다. 초기값을 매우 큰 값(float.MaxValue)으로 설정하여 첫 번째 비교에서 무조건 갱신되도록 합니다.
     //     float closestDistance = float.MaxValue;
 

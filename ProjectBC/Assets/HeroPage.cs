@@ -93,8 +93,8 @@ public class HeroPage : HeroScreen
 
                     //GameDataManager.instance.UpdateItem();
                     //GameDataManager.instance.UpdateFunds();
-                    EventManager.TriggerEvent(EventType.FundsUpdated, null);
-                    EventManager.TriggerEvent(EventType.ItemUpdated, null);
+                    EventManager.instance.TriggerEvent(EventType.FundsUpdated, null);
+                    EventManager.instance.TriggerEvent(EventType.ItemUpdated, null);
 
                     if (ExpScroll.Instance != null)
                     {

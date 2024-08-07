@@ -15,7 +15,7 @@ public abstract class ItemWorkspace : MonoBehaviour
     protected void Reset()
     {
         SelectedItem = null;
-        ItemInfo.Reset();
+        //ItemInfo.Reset();
     }
 
     protected void MoveItem(Item item, ItemContainer from, ItemContainer to, int amount = 1, string currencyId = null)

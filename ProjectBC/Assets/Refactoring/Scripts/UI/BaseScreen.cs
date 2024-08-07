@@ -24,7 +24,6 @@ public abstract class BaseScreen : MonoBehaviour
     protected virtual void Awake()
     {
         _screen = this.gameObject;
-       
     }
 
     protected bool IsVisible()

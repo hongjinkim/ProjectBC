@@ -18,13 +18,13 @@ public class PlayerInfoBar : BaseScreen
 
     private void OnEnable()
     {
-        EventManager.StartListening(EventType.FundsUpdated, OnFundsUpdated);
+        EventManager.instance.StartListening(EventType.FundsUpdated, OnFundsUpdated);
 
     }
 
     private void OnDisable()
     {
-
+        EventManager.instance.StopListening(EventType.FundsUpdated, OnFundsUpdated);
     }
 
     void Start()

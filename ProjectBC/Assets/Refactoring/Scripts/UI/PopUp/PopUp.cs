@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class PopUp : BaseScreen
 {
-    public void Start()
+    protected virtual void Start()
     {
         HideScreen();
     }
 
     public override void ShowScreen()
     {
+        base.ShowScreen();
         transform.SetAsLastSibling();
     }
 
     public override void HideScreen()
     {
+        base.HideScreen();
         transform.SetAsFirstSibling();
     }
 }

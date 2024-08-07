@@ -134,7 +134,7 @@ public class GameDataManager : MonoSingleton<GameDataManager>
 
     public void UpdateFunds()
     {
-        EventManager.TriggerEvent(EventType.FundsUpdated, null);
+        EventManager.instance.TriggerEvent(EventType.FundsUpdated, null);
     }
 
     //public void UpdateLevel()
@@ -151,7 +151,7 @@ public class GameDataManager : MonoSingleton<GameDataManager>
 
     public void UpdateItem()
     {
-        EventManager.TriggerEvent(EventType.ItemUpdated, null);
+        EventManager.instance.TriggerEvent(EventType.ItemUpdated, null);
     }
 
     private void LoadDatas()
@@ -223,7 +223,7 @@ public class GameDataManager : MonoSingleton<GameDataManager>
         if (index != -1)
         {
             _playerInfo.heroes[index] = hero;
-            EventManager.TriggerEvent(EventType.HeroUpdated, new Dictionary<string, object> { { "heroes", _playerInfo.heroes } });
+            EventManager.instance.TriggerEvent(EventType.HeroUpdated, new Dictionary<string, object> { { "heroes", _playerInfo.heroes } });
             //HeroesUpdated.Invoke(_playerInfo.heroes);
         }
     }

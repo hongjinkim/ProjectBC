@@ -3,43 +3,15 @@ using TMPro;
 using System.Collections;
 using UnityEngine.UI;
 
-public class ToastMsg : MonoBehaviour
+public class ToastMsg : MonoSingleton<ToastMsg>
 {
     [SerializeField] private TMP_FontAsset customFont;
     [SerializeField] private float fontSize = 36f;
     private TextMeshProUGUI tmpText;
     private float fadeInOutTime = 0.3f;
-    private static ToastMsg instance;
-
-    public static ToastMsg Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<ToastMsg>();
-                if (instance == null)
-                {
-                    GameObject go = new GameObject("ToastMsg");
-                    instance = go.AddComponent<ToastMsg>();
-                }
-            }
-            return instance;
-        }
-    }
-
+    
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
 
         InitializeText();
     }
