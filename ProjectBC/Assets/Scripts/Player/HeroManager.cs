@@ -93,8 +93,6 @@ public class HeroManager : MonoBehaviour
 
     private void UpdateHeroSlots()
     {
-        Debug.Log("Updating hero slots...");
-
         if (heroSlots == null || heroSlots.Length == 0)
         {
             Debug.LogWarning("No hero slots found to update.");
@@ -103,12 +101,8 @@ public class HeroManager : MonoBehaviour
 
         if (MyHeroes == null)
         {
-            Debug.LogError("MyHeroes list is null.");
             return;
         }
-
-        Debug.Log($"Number of MyHeroes: {MyHeroes.Count}");
-        Debug.Log($"Number of hero slots: {heroSlots.Length}");
 
         for (int i = 0; i < heroSlots.Length; i++)
         {
@@ -121,16 +115,12 @@ public class HeroManager : MonoBehaviour
             if (i < MyHeroes.Count)
             {
                 heroSlots[i].SetHeroData(MyHeroes[i], i);
-                Debug.Log($"Set hero data for slot {i}: {MyHeroes[i].heroName}");
             }
             else
             {
                 heroSlots[i].ClearSlot();
-                Debug.Log($"Cleared slot {i}");
             }
         }
-
-        Debug.Log("Hero slots update completed.");
     }
 
     private void UpdateMyHeroSlots()

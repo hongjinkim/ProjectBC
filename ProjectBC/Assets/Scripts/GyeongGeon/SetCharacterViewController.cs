@@ -60,6 +60,10 @@ public class SetCharacterViewController : MonoBehaviour
         {
             hpBarObj.SetActive(false);
         }
+        else if (currentHpBarAmount.fillAmount > 0 && !hpBarObj.activeSelf)
+        {
+            hpBarObj.SetActive(true);
+        }
     }
 
 }

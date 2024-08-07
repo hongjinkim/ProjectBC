@@ -130,16 +130,48 @@ public class Disassembly : MonoBehaviour
         }
     }
 
+    //public void ItemDisassembly()
+    //{
+    //    List<Item> itemsToRemove = new List<Item>(selectedItems);
+
+    //    foreach (Item item in itemsToRemove)
+    //    {
+    //        GameDataManager.instance.playerInfo.items.Remove(item);
+
+    //    }
+    //    DisassemblyReward();
+
+    //    selectedItems.Clear();
+    //    UpdateUI();
+    //    GameDataManager.instance.UpdateItem();
+
+    //    inventoryBase.InitializeInventory();
+    //}
     public void ItemDisassembly()
     {
-        List<Item> itemsToRemove = new List<Item>(selectedItems);
+        List<Item> itemsToDisassemble = new List<Item>();
+        int excludedCount = 0;
 
-        foreach (Item item in itemsToRemove)
+        foreach (Item item in selectedItems)
+        {
+            if (!item.isLocked)
+            {
+                itemsToDisassemble.Add(item);
+            }
+            else
+            {
+                excludedCount++;
+            }
+        }
+
+        foreach (Item item in itemsToDisassemble)
         {
             GameDataManager.instance.playerInfo.items.Remove(item);
-      
         }
-        DisassemblyReward();
+
+        DisassemblyReward(itemsToDisassemble);  // itemsToDisassemble 리스트 전달
+
+        Debug.Log($"Disassembled {itemsToDisassemble.Count} items. {excludedCount} locked items were excluded.");
 
         selectedItems.Clear();
         UpdateUI();
@@ -149,12 +181,12 @@ public class Disassembly : MonoBehaviour
         inventoryBase.InitializeInventory(null);
     }
 
-    public void DisassemblyReward()
+    public void DisassemblyReward(List<Item> disassembledItems)
     {
         int totalGold = 0;
         Dictionary<string, int> rewardItems = new Dictionary<string, int>();
 
-        foreach (Item item in selectedItems)
+        foreach (Item item in disassembledItems)  // selectedItems 대신 disassembledItems 사용
         {
             totalGold += item.Params.Price;
 
@@ -212,5 +244,73 @@ public class Disassembly : MonoBehaviour
     {
         int levelBonus = (itemLevel - 1) / reward.levelInterval;
         return reward.baseRewardAmount + (levelBonus * reward.rewardAmountPerLevel);
+    }
+
+    public void SelectedItemDisassembly(Item item)
+    {
+        if (item.isSelected && !item.isLocked)
+        {
+            Debug.Log($"분해 시작: {item.Params.Name}");
+
+            // 아이템 분해 및 보상 계산
+            int goldReward = item.Params.Price;
+            RarityReward reward = rarityRewards.Find(r => r.rarity == item.Params.Rarity);
+
+            if (reward != null)
+            {
+                int rewardAmount = CalculateRewardAmount(reward, item.Params.Level);
+
+                // 골드 지급
+                GameDataManager.instance.playerInfo.gold += goldReward;
+
+                // 재료 아이템 지급
+                foreach (string rewardItemId in reward.rewardItemIds)
+                {
+                    AddRewardItem(rewardItemId, rewardAmount);
+                }
+
+                // 아이템 제거
+                GameDataManager.instance.playerInfo.items.Remove(item);
+
+                Debug.Log($"분해 완료: {item.Params.Name}");
+                Debug.Log($"획득한 골드: {goldReward}");
+                Debug.Log($"획득한 재료: {string.Join(", ", reward.rewardItemIds)} (각 {rewardAmount}개)");
+
+                // 인벤토리 및 UI 업데이트
+                GameDataManager.instance.UpdateFunds();
+                GameDataManager.instance.UpdateItem();
+                inventoryBase.InitializeInventory();
+                UpdateUI();
+            }
+            else
+            {
+                Debug.LogWarning($"해당 등급({item.Params.Rarity})의 보상 정보를 찾을 수 없습니다.");
+            }
+        }
+        else if (item.isLocked)
+        {
+            Debug.Log($"{item.Params.Name}은(는) 잠겨있어 분해할 수 없습니다.");
+        }
+        else
+        {
+            Debug.Log($"{item.Params.Name}은(는) 선택되지 않았습니다.");
+        }
+    }
+
+    private void AddRewardItem(string itemId, int amount)
+    {
+        var inventory = GameDataManager.instance.playerInfo.items;
+        var existingItem = inventory.Find(i => i.Params.Id == itemId);
+
+        if (existingItem != null)
+        {
+            existingItem.Count += amount;
+        }
+        else
+        {
+            Item newItem = new Item(itemId);
+            newItem.Count = amount;
+            inventory.Add(newItem);
+        }
     }
 }

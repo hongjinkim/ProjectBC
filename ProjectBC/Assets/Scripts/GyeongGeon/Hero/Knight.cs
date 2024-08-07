@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.TextCore.Text;
 
 public enum HeroClass
 {
@@ -16,7 +17,9 @@ public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     private LineRenderer lineRenderer;
     public bool isSelected = false;
     private List<Vector3> previewPath;
-
+    public ShieldBash shieldBash;
+    public HeavenlyBlessing heavenlyBlessing;
+    public Impregnable impregnable;
     private void Awake() 
     {
         lineRenderer = gameObject.AddComponent<LineRenderer>();
@@ -27,16 +30,59 @@ public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
         lineRenderer.endColor = Color.yellow;
     }
 
+
+    
+
+
     protected override void Start() 
+
     {
         base.Start();
         _heroClass = HeroClass.Knight;
         info.characteristicType = CharacteristicType.MuscularStrength;
         info.attackRange = 1; // 근접 공격 범위
+        shieldBash = new ShieldBash();
+        heavenlyBlessing = new HeavenlyBlessing();
+        impregnable = new Impregnable();
+        info.skills.Add(shieldBash);
+        info.skills.Add(heavenlyBlessing);
+        info.skills.Add(impregnable);
+        info.activeSkill = shieldBash;
+        ApplyPassiveSkills();
     }
+    protected override void Update()
+    {
+        base.Update();
+        UpdateDamageReduction();
+        CheckAndUseSkill();
+    }
+    private void ApplyPassiveSkills()
+    {
+        heavenlyBlessing.ApplyEffect(this);
+        UpdateDamageReduction();
+    }
+    protected override void UseSkill()
+    {
+        Debug.Log($"Knight UseSkill method called. Current Energy: {Energy}");
+
+        if (Energy >= 100 && info.activeSkill != null)
+        {
+            Debug.Log($"Knight energy is full, using {info.activeSkill.Name}");
+            info.activeSkill.UseSkill(this);
+            Energy = 0;  // 스킬 사용 후 에너지 리셋
+        }
+    }
+    private void UpdateDamageReduction()
+    {
+        int baseReduction = info.damageReduction;
+        int bonusReduction = impregnable.GetDamageReductionBonus(this);
+        info.damageReduction = baseReduction + bonusReduction;
+    }
+
+
     public override void IncreaseCharacteristic(float amount)
     {
-        IncreaseStrength(amount * 3);
+        //IncreaseStrength(amount * 3);
     }
     protected override void OnAnimAttack()
     {
@@ -100,12 +146,5 @@ public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
         //     base.SetNewPath(nearestValidPosition);
         // }
     }
-    public void UseSkill()
-    {
-        if (info.energy >= 100)
-        {
-            info.energy = 0;
-            // ��ų ��� ����...
-        }
-    }
+   
 }

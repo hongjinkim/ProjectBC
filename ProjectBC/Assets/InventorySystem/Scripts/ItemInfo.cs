@@ -32,17 +32,24 @@ public class ItemInfo : MonoBehaviour
     public Button nextViewBtn;
     public Button prevViewBtn;
 
+    [Header("Function")]
+    public Button disassemblyBtn;
+    public Button equipBtn;
+
     public bool isLocked = false;
     public Item Item { get; protected set; }
     public int currentIndex; // 새로 추가된 필드
 
     public GearBase gearBase;
+    public Disassembly disassembly;
 
     public void Awake()
     {
         lockButton.onClick.AddListener(ToggleItemLock);
         nextViewBtn.onClick.AddListener(gearBase.SelectNextItem);
         prevViewBtn.onClick.AddListener(gearBase.SelectPreviousItem);
+        disassemblyBtn.onClick.AddListener(SelectedDisassemblyButtonClikced);
+        equipBtn.onClick.AddListener(EquipButtonClicked);
 
         UpdateButtonUI();
     }
@@ -114,6 +121,7 @@ public class ItemInfo : MonoBehaviour
     public void OnBackButtonClicked()
     {
         transform.SetSiblingIndex(0);
+        Item.isSelected = false;
     }
 
     private void ToggleItemLock()
@@ -132,5 +140,16 @@ public class ItemInfo : MonoBehaviour
         {
             buttonText.text = currentItem.isLocked ? "Unlock" : "Lock";
         }
+    }
+
+    private void SelectedDisassemblyButtonClikced()
+    {
+        disassembly.SelectedItemDisassembly(Item);
+        OnBackButtonClicked();
+    }
+
+    private void EquipButtonClicked()
+    {
+        Debug.Log("장착");
     }
 }

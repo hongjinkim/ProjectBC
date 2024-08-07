@@ -68,24 +68,23 @@ public class HeroInfo
         this.intelligence = 0;
         this.stamina = 0;
         this.hp = 200;
-        this.attackDamage = 10;
-        this.defense = 10;
-        this.magicResistance = 10;
-        //this.attackSpeed = 100;
-        this.healthRegen = 0;
-        this.energyRegen = 5;
-        this.expAmplification=0;
-        this.trueDamage = 0;
-        this.damageBlock = 0;
-        this.lifeSteal = 0;
-        this.damageAmplification = 0;
-        this.damageReduction = 0;
-        this.criticalChance = 0;
-        this.criticalDamage = 150;
-        this.defensePenetration = 0;
+        this.attackDamage = 10;//공격피해
+        this.defense = 10;//방어
+        this.magicResistance = 10;//마법 저항
+        //this.attackSpeed = 100;//공격속도
+        this.healthRegen = 0;//체력재생
+        this.energyRegen = 5;//에너지재생
+        this.expAmplification = 0;//경험치증폭
+        this.trueDamage = 0;//고정피해
+        this.damageBlock = 0;//데미지블록 일단 보류
+        this.lifeSteal = 0;//생명흡수
+        this.damageAmplification = 0;//피해증폭
+        this.damageReduction = 0;//피해감소
+        this.criticalChance = 0;//크리티컬확률
+        this.criticalDamage = 150;//크리티컬데미지
+        this.defensePenetration = 0;//방어관통
         // attackRange와 characteristicType은 여기서 설정하지 않음
-   
-}
+    }
 
     // 이미지를 로드하는 메서드
     //public Sprite LoadImage()
@@ -107,55 +106,12 @@ public class HeroInfo
             return _sprite;
         }
     }
-    
-    private void InitializeBaseStats()
+
+    public void IncreaseStrength(float amount)
     {
-        // 1레벨 히어로 기본 스탯 설정
-        strength = 10;
-        agility = 10;
-        intelligence = 10;
-        stamina = 10;
-
-        // 추가 스탯 계산
-        RecalculateStats();
-    }
-
-    public void RecalculateStats()
-    {
-        hp = 200 + (stamina * 10);
-        attackDamage = 10;
-        defense = 0;
-        magicResistance = 0;
-        attackSpeed = 100;
-        healthRegen = 0;
-        energyRegen = 0;
-        attackRange = 0;
-
-        // 특성에 따른 추가 계산
-        ApplyCharacteristicBonuses();
-    }
-
-    private void ApplyCharacteristicBonuses()
-    {
-        switch (characteristicType)
-        {
-            case CharacteristicType.MuscularStrength:
-                attackDamage += (int)(strength * 0.7f);
-                break;
-            case CharacteristicType.Agility:
-                attackDamage += (int)(agility * 0.9f);
-                break;
-            case CharacteristicType.Intellect:
-                attackDamage += (int)(intelligence * 0.9f);
-                break;
-        }
-    }
-
-    public void IncreaseStrength(int amount)
-    {
-        strength += amount;
-        healthRegen += 0.1f * amount;
-        hp += 1 * amount;
+        strength += (int)amount;
+        healthRegen += (int)(0.1f * amount);
+        hp += (int)(1f * amount);
 
         if (characteristicType == CharacteristicType.MuscularStrength)
         {
@@ -163,10 +119,10 @@ public class HeroInfo
         }
     }
 
-    public void IncreaseAgility(int amount)
+    public void IncreaseAgility(float amount)
     {
-        agility += amount;
-        attackSpeed += 0.1f * amount;
+        agility += (int)amount;
+        attackSpeed += (int)(0.1f * amount);
         defense += (int)(0.1f * amount);
 
         if (characteristicType == CharacteristicType.Agility)
@@ -175,10 +131,10 @@ public class HeroInfo
         }
     }
 
-    public void IncreaseIntelligence(int amount)
+    public void IncreaseIntelligence(float amount)
     {
-        intelligence += amount;
-        energyRegen += 0.1f * amount;
+        intelligence += (int)amount;
+        energyRegen += (int)(0.1f * amount);
         magicResistance += (int)(0.1f * amount);
 
         if (characteristicType == CharacteristicType.Intellect)
@@ -187,11 +143,15 @@ public class HeroInfo
         }
     }
 
-    public void IncreaseStamina(int amount)
+    public void IncreaseStamina(float amount)
     {
-        stamina += amount;
-        hp += 10 * amount;
+        stamina += (int)amount;
+        hp += (int)(10f * amount);
     }
+
+
+
+
 
     public void AddExp(float exp)
     {
@@ -199,8 +159,8 @@ public class HeroInfo
         {
             return;
         }
-        
-        currentExp = Mathf.Min(currentExp + exp, neededExp);
+        float amplifiedExp = exp * (1 + (expAmplification / 100f));
+        currentExp = Mathf.Min(currentExp + amplifiedExp, neededExp);
 
         OnExperienceChanged?.Invoke();
 
@@ -215,25 +175,36 @@ public class HeroInfo
         level++;
         currentExp -= neededExp;
         neededExp *= 1.2f;
-        IncreaseStats();
+        switch (characteristicType)
+        {
+            case CharacteristicType.Agility:
+                IncreaseAgility(2);
+                break;
+            case CharacteristicType.MuscularStrength:
+                IncreaseStrength(3);
+                break;
+            case CharacteristicType.Intellect:
+                IncreaseIntelligence(2);
+                break;
+        }
         OnLevelUp?.Invoke();
     }
 
-    private void IncreaseStats()
+    public void TriggerExperienceChanged()
     {
-        // 레벨업 시 스탯 증가 로직
-        // 이 부분은 게임 밸런스에 따라 조정이 필요합니다
-        IncreaseStrength(1);
-        IncreaseAgility(1);
-        IncreaseIntelligence(1);
-        IncreaseStamina(1);
+        OnExperienceChanged?.Invoke();
+    }
+
+    public void TriggerLevelUp()
+    {
+        OnLevelUp?.Invoke();
     }
 
     public void AddTrait(Trait trait)
     {
         traits.Add(trait);
         // 특성 추가에 따른 스탯 재계산
-        RecalculateStats();
+        
     }
 
     public void AddSkill(PlayerSkill skill)

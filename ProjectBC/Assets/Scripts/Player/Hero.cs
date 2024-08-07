@@ -1,18 +1,52 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class Hero : Character
 {
     private const float MAX_ENERGY = 100f;
 
+
+    private const float REGEN_INTERVAL = 1f;
+    private const float REGEN_PERCENT = 0.05f;
+    private bool isRegenerating = false;
+
+    protected virtual void OnEnable()
+    {
+        InstantFadeIn();
+        if (isRegenerating)
+        {
+            CancelInvoke("RegenerateHealth");
+            isRegenerating = false;
+        }
+    }
+
+
+    protected virtual void OnDisable()
+    {
+        if (!isRegenerating)
+        {
+            isRegenerating = true;
+            InvokeRepeating("RegenerateHealth", 0f, REGEN_INTERVAL);
+        }
+
+        if (_unitState == Character.UnitState.death)
+        {
+            Revive();
+        }
+    }
+
+
     protected override void Start()
     {
         base.Start();
-        SetStat();
+        //SetStat();
         StartCoroutine(RegenerateEnergy());
     }
-
+    protected virtual void Update()
+    {
+        base.Update();
+        CheckAndUseSkill();
+    }
     private IEnumerator RegenerateEnergy()
     {
         while (true)
@@ -21,10 +55,10 @@ public class Hero : Character
             if (info != null)
             {
                 info.energy = Mathf.Min(info.energy + info.energyRegen, MAX_ENERGY);
+                
             }
         }
     }
-
     public float Energy
     {
         get { return info != null ? info.energy : 0; }
@@ -36,81 +70,75 @@ public class Hero : Character
             }
         }
     }
-    public void SetStat()
+    protected virtual void UseSkill()
     {
-        if(info != null)
+        if (Energy >= 100)
         {
-            maxHealth = info.hp;
-            currentHealth = maxHealth;
-            attackDamage = info.attackDamage;
-            //attackSpeed = info.attackSpeed;
             
-
-            // 새로 추가된 스탯들
-            energy = info.energy;
-            strength = info.strength;
-            agility = info.agility;
-            intelligence = info.intelligence;
-            stamina = info.stamina;
-            defense = info.defense;
-            magicResistance = info.magicResistance;
-            healthRegen = info.healthRegen;
-            energyRegen = info.energyRegen;
-            expAmplification = info.expAmplification;
-            trueDamage = info.trueDamage;
-            damageBlock = info.damageBlock;
-            lifeSteal = info.lifeSteal;
-            damageAmplification = info.damageAmplification;
-            damageReduction = info.damageReduction;
-            criticalChance = info.criticalChance;
-            criticalDamage = info.criticalDamage;
-            defensePenetration = info.defensePenetration;
-
+            // 실제 스킬 사용 로직은 하위 클래스에서 구현
+            //Energy = 0;
         }
-    }
-    protected void IncreaseStrength(float amount)
-    {
-        info.strength += (int)amount;
-        info.healthRegen += (int)(0.1f * amount);
-        info.hp += (int)(1f * amount);
-
-        if (info.characteristicType == CharacteristicType.MuscularStrength)
+        else
         {
-            info.attackDamage += (int)(0.7f * amount);
+            
         }
-        SetStat();
     }
-
-    protected void IncreaseAgility(float amount)
+    protected virtual void ApplyPassiveSkill1() { }
+    protected virtual void ApplyPassiveSkill2() { }
+    protected virtual void ApplyPassiveSkill3() { }
+    protected void CheckAndUseSkill()
     {
-        info.agility += (int)amount;
-        info.attackSpeed += (int)(0.1f * amount);
-        info.defense += (int)(0.1f * amount);
-
-        if (info.characteristicType == CharacteristicType.Agility)
+        if (info.energy >= 100)
         {
-            info.attackDamage += (int)(0.9f * amount);
+            UseSkill();
         }
-        SetStat();
     }
-
-    protected void IncreaseIntelligence(float amount)
+    private void RegenerateHealth()
     {
-        info.intelligence += (int)amount;
-        info.energyRegen += (int)(0.1f * amount);
-        info.magicResistance += (int)(0.1f * amount);
-
-        if (info.characteristicType == CharacteristicType.Intellect)
+        if (!gameObject.activeInHierarchy && currentHealth < maxHealth)
         {
-            info.attackDamage += (int)(0.9f * amount);
+            currentHealth = (int)Mathf.Min(currentHealth + (maxHealth * REGEN_PERCENT), maxHealth);
+            if (currentHealth >= maxHealth)
+            {
+                CancelInvoke("RegenerateHealth");
+                isRegenerating = false;
+            }
         }
-        SetStat();
-    }
-
-    protected void IncreaseStamina(float amount)
-    {
-        info.stamina += (int)amount;
-        info.hp += (int)(10f * amount);
-        SetStat();
     }
 }
+
+
+//    protected void IncreaseIntelligence(float amount)
+//    {
+//        info.intelligence += (int)amount;
+//        info.energyRegen += (int)(0.1f * amount);
+//        info.magicResistance += (int)(0.1f * amount);
+
+//        if (info.characteristicType == CharacteristicType.Intellect)
+//        {
+//            info.attackDamage += (int)(0.9f * amount);
+//        }
+//        SetStat();
+//    }
+
+//    protected void IncreaseStamina(float amount)
+//    {
+//        info.stamina += (int)amount;
+//        info.hp += (int)(10f * amount);
+//        SetStat();
+//    }
+
+//    private void RegenerateHealth()
+//    {
+//        if (!gameObject.activeInHierarchy && currentHealth < maxHealth)
+//        {
+//            currentHealth = Mathf.Min(currentHealth + (maxHealth * REGEN_PERCENT), maxHealth);
+//            if (currentHealth >= maxHealth)
+//            {
+//                CancelInvoke("RegenerateHealth");
+//                isRegenerating = false;
+//            }
+//        }
+//    }
+//}
+

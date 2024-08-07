@@ -8,7 +8,7 @@ public class Priest : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     private LineRenderer lineRenderer;
     public bool isSelected = false;
     private List<Vector3> previewPath;
-
+    public PurifyingLight purifyingLight;
     private void Awake() 
     {
         lineRenderer = gameObject.AddComponent<LineRenderer>();
@@ -25,24 +25,33 @@ public class Priest : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
         _heroClass = HeroClass.Priest;
         info.characteristicType = CharacteristicType.Intellect;
         info.attackRange = 4;
+
+        purifyingLight = new PurifyingLight();
+        info.skills.Add(purifyingLight);
+        info.activeSkill = purifyingLight;
     }
-    public override void IncreaseCharacteristic(float amount)
+    protected override void Update()
     {
-        IncreaseIntelligence(amount * 2);
+        base.Update();
+        CheckAndUseSkill();
+    }
+    protected override void UseSkill()
+    {
+        Debug.Log($"Priest UseSkill method called. Current Energy: {Energy}");
+
+        if (Energy >= 100 && info.activeSkill != null)
+        {
+            Debug.Log($"Priest energy is full, using {info.activeSkill.Name}");
+            info.activeSkill.UseSkill(this);
+            Energy = 0;  // 스킬 사용 후 에너지 리셋
+        }
     }
     protected override void OnAnimAttack()
     {
         animator.SetTrigger("Slash1H");
         IsAction = true;
     }
-    public void UseSkill()
-    {
-        if (info.energy >= 100)
-        {
-            info.energy = 0;
-            // ��ų ��� ����...
-        }
-    }
+    
     public void OnBeginDrag(PointerEventData eventData)
     {
         isSelected = true;
