@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,6 +33,7 @@ public class AttributeUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI myGold;
 
     private HeroInfo currentHero;
+    public event Action<HeroInfo> OnHeroInfoChanged;
 
     private void Awake()
     {
@@ -133,6 +135,8 @@ public class AttributeUI : MonoBehaviour
             }
             UpdateAttributeDisplay();
             GameDataManager.instance.UpdateFunds();
+
+            OnHeroInfoChanged?.Invoke(currentHero);
         }
         else
         {

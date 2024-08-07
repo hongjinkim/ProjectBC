@@ -35,6 +35,10 @@ public class HeroPage : HeroScreen
         {
             Debug.LogError("AttributeUI is not assigned in the inspector for HeroPage");
         }
+        else
+        {
+            attributeUI.OnHeroInfoChanged += UpdateHeroInfo;
+        }
 
         transform.SetAsFirstSibling();
     }
@@ -50,7 +54,11 @@ public class HeroPage : HeroScreen
         _info.OnExperienceChanged -= GaugeBarUpdate;
         _info.OnLevelUp -= GaugeBarUpdate;
     }
-
+    private void UpdateHeroInfo(HeroInfo updatedInfo)
+    {
+        _info = updatedInfo;
+        UpdateUITexts();
+    }
 
     public void OnHeroSelected(HeroInfo info, int idx)
     {
@@ -72,11 +80,7 @@ public class HeroPage : HeroScreen
 
         characterImage.sprite = _info.Sprite;
 
-        levlText.text = _info.level.ToString();
-        HealthText.text = _info.hp.ToString();
-        AttackText.text = _info.attackDamage.ToString();
-        DefenseText.text = _info.defense.ToString();
-        ResistanceText.text = _info.magicResistance.ToString();
+        UpdateUITexts();
 
         if (attributeUI != null)
         {
@@ -196,8 +200,10 @@ public class HeroPage : HeroScreen
     public void GaugeBarUpdate()
     {
         gauge.fillAmount = Mathf.Clamp01(_info.currentExp / _info.neededExp);
+    }
 
-        // 경험치나 레벨이 변경될 때마다 텍스트 필드를 업데이트합니다.
+    private void UpdateUITexts()
+    {
         levlText.text = _info.level.ToString();
         HealthText.text = _info.hp.ToString();
         AttackText.text = _info.attackDamage.ToString();
@@ -207,7 +213,6 @@ public class HeroPage : HeroScreen
         int battlePoint = CalculateBattlePoint(_info);
         BattlePointText.text = battlePoint.ToString();
     }
-
     private int CalculateBattlePoint(HeroInfo hero)
     {
         // 이 계산식은 게임 밸런스에 따라 조정해야 할 수 있습니다.
