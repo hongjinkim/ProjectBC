@@ -51,6 +51,12 @@ public class HeroInfo
 
     public event Action OnExperienceChanged;
     public event Action OnLevelUp;
+
+    //
+    public int hpLevel = 1;
+    public int strengthLevel = 1;
+    public int agilityLevel = 1;
+    public int intelligenceLevel = 1;
     public HeroInfo(string name, HeroClass heroClass, int id, string imagePath)
     {
         this.id = id;

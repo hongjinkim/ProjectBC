@@ -13,6 +13,8 @@ public class HeroSlotManager : MonoBehaviour
 
     private List<HeroInfo> hero;
 
+    [SerializeField] private AttributeUI attributeUI;
+
     public void OnValidate()
     {
         if (Application.isPlaying) return;
@@ -75,6 +77,8 @@ public class HeroSlotManager : MonoBehaviour
         heroInfo.OnLevelUp += heroPage.GaugeBarUpdate;
 
         heroPage.GaugeBarUpdate();
+
+        attributeUI.UpdateHeroAttributes(heroInfo);
     }
 
 }

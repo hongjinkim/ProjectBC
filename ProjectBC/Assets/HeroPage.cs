@@ -27,8 +27,15 @@ public class HeroPage : HeroScreen
     [Header("ExpGaegu")]
     public Image gauge;
 
+    [SerializeField] private AttributeUI attributeUI;
+
     public void Start()
     {
+        if (attributeUI == null)
+        {
+            Debug.LogError("AttributeUI is not assigned in the inspector for HeroPage");
+        }
+
         transform.SetAsFirstSibling();
     }
 
@@ -52,13 +59,18 @@ public class HeroPage : HeroScreen
         _idx = idx;
         _info = info;
         Initialize();
+        attributeUI.UpdateHeroAttributes(info);
         transform.SetAsLastSibling();
     }
     public void Initialize()
     {
-        
-        characterImage.sprite = _info.Sprite;
+        if (_info == null)
+        {
+            Debug.LogError("_info is null in Initialize");
+            return;
+        }
 
+        characterImage.sprite = _info.Sprite;
 
         levlText.text = _info.level.ToString();
         //BattlePointText.text
@@ -66,6 +78,15 @@ public class HeroPage : HeroScreen
         AttackText.text = _info.attackDamage.ToString();
         DefenseText.text = _info.defense.ToString();
         ResistanceText.text = _info.magicResistance.ToString();
+
+        if (attributeUI != null)
+        {
+            attributeUI.UpdateHeroAttributes(_info);
+        }
+        else
+        {
+            Debug.LogError("attributeUI is null in Initialize");
+        }
     }
     public void OnBackButtonClicked()
     {
@@ -177,4 +198,5 @@ public class HeroPage : HeroScreen
     {
         gauge.fillAmount = Mathf.Clamp01(_info.currentExp / _info.neededExp);
     }
+
 }
