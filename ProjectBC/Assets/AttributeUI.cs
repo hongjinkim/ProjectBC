@@ -16,6 +16,12 @@ public class AttributeUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI property3Gold;
     [SerializeField] private TextMeshProUGUI property4Gold;
 
+    [Header("Exps")]
+    [SerializeField] private TextMeshProUGUI property1Exp;
+    [SerializeField] private TextMeshProUGUI property2Exp;
+    [SerializeField] private TextMeshProUGUI property3Exp;
+    [SerializeField] private TextMeshProUGUI property4Exp;
+
     [Header("Levels")]
     [SerializeField] private TextMeshProUGUI property1Level;
     [SerializeField] private TextMeshProUGUI property2Level;
@@ -69,37 +75,43 @@ public class AttributeUI : MonoBehaviour
             return;
         }
 
-        if (property1Gold == null || property2Gold == null || property3Gold == null || property4Gold == null)
+        UpdatePropertyDisplay("HP", property1Gold, property1Exp, property1Level, currentHero.hpLevel, currentHero.hp);
+        UpdatePropertyDisplay("Strength", property2Gold, property2Exp, property2Level, currentHero.strengthLevel, currentHero.attackDamage);
+        UpdatePropertyDisplay("Deffense", property3Gold, property3Exp, property3Level, currentHero.deffenseLevel, currentHero.defense);
+        UpdatePropertyDisplay("MasicResistance", property4Gold, property4Exp, property4Level, currentHero.masicResistanceLevel, currentHero.magicResistance);
+    }
+
+    private void UpdatePropertyDisplay(string propertyName, TextMeshProUGUI goldText, TextMeshProUGUI expText, TextMeshProUGUI levelText, int level, int value)
+    {
+        if (goldText == null || expText == null || levelText == null)
         {
-            Debug.LogError("One or more propertyGold TextMeshProUGUI components are null");
+            Debug.LogError($"One or more UI elements for {propertyName} are null");
             return;
         }
 
-        if (property1Level == null || property2Level == null || property3Level == null || property4Level == null)
-        {
-            Debug.LogError("One or more propertyLevel TextMeshProUGUI components are null");
-            return;
-        }
-
-        property1Gold.text = CalculateCost("HP").ToString();
-        property2Gold.text = CalculateCost("Strength").ToString();
-        property3Gold.text = CalculateCost("Agility").ToString();
-        property4Gold.text = CalculateCost("Intelligence").ToString();
-
-        property1Level.text = $"Lv.{currentHero.hpLevel}";
-        property2Level.text = $"Lv.{currentHero.strengthLevel}";
-        property3Level.text = $"Lv.{currentHero.agilityLevel}";
-        property4Level.text = $"Lv.{currentHero.intelligenceLevel}";
+        (int goldCost, int expCost) = CalculateCost(propertyName);
+        goldText.text = goldCost.ToString();
+        expText.text = expCost.ToString();
+        levelText.text = $"Lv.{level}";
     }
 
     private void LevelUp(string propertyName)
     {
         if (currentHero == null) return;
 
-        int cost = CalculateCost(propertyName);
-        if (GameDataManager.instance.playerInfo.gold >= cost)
+        int currentPropertyLevel = GetCurrentPropertyLevel(propertyName);
+        if (currentPropertyLevel >= currentHero.level)
         {
-            GameDataManager.instance.playerInfo.gold -= cost;
+            Debug.Log($"{propertyName} 레벨이 이미 영웅 레벨과 같거나 높습니다. 더 이상 올릴 수 없습니다.");
+            return;
+        }
+
+        (int goldCost, int expCost) = CalculateCost(propertyName);
+        if (GameDataManager.instance.playerInfo.gold >= goldCost && currentHero.currentExp >= expCost)
+        {
+            GameDataManager.instance.playerInfo.gold -= goldCost;
+            currentHero.currentExp -= expCost;
+
             switch (propertyName)
             {
                 case "HP":
@@ -110,13 +122,13 @@ public class AttributeUI : MonoBehaviour
                     currentHero.strengthLevel++;
                     currentHero.attackDamage += 2;
                     break;
-                case "Agility":
-                    currentHero.agilityLevel++;
-                    currentHero.agility += 2;
+                case "Deffense":
+                    currentHero.deffenseLevel++;
+                    currentHero.defense += 1;
                     break;
-                case "Intelligence":
-                    currentHero.intelligenceLevel++;
-                    currentHero.intelligence += 2;
+                case "MasicResistance":
+                    currentHero.masicResistanceLevel++;
+                    currentHero.magicResistance += 1;
                     break;
             }
             UpdateAttributeDisplay();
@@ -124,14 +136,16 @@ public class AttributeUI : MonoBehaviour
         }
         else
         {
-            Debug.Log("골드가 부족합니다!");
+            Debug.Log("Gold 또는 Exp가 부족합니다!");
         }
     }
 
-    private int CalculateCost(string propertyName)
+    private (int goldCost, int expCost) CalculateCost(string propertyName)
     {
-        int baseCost = 200;
+        int baseGoldCost = 200;
+        int baseExpCost =  10;
         int level = 1;
+
         switch (propertyName)
         {
             case "HP":
@@ -140,13 +154,33 @@ public class AttributeUI : MonoBehaviour
             case "Strength":
                 level = currentHero.strengthLevel;
                 break;
-            case "Agility":
-                level = currentHero.agilityLevel;
+            case "Deffense":
+                level = currentHero.deffenseLevel;
                 break;
-            case "Intelligence":
-                level = currentHero.intelligenceLevel;
+            case "MasicResistance":
+                level = currentHero.masicResistanceLevel;
                 break;
         }
-        return (int)(baseCost * Mathf.Pow(1.2f, level - 1));
+
+        int goldCost = (int)(baseGoldCost * Mathf.Pow(1.2f, level - 1));
+        int expCost = (int)(baseExpCost * Mathf.Pow(1.1f, level - 1));
+
+        return (goldCost, expCost);
+    }
+    private int GetCurrentPropertyLevel(string propertyName)
+    {
+        switch (propertyName)
+        {
+            case "HP":
+                return currentHero.hpLevel;
+            case "Strength":
+                return currentHero.strengthLevel;
+            case "Agility":
+                return currentHero.deffenseLevel;
+            case "Intelligence":
+                return currentHero.masicResistanceLevel;
+            default:
+                return 0;
+        }
     }
 }
