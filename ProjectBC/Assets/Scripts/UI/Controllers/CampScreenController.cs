@@ -35,8 +35,8 @@ public class CampScreenController : MonoBehaviour
 
     private void Awake()
     {
-        OnDailyStoreOpened += playerInfoBar.HideMenu;
-        OnDailyStoreClosed += playerInfoBar.ShowMenu;
+        OnDailyStoreOpened += playerInfoBar.ShowOnlyFunds;
+        OnDailyStoreClosed += playerInfoBar.ShowPlayerInfo;
     }
 
     private void Start()

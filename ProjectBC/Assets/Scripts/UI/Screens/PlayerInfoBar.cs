@@ -4,17 +4,16 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerInfoBar : MenuScreen
+public class PlayerInfoBar : BaseScreen
 {
-    [Header("texts")]
+    [Header("Texts")]
     public TextMeshProUGUI level;
     public TextMeshProUGUI battlePoint;
     public TextMeshProUGUI gold;
     public TextMeshProUGUI diamond;
     public TextMeshProUGUI gem;
 
-    [Header("panel")]
-    public Image panel;
+    [Header("Images")]
     public Image profile;
 
     private void OnEnable()
@@ -49,7 +48,7 @@ public class PlayerInfoBar : MenuScreen
         battlePoint.text = info.battlePoint.ToString();
     }
 
-    public void HideMenu()
+    public void ShowOnlyFunds()
     {
         //Color color = panel.color;
         //color.a = 0f;
@@ -60,7 +59,7 @@ public class PlayerInfoBar : MenuScreen
         battlePoint.SetActive(false);
     }
 
-    public void ShowMenu()
+    public void ShowPlayerInfo()
     {
         profile.gameObject.SetActive(true);
         level.SetActive(true);
