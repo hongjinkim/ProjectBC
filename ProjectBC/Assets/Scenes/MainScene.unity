@@ -1863,6 +1863,15 @@ MonoBehaviour:
   - {fileID: 36730298540627907, guid: 9c22726814fdfb84e8e586a6adabade3, type: 3}
   - {fileID: 6645916851249444840, guid: f434736121df6e648a40c2ba388f026d, type: 3}
   - {fileID: 7981873026576980590, guid: 871d95b17ee14c64bae0e2cf16b10a4d, type: 3}
+  - {fileID: 7660528548805794871, guid: 7ccd793a90aec9c439215267ad3f8801, type: 3}
+  - {fileID: 3547895647521886256, guid: 2b2502b739c257e4ebfc0be577bf98f9, type: 3}
+  - {fileID: 3266948069779139327, guid: 745bd80115af1b64e8c7b2198b220b2b, type: 3}
+  - {fileID: 3706581724471992361, guid: 9787a300a4a80424da22a70e935c0d64, type: 3}
+  - {fileID: 4787706143274787292, guid: 0c8d083edfb3e854296bcc0099a067c7, type: 3}
+  - {fileID: 3114807864568477229, guid: 5c6cd4f5ee3125c49b589880e75b77b3, type: 3}
+  - {fileID: 4153255927298266076, guid: 962e5497808907c4883e3d1222a2fc08, type: 3}
+  - {fileID: 6455479865541155446, guid: 7d7be4b8f3a8cf34bb1a3165e1684f48, type: 3}
+  - {fileID: 6437263871572937460, guid: ea713b93da7f10848aaefed66dde1e36, type: 3}
   _allDungeonList: []
   _themeList: []
   popupManager: {fileID: 533163067}
@@ -7442,6 +7451,38 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2677677420894414391, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2677677420894414391, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2677677420894414391, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 548133375}
+    - target: {fileID: 2677677420894414391, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2677677420894414391, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenAdventurePopup
+      objectReference: {fileID: 0}
+    - target: {fileID: 2677677420894414391, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DungeonManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2677677420894414391, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: B
+      objectReference: {fileID: 0}
+    - target: {fileID: 2677677420894414391, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2710265867312269676, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
@@ -8166,6 +8207,38 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5358168707308456805, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5358168707308456805, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5358168707308456805, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 548133375}
+    - target: {fileID: 5358168707308456805, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5358168707308456805, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenAdventurePopup
+      objectReference: {fileID: 0}
+    - target: {fileID: 5358168707308456805, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DungeonManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5358168707308456805, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: C
+      objectReference: {fileID: 0}
+    - target: {fileID: 5358168707308456805, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5442791308584653886, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -8689,6 +8762,38 @@ PrefabInstance:
     - target: {fileID: 7983135492577765908, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8023382846504732631, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8023382846504732631, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8023382846504732631, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 548133375}
+    - target: {fileID: 8023382846504732631, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8023382846504732631, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenAdventurePopup
+      objectReference: {fileID: 0}
+    - target: {fileID: 8023382846504732631, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DungeonManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8023382846504732631, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: D
+      objectReference: {fileID: 0}
+    - target: {fileID: 8023382846504732631, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8027312570134699361, guid: 8743a2c69870a5d41ae30aa1e82c3f90, type: 3}
       propertyPath: m_SizeDelta.x
