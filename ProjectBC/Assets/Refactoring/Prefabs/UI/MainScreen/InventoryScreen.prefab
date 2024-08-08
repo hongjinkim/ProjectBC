@@ -1517,7 +1517,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 9057066795031434174}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2377,7 +2377,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 5189435603785385438}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4803,7 +4803,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1676807875306641317}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5196,7 +5196,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2147198133405331417}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5413,6 +5413,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3198242940901540778}
   - component: {fileID: 3067879280385405483}
+  - component: {fileID: 2461701128936890153}
   m_Layer: 5
   m_Name: InventoryScreen
   m_TagString: Untagged
@@ -5456,6 +5457,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _screenName: InventoryScreen
   _UIManager: {fileID: 0}
+  inventoryBase: {fileID: 2461701128936890153}
+  EquipMenuButton: {fileID: 4508077047788917963}
+  UsableMenuButton: {fileID: 7432584351864227032}
+  MaterialMenuButton: {fileID: 8931659129493362411}
+  CrystalMenuButton: {fileID: 576468633525924329}
+  DisassemblyMenuButton: {fileID: 6320104716327967605}
+--- !u!114 &2461701128936890153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4196692906616040425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d033c589886a75c45a5ef49a709e3f05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EquipmentInventory: {fileID: 3529425159486346717}
+  UsableInventory: {fileID: 5709042605011387055}
+  MaterialInventory: {fileID: 8598538001307267758}
+  CrystalInventory: {fileID: 5724993895068811924}
+  DisassemblyPopup: {fileID: 6318072680116754011}
+  disassembly: {fileID: 4010332581751083470}
+  inventories: []
+  currentInventoryType: 0
+  ItemInfo: {fileID: 0}
 --- !u!1 &4201534141408154908
 GameObject:
   m_ObjectHideFlags: 0

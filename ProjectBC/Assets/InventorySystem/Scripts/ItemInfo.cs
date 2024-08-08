@@ -26,7 +26,7 @@ public class ItemInfo : PopUp
     [SerializeField] private Button lockButton;
     [SerializeField] private TextMeshProUGUI buttonText;
 
-    public Item currentItem { get; private set; }
+    public Item currentItem;
 
     [Header("View")]
     public Button nextViewBtn;
@@ -40,15 +40,15 @@ public class ItemInfo : PopUp
     public Item Item { get; protected set; }
     public int currentIndex; // 새로 추가된 필드
 
-    public GearBase gearBase;
+    //public GearBase gearBase;
     public Disassembly disassembly;
 
     protected override void Start()
     {
         base.Start();
         lockButton.onClick.AddListener(ToggleItemLock);
-        nextViewBtn.onClick.AddListener(gearBase.SelectNextItem);
-        prevViewBtn.onClick.AddListener(gearBase.SelectPreviousItem);
+        //nextViewBtn.onClick.AddListener(SelectNextItem);
+        //prevViewBtn.onClick.AddListener(SelectPreviousItem);
         disassemblyBtn.onClick.AddListener(SelectedDisassemblyButtonClikced);
         equipBtn.onClick.AddListener(EquipButtonClicked);
 
@@ -75,7 +75,7 @@ public class ItemInfo : PopUp
         Item = item;
         this.currentIndex = index;
 
-        //ShowScreen();
+        ShowScreen();
 
         icon.sprite = ItemCollection.active.GetItemIcon(item).sprite;
         iconBackground.sprite = ItemCollection.active.GetBackground(item) ?? ItemCollection.active.backgroundBrown;
@@ -150,4 +150,47 @@ public class ItemInfo : PopUp
     {
         Debug.Log("장착");
     }
+
+    //public void SelectPreviousItem()
+    //{
+    //    List<Item> currentItems = inventoryBase.inventoryItems[inventoryBase.currentInventoryType];
+    //    if (currentItems.Count == 0)
+    //    {
+    //        Debug.Log("Current inventory is empty.");
+    //        return;
+    //    }
+
+    //    int currentIndex = SelectedItem != null ? currentItems.IndexOf(SelectedItem) : -1;
+    //    if (currentIndex == -1)
+    //    {
+    //        // 현재 선택된 아이템이 없거나 현재 인벤토리에 없는 경우, 마지막 아이템 선택
+    //        SelectItem(currentItems[currentItems.Count - 1]);
+    //    }
+    //    else
+    //    {
+    //        int previousIndex = (currentIndex - 1 + currentItems.Count) % currentItems.Count;
+    //        SelectItem(currentItems[previousIndex]);
+    //    }
+    //}
+    //public void SelectNextItem()
+    //{
+    //    List<Item> currentItems = inventoryBase.inventoryItems[inventoryBase.currentInventoryType];
+    //    if (currentItems.Count == 0)
+    //    {
+    //        Debug.Log("Current inventory is empty.");
+    //        return;
+    //    }
+
+    //    int currentIndex = SelectedItem != null ? currentItems.IndexOf(SelectedItem) : -1;
+    //    if (currentIndex == -1)
+    //    {
+    //        // 현재 선택된 아이템이 없거나 현재 인벤토리에 없는 경우, 첫 번째 아이템 선택
+    //        SelectItem(currentItems[0]);
+    //    }
+    //    else
+    //    {
+    //        int nextIndex = (currentIndex + 1) % currentItems.Count;
+    //        SelectItem(currentItems[nextIndex]);
+    //    }
+    //}
 }

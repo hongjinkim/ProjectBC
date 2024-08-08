@@ -15,10 +15,6 @@ public abstract class BaseScreen : MonoBehaviour
     {
         if (string.IsNullOrEmpty(_screenName))
             _screenName = this.GetType().Name;
-        if (_UIManager == null)
-        {
-            _UIManager = MainUIManager.instance;
-        }
     }
 
     protected virtual void Awake()

@@ -10,11 +10,11 @@ public class BattleScreen : MainScreen
     public ObjectPoolBehaviour objectPool;
     private WaitForSeconds wait = new WaitForSeconds(2.0f);
 
-    private void OnEnable()
+    private void Start()
     {
         EventManager.StartListening(EventType.ItemPickup, OnPickup);
     }
-    private void OnDisable()
+    private void OnApplicationQuit()
     {
         EventManager.StopListening(EventType.ItemPickup, OnPickup);
     }
@@ -22,8 +22,17 @@ public class BattleScreen : MainScreen
 
     void OnPickup(Dictionary<string, object> message)
     {
-        StartCoroutine(PickupNotice((string)message["gold"]));
-        StartCoroutine(PickupNotice((string)message["item"]));
+        if(IsVisible())
+        {
+            if (message.ContainsKey("gold"))
+            {
+                StartCoroutine(PickupNotice((string)message["gold"]));
+            }
+            if (message.ContainsKey("item"))
+            {
+                StartCoroutine(PickupNotice((string)message["item"]));
+            }
+        }
     }
     
 

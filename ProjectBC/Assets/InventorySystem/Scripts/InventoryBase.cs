@@ -35,6 +35,8 @@ public class InventoryBase : ItemWorkspace
     public Action<Item> OnEquip;
     public Func<Item, bool> CanEquip = i => true;
 
+    [SerializeField]private ItemInfo ItemInfo;
+
     void OnEnable()
     {
         ShowInventory(EquipmentInventory);
@@ -76,7 +78,6 @@ public class InventoryBase : ItemWorkspace
     }
     public void Awake()
     {
-        EventManager.StartListening(EventType.ItemUpdated, InitializeInventory);
         //GameDataManager.ItemUpdated += InitializeInventory;
         //ItemCollection.active = ItemCollection;
         SetupInventories();
@@ -89,7 +90,9 @@ public class InventoryBase : ItemWorkspace
 
     public void Start()
     {
-       InitializeInventory(null);
+        ItemInfo = (ItemInfo)MainUIManager.instance.ItemInfoPopUp;
+        EventManager.StartListening(EventType.ItemUpdated, InitializeInventory);
+        InitializeInventory(null);
     }
 
     /// <summary>

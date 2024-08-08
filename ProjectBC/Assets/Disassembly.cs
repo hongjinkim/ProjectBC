@@ -37,11 +37,7 @@ public class Disassembly : MonoBehaviour
     [SerializeField] private List<Item> selectedItems = new List<Item>();
     [SerializeField] private List<ItemType> allowedTypes = new List<ItemType> { ItemType.Weapon, ItemType.Armor, ItemType.Helmet, ItemType.Leggings };
 
-    private void OnEnable()
-    {
-        EventManager.StartListening(EventType.ItemUpdated, UpdateSelectedItems);
-    }
-    private void OnDisable()
+    private void OnApplicationQuit()
     {
         EventManager.StopListening(EventType.ItemUpdated, UpdateSelectedItems);
     }
@@ -55,7 +51,7 @@ public class Disassembly : MonoBehaviour
             toggles[i].onValueChanged.AddListener((isOn) => OnToggleValueChanged(toggles[index], isOn));
         }
 
-        
+        EventManager.StartListening(EventType.ItemUpdated, UpdateSelectedItems);
         disassemblyButton.onClick.AddListener(ItemAllDisassemblyButton);
     }
 
@@ -92,16 +88,16 @@ public class Disassembly : MonoBehaviour
 
     public void UpdateSelectedItems(Dictionary<string, object> message)
     {
-        //selectedItems.Clear();
-        //var items = GameDataManager.instance.playerInfo.items;
+        selectedItems.Clear();
+        var items = GameDataManager.instance.playerInfo.items;
 
-        //foreach (var item in items)
-        //{
-        //    if (selectedRarities.Contains(item.Params.Rarity) && allowedTypes.Contains(item.Params.Type))
-        //    {
-        //        selectedItems.Add(item);
-        //    }
-        //}
+        foreach (var item in items)
+        {
+            if (selectedRarities.Contains(item.Params.Rarity) && allowedTypes.Contains(item.Params.Type))
+            {
+                selectedItems.Add(item);
+            }
+        }
 
         if (gameObject.activeInHierarchy)
         {
@@ -286,8 +282,8 @@ public class Disassembly : MonoBehaviour
                 Debug.Log($"획득한 재료: {string.Join(", ", reward.rewardItemIds)} (각 {rewardAmount}개)");
 
                 // 인벤토리 및 UI 업데이트
-                GameDataManager.instance.UpdateFunds();
-                GameDataManager.instance.UpdateItem();
+                EventManager.TriggerEvent(EventType.FundsUpdated, new Dictionary<string, object> { });
+                EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { });
                 inventoryBase.InitializeInventory(null);
                 UpdateUI();
             }

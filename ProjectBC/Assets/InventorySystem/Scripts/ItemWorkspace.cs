@@ -3,9 +3,6 @@ using System.Linq;
 using UnityEngine;
 public abstract class ItemWorkspace : MonoBehaviour
 {
-    public ItemCollection ItemCollection;
-    public ItemInfo ItemInfo;
-
     public static float SfxVolume = 1;
 
     public Item SelectedItem { get; protected set; }

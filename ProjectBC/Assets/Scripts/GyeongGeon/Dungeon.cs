@@ -326,7 +326,7 @@ public class Dungeon : MonoBehaviour
         if (droppedGolds > 0)
         {
             GameDataManager.instance.playerInfo.gold += droppedGolds;
-            EventManager.TriggerEvent(EventType.ItemPickup, new Dictionary<string, object> { { "gold", droppedGolds.ToString() + " 골드를 획득 했습니다." } });
+            EventManager.TriggerEvent(EventType.ItemPickup, new Dictionary<string, object> { { "gold", (string)(droppedGolds.ToString() + " 골드를 획득 했습니다.") } });
             EventManager.TriggerEvent(EventType.FundsUpdated, new Dictionary<string, object> { });
         }
 
@@ -350,14 +350,14 @@ public class Dungeon : MonoBehaviour
                     }
                     if (!hasItem)
                     {
-                        EventManager.TriggerEvent(EventType.ItemPickup, new Dictionary<string, object> { { "item", item.Params.Name + "을(를) 획득 했습니다" } });
+                        EventManager.TriggerEvent(EventType.ItemPickup, new Dictionary<string, object> { { "item", (string)(item.Params.Name + "을(를) 획득 했습니다") } });
                         inventory.Add(item);
                     }
 
                 }
                 else
                 {
-                    EventManager.TriggerEvent(EventType.ItemPickup, new Dictionary<string, object> { { "item", item.Params.Name + "을(를) 획득 했습니다" } });
+                    EventManager.TriggerEvent(EventType.ItemPickup, new Dictionary<string, object> { { "item", (string)(item.Params.Name + "을(를) 획득 했습니다") } });
                     inventory.Add(item);
                 }
             }
