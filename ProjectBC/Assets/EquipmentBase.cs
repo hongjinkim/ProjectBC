@@ -27,12 +27,12 @@ public class EquipmentBase : ItemWorkspace
 
     void OnApplicationQuit()
     {
-        EventManager.instance.StartListening(EventType.ItemUpdated, InitializeInventory);
+        EventManager.StartListening(EventType.ItemUpdated, InitializeInventory);
     }
 
     public void Awake()
     {
-        EventManager.instance.StopListening(EventType.ItemUpdated, InitializeInventory);
+        EventManager.StopListening(EventType.ItemUpdated, InitializeInventory);
         //ItemCollection.active = ItemCollection;
     }
 

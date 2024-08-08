@@ -3,12 +3,14 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    private DungeonManager dungeonManager;
+
     [Header("Menu Screens")]
-    [SerializeField] MenuScreen _campScreen;
-    [SerializeField] MenuScreen _exploreScreen;
-    [SerializeField] MenuScreen _battleScreen;
-    [SerializeField] MenuScreen _heroScreen;
-    [SerializeField] MenuScreen _inventoryScreen;
+    [SerializeField] MainScreen _campScreen;
+    [SerializeField] MainScreen _exploreScreen;
+    [SerializeField] MainScreen _battleScreen;
+    [SerializeField] MainScreen _heroScreen;
+    [SerializeField] MainScreen _inventoryScreen;
 
     [Header("Toolbars")]
     [SerializeField] MenuScreen _playerInfoBar;
@@ -17,7 +19,7 @@ public class UIManager : MonoBehaviour
     [Header("Full-screen overlays")]
 
 
-    List<MenuScreen> _allScreens = new List<MenuScreen>();
+    List<MainScreen> _allScreens = new List<MainScreen>();
     
     Camera mainCamera;
 
@@ -32,6 +34,8 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1f;
         mainCamera = Camera.main;
         ShowHomeScreen();
+
+        dungeonManager = DungeonManager.instance;
     }
 
     void SetupScreens()
@@ -53,9 +57,9 @@ public class UIManager : MonoBehaviour
     }
 
     // shows one screen at a time
-    void ShowScreen(MenuScreen screen)
+    void ShowScreen(MainScreen screen)
     {
-        foreach (MenuScreen m in _allScreens)
+        foreach (MainScreen m in _allScreens)
         {
             if (m == screen)
             {
@@ -92,7 +96,7 @@ public class UIManager : MonoBehaviour
     public void ShowBattleScreen()
     {
         ShowScreen(_battleScreen);
-        ChangeCameraPos( GameManager.instance.dungeonManager._selectDungeon.transform.position);
+        ChangeCameraPos(dungeonManager._selectDungeon.transform.position);
     }
 
     public void ShowHeroScreen()

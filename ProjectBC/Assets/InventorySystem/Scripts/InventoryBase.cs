@@ -42,7 +42,7 @@ public class InventoryBase : ItemWorkspace
 
     void OnApplicationQuit()
     {
-        EventManager.instance.StopListening(EventType.ItemUpdated, InitializeInventory);
+        EventManager.StopListening(EventType.ItemUpdated, InitializeInventory);
     }
 
     
@@ -76,7 +76,7 @@ public class InventoryBase : ItemWorkspace
     }
     public void Awake()
     {
-        EventManager.instance.StartListening(EventType.ItemUpdated, InitializeInventory);
+        EventManager.StartListening(EventType.ItemUpdated, InitializeInventory);
         //GameDataManager.ItemUpdated += InitializeInventory;
         //ItemCollection.active = ItemCollection;
         SetupInventories();

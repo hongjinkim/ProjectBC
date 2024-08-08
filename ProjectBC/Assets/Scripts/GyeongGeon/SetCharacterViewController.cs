@@ -19,14 +19,22 @@ public class SetCharacterViewController : MonoBehaviour
 
     float height = 1f;
 
+    private Camera mainCamera;
+
+    private DungeonManager dungeonManager;
+   
+
     private void Awake() 
     {
-        character = GetComponent<Character>();    
+        character = GetComponent<Character>();
+        mainCamera = Camera.main;
     }
 
     private void Start()
     {
+        dungeonManager = DungeonManager.instance;
         InitHpBar();
+        
     }
 
     private void Update()
@@ -38,14 +46,14 @@ public class SetCharacterViewController : MonoBehaviour
 
     public void InitHpBar()
     {
-        hpBarObj = Instantiate(prefabHpBar , GameManager.instance.dungeonManager.canvasTransform);
+        hpBarObj = Instantiate(prefabHpBar , dungeonManager.canvasTransform);
         hpBar = hpBarObj.GetComponent<RectTransform>();
         currentHpBarAmount = hpBar.transform.GetChild(0).GetChild(0).GetComponent<Image>();
     }
 
     public void CalPosHpBar()
     {
-        Vector3 _hpBarPos = Camera.main.WorldToScreenPoint(new Vector3(character.transform.position.x, character.transform.position.y + height, 0));
+        Vector3 _hpBarPos = mainCamera.WorldToScreenPoint(new Vector3(character.transform.position.x, character.transform.position.y + height, 0));
         hpBar.position = _hpBarPos;
     }
 

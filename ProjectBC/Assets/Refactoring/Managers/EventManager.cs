@@ -1,22 +1,38 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EventType
-{
-    FundsUpdated,
-    LevelUpdated,
-    BattlePointUpdated,
-    ItemUpdated,
-    HeroUpdated
-}
-
-public class EventManager : MonoSingleton<EventManager>
+public class EventManager : MonoBehaviour
 {
     private Dictionary<EventType, Action<Dictionary<string, object>>> eventDictionary;
 
-    private void Awake()
+    private static EventManager eventManager;
+
+    public static EventManager instance
+    {
+        get
+        {
+            if (!eventManager)
+            {
+                eventManager = FindObjectOfType(typeof(EventManager)) as EventManager;
+
+                if (!eventManager)
+                {
+                    Debug.LogError("There needs to be one active EventManager script on a GameObject in your scene.");
+                }
+                else
+                {
+                    eventManager.Init();
+
+                    //  Sets this to not be destroyed when reloading scene
+                    DontDestroyOnLoad(eventManager);
+                }
+            }
+            return eventManager;
+        }
+    }
+
+    void Init()
     {
         if (eventDictionary == null)
         {
@@ -24,14 +40,13 @@ public class EventManager : MonoSingleton<EventManager>
         }
     }
 
-    public void StartListening(EventType eventName, Action<Dictionary<string, object>> listener)
+    public static void StartListening(EventType eventName, Action<Dictionary<string, object>> listener)
     {
         Action<Dictionary<string, object>> thisEvent;
 
         if (instance.eventDictionary.TryGetValue(eventName, out thisEvent))
         {
-            thisEvent += listener;
-            instance.eventDictionary[eventName] = thisEvent;
+            instance.eventDictionary[eventName] += thisEvent;
         }
         else
         {
@@ -40,8 +55,9 @@ public class EventManager : MonoSingleton<EventManager>
         }
     }
 
-    public void StopListening(EventType eventName, Action<Dictionary<string, object>> listener)
+    public static void StopListening(EventType eventName, Action<Dictionary<string, object>> listener)
     {
+        if (eventManager == null) return;
         Action<Dictionary<string, object>> thisEvent;
         if (instance.eventDictionary.TryGetValue(eventName, out thisEvent))
         {
@@ -50,30 +66,12 @@ public class EventManager : MonoSingleton<EventManager>
         }
     }
 
-    public void TriggerEvent(EventType eventName, Dictionary<string, object> message)
+    public static void TriggerEvent(EventType eventName, Dictionary<string, object> message)
     {
-        Action<Dictionary<string, object>> thisEvent = null;
+        Action<Dictionary<string, object>> thisEvent;
         if (instance.eventDictionary.TryGetValue(eventName, out thisEvent))
         {
             thisEvent.Invoke(message);
         }
     }
-
-    //// 사용 예시
-    //EventManager.TriggerEvent("addCoins", new Dictionary<string, object> { { "amount", 1 } });
-    //void OnEnable()
-    //{
-    //    EventManager.StartListening("addCoins", OnAddCoins);
-    //}
-
-    //void OnDisable()
-    //{
-    //    EventManager.StopListening("addCoins", OnAddCoins);
-    //}
-
-    //void OnAddCoins(Dictionary<string, object> message)
-    //{
-    //    var amount = (int)message["amount"];
-    //    coins += amount;
-    //}
 }

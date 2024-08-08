@@ -29,7 +29,6 @@ public class GameDataManager : MonoSingleton<GameDataManager>
 
     [SerializeField] public EquipmentStatData[] equipmentStatData;
 
-    public Transform noticeTransform;
 
     void OnApplicationQuit()
     {
@@ -41,22 +40,20 @@ public class GameDataManager : MonoSingleton<GameDataManager>
         LoadDatas();
     }
 
-    private void Awake()
+    public override void Init()
     {
         savePath = Application.persistentDataPath;
         //InitializeHeroes();
 
         LoadGame();
 
-        Init();
+        
         ItemCollection.active = itemCollection;
-
     }
 
     void Start()
     {
-        
-        
+        Initialize();
     }
 
     public PlayerInfo NewGame()
@@ -125,7 +122,7 @@ public class GameDataManager : MonoSingleton<GameDataManager>
     //    SaveGame();
     //}
 
-    void Init()
+    void Initialize()
     {
         UpdateFunds();
         //UpdateLevel();
@@ -135,7 +132,7 @@ public class GameDataManager : MonoSingleton<GameDataManager>
 
     public void UpdateFunds()
     {
-        EventManager.instance.TriggerEvent(EventType.FundsUpdated, null);
+        EventManager.TriggerEvent(EventType.FundsUpdated, new Dictionary<string, object> { });
     }
 
     //public void UpdateLevel()
@@ -152,7 +149,7 @@ public class GameDataManager : MonoSingleton<GameDataManager>
 
     public void UpdateItem()
     {
-        EventManager.instance.TriggerEvent(EventType.ItemUpdated, null);
+        EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { });
     }
 
     private void LoadDatas()
@@ -224,7 +221,7 @@ public class GameDataManager : MonoSingleton<GameDataManager>
         if (index != -1)
         {
             _playerInfo.heroes[index] = hero;
-            EventManager.instance.TriggerEvent(EventType.HeroUpdated, new Dictionary<string, object> { { "heroes", _playerInfo.heroes } });
+            EventManager.TriggerEvent(EventType.HeroUpdated, new Dictionary<string, object> { { "heroes", _playerInfo.heroes } });
             //HeroesUpdated.Invoke(_playerInfo.heroes);
         }
     }

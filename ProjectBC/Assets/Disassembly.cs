@@ -37,6 +37,15 @@ public class Disassembly : MonoBehaviour
     [SerializeField] private List<Item> selectedItems = new List<Item>();
     [SerializeField] private List<ItemType> allowedTypes = new List<ItemType> { ItemType.Weapon, ItemType.Armor, ItemType.Helmet, ItemType.Leggings };
 
+    private void OnEnable()
+    {
+        EventManager.StartListening(EventType.ItemUpdated, UpdateSelectedItems);
+    }
+    private void OnDisable()
+    {
+        EventManager.StopListening(EventType.ItemUpdated, UpdateSelectedItems);
+    }
+
     private void Awake()
     {
         InitializeToggleRarityMap();
@@ -46,7 +55,7 @@ public class Disassembly : MonoBehaviour
             toggles[i].onValueChanged.AddListener((isOn) => OnToggleValueChanged(toggles[index], isOn));
         }
 
-        EventManager.instance.StartListening(EventType.ItemUpdated, UpdateSelectedItems);
+        
         disassemblyButton.onClick.AddListener(ItemAllDisassemblyButton);
     }
 
@@ -176,7 +185,7 @@ public class Disassembly : MonoBehaviour
         selectedItems.Clear();
         UpdateUI();
         //GameDataManager.instance.UpdateItem();
-        EventManager.instance.TriggerEvent(EventType.ItemUpdated, null);
+        EventManager.TriggerEvent(EventType.ItemUpdated, null);
 
         inventoryBase.InitializeInventory(null);
     }
@@ -235,8 +244,8 @@ public class Disassembly : MonoBehaviour
 
         //GameDataManager.instance.UpdateFunds();
         //GameDataManager.instance.UpdateItem();
-        EventManager.instance.TriggerEvent(EventType.FundsUpdated, null);
-        EventManager.instance.TriggerEvent(EventType.ItemUpdated, null);
+        EventManager.TriggerEvent(EventType.FundsUpdated, null);
+        EventManager.TriggerEvent(EventType.ItemUpdated, null);
 
         inventoryBase.InitializeInventory(null);
     }

@@ -225,3 +225,13 @@ public enum EquipmentPart
     Firearm2H,
     Wings
 }
+
+public enum EventType
+{
+    FundsUpdated,
+    LevelUpdated,
+    BattlePointUpdated,
+    ItemUpdated,
+    ItemPickup,
+    HeroUpdated
+}

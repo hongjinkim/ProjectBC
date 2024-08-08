@@ -12,7 +12,7 @@ public class ItemInfo : PopUp
     public Image iconFrame;
     public TextMeshProUGUI level;
     public TextMeshProUGUI battlePoint;
-    public TextMeshProUGUI name;
+    public TextMeshProUGUI itemName;
     public TextMeshProUGUI rarity;
     public TextMeshProUGUI type;
 
@@ -82,7 +82,7 @@ public class ItemInfo : PopUp
         iconBackground.color = Color.white;
         iconFrame.raycastTarget = true;
         level.text = "Lv. " + item.Params.Level.ToString("D2");
-        name.text = item.Params.Name;
+        itemName.text = item.Params.Name;
         rarity.text = "З°Бъ : " + item.Params.Rarity.ToString();
         type.text = item.Params.Type.ToString();
         if (item.IsEquipment)

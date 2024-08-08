@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class HeroManager : MonoBehaviour
+public class HeroManager : MonoSingleton<HeroManager>
 {
     private GameDataManager gameDataManager;
 
@@ -20,16 +20,9 @@ public class HeroManager : MonoBehaviour
     private MyHeroSlot[] myHeroSlots;
     private int maxDeckSize = 4;
 
-    private void OnValidate()
+    protected override void Awake()
     {
-        if (GameManager.instance.heroManager == null)
-        {
-            GameManager.instance.heroManager = this;
-        }
-    }
-    private void Awake()
-    {
-        
+        base.Awake();
         InitializeSlots();
     }
 

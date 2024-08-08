@@ -3,9 +3,10 @@ using UnityEngine;
 
 public class GameManager : MonoSingleton<GameManager>
 {
+    
+    private HeroManager heroManager;
+    private DungeonManager dungeonManager;
 
-    public DungeonManager dungeonManager;
-    public HeroManager heroManager;
     private int maxDeckSize = 4;
 
     [SerializeField] private GameObject KnightPrefab;
@@ -16,12 +17,16 @@ public class GameManager : MonoSingleton<GameManager>
     public List<GameObject> HeroDeckPrefab = new List<GameObject>();
 
 
+    public Transform pickUpGrid;
+
     private void Start()
     {
+        dungeonManager = DungeonManager.instance;
+        heroManager = HeroManager.instance;
+
         HeroDeckPrefab = new List<GameObject>(new GameObject[maxDeckSize]);
 
-        Invoke("InitializeHeroPrefabs", 0.1f);
-
+        InitializeHeroPrefabs();
         // 초기 덱 상태 반영
         for (int i = 0; i < heroManager.Deck.Count; i++)
         {

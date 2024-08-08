@@ -42,7 +42,7 @@ public class Hero : Character
         //SetStat();
         StartCoroutine(RegenerateEnergy());
     }
-    protected virtual void Update()
+    protected override void Update()
     {
         base.Update();
         CheckAndUseSkill();

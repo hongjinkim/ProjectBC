@@ -128,6 +128,8 @@ public abstract class Character : MonoBehaviour, IBehavior
     private float healthRegenTimer = 0f;
     private const float HEALTH_REGEN_INTERVAL = 1f; // 1초마다 HP 회복
 
+    private DungeonManager dungeonManager;
+
     // 기존 Character 메서드와 Player에서 가져온 메서드 통합
     protected virtual void InitializeSkillBook() { }
     public virtual void IncreaseCharacteristic(float amount) { }
@@ -150,13 +152,14 @@ public abstract class Character : MonoBehaviour, IBehavior
         //StartCoroutine(AutoMoveCoroutine());
 
         InitializeHealth();
+        dungeonManager = DungeonManager.instance;
     }
     protected virtual void InitializeHealth()
     {
         currentHealth = maxHealth;
     }
 
-    protected void Update()
+    protected virtual void Update()
     {
         CheckState();
         ApplyHealthRegen();
@@ -575,7 +578,7 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     protected virtual void InstantiateDmgTxtObj(float damage, Vector3 targetPosition, bool isCritical)
     {
-        GameObject DamageTxtObj = Instantiate(PrefabDmgTxt, GameManager.instance.dungeonManager.canvasTransform);
+        GameObject DamageTxtObj = Instantiate(PrefabDmgTxt, dungeonManager.canvasTransform);
         TextMeshProUGUI damageText = DamageTxtObj.GetComponent<TextMeshProUGUI>();
         damageText.text = Mathf.Round(damage).ToString();
 

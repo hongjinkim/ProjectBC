@@ -21,7 +21,7 @@ public class BattleDeckSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IBeg
     private Camera mainCamera;
     [SerializeField] private int slotIndex;
 
-    private void Awake()
+    private void Start()
     {
         InitializeComponents();
         mainCamera = Camera.main;

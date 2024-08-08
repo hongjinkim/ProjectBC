@@ -14,15 +14,9 @@ public class DungeonManager : MonoSingleton<DungeonManager>
 
     private MainUIManager _UIManager;
 
-    private void OnValidate()
+    protected override void Awake()
     {
-        if (GameManager.instance.dungeonManager == null)
-        {
-            GameManager.instance.dungeonManager = this;
-        }
-    }
-    private void Awake()
-    {
+        base.Awake();
         _UIManager = MainUIManager.instance;
     }
 

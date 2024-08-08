@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class PlayerInfoBar : BaseScreen
 {
+    private PlayerInfo playerInfo;
+
     [Header("Texts")]
     public TextMeshProUGUI level;
     public TextMeshProUGUI battlePoint;
@@ -18,25 +20,25 @@ public class PlayerInfoBar : BaseScreen
 
     private void OnEnable()
     {
-        EventManager.instance.StartListening(EventType.FundsUpdated, OnFundsUpdated);
+        EventManager.StartListening(EventType.FundsUpdated, OnFundsUpdated);
 
     }
 
     private void OnDisable()
     {
-        EventManager.instance.StopListening(EventType.FundsUpdated, OnFundsUpdated);
+        EventManager.StopListening(EventType.FundsUpdated, OnFundsUpdated);
     }
 
     void Start()
     {
-
+        playerInfo = GameDataManager.instance.playerInfo;
     }
 
     void OnFundsUpdated(Dictionary<string, object> message)
     {
-        gold.text = GameDataManager.instance.playerInfo.gold.ToString();
-        diamond.text = GameDataManager.instance.playerInfo.diamond.ToString();
-        gem.text = GameDataManager.instance.playerInfo.gem.ToString();
+        gold.text = playerInfo.gold.ToString();
+        diamond.text = playerInfo.diamond.ToString();
+        gem.text = playerInfo.gem.ToString();
     }
 
     void OnLevelUpdated(PlayerInfo info)

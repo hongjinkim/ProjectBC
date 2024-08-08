@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MainUIManager : MonoSingleton<MainUIManager>
 {
+    private DungeonManager dungeonManager;
+
     [Header("Main Screens")]
     public MainScreen _campScreen;
     public MainScreen _exploreScreen;
@@ -28,6 +30,7 @@ public class MainUIManager : MonoSingleton<MainUIManager>
 
     private Camera mainCamera;
 
+
     void OnEnable()
     {
         SetupScreens();
@@ -38,6 +41,8 @@ public class MainUIManager : MonoSingleton<MainUIManager>
         Time.timeScale = 1f;
         mainCamera = Camera.main;
         ShowHomeScreen();
+
+        dungeonManager = DungeonManager.instance;
     }
 
     void SetupScreens()
@@ -98,7 +103,7 @@ public class MainUIManager : MonoSingleton<MainUIManager>
     public void ShowBattleScreen()
     {
         ShowMainScreen(_battleScreen);
-        ChangeCameraPos(GameManager.instance.dungeonManager._selectDungeon.transform.position);
+        ChangeCameraPos(dungeonManager._selectDungeon.transform.position);
     }
 
     public void ShowHeroScreen()

@@ -9,9 +9,10 @@ public class ToastMsg : MonoSingleton<ToastMsg>
     [SerializeField] private float fontSize = 36f;
     private TextMeshProUGUI tmpText;
     private float fadeInOutTime = 0.3f;
-    
-    private void Awake()
+
+    protected override void Awake()
     {
+        base.Awake();
 
         InitializeText();
     }
