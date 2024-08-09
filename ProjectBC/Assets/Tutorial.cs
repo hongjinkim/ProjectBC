@@ -12,7 +12,6 @@ public class TutorialWithUIInteraction : PopUp
     {
         if (!GameDataManager.instance.playerInfo.isTutorial)
         {
-            ShowScreen();
             ActivateNextTutorial();
         }
         if (tutorialButtons != null)
@@ -75,6 +74,7 @@ public class TutorialWithUIInteraction : PopUp
             {
                 AutoClickButton(6);
             }
+            ShowScreen();
         }
         else
         {
