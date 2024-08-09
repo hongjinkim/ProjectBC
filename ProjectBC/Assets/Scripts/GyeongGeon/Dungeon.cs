@@ -142,7 +142,18 @@ public class Dungeon : MonoBehaviour
     public Character GetTarget(Character unit)
     {
         Character targetUnit = null;
-        List<Character> targetList = unit.CompareTag("Hero") ? _activeEnemyList : _activeHeroList;
+        List<Character> targetList;
+
+        if (unit.CompareTag("Hero"))
+        {
+            targetList = new List<Character>(_activeEnemyList);
+            targetList.AddRange(_activeBossList);
+        }
+        else
+        {
+            targetList = _activeHeroList;
+        }
+        
         float closestDistance = float.MaxValue;
 
         foreach (var target in targetList)

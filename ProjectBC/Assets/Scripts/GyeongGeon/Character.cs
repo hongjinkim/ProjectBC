@@ -357,12 +357,23 @@ public abstract class Character : MonoBehaviour, IBehavior
         // 적을 찾을때 연산이 많아져서 느려질 수 있는 문제를 방지한다.
         findTimer += Time.deltaTime;
 
+        if (dungeon == null)
+        {
+            return;
+        }
+
         if(findTimer > dungeon._findTimer)
         {
             _target = dungeon.GetTarget(this);
 
-            if(_target != null) SetState(UnitState.move);
-            else SetState(UnitState.idle);
+            if (_target != null)
+            {
+                SetState(UnitState.move);
+            }
+            else
+            {
+                SetState(UnitState.idle);
+            }
 
             findTimer = 0;
         }
@@ -600,6 +611,11 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     public void SetAnimatorState(UnitState state)
 	{
+        if (animator == null)
+        {
+            return;
+        }
+
 		animator.SetInteger("State", (int) state);
 
         if (_target == null)
