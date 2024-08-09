@@ -8,8 +8,8 @@ using static UnityEngine.ParticleSystem;
 public class HeroInfo
 {
     public Character character;
-    public int id; // Ãß°¡
-    public List<string> equippedItemIds = new List<string>(); // Ãß°¡
+    public int id; // ï¿½ß°ï¿½
+    public List<string> equippedItemIds = new List<string>(); // ï¿½ß°ï¿½
     public string heroName;
     public HeroClass heroClass;
     public CharacteristicType characteristicType;
@@ -18,13 +18,13 @@ public class HeroInfo
     public float neededExp;
     public string imagePath;
 
-    // ±âº» ½ºÅÈ
+    // ï¿½âº» ï¿½ï¿½ï¿½ï¿½
     public int strength;
     public int agility;
     public int intelligence;
     public int stamina;
 
-    // Ãß°¡ ½ºÅÈ
+    // ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½
     public float energy;
     public int hp;
     public int attackDamage;
@@ -54,6 +54,12 @@ public class HeroInfo
     public event Action OnExperienceChanged;
     public event Action OnLevelUp;
     public event Action<int> OnTraitSelectionAvailable;
+
+    //
+    public int hpLevel = 1;
+    public int strengthLevel = 1;
+    public int defenseLevel = 1;
+    public int masicResistanceLevel = 1;
     public HeroInfo(string name, HeroClass heroClass, int id, string imagePath)
     {
         this.id = id;
@@ -64,29 +70,29 @@ public class HeroInfo
         this.currentExp = 0;
         this.neededExp = 2;
 
-        // °øÅë ±âº» ½ºÅÈ ¼³Á¤
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½âº» ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         this.energy = 0;
         this.strength = 0;
         this.agility = 0;
         this.intelligence = 0;
         this.stamina = 0;
         this.hp = 200;
-        this.attackDamage = 10;//°ø°ÝÇÇÇØ
-        this.defense = 10;//¹æ¾î
-        this.magicResistance = 10;//¸¶¹ý ÀúÇ×
-        this.attackSpeed = 100;//°ø°Ý¼Óµµ
-        this.healthRegen = 0;//Ã¼·ÂÀç»ý
-        this.energyRegen = 5;//¿¡³ÊÁöÀç»ý
-        this.expAmplification = 0;//°æÇèÄ¡ÁõÆø
-        this.trueDamage = 0;//°íÁ¤ÇÇÇØ
-        this.damageBlock = 0;//µ¥¹ÌÁöºí·Ï ÀÏ´Ü º¸·ù
-        this.lifeSteal = 0;//»ý¸íÈí¼ö
-        this.damageAmplification = 0;//ÇÇÇØÁõÆø
-        this.damageReduction = 0;//ÇÇÇØ°¨¼Ò
-        this.criticalChance = 0;//Å©¸®Æ¼ÄÃÈ®·ü
-        this.criticalDamage = 150;//Å©¸®Æ¼ÄÃµ¥¹ÌÁö
-        this.defensePenetration = 0;//¹æ¾î°üÅë
-        // attackRange¿Í characteristicTypeÀº ¿©±â¼­ ¼³Á¤ÇÏÁö ¾ÊÀ½
+        this.attackDamage = 10;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        this.defense = 10;//ï¿½ï¿½ï¿½
+        this.magicResistance = 10;//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        this.attackSpeed = 100;//ï¿½ï¿½ï¿½Ý¼Óµï¿½
+        this.healthRegen = 0;//Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½
+        this.energyRegen = 5;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        this.expAmplification = 0;//ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½
+        this.trueDamage = 0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        this.damageBlock = 0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½
+        this.lifeSteal = 0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        this.damageAmplification = 0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        this.damageReduction = 0;//ï¿½ï¿½ï¿½Ø°ï¿½ï¿½ï¿½
+        this.criticalChance = 0;//Å©ï¿½ï¿½Æ¼ï¿½ï¿½È®ï¿½ï¿½
+        this.criticalDamage = 150;//Å©ï¿½ï¿½Æ¼ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½
+        this.defensePenetration = 0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        // attackRangeï¿½ï¿½ characteristicTypeï¿½ï¿½ ï¿½ï¿½ï¿½â¼­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         InitializeTraits();
     }
     private void InitializeTraits()
@@ -104,11 +110,11 @@ public class HeroInfo
                 break;
             case HeroClass.Priest:
                 traits.Add(new ProtectionTrait());
-                //traits.Add(new PlunderTrait()); º¸·ù
+                //traits.Add(new PlunderTrait()); ï¿½ï¿½ï¿½ï¿½
                 break;
         }
     }
-    // ÀÌ¹ÌÁö¸¦ ·ÎµåÇÏ´Â ¸Þ¼­µå
+    // ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½Ï´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
     //public Sprite LoadImage()
     //{
     //    return Resources.Load<Sprite>(imagePath);
@@ -249,7 +255,7 @@ public class HeroInfo
     public void AddTrait(Trait trait)
     {
         traits.Add(trait);
-        // Æ¯¼º Ãß°¡¿¡ µû¸¥ ½ºÅÈ Àç°è»ê
+        // Æ¯ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         
     }
 

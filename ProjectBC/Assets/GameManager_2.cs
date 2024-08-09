@@ -66,43 +66,6 @@ public class GameManager_2 : MonoBehaviour
         }
     }
 
-    //public void CreateHeroPrefabAtPosition(Vector3 position, int slotIndex)
-    //{
-    //    //if (heroPrefabs.TryGetValue(heroId, out GameObject prefab))
-    //    //{
-    //    //    if (prefab != null)
-    //    //    {
-    //    //        GameObject instance = Instantiate(prefab, position, Quaternion.identity);
-    //    //    }
-    //    //}
-    //    //if (slotIndex >= 0 && slotIndex < HeroDeckPrefab.Length && HeroDeckPrefab[slotIndex] != null)
-    //    //{
-    //    //    GameObject instance = Instantiate(HeroDeckPrefab[slotIndex], position, Quaternion.identity);
-    //    //}
-
-    //    if (slotIndex >= 0 && slotIndex < HeroDeckPrefab.Count && HeroDeckPrefab[slotIndex] != null)
-    //    {
-    //        GameObject instance = Instantiate(HeroDeckPrefab[slotIndex], position, Quaternion.identity);
-    //        Character hero = instance.GetComponent<Character>();
-    //        if (hero != null)
-    //        {
-    //            hero.gameObject.tag = "Hero";
-    //            hero.gameObject.SetActive(true);
-
-    //            // 던전 매니저를 찾아 영웅을 추가합니다.
-
-    //            Dungeon dd = GameManager.Instance.dungeonManager._selectDungeon;
-
-    //            //Dungeon dungeon = FindObjectOfType<Dungeon>();
-    //            if (dd != null)
-    //            {
-    //                dd.AddHeroToBattlefield(hero);
-    //            }
-
-    //        }
-
-    //    }
-    //}
 
     public void CreateHeroPrefabAtPosition(Vector3 position, int slotIndex)
     {

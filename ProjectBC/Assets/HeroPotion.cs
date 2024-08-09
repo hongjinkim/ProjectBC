@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,11 +23,13 @@ public class HeroPotion : MonoBehaviour
     [SerializeField] private PotionInfo[] potionInfos;
     [SerializeField] private Button swapButton;
     [SerializeField] private Image selectedSlotImage;
-    [SerializeField] private TextMeshProUGUI selectedPotionCountText;
 
     [SerializeField] private Color normalColor = Color.white;
     [SerializeField] private Color selectedColor = Color.yellow;
     private int currentSelectedIndex = -1;
+
+    private HeroInfo currentHero;
+    private Dictionary<int, int> heroToPotionIndex = new Dictionary<int, int>();
 
     public static HeroPotion Instance { get; private set; }
 
@@ -91,17 +94,15 @@ public class HeroPotion : MonoBehaviour
                     break;
             }
         }
-
-        if (currentSelectedIndex >= 0 && currentSelectedIndex < potionInfos.Length)
-        {
-            UpdateSelectedPotionCount();
-        }
     }
 
     private void SelectPotion(int potionIndex)
     {
         if (potionIndex < 0 || potionIndex >= potionInfos.Length)
+        {
+            ResetPotionUI();
             return;
+        }
 
         if (currentSelectedIndex >= 0 && currentSelectedIndex < _potionButtons.Length)
         {
@@ -129,6 +130,11 @@ public class HeroPotion : MonoBehaviour
         }
 
         currentSelectedIndex = potionIndex;
+
+        if (currentHero != null)
+        {
+            heroToPotionIndex[currentHero.id] = currentSelectedIndex;
+        }
     }
 
     private void SwapPotion()
@@ -140,15 +146,105 @@ public class HeroPotion : MonoBehaviour
                 selectedSlotImage.sprite = potionInfos[currentSelectedIndex].icon.sprite;
                 selectedSlotImage.color = Color.white;
             }
-            UpdateSelectedPotionCount();
+        }
+        else
+        {
+            ResetPotionUI();
         }
     }
 
-    private void UpdateSelectedPotionCount()
+
+    public void UpdateCurrentHero(HeroInfo hero)
     {
-        if (selectedPotionCountText != null && currentSelectedIndex >= 0 && currentSelectedIndex < potionInfos.Length)
+        currentHero = hero;
+        ResetPotionUI();
+        UpdatePotionInfo();
+        LoadSelectedPotionForHero();
+    }
+    private void UpdatePotionInfo()
+    {
+        if (currentHero == null) return;
+
+        // 여기서 currentHero의 정보를 바탕으로 포션 정보를 업데이트합니다.
+        // 예를 들어, 영웅의 레벨이나 속성에 따라 포션의 효과를 다르게 설정할 수 있습니다.
+        for (int i = 0; i < potionInfos.Length; i++)
         {
-            selectedPotionCountText.text = potionInfos[currentSelectedIndex].count.text;
+            UpdatePotionEffect(i);
+        }
+
+        UpdatePotionCount();
+        if (currentSelectedIndex >= 0 && currentSelectedIndex < potionInfos.Length)
+        {
+            SelectPotion(currentSelectedIndex);
+        }
+    }
+    private void UpdatePotionEffect(int index)
+    {
+        if (index < 0 || index >= potionInfos.Length) return;
+
+        // 영웅의 정보에 따라 포션 효과를 계산하고 설명을 업데이트합니다.
+        // 이는 게임의 구체적인 규칙에 따라 달라질 수 있습니다.
+        switch (index)
+        {
+            case 0: // Green S
+            case 1: // Green M
+                int hpRestore = (index == 0) ? 50 : 100;
+                potionInfos[index].description = $"HP를 {hpRestore + currentHero.level * 5} 회복합니다.";
+                break;
+            case 2: // Yellow S
+            case 3: // Yellow M
+                int mpRestore = (index == 2) ? 30 : 60;
+                potionInfos[index].description = $"MP를 {mpRestore + currentHero.level * 3} 회복합니다.";
+                break;
+            case 4: // Red S
+            case 5: // Red M
+                int atkBoost = (index == 4) ? 10 : 20;
+                potionInfos[index].description = $"공격력을 {atkBoost + currentHero.attackDamage / 10}만큼 일시적으로 증가시킵니다.";
+                break;
+        }
+    }
+
+    private void LoadSelectedPotionForHero()
+    {
+        if (currentHero == null) return;
+
+        if (heroToPotionIndex.TryGetValue(currentHero.id, out int savedIndex))
+        {
+            SelectPotion(savedIndex);
+            SwapPotion();
+        }
+        else
+        {
+            // 저장된 정보가 없으면 포션 선택 해제 상태로 유지
+            ResetPotionUI();
+        }
+    }
+
+    private void ResetPotionUI()
+    {
+        currentSelectedIndex = -1;
+        if (selectedSlotImage != null)
+        {
+            selectedSlotImage.sprite = null;
+            selectedSlotImage.color = Color.clear;
+        }
+        if (_potionName != null)
+        {
+            _potionName.text = "";
+        }
+        if (_potionDescription != null)
+        {
+            _potionDescription.text = "";
+        }
+
+        // 모든 포션 버튼 색상 초기화
+        for (int i = 0; i < _potionButtons.Length; i++)
+        {
+            Image buttonImage = _potionButtons[i].GetComponent<Image>();
+            if (buttonImage != null)
+            {
+                buttonImage.color = normalColor;
+            }
         }
     }
 }

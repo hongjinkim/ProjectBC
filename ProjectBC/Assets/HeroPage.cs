@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,8 +27,20 @@ public class HeroPage : HeroScreen
     [Header("ExpGaegu")]
     public Image gauge;
 
+    [SerializeField] private AttributeUI attributeUI;
+    [SerializeField] private HeroPotion heroPotion;
+
     public void Start()
     {
+        if (attributeUI == null)
+        {
+            Debug.LogError("AttributeUI is not assigned in the inspector for HeroPage");
+        }
+        else
+        {
+            attributeUI.OnHeroInfoChanged += UpdateHeroInfo;
+        }
+
         transform.SetAsFirstSibling();
     }
 
@@ -47,7 +55,15 @@ public class HeroPage : HeroScreen
         _info.OnExperienceChanged -= GaugeBarUpdate;
         _info.OnLevelUp -= GaugeBarUpdate;
     }
-
+    private void UpdateHeroInfo(HeroInfo updatedInfo)
+    {
+        _info = updatedInfo;
+        UpdateUITexts();
+        if (heroPotion != null)
+        {
+            heroPotion.UpdateCurrentHero(_info);  // HeroPotion ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+        }
+    }
 
     public void OnHeroSelected(HeroInfo info, int idx)
     {
@@ -57,20 +73,42 @@ public class HeroPage : HeroScreen
         _info = info;
         Initialize();
         traitManager.SetCurrentHero(_info);
+        attributeUI.UpdateHeroAttributes(info);
+        if (heroPotion != null)
+        {
+            heroPotion.UpdateCurrentHero(info);  // HeroPotion ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+        }
         transform.SetAsLastSibling();
     }
     public void Initialize()
     {
-        
+        if (_info == null)
+        {
+            Debug.LogError("_info is null in Initialize");
+            return;
+        }
+
         characterImage.sprite = _info.Sprite;
 
+        UpdateUITexts();
 
-        levlText.text = _info.level.ToString();
-        //BattlePointText.text
-        HealthText.text = _info.hp.ToString();
-        AttackText.text = _info.attackDamage.ToString();
-        DefenseText.text = _info.defense.ToString();
-        ResistanceText.text = _info.magicResistance.ToString();
+        if (attributeUI != null)
+        {
+            attributeUI.UpdateHeroAttributes(_info);
+        }
+        else
+        {
+            Debug.LogError("attributeUI is null in Initialize");
+        }
+
+        if (heroPotion != null)
+        {
+            heroPotion.UpdateCurrentHero(_info);  // HeroPotion ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+        }
+        else
+        {
+            Debug.LogError("heroPotion is null in Initialize");
+        }
     }
     public void OnBackButtonClicked()
     {
@@ -131,7 +169,7 @@ public class HeroPage : HeroScreen
         }
         else
         {
-            Debug.Log($"{scrollType} °æÇèÄ¡ ½ºÅ©·ÑÀÌ ¾ø½À´Ï´Ù.");
+            Debug.Log($"{scrollType} ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
         }
 
     }
@@ -184,5 +222,28 @@ public class HeroPage : HeroScreen
     public void GaugeBarUpdate()
     {
         gauge.fillAmount = Mathf.Clamp01(_info.currentExp / _info.neededExp);
+
+        UpdateUITexts();
+        if (heroPotion != null)
+        {
+            heroPotion.UpdateCurrentHero(_info);  // HeroPotion ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+        }
+    }
+
+    private void UpdateUITexts()
+    {
+        levlText.text = _info.level.ToString();
+        HealthText.text = _info.hp.ToString();
+        AttackText.text = _info.attackDamage.ToString();
+        DefenseText.text = _info.defense.ToString();
+        ResistanceText.text = _info.magicResistance.ToString();
+
+        int battlePoint = CalculateBattlePoint(_info);
+        BattlePointText.text = battlePoint.ToString();
+    }
+    private int CalculateBattlePoint(HeroInfo hero)
+    {
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ë·±ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
+        return hero.hp / 10 + hero.attackDamage * 2 + hero.defense * 3 + hero.magicResistance * 3 + hero.level * 5;
     }
 }
