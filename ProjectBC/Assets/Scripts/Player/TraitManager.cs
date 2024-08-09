@@ -1,74 +1,152 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using System.Collections.Generic;
+
 public class TraitManager : MonoBehaviour
 {
-    public Button[] traitButtons;
-    private List<Trait> traits = new List<Trait>();
+    public GameObject concentrationPanel;
+    public GameObject magicPanel;
+    public GameObject protectionPanel;
+    public ConcentrationTrait concentrationTrait;
+    public MagicTrait magicTrait;
+    public ProtectionTrait protectionTrait;
+    // ... 다른 특성 패널들 ...
+    private HeroInfo currentHeroInfo;
 
-    void Start()
+    public void ShowTraitPanel(HeroInfo heroInfo)
     {
-        // 예시로 레벨 10에서 특성을 추가하는 로직
-        int level = 10;
-        AddTraitsForLevel(level);
-    }
+        HideAllPanels();
 
-    void AddTraitsForLevel(int level)
-    {
-        traits.Clear();
-
-        if (level == 10)
+        if (heroInfo.traits.Count > 0)
         {
-            traits.Add(new Trait(TraitType.Concentration, "방어 침투를 3% 증가시킵니다.", () => { /* 방어 침투 증가 로직 */ }));
-            traits.Add(new Trait(TraitType.Concentration, "피해를 3% 증폭시킵니다.", () => { /* 피해 증폭 로직 */ }));
-        }
-        else if (level == 20)
-        {
-            traits.Add(new Trait(TraitType.Concentration, "적을 5회 공격 후 후속 공격에 8%의 추가 피해를 입힙니다.", () => { /* 추가 피해 로직 */ }));
-            traits.Add(new Trait(TraitType.Concentration, "적을 5회 공격 후 3초 동안 20의 추가 공격 속도를 얻습니다.", () => { /* 추가 공격 속도 로직 */ }));
-        }
-        else if (level == 30)
-        {
-            traits.Add(new Trait(TraitType.Concentration, "일반 공격은 타겟의 아머와 마법 저항을 6% 줄입니다.", () => { /* 아머 및 마법 저항 감소 로직 */ }));
-            traits.Add(new Trait(TraitType.Concentration, "일반 공격은 타겟의 체력 재생을 3초 동안 20으로 줄입니다.", () => { /* 체력 재생 감소 로직 */ }));
-        }
-        else if (level == 40)
-        {
-            traits.Add(new Trait(TraitType.Concentration, "적을 죽이면 3초 동안 공격 속도가 25 증가합니다.", () => { /* 공격 속도 증가 로직 */ }));
-            traits.Add(new Trait(TraitType.Concentration, "적을 죽이면 3초 동안 공격 피해가 12% 증가합니다.", () => { /* 공격 피해 증가 로직 */ }));
-        }
-
-        // 버튼 초기화 및 설정
-        for (int i = 0; i < traitButtons.Length; i++)
-        {
-            if (i < traits.Count)
+            TraitType traitType = heroInfo.traits[0].Type;
+            GameObject panel = GetPanelForTraitType(traitType);
+            if (panel != null)
             {
-                int index = i;
-                traitButtons[i].GetComponentInChildren<Text>().text = traits[i].Description;
-                traitButtons[i].onClick.RemoveAllListeners();
-                traitButtons[i].onClick.AddListener(() => OnTraitSelected(index));
-                traitButtons[i].gameObject.SetActive(true);
-            }
-            else
-            {
-                traitButtons[i].gameObject.SetActive(false);
+                panel.SetActive(true);
+                ITraitPanel traitPanel = panel.GetComponent<ITraitPanel>();
+                if (traitPanel != null)
+                {
+                    traitPanel.Initialize(heroInfo);
+                }
             }
         }
     }
 
-    void OnTraitSelected(int index)
+    private void HideAllPanels()
     {
-        // 선택된 특성의 효과 실행
-        traits[index].Effect.Invoke();
+        concentrationPanel.SetActive(false);
+        magicPanel.SetActive(false);
+        protectionPanel.SetActive(false);
+        // ... 다른 패널들도 비활성화
+    }
 
-        // 선택되지 않은 버튼 비활성화
-        for (int i = 0; i < traitButtons.Length; i++)
+    private GameObject GetPanelForTraitType(TraitType traitType)
+    {
+        switch (traitType)
         {
-            if (i != index)
-            {
-                traitButtons[i].interactable = false;
-            }
+            case TraitType.Concentration:
+                return concentrationPanel;
+            case TraitType.Magic:
+                return magicPanel;
+            case TraitType.Protection:
+                return protectionPanel;
+            // ... 다른 특성 타입에 대한 case 추가
+            default:
+                return null;
         }
     }
+    public void SetCurrentHero(HeroInfo heroInfo)
+    {
+        currentHeroInfo = heroInfo;
+    }
+
+    public void ApplyConcentrationTrait(int level, bool isLeftTrait)
+    {
+        concentrationTrait.ChooseTrait(level, isLeftTrait);
+        Character currentCharacter = GetCurrentCharacter();
+        if (currentCharacter != null)
+        {
+            concentrationTrait.ApplyEffect(currentCharacter);
+        }
+        else
+        {
+            Debug.LogWarning("No current character found to apply trait.");
+        }
+    }
+
+    public void ApplyMagicTrait(int level, bool isLeftTrait)
+    {
+        magicTrait.ChooseTrait(level, isLeftTrait);
+        Character currentCharacter = GetCurrentCharacter();
+        if (currentCharacter != null)
+        {
+            magicTrait.ApplyEffect(currentCharacter);
+        }
+        else
+        {
+            Debug.LogWarning("No current character found to apply trait.");
+        }
+    }
+
+    public void ApplyProtectionTrait(int level, bool isLeftTrait)
+    {
+        protectionTrait.ChooseTrait(level, isLeftTrait);
+        Character currentCharacter = GetCurrentCharacter();
+        if (currentCharacter != null)
+        {
+            protectionTrait.ApplyEffect(currentCharacter);
+        }
+        else
+        {
+            Debug.LogWarning("No current character found to apply trait.");
+        }
+    }
+
+    private Character GetCurrentCharacter()
+    {
+        if (currentHeroInfo != null && currentHeroInfo.character != null)
+        {
+            return currentHeroInfo.character;
+        }
+        else
+        {
+            Debug.LogWarning("Current hero or character is null.");
+            return null;
+        }
+    }
+    // Concentration Trait
+    public void ApplyConcentrationTraitLeft10() { ApplyConcentrationTrait(10, true); }
+    public void ApplyConcentrationTraitRight10() { ApplyConcentrationTrait(10, false); }
+    public void ApplyConcentrationTraitLeft20() { ApplyConcentrationTrait(20, true); }
+    public void ApplyConcentrationTraitRight20() { ApplyConcentrationTrait(20, false); }
+    public void ApplyConcentrationTraitLeft30() { ApplyConcentrationTrait(30, true); }
+    public void ApplyConcentrationTraitRight30() { ApplyConcentrationTrait(30, false); }
+    public void ApplyConcentrationTraitLeft40() { ApplyConcentrationTrait(40, true); }
+    public void ApplyConcentrationTraitRight40() { ApplyConcentrationTrait(40, false); }
+
+    // Magic Trait
+    public void ApplyMagicTraitLeft10() { ApplyMagicTrait(10, true); }
+    public void ApplyMagicTraitRight10() { ApplyMagicTrait(10, false); }
+    public void ApplyMagicTraitLeft20() { ApplyMagicTrait(20, true); }
+    public void ApplyMagicTraitRight20() { ApplyMagicTrait(20, false); }
+    public void ApplyMagicTraitLeft30() { ApplyMagicTrait(30, true); }
+    public void ApplyMagicTraitRight30() { ApplyMagicTrait(30, false); }
+    public void ApplyMagicTraitLeft40() { ApplyMagicTrait(40, true); }
+    public void ApplyMagicTraitRight40() { ApplyMagicTrait(40, false); }
+
+    // Protection Trait
+    public void ApplyProtectionTraitLeft10() { ApplyProtectionTrait(10, true); }
+    public void ApplyProtectionTraitRight10() { ApplyProtectionTrait(10, false); }
+    public void ApplyProtectionTraitLeft20() { ApplyProtectionTrait(20, true); }
+    public void ApplyProtectionTraitRight20() { ApplyProtectionTrait(20, false); }
+    public void ApplyProtectionTraitLeft30() { ApplyProtectionTrait(30, true); }
+    public void ApplyProtectionTraitRight30() { ApplyProtectionTrait(30, false); }
+    public void ApplyProtectionTraitLeft40() { ApplyProtectionTrait(40, true); }
+    public void ApplyProtectionTraitRight40() { ApplyProtectionTrait(40, false); }
+}
+
+// 모든 특성 패널이 구현해야 할 인터페이스
+public interface ITraitPanel
+{
+    void Initialize(HeroInfo heroInfo);
 }

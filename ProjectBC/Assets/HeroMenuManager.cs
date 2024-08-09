@@ -3,23 +3,26 @@ using UnityEngine.UI;
 
 public class HeroMenuManager : MonoBehaviour
 {
+    public TraitManager traitManager;
     [Header("Menus")]
     public Transform EquipmentMenu;
     public Transform AttributeMenu;
     public Transform LevelUpMenu;
     public Transform SkillMenu;
-    public Transform TalentMenu;
+    public Transform TraitMenu;
 
     [Header("Potion")]
     public Button PotionEquipmentButton;
     public Button PotionEquipmentCloseButton;
     public Transform HeroScreen_Equipment;
 
+    
     private void Awake()
     {
         EquipmentMenu.SetAsLastSibling();
     }
 
+   
     public void OnEquipmentButtonClicked()
     {
         EquipmentMenu.SetAsLastSibling();
@@ -42,7 +45,7 @@ public class HeroMenuManager : MonoBehaviour
 
     public void OnTalentButtonClicked()
     {
-        TalentMenu.SetAsLastSibling();
+        TraitMenu.SetAsLastSibling();
     }
 
     public void OnPotionEquipmentClicked()

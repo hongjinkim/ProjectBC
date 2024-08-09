@@ -30,7 +30,14 @@ public abstract class Character : MonoBehaviour, IBehavior
         left,
         Right
     }
-
+    public event Func<Character, float, float> OnTakeDamage;
+    public event Action<Character> OnHit;
+    
+    public event Action<Character> OnKill;
+    public event Action<Character, float> OnSkillHit;
+    public event Action OnSkillUse;
+    public event Action<float> OnUpdate;
+    public float SkillDamageMultiplier { get; set; } = 1f;
     public Dungeon dungeon;
     //protected PlayerStat playerStat;
     private List<ISkill> skillList;
@@ -57,14 +64,14 @@ public abstract class Character : MonoBehaviour, IBehavior
 
 
     public Character attacker;
-
+    private const float MAX_ENERGY = 100f;
     [Header("Infos")]
     public HeroInfo info;
-    public int maxHealth => info?.hp ?? 100;
+    public int maxHealth = 100;
     public int currentHealth;
     public float moveSpeed=1;
     public int attackDamage => info?.attackDamage ?? 1;
-    public float attackSpeed;
+    public float attackInterval;
     public int attackRange => info?.attackRange ?? 1;
     public float findRange;
     public int level;
@@ -74,15 +81,26 @@ public abstract class Character : MonoBehaviour, IBehavior
     public float attackTimer;
 
     // 새로 추가된 변수들
-
-
+    public float Energy
+    {
+        get { return info != null ? info.energy : 0; }
+        set
+        {
+            if (info != null)
+            {
+                info.energy = Mathf.Clamp(value, 0, MAX_ENERGY);
+            }
+        }
+    }
+    public float attackSpeed=>info?.attackSpeed ?? 100;
+    public int hp => info?.hp ?? 100;
     public int defense => info?.defense ?? 10;
     public int magicResistance=>info?.magicResistance ?? 10;
     public float healthRegen=>info?.healthRegen ?? 0;
     public float energyRegen=>info?.energyRegen ?? 5;
     public int expAmplification=>info?.expAmplification??0;
     public int trueDamage=>info?.trueDamage??0;
-    public int damageBlock => info?.damageBlock ?? 0;
+    public int damageBlock => info?.damageBlock ?? 0;//고정 데미지 감소
     public int lifeSteal => info?.lifeSteal ?? 0;
     public int damageAmplification => info?.damageAmplification ?? 0;
     public int damageReduction => info?.damageReduction ?? 0;
@@ -120,7 +138,7 @@ public abstract class Character : MonoBehaviour, IBehavior
     public TraitType SelectedTraitType { get; protected set; }
     public PlayerSkill ActiveSkill { get; protected set; }
 
-    
+    public float baseAttackInterval = 1f;
     protected HeroSkills skills;
 
     public bool autoMove;
@@ -148,16 +166,24 @@ public abstract class Character : MonoBehaviour, IBehavior
         //dungeon.DungeonInit();
         //transform.position = customTilemapManager.GetNearestValidPosition(transform.position);
         //StartCoroutine(AutoMoveCoroutine());
-
+        
         InitializeHealth();
+        UpdateAttackInterval();
     }
     protected virtual void InitializeHealth()
     {
         currentHealth = maxHealth;
     }
+    public void UpdateAttackInterval()
+    {
+        
+            // attackSpeed가 높을수록 attackInterval이 짧아집니다.
+            attackInterval = baseAttackInterval * (100f / attackSpeed);
 
+    }
     protected void Update()
     {
+        OnUpdate?.Invoke(Time.deltaTime);
         CheckState();
         ApplyHealthRegen();
         if (currentHealth <= 0 && _unitState != UnitState.death)
@@ -165,8 +191,54 @@ public abstract class Character : MonoBehaviour, IBehavior
             SetState(UnitState.death);
             Die();
         }
-    }
 
+    }
+    protected IEnumerator RegenerateEnergy()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            if (info != null)
+            {
+                info.energy = Mathf.Min(info.energy + info.energyRegen, MAX_ENERGY);
+            }
+        }
+    }
+    protected virtual void UseSkill()
+    {
+        OnSkillUse?.Invoke();
+        // 기존 스킬 사용 로직...
+    }
+    protected void CheckAndUseSkill()
+    {
+        if (Energy >= 100)
+        {
+            UseSkill();
+        }
+    }
+    public void UpdateMaxHealth()
+    {
+        if (info != null)
+        {
+            maxHealth = info.hp * 5;
+        }
+        else
+        {
+            maxHealth = 100; // 기본값 설정 (필요하다면)
+        }
+
+        // 현재 체력이 새로운 최대 체력을 초과하지 않도록 조정
+        currentHealth = Mathf.Min(currentHealth, maxHealth);
+    }
+    protected virtual void Kill(Character killedCharacter)
+    {
+        OnKill?.Invoke(killedCharacter);
+    }
+    // HeroInfo의 hp가 변경될 때 호출되어야 하는 메서드
+    public void OnHpChanged()
+    {
+        UpdateMaxHealth();
+    }
     void OnTriggerEnter2D(Collider2D collision) 
     {
         string targetTag = "";
@@ -203,7 +275,13 @@ public abstract class Character : MonoBehaviour, IBehavior
     public virtual void TakeDamage(Character attacker, float damage)
     {
         if (this is Hero && attacker is Hero) return;
-
+        if (OnTakeDamage != null)
+        {
+            foreach (Func<Character, float, float> handler in OnTakeDamage.GetInvocationList())
+            {
+                damage = handler(attacker, damage);
+            }
+        }
         if (this != null)
         {
             this.attacker = attacker;
@@ -232,6 +310,7 @@ public abstract class Character : MonoBehaviour, IBehavior
 
             
         }
+        OnHit?.Invoke(this);
     }
     private bool RollForCritical()
     {
@@ -276,7 +355,15 @@ public abstract class Character : MonoBehaviour, IBehavior
         //gameObject.SetActive(false);
         InitFadeEffect();
         StartCoroutine(FadeOut());
+        if (attacker != null)
+        {
+            attacker.OnKill?.Invoke(this);
+        }
 
+    }
+    public void StartCoroutineFromTrait(IEnumerator routine)
+    {
+        StartCoroutine(routine);
     }
     private void ApplyHealthRegen()
     {
@@ -514,7 +601,7 @@ public abstract class Character : MonoBehaviour, IBehavior
 
         attackTimer += Time.deltaTime;
 
-        if(attackTimer > attackSpeed)
+        if(attackTimer > attackInterval)
         {
             Attack();
             attackTimer = 0;

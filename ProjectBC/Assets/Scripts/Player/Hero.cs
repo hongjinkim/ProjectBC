@@ -9,7 +9,8 @@ public class Hero : Character
     private const float REGEN_INTERVAL = 1f;
     private const float REGEN_PERCENT = 0.05f;
     private bool isRegenerating = false;
-
+    private bool isTraitSelectionPending = false;
+    private int pendingTraitLevel = 0;
     protected virtual void OnEnable()
     {
         InstantFadeIn();
@@ -41,6 +42,8 @@ public class Hero : Character
         base.Start();
         //SetStat();
         StartCoroutine(RegenerateEnergy());
+        SetupHeroInfoEvents();
+
     }
     protected virtual void Update()
     {
@@ -59,40 +62,46 @@ public class Hero : Character
             }
         }
     }
-    public float Energy
+    
+    private void SetupHeroInfoEvents()
     {
-        get { return info != null ? info.energy : 0; }
-        set
+        info.OnLevelUp += OnHeroLevelUp;
+        info.OnTraitSelectionAvailable += OnTraitSelectionAvailable;
+    }
+    private void OnHeroLevelUp()
+    {
+        // 레벨업 시 수행할 작업...
+        info.ApplyTraits(this);
+    }
+    private void OnTraitSelectionAvailable(int level)
+    {
+        isTraitSelectionPending = true;
+        pendingTraitLevel = level;
+        // UI를 통해 사용자에게 특성 선택을 요청
+        RequestTraitSelectionFromUser();
+    }
+    private void RequestTraitSelectionFromUser()
+    {
+        // 이 메서드는 UI 시스템을 통해 사용자에게 특성 선택을 요청합니다.
+        // 예를 들어, 특성 선택 팝업을 표시할 수 있습니다.
+        // 실제 구현은 게임의 UI 시스템에 따라 달라집니다.
+        
+    }
+    public void OnTraitSelected(bool isLeftTrait)
+    {
+        if (isTraitSelectionPending)
         {
-            if (info != null)
-            {
-                info.energy = Mathf.Clamp(value, 0, MAX_ENERGY);
-            }
+            info.SelectTrait(pendingTraitLevel, isLeftTrait);
+            info.ApplyTraits(this);
+            isTraitSelectionPending = false;
+            pendingTraitLevel = 0;
         }
     }
-    protected virtual void UseSkill()
-    {
-        if (Energy >= 100)
-        {
-            
-            // 실제 스킬 사용 로직은 하위 클래스에서 구현
-            //Energy = 0;
-        }
-        else
-        {
-            
-        }
-    }
+   
     protected virtual void ApplyPassiveSkill1() { }
     protected virtual void ApplyPassiveSkill2() { }
     protected virtual void ApplyPassiveSkill3() { }
-    protected void CheckAndUseSkill()
-    {
-        if (info.energy >= 100)
-        {
-            UseSkill();
-        }
-    }
+   
     private void RegenerateHealth()
     {
         if (!gameObject.activeInHierarchy && currentHealth < maxHealth)

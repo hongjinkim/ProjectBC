@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class HeroPage : HeroScreen
 {
-
+    public TraitManager traitManager;
     public HeroMenuManager heroMenuManager;
     public ItemCollection itemCollection;
 
@@ -56,6 +56,7 @@ public class HeroPage : HeroScreen
         _idx = idx;
         _info = info;
         Initialize();
+        traitManager.SetCurrentHero(_info);
         transform.SetAsLastSibling();
     }
     public void Initialize()
@@ -134,7 +135,10 @@ public class HeroPage : HeroScreen
         }
 
     }
-
+    public void OnTalentButtonClicked()
+    {
+        traitManager.ShowTraitPanel(_info);
+    }
     public void OnLevelupButtonClicked()
     {
         if (_info.level >= 40 && _info.currentExp == _info.neededExp)

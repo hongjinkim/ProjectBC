@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.ParticleSystem;
 
 [Serializable]
 public class HeroInfo
 {
+    public Character character;
     public int id; // 추가
     public List<string> equippedItemIds = new List<string>(); // 추가
     public string heroName;
@@ -51,6 +53,7 @@ public class HeroInfo
 
     public event Action OnExperienceChanged;
     public event Action OnLevelUp;
+    public event Action<int> OnTraitSelectionAvailable;
     public HeroInfo(string name, HeroClass heroClass, int id, string imagePath)
     {
         this.id = id;
@@ -71,7 +74,7 @@ public class HeroInfo
         this.attackDamage = 10;//공격피해
         this.defense = 10;//방어
         this.magicResistance = 10;//마법 저항
-        //this.attackSpeed = 100;//공격속도
+        this.attackSpeed = 100;//공격속도
         this.healthRegen = 0;//체력재생
         this.energyRegen = 5;//에너지재생
         this.expAmplification = 0;//경험치증폭
@@ -84,8 +87,27 @@ public class HeroInfo
         this.criticalDamage = 150;//크리티컬데미지
         this.defensePenetration = 0;//방어관통
         // attackRange와 characteristicType은 여기서 설정하지 않음
+        InitializeTraits();
     }
-
+    private void InitializeTraits()
+    {
+        switch (heroClass)
+        {
+            case HeroClass.Archer:
+                traits.Add(new ConcentrationTrait());
+                break;
+            case HeroClass.Knight:
+                traits.Add(new ProtectionTrait());
+                break;
+            case HeroClass.Wizard:
+                traits.Add(new MagicTrait());
+                break;
+            case HeroClass.Priest:
+                traits.Add(new ProtectionTrait());
+                //traits.Add(new PlunderTrait()); 보류
+                break;
+        }
+    }
     // 이미지를 로드하는 메서드
     //public Sprite LoadImage()
     //{
@@ -106,7 +128,10 @@ public class HeroInfo
             return _sprite;
         }
     }
-
+    public void SetCharacter(Character character)
+    {
+        this.character = character;
+    }
     public void IncreaseStrength(float amount)
     {
         strength += (int)amount;
@@ -188,8 +213,29 @@ public class HeroInfo
                 break;
         }
         OnLevelUp?.Invoke();
+        if (level == 10 || level == 20 || level == 30 || level == 40)
+        {
+            OnTraitSelectionAvailable?.Invoke(level);
+        }
     }
-
+    public void SelectTrait(int level, bool isLeftTrait)
+    {
+        foreach (var trait in traits)
+        {
+            if (trait.Level == level)
+            {
+                trait.ChooseTrait(level, isLeftTrait);
+                break;
+            }
+        }
+    }
+    public void ApplyTraits(Character character)
+    {
+        foreach (var trait in traits)
+        {
+            trait.ApplyEffect(character);
+        }
+    }
     public void TriggerExperienceChanged()
     {
         OnExperienceChanged?.Invoke();
