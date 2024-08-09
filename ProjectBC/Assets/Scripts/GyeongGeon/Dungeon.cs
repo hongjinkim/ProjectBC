@@ -327,7 +327,7 @@ public class Dungeon : MonoBehaviour
         {
             GameDataManager.instance.playerInfo.gold += droppedGolds;
             EventManager.TriggerEvent(EventType.ItemPickup, new Dictionary<string, object> { { "gold", (string)(droppedGolds.ToString() + " 골드를 획득 했습니다.") } });
-            EventManager.TriggerEvent(EventType.FundsUpdated, new Dictionary<string, object> { });
+            EventManager.TriggerEvent(EventType.FundsUpdated, null);
         }
 
         // 아이템 획득
@@ -361,7 +361,7 @@ public class Dungeon : MonoBehaviour
                     inventory.Add(item);
                 }
             }
-            EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { });
+            EventManager.TriggerEvent(EventType.ItemUpdated, null);
         }
 
         // 필드 위애 아이템 표시 모두 제거

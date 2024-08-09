@@ -282,8 +282,8 @@ public class Disassembly : MonoBehaviour
                 Debug.Log($"획득한 재료: {string.Join(", ", reward.rewardItemIds)} (각 {rewardAmount}개)");
 
                 // 인벤토리 및 UI 업데이트
-                EventManager.TriggerEvent(EventType.FundsUpdated, new Dictionary<string, object> { });
-                EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { });
+                EventManager.TriggerEvent(EventType.FundsUpdated, null);
+                EventManager.TriggerEvent(EventType.ItemUpdated, null);
                 inventoryBase.InitializeInventory(null);
                 UpdateUI();
             }

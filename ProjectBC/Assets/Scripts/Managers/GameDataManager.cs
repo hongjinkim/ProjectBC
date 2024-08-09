@@ -132,7 +132,7 @@ public class GameDataManager : MonoSingleton<GameDataManager>
 
     public void UpdateFunds()
     {
-        EventManager.TriggerEvent(EventType.FundsUpdated, new Dictionary<string, object> { });
+        EventManager.TriggerEvent(EventType.FundsUpdated, null);
     }
 
     //public void UpdateLevel()
@@ -149,7 +149,7 @@ public class GameDataManager : MonoSingleton<GameDataManager>
 
     public void UpdateItem()
     {
-        EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { });
+        EventManager.TriggerEvent(EventType.ItemUpdated, null);
     }
 
     private void LoadDatas()
