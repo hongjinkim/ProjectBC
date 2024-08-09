@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class HeroPage : HeroScreen
 {
-
+    public TraitManager traitManager;
     public HeroMenuManager heroMenuManager;
     public ItemCollection itemCollection;
 
@@ -61,7 +61,7 @@ public class HeroPage : HeroScreen
         UpdateUITexts();
         if (heroPotion != null)
         {
-            heroPotion.UpdateCurrentHero(_info);  // HeroPotion ¾÷µ¥ÀÌÆ®
+            heroPotion.UpdateCurrentHero(_info);  // HeroPotion ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
         }
     }
 
@@ -72,10 +72,11 @@ public class HeroPage : HeroScreen
         _idx = idx;
         _info = info;
         Initialize();
+        traitManager.SetCurrentHero(_info);
         attributeUI.UpdateHeroAttributes(info);
         if (heroPotion != null)
         {
-            heroPotion.UpdateCurrentHero(info);  // HeroPotion ¾÷µ¥ÀÌÆ®
+            heroPotion.UpdateCurrentHero(info);  // HeroPotion ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
         }
         transform.SetAsLastSibling();
     }
@@ -102,7 +103,7 @@ public class HeroPage : HeroScreen
 
         if (heroPotion != null)
         {
-            heroPotion.UpdateCurrentHero(_info);  // HeroPotion ¾÷µ¥ÀÌÆ®
+            heroPotion.UpdateCurrentHero(_info);  // HeroPotion ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
         }
         else
         {
@@ -168,11 +169,14 @@ public class HeroPage : HeroScreen
         }
         else
         {
-            Debug.Log($"{scrollType} °æÇèÄ¡ ½ºÅ©·ÑÀÌ ¾ø½À´Ï´Ù.");
+            Debug.Log($"{scrollType} ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
         }
 
     }
-
+    public void OnTalentButtonClicked()
+    {
+        traitManager.ShowTraitPanel(_info);
+    }
     public void OnLevelupButtonClicked()
     {
         if (_info.level >= 40 && _info.currentExp == _info.neededExp)
@@ -222,7 +226,7 @@ public class HeroPage : HeroScreen
         UpdateUITexts();
         if (heroPotion != null)
         {
-            heroPotion.UpdateCurrentHero(_info);  // HeroPotion ¾÷µ¥ÀÌÆ®
+            heroPotion.UpdateCurrentHero(_info);  // HeroPotion ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
         }
     }
 
@@ -239,7 +243,7 @@ public class HeroPage : HeroScreen
     }
     private int CalculateBattlePoint(HeroInfo hero)
     {
-        // ÀÌ °è»ê½ÄÀº °ÔÀÓ ¹ë·±½º¿¡ µû¶ó Á¶Á¤ÇØ¾ß ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ë·±ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
         return hero.hp / 10 + hero.attackDamage * 2 + hero.defense * 3 + hero.magicResistance * 3 + hero.level * 5;
     }
 }

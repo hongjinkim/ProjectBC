@@ -4,22 +4,37 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class Trait
+public abstract class Trait
 {
     public TraitType Type { get; private set; }
+    public string Name { get; private set; }
     public string Description { get; private set; }
-    public Action Effect { get; private set; }
+    public int Level { get; private set; }
+    public bool IsLeftTrait { get; private set; }
 
-    public Trait(TraitType type, string description, Action effect)
+    protected Trait(TraitType type, string name, string description, int level, bool isLeftTrait)
     {
         Type = type;
+        Name = name;
         Description = description;
-        Effect = effect;
+        Level = level;
+        IsLeftTrait = isLeftTrait;
     }
 
+    public abstract void ApplyEffect(Character character);
 
-    public void ApplyEffect()
+    protected void SetLevel(int level)
     {
-        Effect?.Invoke();
+        Level = level;
+    }
+
+    protected void SetIsLeftTrait(bool isLeftTrait)
+    {
+        IsLeftTrait = isLeftTrait;
+    }
+    public virtual void ChooseTrait(int level, bool isLeftTrait)
+    {
+        Level = level;
+        IsLeftTrait = isLeftTrait;
     }
 }

@@ -9,6 +9,11 @@ public class Wizard : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     public bool isSelected = false;
     private List<Vector3> previewPath;
     public ScorchedEarth scorchedEarth;
+    public MysticResonance mysticResonance;
+    public WaveOfHeat waveOfHeat;
+
+    private float passiveEffectTimer = 0f;
+    private const float PASSIVE_EFFECT_INTERVAL = 1f;
     private void Awake() 
     {
         lineRenderer = gameObject.AddComponent<LineRenderer>();
@@ -27,14 +32,47 @@ public class Wizard : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
         info.attackRange = 4;
 
         scorchedEarth = new ScorchedEarth();
+        mysticResonance = new MysticResonance();
+        waveOfHeat = new WaveOfHeat();
         info.skills.Add(scorchedEarth);
+        info.skills.Add(mysticResonance);
+        info.skills.Add(waveOfHeat);
         info.activeSkill = scorchedEarth;
+        Debug.Log(attackSpeed);
     }
     protected override void Update()
     {
         base.Update();
         CheckAndUseSkill();
+        passiveEffectTimer += Time.deltaTime;
+        if (passiveEffectTimer >= PASSIVE_EFFECT_INTERVAL)
+        {
+            ApplyPassiveEffects();
+            passiveEffectTimer = 0f;
+        }
         
+    }
+    private void ApplyPassiveEffects()
+    {
+        ApplyWaveOfHeat();
+    }
+
+    private void ApplyWaveOfHeat()
+    {
+        int attackSpeedReduction = waveOfHeat.GetAttackSpeedReduction();
+        Collider2D[] nearbyColliders = Physics2D.OverlapCircleAll(transform.position, info.attackRange);
+
+        foreach (Collider2D collider in nearbyColliders)
+        {
+            if (collider.CompareTag("Enemy"))
+            {
+                Enemy enemy = collider.GetComponent<Enemy>();
+                if (enemy != null)
+                {
+                    enemy.ApplyAttackSpeedReduction(attackSpeedReduction);
+                }
+            }
+        }
     }
     protected override void UseSkill()
     {
@@ -43,6 +81,14 @@ public class Wizard : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
         if (Energy >= 100 && info.activeSkill != null)
         {
             Debug.Log($"Wizard energy is full, using {info.activeSkill.Name}");
+
+            // MysticResonance 효과 적용
+            if (info.activeSkill is ScorchedEarth scorchedEarth)
+            {
+                float damageMultiplier = 1f + mysticResonance.GetSkillDamageAmplification();
+                scorchedEarth.SetDamageMultiplier(damageMultiplier);
+            }
+
             info.activeSkill.UseSkill(this);
             Energy = 0;  // 스킬 사용 후 에너지 리셋
         }

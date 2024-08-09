@@ -4,7 +4,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     protected PlayerStat playerStat;
-    private TraitSelectionManager traitSelectionManager;
+    //private TraitSelectionManager traitSelectionManager;
     //protected HeroSkillBook skillBook;
     private HeroSkills skills;
     public Sprite Icon { get; protected set; }
@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
             playerStat = GetComponent<PlayerStat>();
         }
 
-        traitSelectionManager = FindObjectOfType<TraitSelectionManager>();
+        //traitSelectionManager = FindObjectOfType<TraitSelectionManager>();
 
         Level = 1;
         needexp = 100; // 초기 필요 경험치 설정

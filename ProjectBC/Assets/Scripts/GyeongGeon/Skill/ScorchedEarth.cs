@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class ScorchedEarth : PlayerSkill
 {
     public float aoeRadius = 0.8f; // AOE 범위 반경
-
+    private float damageMultiplier = 1f;
     public ScorchedEarth() : base(
         "그을린 대지",
         "마법사는 대지를 태우는 불꽃을 소환하여 기본 피해+공격피해*스킬계수의 범위 마법피해를 입힙니다.",
@@ -14,26 +14,28 @@ public class ScorchedEarth : PlayerSkill
     )
     {
     }
-
+    public void SetDamageMultiplier(float multiplier)
+    {
+        damageMultiplier = multiplier;
+    }
     public override void UseSkill(Hero caster)
     {
         Wizard wizard = caster as Wizard;
         if (wizard == null)
         {
-            Debug.LogError("ScorchedEarth skill can only be used by Wizard");
+            
             return;
         }
 
         if (wizard._target == null)
         {
-            Debug.Log("No target found for ScorchedEarth skill");
+            
             return;
         }
 
         int baseDamage = BaseDamage[Level - 1];
         float coefficient = Coefficients[Level - 1];
-        float totalDamage = baseDamage + (wizard.attackDamage * coefficient);
-
+        float totalDamage = (baseDamage + (wizard.attackDamage * coefficient)) * damageMultiplier;
         Vector2 targetPosition = wizard._target.transform.position;
 
         // 범위 내의 모든 적을 찾아 데미지를 입힘

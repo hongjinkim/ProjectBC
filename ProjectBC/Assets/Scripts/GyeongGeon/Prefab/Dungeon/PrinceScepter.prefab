@@ -215,7 +215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _themeCode: C
-  _themeName: "\uB2EC\uADF8\uB9BC\uC790 \uC232"
+  _themeName: "\uC655\uC88C\uC758 \uD640"
   _stageCode: C3
   _findTimer: 0.1
   _enemyQuantity: 3
@@ -238,58 +238,128 @@ MonoBehaviour:
   _activeHeroList:
   - {fileID: 6719724232351885715, guid: 0bc8621fae777ee4d92557c5fd70e1a9, type: 3}
   LootTable:
-  - id: none
-    dropRate: 60
-    minValue: 0
-    maxValue: 0
-    droppedItemPrefab: {fileID: 6398687339744348316, guid: 78836114cce56cf4191abc5b2ca58fad, type: 3}
-  - id: gold
-    dropRate: 20
-    minValue: 10
-    maxValue: 20
-    droppedItemPrefab: {fileID: 0}
-  - id: WarriorHelmet_Common
-    dropRate: 100
-    minValue: 0
-    maxValue: 0
-    droppedItemPrefab: {fileID: 0}
-  - id: WarriorArmor_Common
-    dropRate: 100
-    minValue: 0
-    maxValue: 0
-    droppedItemPrefab: {fileID: 0}
-  - id: WarriorLeggings_Common
-    dropRate: 100
-    minValue: 0
-    maxValue: 0
-    droppedItemPrefab: {fileID: 0}
-  - id: WarriorSword_Common
-    dropRate: 2.5
-    minValue: 0
-    maxValue: 0
-    droppedItemPrefab: {fileID: 0}
   - id: Exp_Basic
-    dropRate: 1
+    dropRate: 5
     minValue: 0
     maxValue: 0
     droppedItemPrefab: {fileID: 0}
   - id: Exp_Common
-    dropRate: 1
+    dropRate: 4
     minValue: 0
     maxValue: 0
     droppedItemPrefab: {fileID: 0}
   - id: Exp_Rare
-    dropRate: 1
+    dropRate: 3
     minValue: 0
     maxValue: 0
     droppedItemPrefab: {fileID: 0}
   - id: Exp_Epic
-    dropRate: 1
+    dropRate: 2
     minValue: 0
     maxValue: 0
     droppedItemPrefab: {fileID: 0}
   - id: Exp_Legendary
     dropRate: 1
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: Potion_Green_S
+    dropRate: 5
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: Potion_Green_M
+    dropRate: 4.5
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: Potion_Yellow_S
+    dropRate: 3.5
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: Potion_Yellow_M
+    dropRate: 2
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: ShadowHelmet_Common
+    dropRate: 7.75
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: ShadowHelmet_Rare
+    dropRate: 4.75
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: ShadowHelmet_Epic
+    dropRate: 2.75
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: ShadowHelmet_Legendary
+    dropRate: 1.75
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: ShadowArmor_Common
+    dropRate: 7.75
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: ShadowArmor_Rare
+    dropRate: 4.75
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: ShadowArmor_Epic
+    dropRate: 2.75
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: ShadowArmor_Legendary
+    dropRate: 1.75
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: ShadowLeggings_Common
+    dropRate: 7.75
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: ShadowLeggings_Rare
+    dropRate: 4.75
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: ShadowLeggings_Epic
+    dropRate: 2.75
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: ShadowLeggings_Legendary
+    dropRate: 1.75
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: ShadowSword_Common
+    dropRate: 7.75
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: ShadowSword_Rare
+    dropRate: 4.75
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: ShadowSword_Epic
+    dropRate: 2.75
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: ShadowSword_Legendary
+    dropRate: 1.75
     minValue: 0
     maxValue: 0
     droppedItemPrefab: {fileID: 0}

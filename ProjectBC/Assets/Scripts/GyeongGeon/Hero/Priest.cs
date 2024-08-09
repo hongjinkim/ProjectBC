@@ -9,6 +9,11 @@ public class Priest : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     public bool isSelected = false;
     private List<Vector3> previewPath;
     public PurifyingLight purifyingLight;
+    public HolyGrace holyGrace;
+    public DazzlingLight dazzlingLight;
+    public MysticalPower mysticalPower;
+    private float passiveEffectTimer = 0f;
+    private const float PASSIVE_EFFECT_INTERVAL = 1f;
     private void Awake() 
     {
         lineRenderer = gameObject.AddComponent<LineRenderer>();
@@ -27,13 +32,71 @@ public class Priest : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
         info.attackRange = 4;
 
         purifyingLight = new PurifyingLight();
+        holyGrace = new HolyGrace();
+        dazzlingLight = new DazzlingLight();
+        mysticalPower = new MysticalPower();
         info.skills.Add(purifyingLight);
+        info.skills.Add(holyGrace);
+        info.skills.Add(dazzlingLight);
+        info.skills.Add(mysticalPower);
         info.activeSkill = purifyingLight;
     }
     protected override void Update()
     {
         base.Update();
         CheckAndUseSkill();
+        passiveEffectTimer += Time.deltaTime;
+        if (passiveEffectTimer >= PASSIVE_EFFECT_INTERVAL)
+        {
+            ApplyPassiveEffects();
+            passiveEffectTimer = 0f;
+        }
+    }
+    private void ApplyPassiveEffects()
+    {
+        Collider2D[] nearbyColliders = Physics2D.OverlapCircleAll(transform.position, info.attackRange);
+
+        foreach (Collider2D collider in nearbyColliders)
+        {
+            if (collider.CompareTag("Hero"))
+            {
+                Hero hero = collider.GetComponent<Hero>();
+                if (hero != null && hero != this)
+                {
+                    ApplyHolyGrace(hero);
+                    ApplyMysticalPower(hero);
+                }
+            }
+            else if (collider.CompareTag("Enemy"))
+            {
+                Enemy enemy = collider.GetComponent<Enemy>();
+                if (enemy != null)
+                {
+                    ApplyDazzlingLight(enemy);
+                }
+            }
+        }
+    }
+
+    private void ApplyHolyGrace(Hero hero)
+    {
+        hero.info.defense += holyGrace.GetDefenseBonus();
+        hero.info.magicResistance += holyGrace.GetMagicResistanceBonus();
+    }
+
+    private void ApplyDazzlingLight(Enemy enemy)
+    {
+        enemy.info.defense -= dazzlingLight.GetDefenseReduction();
+        enemy.info.magicResistance -= dazzlingLight.GetMagicResistanceReduction();
+
+        // 방어력과 마법 저항력이 음수가 되지 않도록 보장
+        enemy.info.defense = Mathf.Max(0, enemy.info.defense);
+        enemy.info.magicResistance = Mathf.Max(0, enemy.info.magicResistance);
+    }
+
+    private void ApplyMysticalPower(Hero hero)
+    {
+        hero.Energy += mysticalPower.GetEnergyRegeneration();
     }
     protected override void UseSkill()
     {

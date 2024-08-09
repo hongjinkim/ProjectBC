@@ -12,13 +12,9 @@ public class Impregnable : PlayerSkill
     {
     }
 
-    public int GetDamageReductionBonus(Knight knight)
+    public int GetDamageReductionBonus()
     {
-        if (knight.currentHealth > knight.maxHealth * 0.6f)
-        {
-            return damageReductionBonus[Level - 1];
-        }
-        return 0;
+        return damageReductionBonus[Level - 1];
     }
 
     public override void UseSkill(Hero caster) { } // 패시브 스킬이므로 비워둡니다.
