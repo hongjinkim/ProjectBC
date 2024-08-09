@@ -79,7 +79,7 @@ public class TutorialWithUIInteraction : PopUp
         else
         {
             HideScreen();
-            GameDataManager.instance.playerInfo.isTutorial = false;
+            GameDataManager.instance.playerInfo.isTutorial = true;
         }
     }
     private void AutoClickButton(int buttonIndex)
