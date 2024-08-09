@@ -27,6 +27,9 @@ public class PlayerInfo
     public float musicVolume;
     public float sfxVolume;
 
+    [Header("Tutorial")]
+    public bool isTutorial;
+
 
     public PlayerInfo()
     {

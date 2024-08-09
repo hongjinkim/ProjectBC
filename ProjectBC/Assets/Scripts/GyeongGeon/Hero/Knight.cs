@@ -20,6 +20,7 @@ public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     public ShieldBash shieldBash;
     public HeavenlyBlessing heavenlyBlessing;
     public Impregnable impregnable;
+    private bool isImpregnableApplied = false;
     private void Awake() 
     {
         lineRenderer = gameObject.AddComponent<LineRenderer>();
@@ -53,13 +54,35 @@ public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     protected override void Update()
     {
         base.Update();
-        UpdateDamageReduction();
+        
         CheckAndUseSkill();
+        UpdateImpregnable();
+    }
+    private void UpdateImpregnable()
+    {
+        bool shouldApply = currentHealth > maxHealth * 0.6f;
+
+        if (shouldApply && !isImpregnableApplied)
+        {
+            // Impregnable 효과 적용
+            int damageReductionBonus = impregnable.GetDamageReductionBonus();
+            info.damageReduction += damageReductionBonus;
+            isImpregnableApplied = true;
+            Debug.Log($"Impregnable effect applied. Damage reduction increased by {damageReductionBonus}");
+        }
+        else if (!shouldApply && isImpregnableApplied)
+        {
+            // Impregnable 효과 제거
+            int damageReductionBonus = impregnable.GetDamageReductionBonus();
+            info.damageReduction -= damageReductionBonus;
+            isImpregnableApplied = false;
+            Debug.Log("Impregnable effect removed");
+        }
     }
     private void ApplyPassiveSkills()
     {
         heavenlyBlessing.ApplyEffect(this);
-        UpdateDamageReduction();
+       
     }
     protected override void UseSkill()
     {
@@ -72,12 +95,7 @@ public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
             Energy = 0;  // 스킬 사용 후 에너지 리셋
         }
     }
-    private void UpdateDamageReduction()
-    {
-        int baseReduction = info.damageReduction;
-        int bonusReduction = impregnable.GetDamageReductionBonus(this);
-        info.damageReduction = baseReduction + bonusReduction;
-    }
+    
 
 
     public override void IncreaseCharacteristic(float amount)
