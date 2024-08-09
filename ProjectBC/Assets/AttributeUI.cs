@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -43,19 +44,21 @@ public class AttributeUI : MonoBehaviour
         property4Button.onClick.AddListener(() => LevelUp("MasicResistance"));
     }
 
-    private void OnEnable()
+    private void Start()
     {
-        GameDataManager.FundsUpdated += MyGoldUpdate;
+        EventManager.StartListening(EventType.FundsUpdated, MyGoldUpdate);
+        //GameDataManager.FundsUpdated += MyGoldUpdate;
     }
 
-    private void OnDisable()
+    private void OnApplicationQuit()
     {
-        GameDataManager.FundsUpdated -= MyGoldUpdate;
+        EventManager.StopListening(EventType.FundsUpdated, MyGoldUpdate);
+        //GameDataManager.FundsUpdated -= MyGoldUpdate;
     }
 
-    private void MyGoldUpdate(PlayerInfo info)
+    private void MyGoldUpdate(Dictionary<string, object> message)
     {
-        myGold.text = info.gold.ToString();
+        myGold.text = GameDataManager.instance.playerInfo.gold.ToString();
     }
 
     public void UpdateHeroAttributes(HeroInfo hero)

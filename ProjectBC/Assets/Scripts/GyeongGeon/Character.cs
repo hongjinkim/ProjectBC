@@ -179,9 +179,10 @@ public abstract class Character : MonoBehaviour, IBehavior
     }
     public void UpdateAttackInterval()
     {
-        
-            // attackSpeed가 높을수록 attackInterval이 짧아집니다.
-            attackInterval = baseAttackInterval * (100f / attackSpeed);
+
+        // attackSpeed가 높을수록 attackInterval이 짧아집니다.
+        attackInterval = baseAttackInterval * (100f / attackSpeed);
+    }
 
     protected virtual void Update()
     {
