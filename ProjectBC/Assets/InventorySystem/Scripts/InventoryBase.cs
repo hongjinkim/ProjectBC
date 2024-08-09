@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
 
-
 public class InventoryBase : ItemWorkspace
 {
 
@@ -46,9 +45,6 @@ public class InventoryBase : ItemWorkspace
     {
         EventManager.StopListening(EventType.ItemUpdated, InitializeInventory);
     }
-
-    
-
 
     void SetupInventories()
     {
@@ -93,6 +89,7 @@ public class InventoryBase : ItemWorkspace
         ItemInfo = (ItemInfo)MainUIManager.instance.ItemInfoPopUp;
         EventManager.StartListening(EventType.ItemUpdated, InitializeInventory);
         InitializeInventory(null);
+        disassembly.disassemblyButton.onClick.AddListener(ItemAllDisassemblyButton);
     }
 
     /// <summary>
@@ -221,6 +218,23 @@ public class InventoryBase : ItemWorkspace
         }
     }
 
+    public void ItemAllDisassemblyButton()
+    {
+        if (disassembly.isPopup == false)
+        {
+            disassembly.isPopup = true;
+            return;
+        }
+
+        if (disassembly.isPopup)
+        {
+            disassembly.ItemDisassembly();
+
+            DisassemblyPopup.SetActive(false);
+            disassembly.disassemblyText.text = "ÀÏ°ý ºÐÇØ";
+            disassembly.isPopup = false;
+        }
+    }
 
 
     public Item Assemble()
