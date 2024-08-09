@@ -47,75 +47,124 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _themeCode: C
-  _themeName: "\uB2EC\uADF8\uB9BC\uC790 \uC232"
+  _themeName: "\uAC8C\uC774\uD2B8 \uD558\uC6B0\uC2A4"
   _stageCode: C1
   _findTimer: 0.1
   _enemyQuantity: 3
+  _bossQuantity: 0
+  bossRespawnTime: 10
   spawnAreaMin: {x: 0, y: 0}
   spawnAreaMax: {x: 0, y: 0}
   _activeEnemyList: []
   _allCharacterList: []
+  _activeBossList: []
   _stageName: "\uAC8C\uC774\uD2B8 \uD558\uC6B0\uC2A4"
   _stageImage: {fileID: 0}
   _navigationProgress: 0
   _enemyPool:
   - {fileID: 2210799688684257688, guid: b206fd292c18a6e4d99c0c434e387123, type: 3}
+  _bossPool: []
   _ItemList: []
   _activeHeroList:
   - {fileID: 6719724232351885715, guid: 0bc8621fae777ee4d92557c5fd70e1a9, type: 3}
   LootTable:
   - id: none
-    dropRate: 60
-    minValue: 0
-    maxValue: 0
-    droppedItemPrefab: {fileID: 6398687339744348316, guid: 78836114cce56cf4191abc5b2ca58fad, type: 3}
-  - id: gold
-    dropRate: 20
-    minValue: 10
-    maxValue: 20
-    droppedItemPrefab: {fileID: 0}
-  - id: WarriorHelmet_Common
-    dropRate: 100
+    dropRate: 10
     minValue: 0
     maxValue: 0
     droppedItemPrefab: {fileID: 0}
-  - id: WarriorArmor_Common
-    dropRate: 100
+  - id: Potion_Green_S
+    dropRate: 5
     minValue: 0
     maxValue: 0
     droppedItemPrefab: {fileID: 0}
-  - id: WarriorLeggings_Common
-    dropRate: 100
+  - id: Potion_Green_M
+    dropRate: 3
     minValue: 0
     maxValue: 0
     droppedItemPrefab: {fileID: 0}
-  - id: WarriorSword_Common
-    dropRate: 2.5
+  - id: Potion_Yellow_S
+    dropRate: 1.5
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: Potion_Yelloew_M
+    dropRate: 0.5
     minValue: 0
     maxValue: 0
     droppedItemPrefab: {fileID: 0}
   - id: Exp_Basic
-    dropRate: 1
+    dropRate: 5
     minValue: 0
     maxValue: 0
     droppedItemPrefab: {fileID: 0}
   - id: Exp_Common
-    dropRate: 1
+    dropRate: 3
     minValue: 0
     maxValue: 0
     droppedItemPrefab: {fileID: 0}
   - id: Exp_Rare
-    dropRate: 1
+    dropRate: 2
     minValue: 0
     maxValue: 0
     droppedItemPrefab: {fileID: 0}
-  - id: Exp_Epic
-    dropRate: 1
+  - id: WarriorHelmet_Epic
+    dropRate: 2.5
     minValue: 0
     maxValue: 0
     droppedItemPrefab: {fileID: 0}
-  - id: Exp_Legendary
-    dropRate: 1
+  - id: WarriorArmor_Epic
+    dropRate: 2.5
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: WarriorLeggings_Epic
+    dropRate: 2.5
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: WarriorSword_Epic
+    dropRate: 2.5
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: ChampionHelmet_Rare
+    dropRate: 1.8
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: ChampionArmor_Rare
+    dropRate: 1.8
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: ChampionLeggings_Rare
+    dropRate: 1.8
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: ChampionSword_Rare
+    dropRate: 1.8
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: ChampionHelmet_Epic
+    dropRate: 0.7
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: ChampionArmor_Epic
+    dropRate: 0.7
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: ChampionLeggings_Epic
+    dropRate: 0.7
+    minValue: 0
+    maxValue: 0
+    droppedItemPrefab: {fileID: 0}
+  - id: ChampionSword_Epic
+    dropRate: 0.7
     minValue: 0
     maxValue: 0
     droppedItemPrefab: {fileID: 0}
