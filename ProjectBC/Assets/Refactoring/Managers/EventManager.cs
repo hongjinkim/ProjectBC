@@ -76,3 +76,31 @@ public class EventManager : MonoBehaviour
         }
     }
 }
+
+//사용 예시
+
+//public class Producer : MonoBehaviour
+//{
+//    void OnTriggerEnter2D(Collider2D other)
+//    {
+//        EventManager.TriggerEvent("addCoins", new Dictionary<string, object> { { "amount", 1 } });
+//    }
+//}
+
+//public class Consumer : MonoBehaviour
+//{
+//    private int coins;
+//    void Start()
+//    {
+//        EventManager.StartListening("addCoins", OnAddCoins);
+//    }
+//    void OnApplicationQuit()
+//    {
+//        EventManager.StopListening("addCoins", OnAddCoins);
+//    }
+//    void OnAddcoins(Dictionary<string, object> message)
+//    {
+//        var amount = (int)message["amount"];
+//        coins += amount;
+//    }
+//}
