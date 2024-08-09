@@ -235,3 +235,11 @@ public enum EventType
     ItemPickup,
     HeroUpdated
 }
+
+public enum InventoryType
+{
+    Equipment,
+    Usable,
+    Material,
+    Crystal 
+}

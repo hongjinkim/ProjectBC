@@ -26,7 +26,7 @@ public class InventoryBase : ItemWorkspace
 
     public List<ScrollInventory> inventories;
 
-    public enum InventoryType { Equipment, Usable, Material, Crystal }
+    
     public InventoryType currentInventoryType = InventoryType.Equipment;
     public Dictionary<InventoryType, List<Item>> inventoryItems;
 
@@ -168,8 +168,25 @@ public class InventoryBase : ItemWorkspace
         if (item != null)
         {
             SelectedItem.isSelected = true;
-            int index = GameDataManager.instance.playerInfo.items.IndexOf(item);
-            ItemInfo.Initialize(SelectedItem, index);
+            
+            InventoryType inventoryType;
+            switch(SelectedItem.Params.Type)
+            {
+                case ItemType.Usable:
+                case ItemType.Exp:
+                    inventoryType = InventoryType.Usable;
+                    break;
+                case ItemType.Material:
+                    inventoryType = InventoryType.Material;
+                    break;
+                case ItemType.Crystal:
+                    inventoryType = InventoryType.Crystal;
+                    break;
+                default:
+                    inventoryType = InventoryType.Equipment;
+                    break;
+            }
+            ItemInfo.Initialize(SelectedItem, inventoryItems[inventoryType]);
         }
         Refresh();
     }

@@ -26,7 +26,8 @@ public class ItemInfo : PopUp
     [SerializeField] private Button lockButton;
     [SerializeField] private TextMeshProUGUI buttonText;
 
-    public Item currentItem;
+    private Item currentItem;
+    private List<Item> currentItems;
 
     [Header("View")]
     public Button nextViewBtn;
@@ -47,8 +48,8 @@ public class ItemInfo : PopUp
     {
         base.Start();
         lockButton.onClick.AddListener(ToggleItemLock);
-        //nextViewBtn.onClick.AddListener(SelectNextItem);
-        //prevViewBtn.onClick.AddListener(SelectPreviousItem);
+        nextViewBtn.onClick.AddListener(SelectNextItem);
+        prevViewBtn.onClick.AddListener(SelectPreviousItem);
         disassemblyBtn.onClick.AddListener(SelectedDisassemblyButtonClikced);
         equipBtn.onClick.AddListener(EquipButtonClicked);
 
@@ -68,12 +69,13 @@ public class ItemInfo : PopUp
 
     }
 
-    public virtual void Initialize(Item item, int index)
+    public virtual void Initialize(Item item, List<Item> items)
     {
         currentItem = item;
+        currentItems = items;
 
         Item = item;
-        this.currentIndex = index;
+        currentIndex = items.IndexOf(currentItem);
 
         ShowScreen();
 
@@ -151,46 +153,40 @@ public class ItemInfo : PopUp
         Debug.Log("장착");
     }
 
-    //public void SelectPreviousItem()
-    //{
-    //    List<Item> currentItems = inventoryBase.inventoryItems[inventoryBase.currentInventoryType];
-    //    if (currentItems.Count == 0)
-    //    {
-    //        Debug.Log("Current inventory is empty.");
-    //        return;
-    //    }
-
-    //    int currentIndex = SelectedItem != null ? currentItems.IndexOf(SelectedItem) : -1;
-    //    if (currentIndex == -1)
-    //    {
-    //        // 현재 선택된 아이템이 없거나 현재 인벤토리에 없는 경우, 마지막 아이템 선택
-    //        SelectItem(currentItems[currentItems.Count - 1]);
-    //    }
-    //    else
-    //    {
-    //        int previousIndex = (currentIndex - 1 + currentItems.Count) % currentItems.Count;
-    //        SelectItem(currentItems[previousIndex]);
-    //    }
-    //}
-    //public void SelectNextItem()
-    //{
-    //    List<Item> currentItems = inventoryBase.inventoryItems[inventoryBase.currentInventoryType];
-    //    if (currentItems.Count == 0)
-    //    {
-    //        Debug.Log("Current inventory is empty.");
-    //        return;
-    //    }
-
-    //    int currentIndex = SelectedItem != null ? currentItems.IndexOf(SelectedItem) : -1;
-    //    if (currentIndex == -1)
-    //    {
-    //        // 현재 선택된 아이템이 없거나 현재 인벤토리에 없는 경우, 첫 번째 아이템 선택
-    //        SelectItem(currentItems[0]);
-    //    }
-    //    else
-    //    {
-    //        int nextIndex = (currentIndex + 1) % currentItems.Count;
-    //        SelectItem(currentItems[nextIndex]);
-    //    }
-    //}
+    public void SelectPreviousItem()
+    {
+        if (currentItems.Count == 0)
+        {
+            Debug.Log("Current inventory is empty.");
+            return;
+        }
+        if (currentIndex == -1)
+        {
+            // 현재 선택된 아이템이 없거나 현재 인벤토리에 없는 경우, 마지막 아이템 선택
+            Initialize(currentItems[currentItems.Count - 1], currentItems);
+        }
+        else
+        {
+            int previousIndex = (currentIndex - 1 + currentItems.Count) % currentItems.Count;
+            Initialize(currentItems[previousIndex], currentItems);
+        }
+    }
+    public void SelectNextItem()
+    {
+        if (currentItems.Count == 0)
+        {
+            Debug.Log("Current inventory is empty.");
+            return;
+        }
+        if (currentIndex == -1)
+        {
+            // 현재 선택된 아이템이 없거나 현재 인벤토리에 없는 경우, 첫 번째 아이템 선택
+            Initialize(currentItems[0], currentItems);
+        }
+        else
+        {
+            int nextIndex = (currentIndex + 1) % currentItems.Count;
+            Initialize(currentItems[nextIndex], currentItems);
+        }
+    }
 }

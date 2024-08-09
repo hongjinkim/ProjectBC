@@ -337,6 +337,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1054876084 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 216958381963186542, guid: b11ebdf8a1b971a4b8743480e90c0e1a, type: 3}
+  m_PrefabInstance: {fileID: 339478243169992203}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1738002695
 GameObject:
   m_ObjectHideFlags: 0
@@ -678,6 +689,10 @@ PrefabInstance:
       propertyPath: _UIManager
       value: 
       objectReference: {fileID: 455996784}
+    - target: {fileID: 568681248000862716, guid: b11ebdf8a1b971a4b8743480e90c0e1a, type: 3}
+      propertyPath: lockButton
+      value: 
+      objectReference: {fileID: 1054876084}
     - target: {fileID: 3975476827986519645, guid: b11ebdf8a1b971a4b8743480e90c0e1a, type: 3}
       propertyPath: m_Name
       value: ItemInfo
@@ -979,6 +994,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3185604071562643055, guid: d7e4880139ac6614aa4ca318647b72c2, type: 3}
+      propertyPath: _UIManager
+      value: 
+      objectReference: {fileID: 455996784}
     - target: {fileID: 3297010678612837385, guid: d7e4880139ac6614aa4ca318647b72c2, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1134,10 +1153,6 @@ PrefabInstance:
     - target: {fileID: 6770373313351345700, guid: d7e4880139ac6614aa4ca318647b72c2, type: 3}
       propertyPath: m_Name
       value: Portal
-      objectReference: {fileID: 0}
-    - target: {fileID: 6770373313351345700, guid: d7e4880139ac6614aa4ca318647b72c2, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8787315169827192401, guid: d7e4880139ac6614aa4ca318647b72c2, type: 3}
       propertyPath: m_AnchorMax.y
@@ -3491,10 +3506,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Potion
       objectReference: {fileID: 0}
-    - target: {fileID: 7343261756775615220, guid: 15669514f2f6d6543bbdff5bcf47b76b, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
+    - target: {fileID: 7446612394342138426, guid: 15669514f2f6d6543bbdff5bcf47b76b, type: 3}
+      propertyPath: _UIManager
+      value: 
+      objectReference: {fileID: 455996784}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4075,6 +4090,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerInfoBar
       objectReference: {fileID: 0}
+    - target: {fileID: 3156634631212873890, guid: 648b0eca82abd264ba349ac154af5b20, type: 3}
+      propertyPath: _UIManager
+      value: 
+      objectReference: {fileID: 455996784}
     - target: {fileID: 3319984349025518179, guid: 648b0eca82abd264ba349ac154af5b20, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4716,6 +4735,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1894900356817779541, guid: fe8f770fc576e1847abf2f4983fd04b8, type: 3}
+      propertyPath: _UIManager
+      value: 
+      objectReference: {fileID: 455996784}
     - target: {fileID: 2320220462333864773, guid: fe8f770fc576e1847abf2f4983fd04b8, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -5095,10 +5118,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CampScreen
       objectReference: {fileID: 0}
-    - target: {fileID: 1367605692196587613, guid: 2994dc644b46eb0468346fdac3ef6d59, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
+    - target: {fileID: 4846417198128392726, guid: 2994dc644b46eb0468346fdac3ef6d59, type: 3}
+      propertyPath: _UIManager
+      value: 
+      objectReference: {fileID: 455996784}
     - target: {fileID: 8387894457836309445, guid: 2994dc644b46eb0468346fdac3ef6d59, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -5323,10 +5346,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DungeonTheme
       objectReference: {fileID: 0}
-    - target: {fileID: 719211636624474631, guid: 8c00c4ce423e26747add3946d68b2b8e, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
+    - target: {fileID: 2529872528382008782, guid: 8c00c4ce423e26747add3946d68b2b8e, type: 3}
+      propertyPath: _UIManager
+      value: 
+      objectReference: {fileID: 455996784}
     - target: {fileID: 2582369173283708247, guid: 8c00c4ce423e26747add3946d68b2b8e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
