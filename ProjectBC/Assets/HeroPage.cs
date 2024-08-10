@@ -241,25 +241,11 @@ public class HeroPage : HeroScreen
         DefenseText.text = _info.defense.ToString();
         ResistanceText.text = _info.magicResistance.ToString();
 
-        int battlePoint = CalculateBattlePoint(_info);
-        BattlePointText.text = battlePoint.ToString();
+        BattlePointText.text = _info.battlePoint.ToString();
 
-        _info.battlePoint = battlePoint;
 
-        // 전체 영웅의 배틀포인트 합계를 계산
-        int totalBattlePoint = 0;
-        foreach (var hero in GameDataManager.instance.playerInfo.heroes)
-        {
-            totalBattlePoint += hero.battlePoint;
-        }
-
-        // PlayerInfo의 battlePoint를 업데이트
-        GameDataManager.instance.playerInfo.battlePoint = totalBattlePoint;
-        playerInfoBar.battlePoint.text = GameDataManager.instance.playerInfo.battlePoint.ToString();
+        
+        
     }
-    private int CalculateBattlePoint(HeroInfo hero)
-    {
-        // �� ������ ���� �뷱���� ���� �����ؾ� �� �� �ֽ��ϴ�.
-        return hero.hp * 2 + hero.attackDamage * 2 + hero.defense * 3 + hero.magicResistance * 3 + hero.level * 5 + hero.strength * 2 + hero.intelligence * 2 + hero.agility * 2 + hero.damageBlock * 3;
-    }
+    
 }

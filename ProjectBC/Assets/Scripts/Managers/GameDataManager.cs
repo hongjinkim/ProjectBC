@@ -29,6 +29,17 @@ public class GameDataManager : MonoSingleton<GameDataManager>
 
     [SerializeField] public EquipmentStatData[] equipmentStatData;
 
+    public int battlePoint;
+
+
+    private void OnEnable()
+    {
+        EventManager.StartListening(EventType.BattlePointUpdated, CalcBattlePoint);
+    }
+    private void OnDisable()
+    {
+        EventManager.StopListening(EventType.BattlePointUpdated, CalcBattlePoint);
+    }
 
     void OnApplicationQuit()
     {
@@ -240,5 +251,13 @@ public class GameDataManager : MonoSingleton<GameDataManager>
     //    _playerInfo.heroes.Remove(hero);
     //    HeroesUpdated?.Invoke(_playerInfo.heroes);
     //}
-
+    private void CalcBattlePoint(Dictionary<string, object> message)
+    {
+        // 전체 영웅의 배틀포인트 합계를 계산
+        battlePoint = 0;
+        foreach (var hero in _playerInfo.heroes)
+        {
+            battlePoint += hero.battlePoint;
+        }
+    }
 }

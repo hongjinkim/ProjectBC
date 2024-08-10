@@ -20,7 +20,6 @@ public class PlayerInfo
 
     [Header("PlayerInfo")]
     public string username;
-    public int battlePoint;
     public int level;
 
     [Header("Settings")]
@@ -43,7 +42,6 @@ public class PlayerInfo
         this.gem = 0;
 
         this.username = "GUEST_123456";
-        this.battlePoint = 0;
         this.level = 1;
 
         this.musicVolume = 80f;
@@ -89,4 +87,7 @@ public class PlayerInfo
     {
         JsonUtility.FromJsonOverwrite(jsonFilepath, this);
     }
+
+    
+   
 }

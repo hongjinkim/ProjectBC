@@ -18,20 +18,17 @@ public class PlayerInfoBar : BaseScreen
     [Header("Images")]
     public Image profile;
 
-    private void OnEnable()
-    {
-        EventManager.StartListening(EventType.FundsUpdated, OnFundsUpdated);
-
-    }
-
-    private void OnDisable()
-    {
-        EventManager.StopListening(EventType.FundsUpdated, OnFundsUpdated);
-    }
-
     void Start()
     {
         playerInfo = GameDataManager.instance.playerInfo;
+        EventManager.StartListening(EventType.FundsUpdated, OnFundsUpdated);
+        EventManager.StartListening(EventType.BattlePointUpdated, OnBattlePointUpdated);
+    }
+
+    private void OnApplicationQuit()
+    {
+        EventManager.StopListening(EventType.FundsUpdated, OnFundsUpdated);
+        EventManager.StopListening(EventType.BattlePointUpdated, OnBattlePointUpdated);
     }
 
     void OnFundsUpdated(Dictionary<string, object> message)
@@ -45,9 +42,9 @@ public class PlayerInfoBar : BaseScreen
     {
         level.text = "Lv. " + info.level.ToString("D2");
     }
-    void OnBattlePointUpdated(PlayerInfo info)
+    void OnBattlePointUpdated(Dictionary<string, object> message)
     {
-        battlePoint.text = info.battlePoint.ToString();
+        battlePoint.text = GameDataManager.instance.battlePoint.ToString();
     }
 
     public void ShowOnlyFunds()
