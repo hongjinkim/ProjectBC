@@ -7855,6 +7855,10 @@ PrefabInstance:
       propertyPath: ItemInfo
       value: 
       objectReference: {fileID: 239338653998553079}
+    - target: {fileID: 2461701128936890153, guid: 04e7db4443d7ae24982ac7cc9cc71e2e, type: 3}
+      propertyPath: DisassemblyPopup
+      value: 
+      objectReference: {fileID: 5921685630533641322}
     - target: {fileID: 2468619752965269594, guid: 04e7db4443d7ae24982ac7cc9cc71e2e, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -8025,7 +8029,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4551011358660347451, guid: 04e7db4443d7ae24982ac7cc9cc71e2e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4600483161343655119, guid: 04e7db4443d7ae24982ac7cc9cc71e2e, type: 3}
       propertyPath: m_AnchorMax.y
@@ -8393,6 +8397,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d033c589886a75c45a5ef49a709e3f05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &5921685630533641322 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4551011358660347451, guid: 04e7db4443d7ae24982ac7cc9cc71e2e, type: 3}
+  m_PrefabInstance: {fileID: 5921685630533641320}
+  m_PrefabAsset: {fileID: 0}
 --- !u!223 &5953634805174656369
 Canvas:
   m_ObjectHideFlags: 0

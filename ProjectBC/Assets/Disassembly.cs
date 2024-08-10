@@ -52,7 +52,7 @@ public class Disassembly : MonoBehaviour
         }
 
         EventManager.StartListening(EventType.ItemUpdated, UpdateSelectedItems);
-        disassemblyButton.onClick.AddListener(ItemAllDisassemblyButton);
+
     }
 
     private void InitializeToggleRarityMap()
@@ -117,23 +117,7 @@ public class Disassembly : MonoBehaviour
         return new List<Item>(selectedItems); // ���纻 ��ȯ
     }
 
-    public void ItemAllDisassemblyButton()
-    {
-        if (isPopup == false)
-        {
-            isPopup = true;
-            return;
-        }
 
-        if (isPopup)
-        {
-            ItemDisassembly();
-
-            inventoryBase.DisassemblyPopup.SetActive(false);
-            disassemblyText.text = "�ϰ� ����";
-            isPopup = false;
-        }
-    }
 
     //public void ItemDisassembly()
     //{
