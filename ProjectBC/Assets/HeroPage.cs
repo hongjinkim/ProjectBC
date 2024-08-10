@@ -29,6 +29,7 @@ public class HeroPage : HeroScreen
 
     [SerializeField] private AttributeUI attributeUI;
     [SerializeField] private HeroPotion heroPotion;
+    [SerializeField] private PlayerInfoBar playerInfoBar;
 
     public void Start()
     {
@@ -242,6 +243,19 @@ public class HeroPage : HeroScreen
 
         int battlePoint = CalculateBattlePoint(_info);
         BattlePointText.text = battlePoint.ToString();
+
+        _info.battlePoint = battlePoint;
+
+        // 전체 영웅의 배틀포인트 합계를 계산
+        int totalBattlePoint = 0;
+        foreach (var hero in GameDataManager.instance.playerInfo.heroes)
+        {
+            totalBattlePoint += hero.battlePoint;
+        }
+
+        // PlayerInfo의 battlePoint를 업데이트
+        GameDataManager.instance.playerInfo.battlePoint = totalBattlePoint;
+        playerInfoBar.battlePoint.text = GameDataManager.instance.playerInfo.battlePoint.ToString();
     }
     private int CalculateBattlePoint(HeroInfo hero)
     {

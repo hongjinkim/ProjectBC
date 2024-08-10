@@ -17,6 +17,7 @@ public class HeroInfo
     public float currentExp;
     public float neededExp;
     public string imagePath;
+    public int battlePoint;
 
     // �⺻ ����
     public int strength;
