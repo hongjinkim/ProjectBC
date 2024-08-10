@@ -137,7 +137,7 @@ public class GameDataManager : MonoSingleton<GameDataManager>
     {
         UpdateFunds();
         //UpdateLevel();
-        //UpdateBattlePoint();
+        UpdateBattlePoint();
         //UpdateAllInventorys();
     }
 
@@ -152,11 +152,10 @@ public class GameDataManager : MonoSingleton<GameDataManager>
     //        LevelUpdated?.Invoke(_playerInfo);
     //}
 
-    //public void UpdateBattlePoint()
-    //{
-    //    if (_playerInfo != null)
-    //        BattlePointUpdated?.Invoke(_playerInfo);
-    //}
+    public void UpdateBattlePoint()
+    {
+        EventManager.TriggerEvent(EventType.BattlePointUpdated, null);
+    }
 
     public void UpdateItem()
     {
