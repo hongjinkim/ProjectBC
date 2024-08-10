@@ -250,6 +250,8 @@ public class GameDataManager : MonoSingleton<GameDataManager>
     //    _playerInfo.heroes.Remove(hero);
     //    HeroesUpdated?.Invoke(_playerInfo.heroes);
     //}
+
+    public PlayerInfoBar infoBar;
     private void CalcBattlePoint(Dictionary<string, object> message)
     {
         // 전체 영웅의 배틀포인트 합계를 계산

@@ -10,6 +10,9 @@ public class ExploreScreen : MainScreen
 
     [Header("Stages")]
     public Button stage1;
+    public Button stage2;
+    public Button stage3;
+    public Button stage4;
 
     protected override void Awake()
     {
@@ -23,6 +26,9 @@ public class ExploreScreen : MainScreen
     private void Start()
     {
         stage1.onClick.AddListener(() => OpenAdventurePopup("A"));
+        stage2.onClick.AddListener(() => OpenAdventurePopup("B"));
+        stage3.onClick.AddListener(() => OpenAdventurePopup("C"));
+        stage4.onClick.AddListener(() => OpenAdventurePopup("D"));
     }
 
     private void OpenAdventurePopup(string _themeCode)
