@@ -134,7 +134,7 @@ public class GameDataManager : MonoSingleton<GameDataManager>
     {
         UpdateFunds();
         //UpdateLevel();
-        //UpdateBattlePoint();
+        UpdateBattlePoint();
         //UpdateAllInventorys();
     }
 
