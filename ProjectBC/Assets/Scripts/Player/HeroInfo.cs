@@ -63,10 +63,16 @@ public class HeroInfo
     public int masicResistanceLevel = 1;
 
     // Equipment
-    public Item Weapon;
-    public Item Helmet;
-    public Item Armor;
-    public Item Leggings;
+    public List<Item> EquippedItems;
+    public Dictionary<ItemType, Item> EquippedItemDictionary = new Dictionary<ItemType, Item>();
+
+    private void Start()
+    {
+        foreach(Item item in EquippedItems)
+        {
+            EquippedItemDictionary[item.Params.Type] = item;
+        }
+    }
 
     public HeroInfo(string name, HeroClass heroClass, int id, string imagePath)
     {
@@ -102,10 +108,7 @@ public class HeroInfo
         this.defensePenetration = 0;//������
         // attackRange�� characteristicType�� ���⼭ �������� ����
 
-        this.Weapon = null;
-        this.Helmet = null;
-        this.Armor = null;
-        this.Leggings = null;
+        EquippedItems = new List<Item>();
 
         InitializeTraits();
     }

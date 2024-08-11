@@ -290,6 +290,11 @@ public class GameDataManager : MonoSingleton<GameDataManager>
             itemDictionary[item.Params.Type].Remove(item);
         }
 
+        if (itemDictionary[item.Params.Type].Count == 0)
+        {
+            itemDictionary.Remove(item.Params.Type);
+        }
+
         EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { { "type", item.Params.Type } });
     }
 
