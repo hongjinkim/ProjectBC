@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
+using Random = UnityEngine.Random;
 
 
 [Serializable]
@@ -12,39 +12,73 @@ public class Item
     public string id;
     public Modifier modifier;
 
-    public Stat Stat;
-    public int LuckyPercent = 0;
-    public int LuckyPoint = 0;
+    public Stat stat;
+    public int luckyPercent;
+    public int luckyPoint;
 
-    public int BattlePoint => CalcItemBattlePoint();
+    public int battlePoint;
 
-    public int Count;
-    public int index;
+    public int count;
 
 
     public bool isLocked;
     public bool isSelected { get; set; }
 
-    public Item()
-    {
-
-    }
     public Item(string id, int count = 1)
     {
         this.id = id;
-        Count = count;
+        this.count = count;
+
+        RandomStat(this);
     }
 
-    public Item(string id, Modifier modifier, int count = 1)
+    public Item(string id, Modifier modifier,Stat stat, int luckyPercent, int luckyPoint,int battlePoint, int count = 1)
     {
         this.id = id;
-        Count = count;
+        this.count = count;
         this.modifier = modifier;
+        this.stat = stat;
+        this.luckyPercent = luckyPercent;
+        this.luckyPoint = luckyPoint;
+        this.battlePoint = battlePoint;
     }
 
     public Item Clone()
     {
-        return new Item(id, modifier, Count);
+        return new Item(id, modifier,stat, luckyPercent, luckyPoint, battlePoint, count);
+    }
+
+    public Item RandomStat(Item item)
+    {
+        if (item.IsEquipment)
+        {
+            var statData = GameDataManager.instance.equipmentStatData[item.Params.Index];
+            item.stat = new Stat(statData.BasicStats);
+
+            luckyPoint = 0;
+            luckyPercent = 0;
+
+            for (int i = 0; i < item.stat.basic.Count; i++)
+            {
+                item.luckyPoint += item.stat.basic[i].value - item.stat.basic[i].minValue;
+                item.luckyPercent += item.luckyPoint * 100 / item.stat.basic[i].maxValue / item.stat.basic.Count;
+            }
+
+            var rarity = item.Params.Rarity;
+            List<MagicStat> enumValues = new List<MagicStat>((MagicStat[])Enum.GetValues(typeof(MagicStat)));
+
+            for (int i = 0; i <= (int)(rarity); i++)
+            {
+                var randomIndex = Random.Range(0, enumValues.Count);
+
+                item.stat.magic.Add(new Magic { id = (MagicStat)enumValues[randomIndex], value = 1/*추후 값  수정*/});
+                enumValues.RemoveAt(randomIndex);
+            }
+        }
+
+        battlePoint = CalcItemBattlePoint();
+
+        return item;
     }
 
     private int CalcItemBattlePoint()
@@ -53,14 +87,21 @@ public class Item
 
 
         // 추후 스탯 종류 별로 다르게 적용 필요
-        foreach(Basic basic in Stat.basic)
+        if(stat.basic.Count != 0)
         {
-            result += basic.value;
+            foreach (Basic basic in stat.basic)
+            {
+                result += basic.value;
+            }
         }
-        foreach (Magic magic in Stat.magic)
+        if (stat.magic.Count != 0)
         {
-            result += magic.value;
+            foreach (Magic magic in stat.magic)
+            {
+                result += magic.value;
+            }
         }
+            
 
         return result;
     }

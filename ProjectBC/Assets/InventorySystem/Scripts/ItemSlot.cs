@@ -6,7 +6,7 @@ public class ItemSlot : MonoBehaviour
 {
     public Image icon;
     public Image background;
-    public Sprite activeSprite;
+    //public Sprite activeSprite;
     public Sprite lockedSprite;
     public List<ItemType> types;
     public List<ItemClass> classes;
@@ -16,7 +16,7 @@ public class ItemSlot : MonoBehaviour
         get => icon.sprite == lockedSprite;
         set
         {
-            icon.sprite = value ? lockedSprite : activeSprite;
+            //icon.sprite = value ? lockedSprite : activeSprite;
             background.color = value ? new Color32(150, 150, 150, 255) : new Color32(255, 255, 255, 255);
         }
     }

@@ -114,11 +114,11 @@ public class ScrollInventory : ItemContainer
         {
             items = new List<Item>();
 
-            var groups = Items.OrderBy(SortingFunc).ToList().GroupBy(i => i.Params.Type);
+            var groups = Items.OrderBy(SortingFunc).ToList().GroupBy(i => i.Params.Rarity);
 
             foreach (var group in groups)
             {
-                items.AddRange(group.OrderBy(i => i.Params.Class).ThenBy(i => i.Params.Price));
+                items.AddRange(group.OrderBy(i => i.Params.Type).ThenBy(i => i.Params.Price));
             }
         }
         else

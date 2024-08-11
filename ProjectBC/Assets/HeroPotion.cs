@@ -76,7 +76,7 @@ public class HeroPotion : MonoBehaviour
 
         foreach(Item item in potions)
         {
-            int count = item.Count;
+            int count = item.count;
 
             switch (item.Params.Id)
             {

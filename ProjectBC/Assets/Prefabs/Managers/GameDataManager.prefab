@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   savePath: 
-  _saveFilename: savegame.dat
+  _saveFilename: savegame.json
   _debugValues: 0
   _resetGame: 0
   _playerInfo:
@@ -55,7 +55,8 @@ MonoBehaviour:
     items: []
     itemCapacity: 200
     heroes:
-    - id: 1001
+    - character: {fileID: 0}
+      id: 1001
       equippedItemIds: []
       heroName: Warrior
       heroClass: 0
@@ -87,9 +88,65 @@ MonoBehaviour:
       criticalDamage: 150
       defensePenetration: 0
       spritePath: 
-      traits: []
       heroPage: {fileID: 0}
-    - id: 1002
+      hpLevel: 1
+      strengthLevel: 1
+      defenseLevel: 1
+      masicResistanceLevel: 1
+      Weapon:
+        id: 
+        modifier:
+          id: 0
+          level: 0
+        stat:
+          basic: []
+          magic: []
+        luckyPercent: 0
+        luckyPoint: 0
+        battlePoint: 0
+        count: 0
+        isLocked: 0
+      Helmet:
+        id: 
+        modifier:
+          id: 0
+          level: 0
+        stat:
+          basic: []
+          magic: []
+        luckyPercent: 0
+        luckyPoint: 0
+        battlePoint: 0
+        count: 0
+        isLocked: 0
+      Armor:
+        id: 
+        modifier:
+          id: 0
+          level: 0
+        stat:
+          basic: []
+          magic: []
+        luckyPercent: 0
+        luckyPoint: 0
+        battlePoint: 0
+        count: 0
+        isLocked: 0
+      Leggings:
+        id: 
+        modifier:
+          id: 0
+          level: 0
+        stat:
+          basic: []
+          magic: []
+        luckyPercent: 0
+        luckyPoint: 0
+        battlePoint: 0
+        count: 0
+        isLocked: 0
+    - character: {fileID: 0}
+      id: 1002
       equippedItemIds: []
       heroName: Wizard
       heroClass: 3
@@ -121,9 +178,65 @@ MonoBehaviour:
       criticalDamage: 150
       defensePenetration: 0
       spritePath: 
-      traits: []
       heroPage: {fileID: 0}
-    - id: 1003
+      hpLevel: 1
+      strengthLevel: 1
+      defenseLevel: 1
+      masicResistanceLevel: 1
+      Weapon:
+        id: 
+        modifier:
+          id: 0
+          level: 0
+        stat:
+          basic: []
+          magic: []
+        luckyPercent: 0
+        luckyPoint: 0
+        battlePoint: 0
+        count: 0
+        isLocked: 0
+      Helmet:
+        id: 
+        modifier:
+          id: 0
+          level: 0
+        stat:
+          basic: []
+          magic: []
+        luckyPercent: 0
+        luckyPoint: 0
+        battlePoint: 0
+        count: 0
+        isLocked: 0
+      Armor:
+        id: 
+        modifier:
+          id: 0
+          level: 0
+        stat:
+          basic: []
+          magic: []
+        luckyPercent: 0
+        luckyPoint: 0
+        battlePoint: 0
+        count: 0
+        isLocked: 0
+      Leggings:
+        id: 
+        modifier:
+          id: 0
+          level: 0
+        stat:
+          basic: []
+          magic: []
+        luckyPercent: 0
+        luckyPoint: 0
+        battlePoint: 0
+        count: 0
+        isLocked: 0
+    - character: {fileID: 0}
+      id: 1003
       equippedItemIds: []
       heroName: Wizard
       heroClass: 3
@@ -155,9 +268,65 @@ MonoBehaviour:
       criticalDamage: 150
       defensePenetration: 0
       spritePath: 
-      traits: []
       heroPage: {fileID: 0}
-    - id: 1004
+      hpLevel: 1
+      strengthLevel: 1
+      defenseLevel: 1
+      masicResistanceLevel: 1
+      Weapon:
+        id: 
+        modifier:
+          id: 0
+          level: 0
+        stat:
+          basic: []
+          magic: []
+        luckyPercent: 0
+        luckyPoint: 0
+        battlePoint: 0
+        count: 0
+        isLocked: 0
+      Helmet:
+        id: 
+        modifier:
+          id: 0
+          level: 0
+        stat:
+          basic: []
+          magic: []
+        luckyPercent: 0
+        luckyPoint: 0
+        battlePoint: 0
+        count: 0
+        isLocked: 0
+      Armor:
+        id: 
+        modifier:
+          id: 0
+          level: 0
+        stat:
+          basic: []
+          magic: []
+        luckyPercent: 0
+        luckyPoint: 0
+        battlePoint: 0
+        count: 0
+        isLocked: 0
+      Leggings:
+        id: 
+        modifier:
+          id: 0
+          level: 0
+        stat:
+          basic: []
+          magic: []
+        luckyPercent: 0
+        luckyPoint: 0
+        battlePoint: 0
+        count: 0
+        isLocked: 0
+    - character: {fileID: 0}
+      id: 1004
       equippedItemIds: []
       heroName: Wizard
       heroClass: 3
@@ -189,13 +358,69 @@ MonoBehaviour:
       criticalDamage: 150
       defensePenetration: 0
       spritePath: 
-      traits: []
       heroPage: {fileID: 0}
+      hpLevel: 1
+      strengthLevel: 1
+      defenseLevel: 1
+      masicResistanceLevel: 1
+      Weapon:
+        id: 
+        modifier:
+          id: 0
+          level: 0
+        stat:
+          basic: []
+          magic: []
+        luckyPercent: 0
+        luckyPoint: 0
+        battlePoint: 0
+        count: 0
+        isLocked: 0
+      Helmet:
+        id: 
+        modifier:
+          id: 0
+          level: 0
+        stat:
+          basic: []
+          magic: []
+        luckyPercent: 0
+        luckyPoint: 0
+        battlePoint: 0
+        count: 0
+        isLocked: 0
+      Armor:
+        id: 
+        modifier:
+          id: 0
+          level: 0
+        stat:
+          basic: []
+          magic: []
+        luckyPercent: 0
+        luckyPoint: 0
+        battlePoint: 0
+        count: 0
+        isLocked: 0
+      Leggings:
+        id: 
+        modifier:
+          id: 0
+          level: 0
+        stat:
+          basic: []
+          magic: []
+        luckyPercent: 0
+        luckyPoint: 0
+        battlePoint: 0
+        count: 0
+        isLocked: 0
     username: GUEST_123456
     battlePoint: 0
     level: 1
     musicVolume: 80
     sfxVolume: 80
+    isTutorial: 0
   itemCollection: {fileID: 11400000, guid: 3496197cc8159e14987beb99d0b1629c, type: 2}
   characterBaseData:
   - idx: 0
@@ -312,7 +537,7 @@ MonoBehaviour:
   - Index: 1
     Id: WarriorHelmet_Rare
     Name: "\uD5EC\uBA67"
-    Level: 10
+    Level: 1
     Rarity: 1
     Type: 3
     Class: 0
@@ -326,7 +551,7 @@ MonoBehaviour:
   - Index: 2
     Id: WarriorHelmet_Epic
     Name: "\uD5EC\uBA67"
-    Level: 20
+    Level: 6
     Rarity: 2
     Type: 3
     Class: 0
@@ -340,7 +565,7 @@ MonoBehaviour:
   - Index: 3
     Id: WarriorHelmet_Legendary
     Name: "\uD5EC\uBA67"
-    Level: 30
+    Level: 6
     Rarity: 3
     Type: 3
     Class: 0
@@ -368,7 +593,7 @@ MonoBehaviour:
   - Index: 5
     Id: WarriorArmor_Rare
     Name: "\uAC11\uC637"
-    Level: 10
+    Level: 1
     Rarity: 1
     Type: 2
     Class: 0
@@ -382,7 +607,7 @@ MonoBehaviour:
   - Index: 6
     Id: WarriorArmor_Epic
     Name: "\uAC11\uC637"
-    Level: 20
+    Level: 6
     Rarity: 2
     Type: 2
     Class: 0
@@ -396,7 +621,7 @@ MonoBehaviour:
   - Index: 7
     Id: WarriorArmor_Legendary
     Name: "\uAC11\uC637"
-    Level: 30
+    Level: 6
     Rarity: 3
     Type: 2
     Class: 0
@@ -424,7 +649,7 @@ MonoBehaviour:
   - Index: 9
     Id: WarriorLeggings_Rare
     Name: "\uAC01\uBC18"
-    Level: 10
+    Level: 1
     Rarity: 1
     Type: 9
     Class: 0
@@ -438,7 +663,7 @@ MonoBehaviour:
   - Index: 10
     Id: WarriorLeggings_Epic
     Name: "\uAC01\uBC18"
-    Level: 20
+    Level: 6
     Rarity: 2
     Type: 9
     Class: 0
@@ -452,7 +677,7 @@ MonoBehaviour:
   - Index: 11
     Id: WarriorLeggings_Legendary
     Name: "\uAC01\uBC18"
-    Level: 30
+    Level: 6
     Rarity: 3
     Type: 9
     Class: 0
@@ -480,7 +705,7 @@ MonoBehaviour:
   - Index: 13
     Id: WarriorSword_Rare
     Name: "\uAC80"
-    Level: 10
+    Level: 1
     Rarity: 1
     Type: 0
     Class: 0
@@ -494,7 +719,7 @@ MonoBehaviour:
   - Index: 14
     Id: WarriorSword_Epic
     Name: "\uAC80"
-    Level: 20
+    Level: 6
     Rarity: 2
     Type: 0
     Class: 0
@@ -508,7 +733,7 @@ MonoBehaviour:
   - Index: 15
     Id: WarriorSword_Legendary
     Name: "\uAC80"
-    Level: 30
+    Level: 6
     Rarity: 3
     Type: 0
     Class: 0
@@ -518,6 +743,678 @@ MonoBehaviour:
     Price: 300
     IconId: FantasyHeroes.Basic.MeleeWeapon2H.WarriorGreatsword
     SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.WarriorGreatsword
+    Meta: 
+  - Index: 16
+    Id: ChampionHelmet_Common
+    Name: "\uD5EC\uBA67"
+    Level: 11
+    Rarity: 0
+    Type: 3
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 20
+    IconId: FantasyHeroes.Basic.Helmet.ChampionArmor
+    SpriteId: FantasyHeroes.Basic.Helmet.ChampionArmor
+    Meta: 
+  - Index: 17
+    Id: ChampionHelmet_Rare
+    Name: "\uD5EC\uBA67"
+    Level: 11
+    Rarity: 1
+    Type: 3
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 200
+    IconId: FantasyHeroes.Basic.Helmet.ChampionArmor
+    SpriteId: FantasyHeroes.Basic.Helmet.ChampionArmor
+    Meta: 
+  - Index: 18
+    Id: ChampionHelmet_Epic
+    Name: "\uD5EC\uBA67"
+    Level: 16
+    Rarity: 2
+    Type: 3
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 400
+    IconId: FantasyHeroes.Basic.Helmet.ChampionArmor
+    SpriteId: FantasyHeroes.Basic.Helmet.ChampionArmor
+    Meta: 
+  - Index: 19
+    Id: ChampionHelmet_Legendary
+    Name: "\uD5EC\uBA67"
+    Level: 16
+    Rarity: 3
+    Type: 3
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 600
+    IconId: FantasyHeroes.Basic.Helmet.ChampionArmor
+    SpriteId: FantasyHeroes.Basic.Helmet.ChampionArmor
+    Meta: 
+  - Index: 20
+    Id: ChampionArmor_Common
+    Name: "\uAC11\uC637"
+    Level: 11
+    Rarity: 0
+    Type: 2
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 20
+    IconId: FantasyHeroes.Basic.Armor.ChampionArmor
+    SpriteId: FantasyHeroes.Basic.Armor.ChampionArmor
+    Meta: 
+  - Index: 21
+    Id: ChampionArmor_Rare
+    Name: "\uAC11\uC637"
+    Level: 11
+    Rarity: 1
+    Type: 2
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 200
+    IconId: FantasyHeroes.Basic.Armor.ChampionArmor
+    SpriteId: FantasyHeroes.Basic.Armor.ChampionArmor
+    Meta: 
+  - Index: 22
+    Id: ChampionArmor_Epic
+    Name: "\uAC11\uC637"
+    Level: 16
+    Rarity: 2
+    Type: 2
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 400
+    IconId: FantasyHeroes.Basic.Armor.ChampionArmor
+    SpriteId: FantasyHeroes.Basic.Armor.ChampionArmor
+    Meta: 
+  - Index: 23
+    Id: ChampionArmor_Legendary
+    Name: "\uAC11\uC637"
+    Level: 16
+    Rarity: 3
+    Type: 2
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 600
+    IconId: FantasyHeroes.Basic.Armor.ChampionArmor
+    SpriteId: FantasyHeroes.Basic.Armor.ChampionArmor
+    Meta: 
+  - Index: 24
+    Id: ChampionLeggings_Common
+    Name: "\uAC01\uBC18"
+    Level: 11
+    Rarity: 0
+    Type: 9
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 20
+    IconId: FantasyHeroes.Basic.Leggings.ChampionArmor
+    SpriteId: FantasyHeroes.Basic.Leggings.ChampionArmor
+    Meta: 
+  - Index: 25
+    Id: ChampionLeggings_Rare
+    Name: "\uAC01\uBC18"
+    Level: 11
+    Rarity: 1
+    Type: 9
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 200
+    IconId: FantasyHeroes.Basic.Leggings.ChampionArmor
+    SpriteId: FantasyHeroes.Basic.Leggings.ChampionArmor
+    Meta: 
+  - Index: 26
+    Id: ChampionLeggings_Epic
+    Name: "\uAC01\uBC18"
+    Level: 16
+    Rarity: 2
+    Type: 9
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 400
+    IconId: FantasyHeroes.Basic.Leggings.ChampionArmor
+    SpriteId: FantasyHeroes.Basic.Leggings.ChampionArmor
+    Meta: 
+  - Index: 27
+    Id: ChampionLeggings_Legendary
+    Name: "\uAC01\uBC18"
+    Level: 16
+    Rarity: 3
+    Type: 9
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 600
+    IconId: FantasyHeroes.Basic.Leggings.ChampionArmor
+    SpriteId: FantasyHeroes.Basic.Leggings.ChampionArmor
+    Meta: 
+  - Index: 28
+    Id: ChampionSword_Common
+    Name: "\uAC80"
+    Level: 11
+    Rarity: 0
+    Type: 0
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 20
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.ChampionBattlehammer
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.ChampionBattlehammer
+    Meta: 
+  - Index: 29
+    Id: ChampionSword_Rare
+    Name: "\uAC80"
+    Level: 11
+    Rarity: 1
+    Type: 0
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 200
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.ChampionBattlehammer
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.ChampionBattlehammer
+    Meta: 
+  - Index: 30
+    Id: ChampionSword_Epic
+    Name: "\uAC80"
+    Level: 16
+    Rarity: 2
+    Type: 0
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 400
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.ChampionBattlehammer
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.ChampionBattlehammer
+    Meta: 
+  - Index: 31
+    Id: ChampionSword_Legendary
+    Name: "\uAC80"
+    Level: 16
+    Rarity: 3
+    Type: 0
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 600
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.ChampionBattlehammer
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.ChampionBattlehammer
+    Meta: 
+  - Index: 32
+    Id: ShadowHelmet_Common
+    Name: "\uD5EC\uBA67"
+    Level: 21
+    Rarity: 0
+    Type: 3
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 40
+    IconId: FantasyHeroes.Basic.Helmet.ShadowTunic
+    SpriteId: FantasyHeroes.Basic.Helmet.ShadowTunic
+    Meta: 
+  - Index: 33
+    Id: ShadowHelmet_Rare
+    Name: "\uD5EC\uBA67"
+    Level: 21
+    Rarity: 1
+    Type: 3
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 400
+    IconId: FantasyHeroes.Basic.Helmet.ShadowTunic
+    SpriteId: FantasyHeroes.Basic.Helmet.ShadowTunic
+    Meta: 
+  - Index: 34
+    Id: ShadowHelmet_Epic
+    Name: "\uD5EC\uBA67"
+    Level: 26
+    Rarity: 2
+    Type: 3
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 800
+    IconId: FantasyHeroes.Basic.Helmet.ShadowTunic
+    SpriteId: FantasyHeroes.Basic.Helmet.ShadowTunic
+    Meta: 
+  - Index: 35
+    Id: ShadowHelmet_Legendary
+    Name: "\uD5EC\uBA67"
+    Level: 26
+    Rarity: 3
+    Type: 3
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 1200
+    IconId: FantasyHeroes.Basic.Helmet.ShadowTunic
+    SpriteId: FantasyHeroes.Basic.Helmet.ShadowTunic
+    Meta: 
+  - Index: 36
+    Id: ShadowArmor_Common
+    Name: "\uAC11\uC637"
+    Level: 21
+    Rarity: 0
+    Type: 2
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 40
+    IconId: FantasyHeroes.Basic.Armor.ShadowTunic
+    SpriteId: FantasyHeroes.Basic.Armor.ShadowTunic
+    Meta: 
+  - Index: 37
+    Id: ShadowArmor_Rare
+    Name: "\uAC11\uC637"
+    Level: 21
+    Rarity: 1
+    Type: 2
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 400
+    IconId: FantasyHeroes.Basic.Armor.ShadowTunic
+    SpriteId: FantasyHeroes.Basic.Armor.ShadowTunic
+    Meta: 
+  - Index: 38
+    Id: ShadowArmor_Epic
+    Name: "\uAC11\uC637"
+    Level: 26
+    Rarity: 2
+    Type: 2
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 800
+    IconId: FantasyHeroes.Basic.Armor.ShadowTunic
+    SpriteId: FantasyHeroes.Basic.Armor.ShadowTunic
+    Meta: 
+  - Index: 39
+    Id: ShadowArmor_Legendary
+    Name: "\uAC11\uC637"
+    Level: 26
+    Rarity: 3
+    Type: 2
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 1200
+    IconId: FantasyHeroes.Basic.Armor.ShadowTunic
+    SpriteId: FantasyHeroes.Basic.Armor.ShadowTunic
+    Meta: 
+  - Index: 40
+    Id: ShadowLeggings_Common
+    Name: "\uAC01\uBC18"
+    Level: 21
+    Rarity: 0
+    Type: 9
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 40
+    IconId: FantasyHeroes.Basic.Leggings.ShadowTunic
+    SpriteId: FantasyHeroes.Basic.Leggings.ShadowTunic
+    Meta: 
+  - Index: 41
+    Id: ShadowLeggings_Rare
+    Name: "\uAC01\uBC18"
+    Level: 21
+    Rarity: 1
+    Type: 9
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 400
+    IconId: FantasyHeroes.Basic.Leggings.ShadowTunic
+    SpriteId: FantasyHeroes.Basic.Leggings.ShadowTunic
+    Meta: 
+  - Index: 42
+    Id: ShadowLeggings_Epic
+    Name: "\uAC01\uBC18"
+    Level: 26
+    Rarity: 2
+    Type: 9
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 800
+    IconId: FantasyHeroes.Basic.Leggings.ShadowTunic
+    SpriteId: FantasyHeroes.Basic.Leggings.ShadowTunic
+    Meta: 
+  - Index: 43
+    Id: ShadowLeggings_Legendary
+    Name: "\uAC01\uBC18"
+    Level: 26
+    Rarity: 3
+    Type: 9
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 1200
+    IconId: FantasyHeroes.Basic.Leggings.ShadowTunic
+    SpriteId: FantasyHeroes.Basic.Leggings.ShadowTunic
+    Meta: 
+  - Index: 44
+    Id: ShadowSword_Common
+    Name: "\uAC80"
+    Level: 21
+    Rarity: 0
+    Type: 0
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 40
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.ShadowFang
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.ShadowFang
+    Meta: 
+  - Index: 45
+    Id: ShadowSword_Rare
+    Name: "\uAC80"
+    Level: 21
+    Rarity: 1
+    Type: 0
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 400
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.ShadowFang
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.ShadowFang
+    Meta: 
+  - Index: 46
+    Id: ShadowSword_Epic
+    Name: "\uAC80"
+    Level: 26
+    Rarity: 2
+    Type: 0
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 800
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.ShadowFang
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.ShadowFang
+    Meta: 
+  - Index: 47
+    Id: ShadowSword_Legendary
+    Name: "\uAC80"
+    Level: 26
+    Rarity: 3
+    Type: 0
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 1200
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.ShadowFang
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.ShadowFang
+    Meta: 
+  - Index: 48
+    Id: CrusaderHelmet_Common
+    Name: "\uD5EC\uBA67"
+    Level: 31
+    Rarity: 0
+    Type: 3
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 80
+    IconId: FantasyHeroes.Basic.Helmet.HighCrusaderArmor
+    SpriteId: FantasyHeroes.Basic.Helmet.HighCrusaderArmor
+    Meta: 
+  - Index: 49
+    Id: CrusaderHelmet_Rare
+    Name: "\uD5EC\uBA67"
+    Level: 31
+    Rarity: 1
+    Type: 3
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 800
+    IconId: FantasyHeroes.Basic.Helmet.HighCrusaderArmor
+    SpriteId: FantasyHeroes.Basic.Helmet.HighCrusaderArmor
+    Meta: 
+  - Index: 50
+    Id: CrusaderHelmet_Epic
+    Name: "\uD5EC\uBA67"
+    Level: 36
+    Rarity: 2
+    Type: 3
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 1600
+    IconId: FantasyHeroes.Basic.Helmet.HighCrusaderArmor
+    SpriteId: FantasyHeroes.Basic.Helmet.HighCrusaderArmor
+    Meta: 
+  - Index: 51
+    Id: CrusaderHelmet_Legendary
+    Name: "\uD5EC\uBA67"
+    Level: 36
+    Rarity: 3
+    Type: 3
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 2400
+    IconId: FantasyHeroes.Basic.Helmet.HighCrusaderArmor
+    SpriteId: FantasyHeroes.Basic.Helmet.HighCrusaderArmor
+    Meta: 
+  - Index: 52
+    Id: CrusaderArmor_Common
+    Name: "\uAC11\uC637"
+    Level: 31
+    Rarity: 0
+    Type: 2
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 80
+    IconId: FantasyHeroes.Basic.Armor.HighCrusaderArmor
+    SpriteId: FantasyHeroes.Basic.Armor.HighCrusaderArmor
+    Meta: 
+  - Index: 53
+    Id: CrusaderArmor_Rare
+    Name: "\uAC11\uC637"
+    Level: 31
+    Rarity: 1
+    Type: 2
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 800
+    IconId: FantasyHeroes.Basic.Armor.HighCrusaderArmor
+    SpriteId: FantasyHeroes.Basic.Armor.HighCrusaderArmor
+    Meta: 
+  - Index: 54
+    Id: CrusaderArmor_Epic
+    Name: "\uAC11\uC637"
+    Level: 36
+    Rarity: 2
+    Type: 2
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 1600
+    IconId: FantasyHeroes.Basic.Armor.HighCrusaderArmor
+    SpriteId: FantasyHeroes.Basic.Armor.HighCrusaderArmor
+    Meta: 
+  - Index: 55
+    Id: CrusaderArmor_Legendary
+    Name: "\uAC11\uC637"
+    Level: 36
+    Rarity: 3
+    Type: 2
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 2400
+    IconId: FantasyHeroes.Basic.Armor.HighCrusaderArmor
+    SpriteId: FantasyHeroes.Basic.Armor.HighCrusaderArmor
+    Meta: 
+  - Index: 56
+    Id: CrusaderLeggings_Common
+    Name: "\uAC01\uBC18"
+    Level: 31
+    Rarity: 0
+    Type: 9
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 80
+    IconId: FantasyHeroes.Basic.Leggings.HighCrusaderArmor
+    SpriteId: FantasyHeroes.Basic.Leggings.HighCrusaderArmor
+    Meta: 
+  - Index: 57
+    Id: CrusaderLeggings_Rare
+    Name: "\uAC01\uBC18"
+    Level: 31
+    Rarity: 1
+    Type: 9
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 800
+    IconId: FantasyHeroes.Basic.Leggings.HighCrusaderArmor
+    SpriteId: FantasyHeroes.Basic.Leggings.HighCrusaderArmor
+    Meta: 
+  - Index: 58
+    Id: CrusaderLeggings_Epic
+    Name: "\uAC01\uBC18"
+    Level: 36
+    Rarity: 2
+    Type: 9
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 1600
+    IconId: FantasyHeroes.Basic.Leggings.HighCrusaderArmor
+    SpriteId: FantasyHeroes.Basic.Leggings.HighCrusaderArmor
+    Meta: 
+  - Index: 59
+    Id: CrusaderLeggings_Legendary
+    Name: "\uAC01\uBC18"
+    Level: 36
+    Rarity: 3
+    Type: 9
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 2400
+    IconId: FantasyHeroes.Basic.Leggings.HighCrusaderArmor
+    SpriteId: FantasyHeroes.Basic.Leggings.HighCrusaderArmor
+    Meta: 
+  - Index: 60
+    Id: CrusaderSword_Common
+    Name: "\uAC80"
+    Level: 31
+    Rarity: 0
+    Type: 0
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 80
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.BizarreSword
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.BizarreSword
+    Meta: 
+  - Index: 61
+    Id: CrusaderSword_Rare
+    Name: "\uAC80"
+    Level: 31
+    Rarity: 1
+    Type: 0
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 800
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.BizarreSword
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.BizarreSword
+    Meta: 
+  - Index: 62
+    Id: CrusaderSword_Epic
+    Name: "\uAC80"
+    Level: 36
+    Rarity: 2
+    Type: 0
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 1600
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.BizarreSword
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.BizarreSword
+    Meta: 
+  - Index: 63
+    Id: CrusaderSword_Legendary
+    Name: "\uAC80"
+    Level: 36
+    Rarity: 3
+    Type: 0
+    Class: 0
+    Tag1: 0
+    Tag2: 0
+    Tag3: 0
+    Price: 2400
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.BizarreSword
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.BizarreSword
     Meta: 
   itemBaseData:
   - Index: 0
@@ -963,4 +1860,531 @@ MonoBehaviour:
     StatId3: 0
     StatValueMin3: 0
     StatValueMax3: 0
-  noticeTransform: {fileID: 0}
+  - Index: 16
+    Id: ChampionHelmet_Common
+    StatId1: 2
+    StatValueMin1: 15
+    StatValueMax1: 25
+    StatId2: 7
+    StatValueMin2: 6
+    StatValueMax2: 15
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 17
+    Id: ChampionHelmet_Rare
+    StatId1: 2
+    StatValueMin1: 25
+    StatValueMax1: 35
+    StatId2: 7
+    StatValueMin2: 15
+    StatValueMax2: 25
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 18
+    Id: ChampionHelmet_Epic
+    StatId1: 2
+    StatValueMin1: 45
+    StatValueMax1: 75
+    StatId2: 7
+    StatValueMin2: 35
+    StatValueMax2: 55
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 19
+    Id: ChampionHelmet_Legendary
+    StatId1: 2
+    StatValueMin1: 85
+    StatValueMax1: 125
+    StatId2: 7
+    StatValueMin2: 65
+    StatValueMax2: 95
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 20
+    Id: ChampionArmor_Common
+    StatId1: 5
+    StatValueMin1: 15
+    StatValueMax1: 25
+    StatId2: 7
+    StatValueMin2: 6
+    StatValueMax2: 15
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 21
+    Id: ChampionArmor_Rare
+    StatId1: 5
+    StatValueMin1: 25
+    StatValueMax1: 35
+    StatId2: 7
+    StatValueMin2: 15
+    StatValueMax2: 25
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 22
+    Id: ChampionArmor_Epic
+    StatId1: 5
+    StatValueMin1: 45
+    StatValueMax1: 75
+    StatId2: 7
+    StatValueMin2: 35
+    StatValueMax2: 55
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 23
+    Id: ChampionArmor_Legendary
+    StatId1: 5
+    StatValueMin1: 85
+    StatValueMax1: 125
+    StatId2: 7
+    StatValueMin2: 65
+    StatValueMax2: 95
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 24
+    Id: ChampionLeggings_Common
+    StatId1: 6
+    StatValueMin1: 15
+    StatValueMax1: 25
+    StatId2: 7
+    StatValueMin2: 6
+    StatValueMax2: 15
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 25
+    Id: ChampionLeggings_Rare
+    StatId1: 6
+    StatValueMin1: 25
+    StatValueMax1: 35
+    StatId2: 7
+    StatValueMin2: 15
+    StatValueMax2: 25
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 26
+    Id: ChampionLeggings_Epic
+    StatId1: 6
+    StatValueMin1: 45
+    StatValueMax1: 75
+    StatId2: 7
+    StatValueMin2: 35
+    StatValueMax2: 55
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 27
+    Id: ChampionLeggings_Legendary
+    StatId1: 6
+    StatValueMin1: 85
+    StatValueMax1: 125
+    StatId2: 7
+    StatValueMin2: 65
+    StatValueMax2: 95
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 28
+    Id: ChampionSword_Common
+    StatId1: 1
+    StatValueMin1: 15
+    StatValueMax1: 25
+    StatId2: 2
+    StatValueMin2: 6
+    StatValueMax2: 15
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 29
+    Id: ChampionSword_Rare
+    StatId1: 1
+    StatValueMin1: 25
+    StatValueMax1: 35
+    StatId2: 2
+    StatValueMin2: 15
+    StatValueMax2: 25
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 30
+    Id: ChampionSword_Epic
+    StatId1: 1
+    StatValueMin1: 45
+    StatValueMax1: 75
+    StatId2: 2
+    StatValueMin2: 35
+    StatValueMax2: 55
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 31
+    Id: ChampionSword_Legendary
+    StatId1: 1
+    StatValueMin1: 85
+    StatValueMax1: 125
+    StatId2: 2
+    StatValueMin2: 65
+    StatValueMax2: 95
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 32
+    Id: ShadowHelmet_Common
+    StatId1: 2
+    StatValueMin1: 20
+    StatValueMax1: 30
+    StatId2: 7
+    StatValueMin2: 11
+    StatValueMax2: 20
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 33
+    Id: ShadowHelmet_Rare
+    StatId1: 2
+    StatValueMin1: 30
+    StatValueMax1: 40
+    StatId2: 7
+    StatValueMin2: 20
+    StatValueMax2: 30
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 34
+    Id: ShadowHelmet_Epic
+    StatId1: 2
+    StatValueMin1: 50
+    StatValueMax1: 80
+    StatId2: 7
+    StatValueMin2: 40
+    StatValueMax2: 60
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 35
+    Id: ShadowHelmet_Legendary
+    StatId1: 2
+    StatValueMin1: 90
+    StatValueMax1: 130
+    StatId2: 7
+    StatValueMin2: 70
+    StatValueMax2: 100
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 36
+    Id: ShadowArmor_Common
+    StatId1: 5
+    StatValueMin1: 20
+    StatValueMax1: 30
+    StatId2: 7
+    StatValueMin2: 11
+    StatValueMax2: 20
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 37
+    Id: ShadowArmor_Rare
+    StatId1: 5
+    StatValueMin1: 30
+    StatValueMax1: 40
+    StatId2: 7
+    StatValueMin2: 20
+    StatValueMax2: 30
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 38
+    Id: ShadowArmor_Epic
+    StatId1: 5
+    StatValueMin1: 50
+    StatValueMax1: 80
+    StatId2: 7
+    StatValueMin2: 40
+    StatValueMax2: 60
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 39
+    Id: ShadowArmor_Legendary
+    StatId1: 5
+    StatValueMin1: 90
+    StatValueMax1: 130
+    StatId2: 7
+    StatValueMin2: 70
+    StatValueMax2: 100
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 40
+    Id: ShadowLeggings_Common
+    StatId1: 6
+    StatValueMin1: 20
+    StatValueMax1: 30
+    StatId2: 7
+    StatValueMin2: 11
+    StatValueMax2: 20
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 41
+    Id: ShadowLeggings_Rare
+    StatId1: 6
+    StatValueMin1: 30
+    StatValueMax1: 40
+    StatId2: 7
+    StatValueMin2: 20
+    StatValueMax2: 30
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 42
+    Id: ShadowLeggings_Epic
+    StatId1: 6
+    StatValueMin1: 50
+    StatValueMax1: 80
+    StatId2: 7
+    StatValueMin2: 40
+    StatValueMax2: 60
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 43
+    Id: ShadowLeggings_Legendary
+    StatId1: 6
+    StatValueMin1: 90
+    StatValueMax1: 130
+    StatId2: 7
+    StatValueMin2: 70
+    StatValueMax2: 100
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 44
+    Id: ShadowSword_Common
+    StatId1: 1
+    StatValueMin1: 20
+    StatValueMax1: 30
+    StatId2: 2
+    StatValueMin2: 11
+    StatValueMax2: 20
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 45
+    Id: ShadowSword_Rare
+    StatId1: 1
+    StatValueMin1: 30
+    StatValueMax1: 40
+    StatId2: 2
+    StatValueMin2: 20
+    StatValueMax2: 30
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 46
+    Id: ShadowSword_Epic
+    StatId1: 1
+    StatValueMin1: 50
+    StatValueMax1: 80
+    StatId2: 2
+    StatValueMin2: 40
+    StatValueMax2: 60
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 47
+    Id: ShadowSword_Legendary
+    StatId1: 1
+    StatValueMin1: 90
+    StatValueMax1: 130
+    StatId2: 2
+    StatValueMin2: 70
+    StatValueMax2: 100
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 48
+    Id: CrusaderHelmet_Common
+    StatId1: 2
+    StatValueMin1: 25
+    StatValueMax1: 35
+    StatId2: 7
+    StatValueMin2: 16
+    StatValueMax2: 25
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 49
+    Id: CrusaderHelmet_Rare
+    StatId1: 2
+    StatValueMin1: 35
+    StatValueMax1: 45
+    StatId2: 7
+    StatValueMin2: 25
+    StatValueMax2: 35
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 50
+    Id: CrusaderHelmet_Epic
+    StatId1: 2
+    StatValueMin1: 55
+    StatValueMax1: 85
+    StatId2: 7
+    StatValueMin2: 45
+    StatValueMax2: 65
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 51
+    Id: CrusaderHelmet_Legendary
+    StatId1: 2
+    StatValueMin1: 95
+    StatValueMax1: 135
+    StatId2: 7
+    StatValueMin2: 75
+    StatValueMax2: 105
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 52
+    Id: CrusaderArmor_Common
+    StatId1: 5
+    StatValueMin1: 25
+    StatValueMax1: 35
+    StatId2: 7
+    StatValueMin2: 16
+    StatValueMax2: 25
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 53
+    Id: CrusaderArmor_Rare
+    StatId1: 5
+    StatValueMin1: 35
+    StatValueMax1: 45
+    StatId2: 7
+    StatValueMin2: 25
+    StatValueMax2: 35
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 54
+    Id: CrusaderArmor_Epic
+    StatId1: 5
+    StatValueMin1: 55
+    StatValueMax1: 85
+    StatId2: 7
+    StatValueMin2: 45
+    StatValueMax2: 65
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 55
+    Id: CrusaderArmor_Legendary
+    StatId1: 5
+    StatValueMin1: 95
+    StatValueMax1: 135
+    StatId2: 7
+    StatValueMin2: 75
+    StatValueMax2: 105
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 56
+    Id: CrusaderLeggings_Common
+    StatId1: 6
+    StatValueMin1: 25
+    StatValueMax1: 35
+    StatId2: 7
+    StatValueMin2: 16
+    StatValueMax2: 25
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 57
+    Id: CrusaderLeggings_Rare
+    StatId1: 6
+    StatValueMin1: 35
+    StatValueMax1: 45
+    StatId2: 7
+    StatValueMin2: 25
+    StatValueMax2: 35
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 58
+    Id: CrusaderLeggings_Epic
+    StatId1: 6
+    StatValueMin1: 55
+    StatValueMax1: 85
+    StatId2: 7
+    StatValueMin2: 45
+    StatValueMax2: 65
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 59
+    Id: CrusaderLeggings_Legendary
+    StatId1: 6
+    StatValueMin1: 95
+    StatValueMax1: 135
+    StatId2: 7
+    StatValueMin2: 75
+    StatValueMax2: 105
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 60
+    Id: CrusaderSword_Common
+    StatId1: 1
+    StatValueMin1: 25
+    StatValueMax1: 35
+    StatId2: 2
+    StatValueMin2: 16
+    StatValueMax2: 25
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 61
+    Id: CrusaderSword_Rare
+    StatId1: 1
+    StatValueMin1: 35
+    StatValueMax1: 45
+    StatId2: 2
+    StatValueMin2: 25
+    StatValueMax2: 35
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 62
+    Id: CrusaderSword_Epic
+    StatId1: 1
+    StatValueMin1: 55
+    StatValueMax1: 85
+    StatId2: 2
+    StatValueMin2: 45
+    StatValueMax2: 65
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0
+  - Index: 63
+    Id: CrusaderSword_Legendary
+    StatId1: 1
+    StatValueMin1: 95
+    StatValueMax1: 135
+    StatId2: 2
+    StatValueMin2: 75
+    StatValueMax2: 105
+    StatId3: 0
+    StatValueMin3: 0
+    StatValueMax3: 0

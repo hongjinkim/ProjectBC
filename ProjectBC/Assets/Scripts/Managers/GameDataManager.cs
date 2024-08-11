@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+using System.IO;
 using static DB;
 using static JsonHelper;
 using Unity.VisualScripting;
+using Newtonsoft.Json;
 
 public class GameDataManager : MonoSingleton<GameDataManager>
 {
-    [SerializeField] private string savePath;
+    [SerializeField] private static string savePath => Application.persistentDataPath + "/saves/";
 
-    [SerializeField] private string _saveFilename = "savegame.dat";
+    [SerializeField] private string _saveFilename = "savegame.json";
 
     [SerializeField] private bool _debugValues;
     [SerializeField] private bool _resetGame;
@@ -43,7 +44,6 @@ public class GameDataManager : MonoSingleton<GameDataManager>
 
     public override void Init()
     {
-        savePath = Application.persistentDataPath;
         ItemCollection.active = itemCollection;
         //InitializeHeroes();
 
@@ -67,13 +67,14 @@ public class GameDataManager : MonoSingleton<GameDataManager>
     {
         // load saved data from FileDataHandler
 
+        if (File.Exists(savePath + _saveFilename))
+        {
+            string jsonString = File.ReadAllText(savePath + _saveFilename);
+            _playerInfo = JsonConvert.DeserializeObject<PlayerInfo>(jsonString);
+        }
         if (_playerInfo == null || _resetGame)
         {
             _playerInfo = NewGame();
-        }
-        else if (FileManager.LoadFromFile(_saveFilename, out var jsonString))
-        {
-            _playerInfo.LoadJson(jsonString);
         }
 
         MakeItemDictionary();
@@ -81,17 +82,13 @@ public class GameDataManager : MonoSingleton<GameDataManager>
     }
     public void SaveGame()
     {
-        string jsonFile = _playerInfo.ToJson();
-        //string heroesJson = _playerInfo.HeroesToJson(); // 추가
-
-        // save to disk with FileDataHandler
-        if (FileManager.WriteToFile(_saveFilename, jsonFile)/* &&
-            FileManager.WriteToFile("heroes_" + _saveFilename, heroesJson)*/ && // 추가
-            _debugValues)
+        if (!Directory.Exists(savePath))
         {
-
-            //Debug.Log("SaveManager.SaveGame: heroes_" + _saveFilename + " json string: " + heroesJson); // 추가
+            Directory.CreateDirectory(savePath);
         }
+
+        string jsonFile = JsonConvert.SerializeObject(_playerInfo);
+        FileManager.WriteToFile(savePath + _saveFilename, jsonFile);
     }
 
     //void OnSettingsShown()
@@ -253,7 +250,7 @@ public class GameDataManager : MonoSingleton<GameDataManager>
             {
                 if (item.Params.Id == _item.Params.Id)
                 {
-                    _item.Count+=amount;
+                    _item.count+=amount;
                     hasItem = true;
                     break;
                 }
@@ -281,13 +278,13 @@ public class GameDataManager : MonoSingleton<GameDataManager>
             {
                 if (item.Params.Id == _item.Params.Id)
                 {
-                    if(amount < _item.Count)
-                        _item.Count-=amount;
+                    if(amount < _item.count)
+                        _item.count-=amount;
                     else
                     {
                         Debug.Log("제거하려는 아이템의 수가 가지고 있는 수 보다 많습니다.");
                     }
-                    if (_item.Count <=0)
+                    if (_item.count <=0)
                     {
                         itemDictionary[item.Params.Type].Remove(item);
                     }
@@ -303,6 +300,6 @@ public class GameDataManager : MonoSingleton<GameDataManager>
         EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { { "type", item.Params.Type } });
     }
 
-
+    
 
 }

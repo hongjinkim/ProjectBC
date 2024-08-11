@@ -87,18 +87,18 @@ public class ItemInfo : PopUp
         itemName.text = item.Params.Name;
         rarity.text = "품질 : " + item.Params.Rarity.ToString();
         type.text = item.Params.Type.ToString();
-        battlePoint.text = item.BattlePoint.ToString();
+        battlePoint.text = item.battlePoint.ToString();
         if (item.IsEquipment)
         {
-            luckyPoint.text = "럭키포인트: " + item.LuckyPoint.ToString() + "(" +item.LuckyPercent.ToString()+ "%)";
+            luckyPoint.text = "럭키포인트: " + item.luckyPoint.ToString() + "(" +item.luckyPercent.ToString()+ "%)";
 
-            for(int i = 0; i < item.Stat.basic.Count; i++)
+            for(int i = 0; i < item.stat.basic.Count; i++)
             {
-                basicStats[i].text = item.Stat.basic[i].value <= 0 ? null : item.Stat.basic[i].id.ToString() + "  " + "+" + item.Stat.basic[i].value.ToString() + "    (+" + (item.Stat.basic[i].value - item.Stat.basic[i].minValue).ToString() + ")";
+                basicStats[i].text = item.stat.basic[i].value <= 0 ? null : item.stat.basic[i].id.ToString() + "  " + "+" + item.stat.basic[i].value.ToString() + "    (+" + (item.stat.basic[i].value - item.stat.basic[i].minValue).ToString() + ")";
             }
-            for (int i = 0; i < item.Stat.magic.Count; i++)
+            for (int i = 0; i < item.stat.magic.Count; i++)
             {
-                magicStats[i].text = item.Stat.magic[i].value <= 0 ? null : item.Stat.magic[i].id.ToString() + "  " + "+" + item.Stat.magic[i].value.ToString();
+                magicStats[i].text = item.stat.magic[i].value <= 0 ? null : item.stat.magic[i].id.ToString() + "  " + "+" + item.stat.magic[i].value.ToString();
             }
 
         }
