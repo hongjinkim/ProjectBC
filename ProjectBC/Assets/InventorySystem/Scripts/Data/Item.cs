@@ -16,6 +16,8 @@ public class Item
     public int LuckyPercent = 0;
     public int LuckyPoint = 0;
 
+    public int BattlePoint => CalcItemBattlePoint();
+
     public int Count;
     public int index;
 
@@ -45,6 +47,24 @@ public class Item
         return new Item(id, modifier, Count);
     }
 
+    private int CalcItemBattlePoint()
+    {
+        int result = 0;
+
+
+        // 추후 스탯 종류 별로 다르게 적용 필요
+        foreach(Basic basic in Stat.basic)
+        {
+            result += basic.value;
+        }
+        foreach (Magic magic in Stat.magic)
+        {
+            result += magic.value;
+        }
+
+        return result;
+    }
+
     [JsonIgnore] public ItemParams Params => ItemCollection.active.GetItemParams(this);
     [JsonIgnore] public ItemSprite Sprite => ItemCollection.active.GetItemSprite(this);
     [JsonIgnore] public ItemIcon Icon => ItemCollection.active.GetItemIcon(this);
@@ -67,4 +87,5 @@ public class Item
     [JsonIgnore] public bool IsFirearm => Params.Class == ItemClass.Firearm;
     [JsonIgnore] public bool IsOneHanded => !IsTwoHanded;
     [JsonIgnore] public bool IsTwoHanded => Params.Class == ItemClass.Bow || Params.Tags.Contains(ItemTag.TwoHanded);
+    [JsonIgnore] public bool IsCanStacked => Params.Type == ItemType.Usable || Params.Type == ItemType.Material || Params.Type == ItemType.Crystal || Params.Type == ItemType.Exp;
 }

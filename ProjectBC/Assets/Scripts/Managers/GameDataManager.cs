@@ -29,6 +29,7 @@ public class GameDataManager : MonoSingleton<GameDataManager>
 
     [SerializeField] public EquipmentStatData[] equipmentStatData;
 
+    public Dictionary<ItemType, List<Item>> itemDictionary;
 
     void OnApplicationQuit()
     {
@@ -43,12 +44,13 @@ public class GameDataManager : MonoSingleton<GameDataManager>
     public override void Init()
     {
         savePath = Application.persistentDataPath;
+        ItemCollection.active = itemCollection;
         //InitializeHeroes();
 
         LoadGame();
 
         
-        ItemCollection.active = itemCollection;
+        
     }
 
     void Start()
@@ -74,23 +76,8 @@ public class GameDataManager : MonoSingleton<GameDataManager>
             _playerInfo.LoadJson(jsonString);
         }
 
-        // 히어로 데이터 로드 (추가)
-        //if (FileManager.LoadFromFile("heroes_" + _saveFilename, out var heroesJsonString))
-        //{
-        //    _playerInfo.LoadHeroesFromJson(heroesJsonString);
-
-        //    if (_debugValues)
-        //    {
-        //        Debug.Log("SaveManager.LoadGame: heroes_" + _saveFilename + " json string: " + heroesJsonString);
-        //    }
-        //}
-
-        // notify other game objects 
-        if (_playerInfo != null)
-        {
-            //EventManager.instance.GameDataLoaded?.Invoke(_playerInfo);
-            //HeroesUpdated?.Invoke(_playerInfo.heroes); // 추가
-        }
+        MakeItemDictionary();
+      
     }
     public void SaveGame()
     {
@@ -147,10 +134,6 @@ public class GameDataManager : MonoSingleton<GameDataManager>
     //        BattlePointUpdated?.Invoke(_playerInfo);
     //}
 
-    public void UpdateItem()
-    {
-        EventManager.TriggerEvent(EventType.ItemUpdated, null);
-    }
 
     private void LoadDatas()
     {
@@ -240,5 +223,86 @@ public class GameDataManager : MonoSingleton<GameDataManager>
     //    _playerInfo.heroes.Remove(hero);
     //    HeroesUpdated?.Invoke(_playerInfo.heroes);
     //}
+
+    private void MakeItemDictionary()
+    {
+        itemDictionary = new Dictionary<ItemType, List<Item>>();
+        foreach(Item item in _playerInfo.items)
+        {
+            if (!itemDictionary.ContainsKey(item.Params.Type))
+            {
+                itemDictionary[item.Params.Type] = new List<Item>();
+            }
+
+            itemDictionary[item.Params.Type].Add(item);
+        }
+    }
+
+    public void AddItem(Item item, int amount = 1)
+    {
+        _playerInfo.items.Add(item);
+
+        if (!itemDictionary.ContainsKey(item.Params.Type))
+        {
+            itemDictionary[item.Params.Type] = new List<Item>();
+        }
+        if (item.IsCanStacked)
+        {
+            bool hasItem = false;
+            foreach (Item _item in itemDictionary[item.Params.Type])
+            {
+                if (item.Params.Id == _item.Params.Id)
+                {
+                    _item.Count+=amount;
+                    hasItem = true;
+                    break;
+                }
+            }
+            if (!hasItem)
+            {
+                itemDictionary[item.Params.Type].Add(item);
+            }
+        }
+        else
+        {
+            itemDictionary[item.Params.Type].Add(item);
+        }
+
+        EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { { "type", item.Params.Type } });
+    }
+
+    public void RemoveItem(Item item, int amount = 1)
+    {
+        _playerInfo.items.Remove(item);
+
+        if (item.IsCanStacked)
+        {
+            foreach (Item _item in itemDictionary[item.Params.Type])
+            {
+                if (item.Params.Id == _item.Params.Id)
+                {
+                    if(amount < _item.Count)
+                        _item.Count-=amount;
+                    else
+                    {
+                        Debug.Log("제거하려는 아이템의 수가 가지고 있는 수 보다 많습니다.");
+                    }
+                    if (_item.Count <=0)
+                    {
+                        itemDictionary[item.Params.Type].Remove(item);
+                    }
+                    break;
+                }
+            }
+        }
+        else
+        {
+            itemDictionary[item.Params.Type].Remove(item);
+        }
+
+        EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { { "type", item.Params.Type } });
+    }
+
+
 
 }

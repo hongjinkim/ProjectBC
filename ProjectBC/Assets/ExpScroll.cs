@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ public class ExpScroll : MonoBehaviour
     public static ExpScroll Instance { get; private set; }
     [SerializeField] private TextMeshProUGUI[] countTxts;
     //private string[] expScrollIds = { "Exp_Basic", "Exp_Common", "Exp_Rare", "Exp_Epic", "Exp_Legendary" };
+
+    List<Item> ExpScrolls = new List<Item>();
 
     private void Awake()
     {
@@ -23,32 +26,36 @@ public class ExpScroll : MonoBehaviour
         }
 
 
-        for (int i = 0; i < GameDataManager.instance.playerInfo.items.Count; i++)
+        if(GameDataManager.instance.itemDictionary.ContainsKey(ItemType.Exp))
         {
-            Item item = GameDataManager.instance.playerInfo.items[i];
+            ExpScrolls = GameDataManager.instance.itemDictionary[ItemType.Exp];
+        }
+
+        foreach (Item item in ExpScrolls)
+        {            
             int Count;
 
-            if (item.id == "Exp_Basic")
+            if (item.Params.Id == "Exp_Basic")
             {
                 Count = item.Count;
                 countTxts[0].text = Count.ToString();
             }
-            else if (item.id == "Exp_Common")
+            else if (item.Params.Id == "Exp_Common")
             {
                 Count = item.Count;
                 countTxts[1].text = Count.ToString();
             }
-            else if (item.id == "Exp_Rare")
+            else if (item.Params.Id == "Exp_Rare")
             {
                 Count = item.Count;
                 countTxts[2].text = Count.ToString();
             }
-            else if (item.id == "Exp_Epic")
+            else if (item.Params.Id == "Exp_Epic")
             {
                 Count = item.Count;
                 countTxts[3].text = Count.ToString();
             }
-            else if (item.id == "Exp_Legendary")
+            else if (item.Params.Id == "Exp_Legendary")
             {
                 Count = item.Count;
                 countTxts[4].text = Count.ToString();

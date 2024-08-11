@@ -491,37 +491,16 @@ public class Dungeon : MonoBehaviour
         }
 
         // 아이템 획득
-        var inventory = GameDataManager.instance.playerInfo.items;
         if (droppedItems != null)
         {
             foreach (Item item in droppedItems)
             {
-                if (item.Params.Type == ItemType.Usable || item.Params.Type == ItemType.Material || item.Params.Type == ItemType.Crystal || item.Params.Type == ItemType.Exp)
-                {
-                    bool hasItem = false; 
-                    foreach (Item _item in inventory)
-                    {
-                        if (item.Params.Id == _item.Params.Id)
-                        {
-                            _item.Count++;
-                            hasItem = true;
-                            break;
-                        }
-                    }
-                    if (!hasItem)
-                    {
-                        EventManager.TriggerEvent(EventType.ItemPickup, new Dictionary<string, object> { { "item", (string)(item.Params.Name + "을(를) 획득 했습니다") } });
-                        inventory.Add(item);
-                    }
-
-                }
-                else
-                {
-                    EventManager.TriggerEvent(EventType.ItemPickup, new Dictionary<string, object> { { "item", (string)(item.Params.Name + "을(를) 획득 했습니다") } });
-                    inventory.Add(item);
-                }
+                GameDataManager.instance.AddItem(item);
+                EventManager.TriggerEvent(EventType.ItemPickup, new Dictionary<string, object> { { "item", (string)(item.Params.Name + "을(를) 획득 했습니다") } });
+                EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { { "type", item.Params.Type} });
+                       
             }
-            EventManager.TriggerEvent(EventType.ItemUpdated, null);
+            
         }
 
         // 필드 위애 아이템 표시 모두 제거

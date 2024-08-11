@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class HeroPage : HeroScreen
 {
@@ -120,33 +121,32 @@ public class HeroPage : HeroScreen
 
     public bool UseExpScroll(string scrollType)
     {
-        var ExpItem = GameDataManager.instance.playerInfo.items;
+        var ExpItem = GameDataManager.instance.itemDictionary[ItemType.Exp];
 
-        for (int i = 0; i < ExpItem.Count; i++)
+        foreach (Item item in ExpItem)
         {
-            if (ExpItem[i].id == scrollType)
+            
+            if (item.Count > 0)
             {
-                if (ExpItem[i].Count > 0)
+                item.Count--;
+
+                //GameDataManager.instance.UpdateItem();
+                //GameDataManager.instance.UpdateFunds();
+                EventManager.TriggerEvent(EventType.FundsUpdated, null);
+                EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { {"type", ItemType.Exp } });
+
+                if (ExpScroll.Instance != null)
                 {
-                    ExpItem[i].Count--;
-
-                    //GameDataManager.instance.UpdateItem();
-                    //GameDataManager.instance.UpdateFunds();
-                    EventManager.TriggerEvent(EventType.FundsUpdated, null);
-                    EventManager.TriggerEvent(EventType.ItemUpdated, null);
-
-                    if (ExpScroll.Instance != null)
-                    {
-                        ExpScroll.Instance.UpdateExpScrollCount();
-                    }
-
-                    if (ExpItem[i].Count == 0)
-                    {
-                        ExpItem.RemoveAt(i);
-                    }
-                    return true;
+                    ExpScroll.Instance.UpdateExpScrollCount();
                 }
+
+                if (item.Count == 0)
+                {
+                    GameDataManager.instance.RemoveItem(item);
+                }
+                return true;
             }
+            
         }
         return false;
     }

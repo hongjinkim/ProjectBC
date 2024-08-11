@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,22 +28,32 @@ public class ScrollInventory : ItemContainer
     public TextMeshProUGUI ItemCount;
     public TextMeshProUGUI ItemCapacity;
 
-    public Func<Item, int> SortingFunc = item => TypePriority.IndexOf(item.Params.Type); // You can override this.
+    public Func<Item, int> SortingFunc = item => TypePriority.IndexOf(item.Params.Rarity); // You can override this.
     public Func<Item, bool> FilterFunc; // You can override this.
 
     public Action OnRefresh;
 
-    private static readonly List<ItemType> TypePriority = new List<ItemType>
+    //private static readonly List<ItemType> TypePriority = new List<ItemType>
+    //    {
+    //        ItemType.Weapon,
+    //        ItemType.Helmet,
+    //        ItemType.Armor,
+    //        ItemType.Vest,
+    //        ItemType.Bracers,
+    //        ItemType.Leggings,
+    //        ItemType.Shield,
+    //        ItemType.Backpack,
+    //        ItemType.Jewelry,
+    //    };
+    private static readonly List<ItemRarity> TypePriority = new List<ItemRarity>
         {
-            ItemType.Weapon,
-            ItemType.Helmet,
-            ItemType.Armor,
-            ItemType.Vest,
-            ItemType.Bracers,
-            ItemType.Leggings,
-            ItemType.Shield,
-            ItemType.Backpack,
-            ItemType.Jewelry,
+            ItemRarity.Legendary,
+            ItemRarity.Epic,
+            ItemRarity.Rare,
+            ItemRarity.Common,
+            ItemRarity.Basic,
+            ItemRarity.Legacy,
+
         };
     private readonly List<InventoryItem> _itemInstances = new List<InventoryItem>(); // Reusing instances to reduce Instantiate() calls.
 

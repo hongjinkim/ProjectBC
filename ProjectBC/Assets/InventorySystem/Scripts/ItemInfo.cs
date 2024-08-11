@@ -87,6 +87,7 @@ public class ItemInfo : PopUp
         itemName.text = item.Params.Name;
         rarity.text = "품질 : " + item.Params.Rarity.ToString();
         type.text = item.Params.Type.ToString();
+        battlePoint.text = item.BattlePoint.ToString();
         if (item.IsEquipment)
         {
             luckyPoint.text = "럭키포인트: " + item.LuckyPoint.ToString() + "(" +item.LuckyPercent.ToString()+ "%)";

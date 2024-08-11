@@ -155,7 +155,7 @@ public class Disassembly : MonoBehaviour
 
         foreach (Item item in itemsToDisassemble)
         {
-            GameDataManager.instance.playerInfo.items.Remove(item);
+            GameDataManager.instance.RemoveItem(item);
         }
 
         DisassemblyReward(itemsToDisassemble);  // itemsToDisassemble 리스트 전달
@@ -259,7 +259,7 @@ public class Disassembly : MonoBehaviour
                 }
 
                 // 아이템 제거
-                GameDataManager.instance.playerInfo.items.Remove(item);
+                GameDataManager.instance.RemoveItem(item);
 
                 Debug.Log($"분해 완료: {item.Params.Name}");
                 Debug.Log($"획득한 골드: {goldReward}");
@@ -288,18 +288,7 @@ public class Disassembly : MonoBehaviour
 
     private void AddRewardItem(string itemId, int amount)
     {
-        var inventory = GameDataManager.instance.playerInfo.items;
-        var existingItem = inventory.Find(i => i.Params.Id == itemId);
-
-        if (existingItem != null)
-        {
-            existingItem.Count += amount;
-        }
-        else
-        {
-            Item newItem = new Item(itemId);
-            newItem.Count = amount;
-            inventory.Add(newItem);
-        }
+        Item newItem = new Item(itemId);
+        GameDataManager.instance.AddItem(newItem, amount);
     }
 }
