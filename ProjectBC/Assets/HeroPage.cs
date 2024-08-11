@@ -30,6 +30,7 @@ public class HeroPage : HeroScreen
 
     [SerializeField] private AttributeUI attributeUI;
     [SerializeField] private HeroPotion heroPotion;
+    [SerializeField] private PlayerInfoBar playerInfoBar;
 
     public void Start()
     {
@@ -256,12 +257,10 @@ public class HeroPage : HeroScreen
         DefenseText.text = _info.defense.ToString();
         ResistanceText.text = _info.magicResistance.ToString();
 
-        int battlePoint = CalculateBattlePoint(_info);
-        BattlePointText.text = battlePoint.ToString();
+        BattlePointText.text = _info.battlePoint.ToString();
+
+        //GameDataManager.instance.UpdateBattlePoint();
+        EventManager.TriggerEvent(EventType.BattlePointUpdated, null);
     }
-    private int CalculateBattlePoint(HeroInfo hero)
-    {
-        // �� ������ ���� �뷱���� ���� �����ؾ� �� �� �ֽ��ϴ�.
-        return hero.hp / 10 + hero.attackDamage * 2 + hero.defense * 3 + hero.magicResistance * 3 + hero.level * 5;
-    }
+
 }

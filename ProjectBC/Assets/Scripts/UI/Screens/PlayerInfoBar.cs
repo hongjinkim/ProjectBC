@@ -32,8 +32,15 @@ public class PlayerInfoBar : BaseScreen
     void Start()
     {
         playerInfo = GameDataManager.instance.playerInfo;
+        EventManager.StartListening(EventType.FundsUpdated, OnFundsUpdated);
+        EventManager.StartListening(EventType.BattlePointUpdated, OnBattlePointUpdated);
     }
 
+    private void OnApplicationQuit()
+    {
+        EventManager.StopListening(EventType.FundsUpdated, OnFundsUpdated);
+        EventManager.StopListening(EventType.BattlePointUpdated, OnBattlePointUpdated);
+    }
     void OnFundsUpdated(Dictionary<string, object> message)
     {
         gold.text = playerInfo.gold.ToString();
@@ -45,9 +52,9 @@ public class PlayerInfoBar : BaseScreen
     {
         level.text = "Lv. " + info.level.ToString("D2");
     }
-    void OnBattlePointUpdated(PlayerInfo info)
+    void OnBattlePointUpdated(Dictionary<string, object> message)
     {
-        battlePoint.text = info.battlePoint.ToString();
+        battlePoint.text = GameDataManager.instance.battlePoint.ToString();
     }
 
     public void ShowOnlyFunds()
