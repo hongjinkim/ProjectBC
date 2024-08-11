@@ -37,27 +37,27 @@ public class ExpScroll : MonoBehaviour
 
             if (item.Params.Id == "Exp_Basic")
             {
-                Count = item.count;
+                Count = item.Count;
                 countTxts[0].text = Count.ToString();
             }
             else if (item.Params.Id == "Exp_Common")
             {
-                Count = item.count;
+                Count = item.Count;
                 countTxts[1].text = Count.ToString();
             }
             else if (item.Params.Id == "Exp_Rare")
             {
-                Count = item.count;
+                Count = item.Count;
                 countTxts[2].text = Count.ToString();
             }
             else if (item.Params.Id == "Exp_Epic")
             {
-                Count = item.count;
+                Count = item.Count;
                 countTxts[3].text = Count.ToString();
             }
             else if (item.Params.Id == "Exp_Legendary")
             {
-                Count = item.count;
+                Count = item.Count;
                 countTxts[4].text = Count.ToString();
             }
         }

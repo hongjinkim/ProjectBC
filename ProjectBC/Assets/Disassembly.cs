@@ -204,7 +204,7 @@ public class Disassembly : MonoBehaviour
             {
                 if (item.Params.Id == rewardItem.Key)
                 {
-                    item.count += rewardItem.Value;
+                    item.Count += rewardItem.Value;
                     itemExists = true;
                     break;
                 }
@@ -213,7 +213,7 @@ public class Disassembly : MonoBehaviour
             if (!itemExists)
             {
                 Item newItem = new Item(rewardItem.Key);
-                newItem.count = rewardItem.Value;
+                newItem.Count = rewardItem.Value;
                 inventory.Add(newItem);
             }
 

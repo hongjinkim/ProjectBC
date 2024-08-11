@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UIElements;
 
 [System.Serializable]
 public class PlayerInfo
@@ -80,5 +80,13 @@ public class PlayerInfo
         this.items = new List<Item>();
     }
 
+    public string ToJson()
+    {
+        return JsonUtility.ToJson(this);
+    }
 
+    public void LoadJson(string jsonFilepath)
+    {
+        JsonUtility.FromJsonOverwrite(jsonFilepath, this);
+    }
 }

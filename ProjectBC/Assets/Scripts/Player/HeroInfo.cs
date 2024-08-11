@@ -1,4 +1,3 @@
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -48,7 +47,7 @@ public class HeroInfo
     public List<Trait> traits = new List<Trait>();
     public List<PlayerSkill> skills = new List<PlayerSkill>();
     public PlayerSkill activeSkill;
-    [JsonIgnore] private Sprite _sprite;
+    private Sprite _sprite;
 
     public HeroPage heroPage;
 
@@ -61,13 +60,6 @@ public class HeroInfo
     public int strengthLevel = 1;
     public int defenseLevel = 1;
     public int masicResistanceLevel = 1;
-
-    // Equipment
-    public Item Weapon;
-    public Item Helmet;
-    public Item Armor;
-    public Item Leggings;
-
     public HeroInfo(string name, HeroClass heroClass, int id, string imagePath)
     {
         this.id = id;
@@ -101,12 +93,6 @@ public class HeroInfo
         this.criticalDamage = 150;//ũ��Ƽ�õ�����
         this.defensePenetration = 0;//������
         // attackRange�� characteristicType�� ���⼭ �������� ����
-
-        this.Weapon = null;
-        this.Helmet = null;
-        this.Armor = null;
-        this.Leggings = null;
-
         InitializeTraits();
     }
     private void InitializeTraits()
@@ -133,7 +119,6 @@ public class HeroInfo
     //{
     //    return Resources.Load<Sprite>(imagePath);
     //}
-    [JsonIgnore]
     public Sprite Sprite
     {
         get

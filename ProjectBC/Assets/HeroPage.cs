@@ -2,7 +2,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using static UnityEditor.Progress;
 
 public class HeroPage : HeroScreen
 {
@@ -14,13 +13,6 @@ public class HeroPage : HeroScreen
     [SerializeField] private HeroInfo _info;
     private Hero _currentHero;
     public int _idx;
-
-    [Header("ItemSlots")]
-    public ItemSlot Weapon;
-    public ItemSlot Helmet;
-    public ItemSlot Armor;
-    public ItemSlot Leggings;
-
 
     [Header("Images")]
     public Image characterImage;
@@ -38,11 +30,6 @@ public class HeroPage : HeroScreen
 
     [SerializeField] private AttributeUI attributeUI;
     [SerializeField] private HeroPotion heroPotion;
-
-
-    [Header("Buttons")]
-    public Button FastEquipButton;
-    public Button UnEquipButton;
 
     public void Start()
     {
@@ -62,9 +49,6 @@ public class HeroPage : HeroScreen
     {
         _info.OnExperienceChanged += GaugeBarUpdate;
         _info.OnLevelUp += GaugeBarUpdate;
-
-        FastEquipButton.onClick.AddListener(FastEquip);
-        UnEquipButton.onClick.AddListener(UnEquip);
     }
 
     private void OnDisable()
@@ -142,9 +126,9 @@ public class HeroPage : HeroScreen
         foreach (Item item in ExpItem)
         {
             
-            if (item.count > 0)
+            if (item.Count > 0)
             {
-                item.count--;
+                item.Count--;
 
                 //GameDataManager.instance.UpdateItem();
                 //GameDataManager.instance.UpdateFunds();
@@ -156,7 +140,7 @@ public class HeroPage : HeroScreen
                     ExpScroll.Instance.UpdateExpScrollCount();
                 }
 
-                if (item.count == 0)
+                if (item.Count == 0)
                 {
                     GameDataManager.instance.RemoveItem(item);
                 }
@@ -258,180 +242,7 @@ public class HeroPage : HeroScreen
 
         int battlePoint = CalculateBattlePoint(_info);
         BattlePointText.text = battlePoint.ToString();
-
-        UpdateEquipment();
-
     }
-
-    private void UpdateEquipment()
-    {
-        //UpdateWeapon();
-        //UpdateHelmet();
-        //UpdateArmor();
-        //UpdateLeggings();
-    }
-
-    private void UpdateWeapon()
-    {
-        if(_info.Weapon != null)
-        {
-            Weapon.icon.enabled = true;
-            Weapon.icon.sprite = _info.Weapon.id == null ? Weapon.lockedSprite : ItemCollection.active.GetItemIcon(_info.Weapon)?.sprite;
-            Weapon.background.sprite = ItemCollection.active.GetBackground(_info.Weapon) ?? ItemCollection.active.backgroundBrown;
-            Weapon.background.color = Color.white;
-        }
-    }
-    private void UpdateHelmet()
-    {
-        if (_info.Helmet != null)
-        {
-            Helmet.icon.enabled = true;
-            Helmet.icon.sprite = _info.Helmet.id == null ? Helmet.lockedSprite : ItemCollection.active.GetItemIcon(_info.Helmet)?.sprite;
-            Helmet.background.sprite = ItemCollection.active.GetBackground(_info.Helmet) ?? ItemCollection.active.backgroundBrown;
-            Helmet.background.color = Color.white;
-        }
-    }
-    private void UpdateArmor()
-    {
-        if (_info.Armor != null)
-        {
-            Armor.icon.enabled = true;
-            Armor.icon.sprite = _info.Armor.id == null ? Armor.lockedSprite : ItemCollection.active.GetItemIcon(_info.Armor)?.sprite;
-            Armor.background.sprite = ItemCollection.active.GetBackground(_info.Armor) ?? ItemCollection.active.backgroundBrown;
-            Armor.background.color = Color.white;
-        }
-    }
-    private void UpdateLeggings()
-    {
-        if (_info.Leggings != null)
-        {
-            Leggings.icon.enabled = true;
-            Leggings.icon.sprite = _info.Leggings.id == null ? Leggings.lockedSprite : ItemCollection.active.GetItemIcon(_info.Leggings)?.sprite;
-            Leggings.background.sprite = ItemCollection.active.GetBackground(_info.Leggings) ?? ItemCollection.active.backgroundBrown;
-            Leggings.background.color = Color.white;
-        }
-    }
-
-    private void FastEquip()
-    {
-        if(GameDataManager.instance.itemDictionary.ContainsKey(ItemType.Weapon))
-        {
-            var item = FindBestItem(GameDataManager.instance.itemDictionary[ItemType.Weapon]);
-            if (_info.Weapon == null)
-            {
-                _info.Weapon = item.Clone();
-                GameDataManager.instance.RemoveItem(item);
-            }
-            else
-            {
-                if(_info.Weapon.battlePoint < item.battlePoint)
-                {
-                    GameDataManager.instance.AddItem(_info.Weapon);
-                    _info.Weapon = item.Clone();
-                    GameDataManager.instance.RemoveItem(item);
-                }
-            }
-        }
-        if (GameDataManager.instance.itemDictionary.ContainsKey(ItemType.Armor))
-        {
-            var item = FindBestItem(GameDataManager.instance.itemDictionary[ItemType.Armor]);
-            if (_info.Armor == null)
-            {
-                _info.Armor = item.Clone();
-                GameDataManager.instance.RemoveItem(item);
-            }
-            else
-            {
-                if (_info.Armor.battlePoint < item.battlePoint)
-                {
-                    GameDataManager.instance.AddItem(_info.Armor);
-                    _info.Armor = item.Clone();
-                    GameDataManager.instance.RemoveItem(item);
-                }
-            }
-        }
-        if (GameDataManager.instance.itemDictionary.ContainsKey(ItemType.Helmet))
-        {
-            var item = FindBestItem(GameDataManager.instance.itemDictionary[ItemType.Helmet]);
-            if (_info.Helmet== null)
-            {
-                _info.Helmet = item.Clone();
-                GameDataManager.instance.RemoveItem(item);
-            }
-            else
-            {
-                if (_info.Helmet.battlePoint < item.battlePoint)
-                {
-                    GameDataManager.instance.AddItem(_info.Helmet);
-                    _info.Helmet = item.Clone();
-                    GameDataManager.instance.RemoveItem(item);
-                }
-            }
-        }
-        if (GameDataManager.instance.itemDictionary.ContainsKey(ItemType.Leggings))
-        {
-            var item = FindBestItem(GameDataManager.instance.itemDictionary[ItemType.Leggings]);
-            if (_info.Leggings == null)
-            {
-                _info.Leggings = item.Clone();
-                GameDataManager.instance.RemoveItem(item);
-            }
-            else
-            {
-                if (_info.Leggings.battlePoint < item.battlePoint)
-                {
-                    GameDataManager.instance.AddItem(_info.Leggings);
-                    _info.Leggings = item.Clone();
-                    GameDataManager.instance.RemoveItem(item);
-                }
-            }
-        }
-
-
-        UpdateEquipment();
-    }
-
-    private void UnEquip()
-    {
-        if (_info.Weapon != null)
-        {
-            GameDataManager.instance.AddItem(_info.Weapon.Clone());
-            _info.Weapon = null;
-        }
-        if (_info.Helmet != null)
-        {
-            GameDataManager.instance.AddItem(_info.Helmet.Clone());
-            _info.Helmet = null;
-        }
-        if (_info.Armor != null)
-        {
-            GameDataManager.instance.AddItem(_info.Armor.Clone());
-            _info.Armor = null;
-        }
-        if (_info.Leggings != null)
-        {
-            GameDataManager.instance.AddItem(_info.Leggings.Clone());
-            _info.Leggings = null;
-        }
-
-        UpdateEquipment();
-    }
-
-    private Item FindBestItem(List<Item> items)
-    {
-        int max = 0;
-        Item result = items[0];
-        foreach(Item item in items)
-        {
-            if(max < item.battlePoint)
-            {
-                max = item.battlePoint;
-                result = item;
-            }
-        }
-        return result;
-    }
-
     private int CalculateBattlePoint(HeroInfo hero)
     {
         // �� ������ ���� �뷱���� ���� �����ؾ� �� �� �ֽ��ϴ�.

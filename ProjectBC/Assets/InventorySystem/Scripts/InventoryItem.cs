@@ -62,7 +62,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         if (count)
         {
             count.SetActive(true);
-            count.text = item.count.ToString();
+            count.text = item.Count.ToString();
         }
 
         //if (fragment)
