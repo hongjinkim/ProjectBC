@@ -5,11 +5,10 @@ using System.IO;
 using static DB;
 using static JsonHelper;
 using Unity.VisualScripting;
-using Newtonsoft.Json;
 
 public class GameDataManager : MonoSingleton<GameDataManager>
 {
-    [SerializeField] private static string savePath => Application.persistentDataPath + "/saves/";
+    [SerializeField] private static string savePath => Application.persistentDataPath;
 
     [SerializeField] private string _saveFilename = "savegame.json";
 
@@ -67,28 +66,22 @@ public class GameDataManager : MonoSingleton<GameDataManager>
     {
         // load saved data from FileDataHandler
 
-        if (File.Exists(savePath + _saveFilename))
-        {
-            string jsonString = File.ReadAllText(savePath + _saveFilename);
-            _playerInfo = JsonConvert.DeserializeObject<PlayerInfo>(jsonString);
-        }
         if (_playerInfo == null || _resetGame)
         {
             _playerInfo = NewGame();
-        }
 
+        }
+        else if (FileManager.LoadFromFile(_saveFilename, out var jsonString))
+        {
+            _playerInfo.LoadJson(jsonString);
+        }
         MakeItemDictionary();
       
     }
     public void SaveGame()
     {
-        if (!Directory.Exists(savePath))
-        {
-            Directory.CreateDirectory(savePath);
-        }
-
-        string jsonFile = JsonConvert.SerializeObject(_playerInfo);
-        FileManager.WriteToFile(savePath + _saveFilename, jsonFile);
+        string jsonFile = _playerInfo.ToJson();
+        FileManager.WriteToFile(_saveFilename, jsonFile);
     }
 
     //void OnSettingsShown()

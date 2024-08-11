@@ -79,6 +79,14 @@ public class PlayerInfo
     {
         this.items = new List<Item>();
     }
+    public string ToJson()
+    {
+        return JsonUtility.ToJson(this);
+    }
 
+    public void LoadJson(string jsonFilepath)
+    {
+        JsonUtility.FromJsonOverwrite(jsonFilepath, this);
+    }
 
 }
