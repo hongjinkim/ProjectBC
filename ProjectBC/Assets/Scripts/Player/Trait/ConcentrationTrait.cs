@@ -51,7 +51,14 @@ public class ConcentrationTrait : Trait
 
     private void ApplyCruelForce(Character character)
     {
-        character.info.damageAmplification += 3;
+        if (character != null && character.info != null)
+        {
+            character.info.damageAmplification += 3;
+        }
+        else
+        {
+            Debug.LogError("Character or character.info is null in ApplyCruelForce");
+        }
     }
 
     private int skinningHitCount = 0;

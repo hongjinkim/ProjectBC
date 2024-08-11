@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class HeroPage : HeroScreen
 {
+
     public TraitManager traitManager;
     public HeroMenuManager heroMenuManager;
     public ItemCollection itemCollection;
@@ -72,6 +73,14 @@ public class HeroPage : HeroScreen
         _idx = idx;
         _info = info;
         Initialize();
+        if (heroMenuManager != null)
+        {
+            heroMenuManager.UpdateCurrentHero(_info);
+        }
+        else
+        {
+            Debug.LogError("HeroMenuManager is not assigned in HeroPage");
+        }
         traitManager.SetCurrentHero(_info);
         attributeUI.UpdateHeroAttributes(info);
         if (heroPotion != null)
@@ -177,7 +186,14 @@ public class HeroPage : HeroScreen
     }
     public void OnTalentButtonClicked()
     {
-        traitManager.ShowTraitPanel(_info);
+        if (traitManager != null)
+        {
+            traitManager.ShowTraitPanel(_info);
+        }
+        else
+        {
+            Debug.LogError("TraitManager is not assigned in HeroPage");
+        }
     }
     public void OnLevelupButtonClicked()
     {

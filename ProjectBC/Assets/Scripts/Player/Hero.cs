@@ -11,6 +11,7 @@ public class Hero : Character
     private bool isRegenerating = false;
     private bool isTraitSelectionPending = false;
     private int pendingTraitLevel = 0;
+    [SerializeField] private TraitManager traitManager;
     protected virtual void OnEnable()
     {
         InstantFadeIn();
@@ -40,10 +41,26 @@ public class Hero : Character
     protected override void Start()
     {
         base.Start();
+        info.SetCharacter(this);
         //SetStat();
         StartCoroutine(RegenerateEnergy());
         SetupHeroInfoEvents();
-
+        if (traitManager != null)
+        {
+            foreach (var appliedTrait in info.appliedTraits)
+            {
+                Trait trait = traitManager.GetTrait(appliedTrait.Type);
+                if (trait != null)
+                {
+                    trait.ChooseTrait(appliedTrait.Level, appliedTrait.IsLeftTrait);
+                    trait.ApplyEffect(this);
+                }
+            }
+        }
+        else
+        {
+            Debug.LogWarning("TraitManager is not assigned to Hero");
+        }
     }
     protected override void Update()
     {
