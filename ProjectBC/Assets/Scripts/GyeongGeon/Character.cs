@@ -8,6 +8,7 @@ using UnityEngine.Pool;
 using Random = UnityEngine.Random;
 public abstract class Character : MonoBehaviour, IBehavior
 {
+    //방어력이 1당 damagereduction+=0.2
     public enum UnitState
     {
         idle = 0,
@@ -60,14 +61,27 @@ public abstract class Character : MonoBehaviour, IBehavior
     public UnitState _unitState = UnitState.idle;
     public AttackType attackType;
     public CharacterDirection characterDirection;
-
+    public event Action<int> OnMaxHealthChanged;
 
 
     public Character attacker;
     private const float MAX_ENERGY = 100f;
     [Header("Infos")]
     public HeroInfo info;
-    public int maxHealth = 100;
+    [SerializeField]
+    private int _maxHealth;
+    public int maxHealth
+    {
+        get { return _maxHealth; }
+         set
+        {
+            if (_maxHealth != value)
+            {
+                _maxHealth = value;
+                OnMaxHealthChanged?.Invoke(_maxHealth);
+            }
+        }
+    }
     public int currentHealth;
     public float moveSpeed=1;
     public int attackDamage => info?.attackDamage ?? 1;
@@ -168,7 +182,11 @@ public abstract class Character : MonoBehaviour, IBehavior
         //dungeon.DungeonInit();
         //transform.position = customTilemapManager.GetNearestValidPosition(transform.position);
         //StartCoroutine(AutoMoveCoroutine());
-        
+        if (info != null)
+        {
+            info.OnHpChanged += UpdateMaxHealth;
+            UpdateMaxHealth();
+        }
         InitializeHealth();
         dungeonManager = DungeonManager.instance;
         UpdateAttackInterval();
@@ -207,6 +225,13 @@ public abstract class Character : MonoBehaviour, IBehavior
             }
         }
     }
+    protected virtual void OnDestroy()
+    {
+        if (info != null)
+        {
+            info.OnHpChanged -= UpdateMaxHealth;
+        }
+    }
     protected virtual void UseSkill()
     {
         OnSkillUse?.Invoke();
@@ -218,6 +243,7 @@ public abstract class Character : MonoBehaviour, IBehavior
         {
             UseSkill();
         }
+        
     }
     public void UpdateMaxHealth()
     {

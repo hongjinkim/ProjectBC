@@ -121,7 +121,7 @@ public class AttributeUI : MonoBehaviour
             {
                 case "HP":
                     currentHero.hpLevel++;
-                    currentHero.hp += 10;
+                    currentHero.hp += 3;
                     break;
                 case "Strength":
                     currentHero.strengthLevel++;

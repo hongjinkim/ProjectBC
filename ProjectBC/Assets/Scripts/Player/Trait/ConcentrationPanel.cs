@@ -16,6 +16,11 @@ public class ConcentrationPanel : MonoBehaviour, ITraitPanel
 
     public void Initialize(HeroInfo heroInfo)
     {
+        if (heroInfo == null)
+        {
+            Debug.LogError("Received null heroInfo in ConcentrationPanel.Initialize");
+            return;
+        }
         currentHeroInfo = heroInfo;
         concentrationTrait = heroInfo.traits.Find(t => t is ConcentrationTrait) as ConcentrationTrait;
         if (concentrationTrait == null)
@@ -23,19 +28,48 @@ public class ConcentrationPanel : MonoBehaviour, ITraitPanel
             Debug.LogError("ConcentrationTrait not found for this hero.");
             return;
         }
+        Debug.Log($"Initialized ConcentrationPanel with hero: {heroInfo.heroName}");
         UpdateUI();
     }
 
     private void UpdateUI()
     {
-        heroNameText.text = currentHeroInfo.heroName;
-        levelText.text = "Level: " + currentHeroInfo.level.ToString();
-        heroImage.sprite = currentHeroInfo.Sprite;
+        if (currentHeroInfo == null)
+        {
+            Debug.LogError("currentHeroInfo is null in ConcentrationPanel");
+            return;
+        }
+
+        if (heroNameText != null)
+            heroNameText.text = currentHeroInfo.heroName;
+        else
+            Debug.LogWarning("heroNameText is not assigned in ConcentrationPanel");
+
+        if (levelText != null)
+            levelText.text = "Level: " + currentHeroInfo.level.ToString();
+        else
+            Debug.LogWarning("levelText is not assigned in ConcentrationPanel");
+
+        if (heroImage != null && currentHeroInfo.Sprite != null)
+            heroImage.sprite = currentHeroInfo.Sprite;
+        else
+            Debug.LogWarning("heroImage or currentHeroInfo.Sprite is not assigned in ConcentrationPanel");
+
         UpdateTraitButtons();
     }
 
     private void UpdateTraitButtons()
     {
+        if (currentHeroInfo == null)
+        {
+            Debug.LogError("currentHeroInfo is null in UpdateTraitButtons");
+            return;
+        }
+        if (concentrationTrait == null)
+        {
+            Debug.LogError("concentrationTrait is null in UpdateTraitButtons");
+            return;
+        }
         int[] traitLevels = { 10, 20, 30, 40 };
         string[] traitNames = {
             "막을 수 없는 힘", "잔인한 힘",
@@ -49,20 +83,20 @@ public class ConcentrationPanel : MonoBehaviour, ITraitPanel
             int level = traitLevels[i / 2];
             bool isLeftTrait = i % 2 == 0;
 
-            traitButtons[i].interactable = currentHeroInfo.level >= level;
-            traitDescriptions[i].text = traitNames[i];
+            traitButtons[i].interactable = currentHeroInfo.level >= level &&
+                !currentHeroInfo.IsTraitSelected(TraitType.Concentration, level, !isLeftTrait);
 
-            // 아이콘 설정 (아이콘이 있다고 가정)
-            // traitIcons[i].sprite = Resources.Load<Sprite>($"Icons/Concentration/{traitNames[i]}");
-
-            if (concentrationTrait.Level >= level)
+            if (currentHeroInfo.IsTraitSelected(TraitType.Concentration, level, isLeftTrait))
             {
-                traitButtons[i].interactable = concentrationTrait.IsLeftTrait == isLeftTrait;
-                if (concentrationTrait.IsLeftTrait == isLeftTrait)
-                {
-                    traitButtons[i].GetComponent<Image>().color = Color.green; // 선택된 특성 표시
-                }
+                traitButtons[i].GetComponent<Image>().color = Color.green;
             }
+            else
+            {
+                traitButtons[i].GetComponent<Image>().color = Color.white;
+            }
+
+            if (traitDescriptions != null && i < traitDescriptions.Length)
+                traitDescriptions[i].text = traitNames[i];
 
             int buttonIndex = i;
             traitButtons[i].onClick.RemoveAllListeners();
@@ -72,8 +106,16 @@ public class ConcentrationPanel : MonoBehaviour, ITraitPanel
 
     private void OnTraitButtonClicked(int level, bool isLeftTrait, int buttonIndex)
     {
-        concentrationTrait.ChooseTrait(level, isLeftTrait);
-        concentrationTrait.ApplyEffect(currentHeroInfo.character);
-        UpdateTraitButtons();
+        if (!currentHeroInfo.IsTraitSelected(TraitType.Concentration, level, isLeftTrait))
+        {
+            concentrationTrait.ChooseTrait(level, isLeftTrait);
+            concentrationTrait.ApplyEffect(currentHeroInfo.character);
+            currentHeroInfo.SelectTrait(TraitType.Concentration, level, isLeftTrait);
+            UpdateTraitButtons();
+        }
+        else
+        {
+            Debug.Log("This trait has already been applied.");
+        }
     }
 }

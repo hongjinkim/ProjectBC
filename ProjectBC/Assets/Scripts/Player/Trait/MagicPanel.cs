@@ -49,17 +49,19 @@ public class MagicPanel : MonoBehaviour, ITraitPanel
             int level = traitLevels[i / 2];
             bool isLeftTrait = i % 2 == 0;
 
-            traitButtons[i].interactable = currentHeroInfo.level >= level;
-            traitDescriptions[i].text = traitNames[i];
+            traitButtons[i].interactable = currentHeroInfo.level >= level &&
+                !currentHeroInfo.IsTraitSelected(TraitType.Magic, level, !isLeftTrait);
 
-            if (magicTrait.Level >= level)
+            if (currentHeroInfo.IsTraitSelected(TraitType.Magic, level, isLeftTrait))
             {
-                traitButtons[i].interactable = magicTrait.IsLeftTrait == isLeftTrait;
-                if (magicTrait.IsLeftTrait == isLeftTrait)
-                {
-                    traitButtons[i].GetComponent<Image>().color = Color.green; // 선택된 특성 표시
-                }
+                traitButtons[i].GetComponent<Image>().color = Color.green;
             }
+            else
+            {
+                traitButtons[i].GetComponent<Image>().color = Color.white;
+            }
+
+            traitDescriptions[i].text = traitNames[i];
 
             int buttonIndex = i;
             traitButtons[i].onClick.RemoveAllListeners();
@@ -69,8 +71,16 @@ public class MagicPanel : MonoBehaviour, ITraitPanel
 
     private void OnTraitButtonClicked(int level, bool isLeftTrait, int buttonIndex)
     {
-        magicTrait.ChooseTrait(level, isLeftTrait);
-        magicTrait.ApplyEffect(currentHeroInfo.character);
-        UpdateTraitButtons();
+        if (!currentHeroInfo.IsTraitSelected(TraitType.Magic, level, isLeftTrait))
+        {
+            magicTrait.ChooseTrait(level, isLeftTrait);
+            magicTrait.ApplyEffect(currentHeroInfo.character);
+            currentHeroInfo.SelectTrait(TraitType.Magic, level, isLeftTrait);
+            UpdateTraitButtons();
+        }
+        else
+        {
+            Debug.Log("This trait has already been applied.");
+        }
     }
 }

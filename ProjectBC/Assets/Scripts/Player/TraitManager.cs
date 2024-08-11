@@ -12,23 +12,42 @@ public class TraitManager : MonoBehaviour
     // ... 다른 특성 패널들 ...
     private HeroInfo currentHeroInfo;
 
+    private void Awake()
+    {
+        concentrationTrait = new ConcentrationTrait();
+        magicTrait=new MagicTrait();
+        protectionTrait=new ProtectionTrait();
+        // 다른 trait들도 여기서 초기화
+    }
     public void ShowTraitPanel(HeroInfo heroInfo)
     {
+        if (heroInfo == null)
+        {
+            Debug.LogError("Received null heroInfo in TraitManager.ShowTraitPanel");
+            return;
+        }
+        currentHeroInfo = heroInfo;
         HideAllPanels();
 
-        if (heroInfo.traits.Count > 0)
+        GameObject panelToShow = GetPanelForHeroTrait(heroInfo);
+        if (panelToShow != null)
         {
-            TraitType traitType = heroInfo.traits[0].Type;
-            GameObject panel = GetPanelForTraitType(traitType);
-            if (panel != null)
+            panelToShow.SetActive(true);
+            panelToShow.transform.SetAsLastSibling();
+            ITraitPanel traitPanel = panelToShow.GetComponent<ITraitPanel>();
+            if (traitPanel != null)
             {
-                panel.SetActive(true);
-                ITraitPanel traitPanel = panel.GetComponent<ITraitPanel>();
-                if (traitPanel != null)
-                {
-                    traitPanel.Initialize(heroInfo);
-                }
+                traitPanel.Initialize(heroInfo);
+                Debug.Log($"Initialized trait panel for hero: {heroInfo.heroName}");
             }
+            else
+            {
+                Debug.LogError("Failed to get ITraitPanel component from panel");
+            }
+        }
+        else
+        {
+            Debug.LogError("Failed to get panel for hero trait");
         }
     }
 
@@ -37,9 +56,35 @@ public class TraitManager : MonoBehaviour
         concentrationPanel.SetActive(false);
         magicPanel.SetActive(false);
         protectionPanel.SetActive(false);
-        // ... 다른 패널들도 비활성화
     }
+    private GameObject GetPanelForHeroTrait(HeroInfo heroInfo)
+    {
+        if (heroInfo == null || heroInfo.traits == null || heroInfo.traits.Count == 0)
+        {
+            Debug.LogError("HeroInfo or traits is null or empty");
+            return null;
+        }
 
+        Trait firstTrait = heroInfo.traits[0];
+        if (firstTrait == null)
+        {
+            Debug.LogError("First trait is null");
+            return null;
+        }
+
+        switch (firstTrait)
+        {
+            case ConcentrationTrait _:
+                return concentrationPanel;
+            case MagicTrait _:
+                return magicPanel;
+            case ProtectionTrait _:
+                return protectionPanel;
+            default:
+                Debug.LogError($"No panel found for trait type: {firstTrait.GetType()}");
+                return null;
+        }
+    }
     private GameObject GetPanelForTraitType(TraitType traitType)
     {
         switch (traitType)
@@ -55,6 +100,21 @@ public class TraitManager : MonoBehaviour
                 return null;
         }
     }
+    public Trait GetTrait(TraitType traitType)
+    {
+        switch (traitType)
+        {
+            case TraitType.Concentration:
+                return concentrationTrait;
+            case TraitType.Magic:
+                return magicTrait;
+            case TraitType.Protection:
+                return protectionTrait;
+            default:
+                Debug.LogError($"Unknown trait type: {traitType}");
+                return null;
+        }
+    }
     public void SetCurrentHero(HeroInfo heroInfo)
     {
         currentHeroInfo = heroInfo;
@@ -62,57 +122,83 @@ public class TraitManager : MonoBehaviour
 
     public void ApplyConcentrationTrait(int level, bool isLeftTrait)
     {
-        concentrationTrait.ChooseTrait(level, isLeftTrait);
-        Character currentCharacter = GetCurrentCharacter();
-        if (currentCharacter != null)
+        if (concentrationTrait == null)
         {
-            concentrationTrait.ApplyEffect(currentCharacter);
+            Debug.LogError("concentrationTrait is null in TraitManager");
+            return;
+        }
+
+        concentrationTrait.ChooseTrait(level, isLeftTrait);
+
+        if (currentHeroInfo != null)
+        {
+            currentHeroInfo.ApplyTrait(concentrationTrait);
         }
         else
         {
-            Debug.LogWarning("No current character found to apply trait.");
+            Debug.LogWarning("No current hero found to apply trait.");
         }
     }
 
     public void ApplyMagicTrait(int level, bool isLeftTrait)
     {
-        magicTrait.ChooseTrait(level, isLeftTrait);
-        Character currentCharacter = GetCurrentCharacter();
-        if (currentCharacter != null)
+        if (magicTrait == null)
         {
-            magicTrait.ApplyEffect(currentCharacter);
+            Debug.LogError("magicTrait is null in TraitManager");
+            return;
+        }
+
+        magicTrait.ChooseTrait(level, isLeftTrait);
+
+        if (currentHeroInfo != null)
+        {
+            currentHeroInfo.ApplyTrait(magicTrait);
         }
         else
         {
-            Debug.LogWarning("No current character found to apply trait.");
+            Debug.LogWarning("No current hero found to apply trait.");
         }
     }
 
     public void ApplyProtectionTrait(int level, bool isLeftTrait)
     {
-        protectionTrait.ChooseTrait(level, isLeftTrait);
-        Character currentCharacter = GetCurrentCharacter();
-        if (currentCharacter != null)
+        if (protectionTrait == null)
         {
-            protectionTrait.ApplyEffect(currentCharacter);
+            Debug.LogError("protectionTrait is null in TraitManager");
+            return;
+        }
+
+        protectionTrait.ChooseTrait(level, isLeftTrait);
+
+        if (currentHeroInfo != null)
+        {
+            currentHeroInfo.ApplyTrait(protectionTrait);
         }
         else
         {
-            Debug.LogWarning("No current character found to apply trait.");
+            Debug.LogWarning("No current hero found to apply trait.");
         }
     }
 
     private Character GetCurrentCharacter()
     {
-        if (currentHeroInfo != null && currentHeroInfo.character != null)
+        if (currentHeroInfo != null)
         {
-            return currentHeroInfo.character;
+            Debug.Log($"Current Hero Info: {currentHeroInfo.heroName}");
+            if (currentHeroInfo.character != null)
+            {
+                return currentHeroInfo.character;
+            }
+            else
+            {
+                Debug.LogWarning("currentHeroInfo.character is null");
+            }
         }
         else
         {
-            Debug.LogWarning("Current hero or character is null.");
-            return null;
+            Debug.LogWarning("currentHeroInfo is null");
         }
+        return null;
     }
     // Concentration Trait
     public void ApplyConcentrationTraitLeft10() { ApplyConcentrationTrait(10, true); }

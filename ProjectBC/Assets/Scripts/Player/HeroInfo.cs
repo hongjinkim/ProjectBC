@@ -1,4 +1,3 @@
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +7,9 @@ using static UnityEngine.ParticleSystem;
 [Serializable]
 public class HeroInfo
 {
+    public Dictionary<TraitType, Dictionary<int, bool>> selectedTraits = new Dictionary<TraitType, Dictionary<int, bool>>();
     public Character character;
+    public List<AppliedTrait> appliedTraits = new List<AppliedTrait>();
     public int id; // �߰�
     public List<string> equippedItemIds = new List<string>(); // �߰�
     public string heroName;
@@ -18,7 +19,6 @@ public class HeroInfo
     public float currentExp;
     public float neededExp;
     public string imagePath;
-    [JsonIgnore] public int battlePoint => CalculateBattlePoint();
 
     // �⺻ ����
     public int strength;
@@ -28,7 +28,18 @@ public class HeroInfo
 
     // �߰� ����
     public float energy;
-    public int hp;
+    public int hp
+    {
+        get { return _hp; }
+        set
+        {
+            if (_hp != value)
+            {
+                _hp = value;
+                OnHpChanged?.Invoke();
+            }
+        }
+    }
     public int attackDamage;
     public int defense;
     public int magicResistance;
@@ -49,14 +60,16 @@ public class HeroInfo
     public List<Trait> traits = new List<Trait>();
     public List<PlayerSkill> skills = new List<PlayerSkill>();
     public PlayerSkill activeSkill;
-    private Sprite _sprite;
 
+    private Sprite _sprite;
+    [SerializeField]
+    private int _hp;
     public HeroPage heroPage;
 
     public event Action OnExperienceChanged;
     public event Action OnLevelUp;
     public event Action<int> OnTraitSelectionAvailable;
-
+    public event Action OnHpChanged;
     //
     public int hpLevel = 1;
     public int strengthLevel = 1;
@@ -136,9 +149,28 @@ public class HeroInfo
             return _sprite;
         }
     }
+    public void ApplyTrait(Trait trait)
+    {
+        // 이미 적용된 특성인지 확인
+        if (appliedTraits.Exists(t => t.Type == trait.Type && t.Level == trait.Level && t.IsLeftTrait == trait.IsLeftTrait))
+        {
+            Debug.Log("This trait has already been applied.");
+            return;
+        }
+
+        // Character에 특성 적용 (Character가 null이 아닐 때만)
+        if (character != null)
+        {
+            trait.ApplyEffect(character);
+        }
+
+        // HeroInfo에 특성 정보 저장
+        appliedTraits.Add(new AppliedTrait(trait.Type, trait.Level, trait.IsLeftTrait));
+    }
     public void SetCharacter(Character character)
     {
         this.character = character;
+        Debug.Log($"Character set for {heroName}");
     }
     public void IncreaseStrength(float amount)
     {
@@ -270,10 +302,24 @@ public class HeroInfo
     {
         activeSkill = skill;
     }
-
-    private int CalculateBattlePoint()
+    public void SelectTrait(TraitType traitType, int level, bool isLeft)
     {
-        // �� ������ ���� �뷱���� ���� �����ؾ� �� �� �ֽ��ϴ�.
-        return hp * 2 + attackDamage * 2 + defense * 3 + magicResistance * 3 + level * 5 + strength * 2 + intelligence * 2 + agility * 2 + damageBlock * 3;
+        if (!selectedTraits.ContainsKey(traitType))
+        {
+            selectedTraits[traitType] = new Dictionary<int, bool>();
+        }
+        selectedTraits[traitType][level] = isLeft;
+    }
+
+    public bool IsTraitSelected(TraitType traitType, int level, bool isLeft)
+    {
+        if (selectedTraits.TryGetValue(traitType, out var traits))
+        {
+            if (traits.TryGetValue(level, out var selectedIsLeft))
+            {
+                return selectedIsLeft == isLeft;
+            }
+        }
+        return false;
     }
 }
