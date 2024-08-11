@@ -260,7 +260,7 @@ public class HeroPage : HeroScreen
         BattlePointText.text = _info.battlePoint.ToString();
 
         //GameDataManager.instance.UpdateBattlePoint();
-        EventManager.TriggerEvent(EventType.BattlePointUpdated, null);    
+        EventManager.TriggerEvent(EventType.BattlePointUpdated, null);
     }
-    
+
 }

@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,7 +20,7 @@ public class HeroInfo
     public float currentExp;
     public float neededExp;
     public string imagePath;
-
+    [JsonIgnore] public int battlePoint => CalculateBattlePoint();
     // �⺻ ����
     public int strength;
     public int agility;
@@ -321,5 +322,10 @@ public class HeroInfo
             }
         }
         return false;
+    }
+    private int CalculateBattlePoint()
+    {
+        // �� ������ ���� �뷱���� ���� �����ؾ� �� �� �ֽ��ϴ�.
+        return hp * 2 + attackDamage * 2 + defense * 3 + magicResistance * 3 + level * 5 + strength * 2 + intelligence * 2 + agility * 2 + damageBlock * 3;
     }
 }

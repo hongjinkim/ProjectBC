@@ -18,6 +18,17 @@ public class PlayerInfoBar : BaseScreen
     [Header("Images")]
     public Image profile;
 
+    private void OnEnable()
+    {
+        EventManager.StartListening(EventType.FundsUpdated, OnFundsUpdated);
+
+    }
+
+    private void OnDisable()
+    {
+        EventManager.StopListening(EventType.FundsUpdated, OnFundsUpdated);
+    }
+
     void Start()
     {
         playerInfo = GameDataManager.instance.playerInfo;
@@ -30,7 +41,6 @@ public class PlayerInfoBar : BaseScreen
         EventManager.StopListening(EventType.FundsUpdated, OnFundsUpdated);
         EventManager.StopListening(EventType.BattlePointUpdated, OnBattlePointUpdated);
     }
-
     void OnFundsUpdated(Dictionary<string, object> message)
     {
         gold.text = playerInfo.gold.ToString();
