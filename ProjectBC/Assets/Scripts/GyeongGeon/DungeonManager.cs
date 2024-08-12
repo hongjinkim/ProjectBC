@@ -14,6 +14,9 @@ public class DungeonManager : MonoSingleton<DungeonManager>
 
     private MainUIManager _UIManager;
 
+    private int requiredBattlePoint;
+    public int required = 0;
+
     protected override void Awake()
     {
         base.Awake();
@@ -38,6 +41,9 @@ public class DungeonManager : MonoSingleton<DungeonManager>
             dungeonInstance.spawnAreaMin.x = xOffset;
             xOffset += spacing;
             dungeonInstance.spawnAreaMax.x = xOffset;
+
+            dungeonInstance.requiredBattlePoint = 1500 + (int)(required * 50); // 입장 제한
+            required += 10;
 
             _allDungeonList.Add(dungeonInstance);
         }
@@ -70,6 +76,15 @@ public class DungeonManager : MonoSingleton<DungeonManager>
 
     public void EnterDungeon()
     {
+        Debug.Log(_selectDungeon.requiredBattlePoint);
+
+        if (GameDataManager.instance.battlePoint <= _selectDungeon.requiredBattlePoint)
+        {
+            ToastMsg.instance.ShowMessage("배틀포인트가 부족합니다\n" + (_selectDungeon.requiredBattlePoint - GameDataManager.instance.battlePoint) + "만큼 부족" , 2.0f);
+            return;
+        }
+
+
         ChangeCameraPos(_selectDungeon.transform.position);
         _UIManager.ShowBattleScreen();
     }

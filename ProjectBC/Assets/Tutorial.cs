@@ -6,7 +6,7 @@ public class TutorialWithUIInteraction : PopUp
 {
     [SerializeField] private GameObject[] tutorialObjects;
     [SerializeField] private Button[] tutorialButtons;
-    [SerializeField] private Button[] autoClickButtons; // 자동으로 클릭될 버튼들
+    [SerializeField] private Button[] autoClickButtons;
     private int currentTutorialIndex = -1;
     protected override void Start()
     {

@@ -62,6 +62,8 @@ public class Dungeon : MonoBehaviour
     [SerializeField] private float totalDropRate = 0;
     public GameObject lootPrefab;
 
+    public int requiredBattlePoint { get; internal set; }
+
     private void OnEnable()
     {
         

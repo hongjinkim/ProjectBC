@@ -16,7 +16,7 @@ public class DungeonTheme : PopUp
     protected override void Awake()
     {
         base.Awake();
-        if(dungeonManager == null)
+        if (dungeonManager == null)
         {
             dungeonManager = DungeonManager.instance;
         }
@@ -31,7 +31,11 @@ public class DungeonTheme : PopUp
     private void EnterDungeon()
     {
         _UIManager.DungeonThemePopUp.HideScreen();
+
         dungeonManager.EnterDungeon();
+
+
+
     }
 
     public void InitAdventurePopup(List<Dungeon> themeList)
