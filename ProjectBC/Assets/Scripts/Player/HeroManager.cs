@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class HeroManager : MonoBehaviour
+public class HeroManager : MonoSingleton<HeroManager>
 {
     private GameDataManager gameDataManager;
 
@@ -20,9 +20,9 @@ public class HeroManager : MonoBehaviour
     private MyHeroSlot[] myHeroSlots;
     private int maxDeckSize = 4;
 
-    private void Awake()
+    protected override void Awake()
     {
-        
+        base.Awake();
         InitializeSlots();
     }
 
@@ -181,7 +181,7 @@ public class HeroManager : MonoBehaviour
         UpdateHeroSlots();
         UpdateDeckSlots();
 
-        GameManager_2.Instance.UpdateHeroDeckPrefab(Deck.Count - 1, hero.id);
+        GameManager.instance.UpdateHeroDeckPrefab(Deck.Count - 1, hero.id);
     }
 
     public void RemoveHeroFromDeck(int deckIndex)
@@ -200,11 +200,11 @@ public class HeroManager : MonoBehaviour
         {
             if (i < Deck.Count)
             {
-                GameManager_2.Instance.UpdateHeroDeckPrefab(i, Deck[i].id);
+                GameManager.instance.UpdateHeroDeckPrefab(i, Deck[i].id);
             }
             else
             {
-                GameManager_2.Instance.HeroDeckPrefab[i] = null;
+                GameManager.instance.HeroDeckPrefab[i] = null;
             }
         }
     }

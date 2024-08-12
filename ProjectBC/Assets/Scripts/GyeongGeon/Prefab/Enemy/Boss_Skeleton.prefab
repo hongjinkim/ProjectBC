@@ -7203,7 +7203,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.2, y: 7.99, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4867179999255991929}
@@ -7331,6 +7331,8 @@ MonoBehaviour:
   characterDirection: 0
   attacker: {fileID: 0}
   info:
+    character: {fileID: 0}
+    appliedTraits: []
     id: 0
     equippedItemIds: []
     heroName: 
@@ -7345,7 +7347,6 @@ MonoBehaviour:
     intelligence: 0
     stamina: 0
     energy: 0
-    hp: 0
     attackDamage: 0
     defense: 0
     magicResistance: 0
@@ -7363,15 +7364,16 @@ MonoBehaviour:
     criticalDamage: 0
     defensePenetration: 0
     spritePath: 
-    traits: []
+    _hp: 0
     heroPage: {fileID: 0}
     hpLevel: 0
     strengthLevel: 0
     defenseLevel: 0
     masicResistanceLevel: 0
+  _maxHealth: 0
   currentHealth: 100
   moveSpeed: 1
-  attackSpeed: 1
+  attackInterval: 0
   findRange: 1000
   level: 0
   currentExp: 0
@@ -7381,6 +7383,7 @@ MonoBehaviour:
   fadeObject: {fileID: 4324051100110445857}
   spriteRenderers: []
   fadeDuration: 1
+  baseAttackInterval: 1
   autoMove: 0
   attackEffectPrefab: {fileID: 0}
   expToGive: 5

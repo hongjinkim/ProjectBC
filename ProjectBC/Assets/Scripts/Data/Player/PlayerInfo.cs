@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
+
 
 [System.Serializable]
 public class PlayerInfo
@@ -20,7 +20,6 @@ public class PlayerInfo
 
     [Header("PlayerInfo")]
     public string username;
-    public int battlePoint;
     public int level;
 
     [Header("Settings")]
@@ -43,7 +42,6 @@ public class PlayerInfo
         this.gem = 0;
 
         this.username = "GUEST_123456";
-        this.battlePoint = 0;
         this.level = 1;
 
         this.musicVolume = 80f;
@@ -56,7 +54,7 @@ public class PlayerInfo
 
     public void InitializeStartingHeroes()
     {
-        // °ÔÀÓ ½ÃÀÛ ½Ã ±âº» È÷¾î·Î »ý¼º
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½âº» ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         heroes = new List<HeroInfo>()
         {
             new HeroInfo("Warrior", HeroClass.Knight, 1001, "Images/currency/Warrior"),
@@ -74,12 +72,11 @@ public class PlayerInfo
     //    SerializableList<HeroInfo> loadedHeroes = JsonUtility.FromJson<SerializableList<HeroInfo>>(json);
     //    heroes = loadedHeroes.list;
     //}
-    // µð¹ö±ë ¿ë ÃÊ±â ÀÎº¥Åä¸® »óÅÂ ¸¸µé±â
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê±ï¿½ ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
     private void InitInventory()
     {
         this.items = new List<Item>();
     }
-
     public string ToJson()
     {
         return JsonUtility.ToJson(this);
@@ -89,4 +86,5 @@ public class PlayerInfo
     {
         JsonUtility.FromJsonOverwrite(jsonFilepath, this);
     }
+
 }

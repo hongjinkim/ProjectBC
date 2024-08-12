@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
-public class ItemInfo : MonoBehaviour
+public class ItemInfo : PopUp
 {
     [Header("Head")]
     public Image iconBackground;
@@ -12,7 +12,7 @@ public class ItemInfo : MonoBehaviour
     public Image iconFrame;
     public TextMeshProUGUI level;
     public TextMeshProUGUI battlePoint;
-    public TextMeshProUGUI name;
+    public TextMeshProUGUI itemName;
     public TextMeshProUGUI rarity;
     public TextMeshProUGUI type;
 
@@ -26,7 +26,8 @@ public class ItemInfo : MonoBehaviour
     [SerializeField] private Button lockButton;
     [SerializeField] private TextMeshProUGUI buttonText;
 
-    public Item currentItem { get; private set; }
+    private Item currentItem;
+    private List<Item> currentItems;
 
     [Header("View")]
     public Button nextViewBtn;
@@ -40,14 +41,15 @@ public class ItemInfo : MonoBehaviour
     public Item Item { get; protected set; }
     public int currentIndex; // 새로 추가된 필드
 
-    public GearBase gearBase;
+    //public GearBase gearBase;
     public Disassembly disassembly;
 
-    public void Awake()
+    protected override void Start()
     {
+        base.Start();
         lockButton.onClick.AddListener(ToggleItemLock);
-        nextViewBtn.onClick.AddListener(gearBase.SelectNextItem);
-        prevViewBtn.onClick.AddListener(gearBase.SelectPreviousItem);
+        nextViewBtn.onClick.AddListener(SelectNextItem);
+        prevViewBtn.onClick.AddListener(SelectPreviousItem);
         disassemblyBtn.onClick.AddListener(SelectedDisassemblyButtonClikced);
         equipBtn.onClick.AddListener(EquipButtonClicked);
 
@@ -64,40 +66,39 @@ public class ItemInfo : MonoBehaviour
 
     public void Reset()
     {
-        transform.SetAsFirstSibling();
+
     }
 
-    public virtual void Initialize(Item item, int index)
+    public virtual void Initialize(Item item, List<Item> items)
     {
         currentItem = item;
+        currentItems = items;
 
         Item = item;
-        this.currentIndex = index;
-        if (item == null)
-        {
-            Reset();
-            return;
-        }
-        transform.SetAsLastSibling();
+        currentIndex = items.IndexOf(currentItem);
+
+        ShowScreen();
+
         icon.sprite = ItemCollection.active.GetItemIcon(item).sprite;
         iconBackground.sprite = ItemCollection.active.GetBackground(item) ?? ItemCollection.active.backgroundBrown;
         iconBackground.color = Color.white;
         iconFrame.raycastTarget = true;
         level.text = "Lv. " + item.Params.Level.ToString("D2");
-        name.text = item.Params.Name;
+        itemName.text = item.Params.Name;
         rarity.text = "품질 : " + item.Params.Rarity.ToString();
         type.text = item.Params.Type.ToString();
+        battlePoint.text = item.battlePoint.ToString();
         if (item.IsEquipment)
         {
-            luckyPoint.text = "럭키포인트: " + item.LuckyPoint.ToString() + "(" +item.LuckyPercent.ToString()+ "%)";
+            luckyPoint.text = "럭키포인트: " + item.luckyPoint.ToString() + "(" +item.luckyPercent.ToString()+ "%)";
 
-            for(int i = 0; i < item.Stat.basic.Count; i++)
+            for(int i = 0; i < item.stat.basic.Count; i++)
             {
-                basicStats[i].text = item.Stat.basic[i].value <= 0 ? null : item.Stat.basic[i].id.ToString() + "  " + "+" + item.Stat.basic[i].value.ToString() + "    (+" + (item.Stat.basic[i].value - item.Stat.basic[i].minValue).ToString() + ")";
+                basicStats[i].text = item.stat.basic[i].value <= 0 ? null : item.stat.basic[i].id.ToString() + "  " + "+" + item.stat.basic[i].value.ToString() + "    (+" + (item.stat.basic[i].value - item.stat.basic[i].minValue).ToString() + ")";
             }
-            for (int i = 0; i < item.Stat.magic.Count; i++)
+            for (int i = 0; i < item.stat.magic.Count; i++)
             {
-                magicStats[i].text = item.Stat.magic[i].value <= 0 ? null : item.Stat.magic[i].id.ToString() + "  " + "+" + item.Stat.magic[i].value.ToString();
+                magicStats[i].text = item.stat.magic[i].value <= 0 ? null : item.stat.magic[i].id.ToString() + "  " + "+" + item.stat.magic[i].value.ToString();
             }
 
         }
@@ -120,7 +121,7 @@ public class ItemInfo : MonoBehaviour
 
     public void OnBackButtonClicked()
     {
-        transform.SetSiblingIndex(0);
+        HideScreen();
         Item.isSelected = false;
     }
 
@@ -151,5 +152,42 @@ public class ItemInfo : MonoBehaviour
     private void EquipButtonClicked()
     {
         Debug.Log("장착");
+    }
+
+    public void SelectPreviousItem()
+    {
+        if (currentItems.Count == 0)
+        {
+            Debug.Log("Current inventory is empty.");
+            return;
+        }
+        if (currentIndex == -1)
+        {
+            // 현재 선택된 아이템이 없거나 현재 인벤토리에 없는 경우, 마지막 아이템 선택
+            Initialize(currentItems[currentItems.Count - 1], currentItems);
+        }
+        else
+        {
+            int previousIndex = (currentIndex - 1 + currentItems.Count) % currentItems.Count;
+            Initialize(currentItems[previousIndex], currentItems);
+        }
+    }
+    public void SelectNextItem()
+    {
+        if (currentItems.Count == 0)
+        {
+            Debug.Log("Current inventory is empty.");
+            return;
+        }
+        if (currentIndex == -1)
+        {
+            // 현재 선택된 아이템이 없거나 현재 인벤토리에 없는 경우, 첫 번째 아이템 선택
+            Initialize(currentItems[0], currentItems);
+        }
+        else
+        {
+            int nextIndex = (currentIndex + 1) % currentItems.Count;
+            Initialize(currentItems[nextIndex], currentItems);
+        }
     }
 }

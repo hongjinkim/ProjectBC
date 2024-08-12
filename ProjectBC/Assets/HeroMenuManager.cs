@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class HeroMenuManager : MonoBehaviour
 {
+    private HeroInfo currentHeroInfo;
     public TraitManager traitManager;
     [Header("Menus")]
     public Transform EquipmentMenu;
@@ -16,7 +17,8 @@ public class HeroMenuManager : MonoBehaviour
     public Button PotionEquipmentCloseButton;
     public Transform HeroScreen_Equipment;
 
-    
+
+
     private void Awake()
     {
         EquipmentMenu.SetAsLastSibling();
@@ -46,6 +48,22 @@ public class HeroMenuManager : MonoBehaviour
     public void OnTalentButtonClicked()
     {
         TraitMenu.SetAsLastSibling();
+        if (traitManager == null)
+        {
+            Debug.LogError("TraitManager is null in HeroMenuManager");
+            return;
+        }
+        if (currentHeroInfo == null)
+        {
+            Debug.LogError("currentHeroInfo is null in HeroMenuManager");
+            return;
+        }
+        Debug.Log($"Showing trait panel for hero: {currentHeroInfo.heroName}");
+        traitManager.ShowTraitPanel(currentHeroInfo);
+    }
+    public void UpdateCurrentHero(HeroInfo heroInfo)
+    {
+        currentHeroInfo = heroInfo;
     }
 
     public void OnPotionEquipmentClicked()

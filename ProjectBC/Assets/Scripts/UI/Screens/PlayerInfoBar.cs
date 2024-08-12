@@ -1,57 +1,63 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerInfoBar : MenuScreen
+public class PlayerInfoBar : BaseScreen
 {
-    [Header("texts")]
+    private PlayerInfo playerInfo;
+
+    [Header("Texts")]
     public TextMeshProUGUI level;
     public TextMeshProUGUI battlePoint;
     public TextMeshProUGUI gold;
     public TextMeshProUGUI diamond;
     public TextMeshProUGUI gem;
 
-    [Header("panel")]
-    public Image panel;
+    [Header("Images")]
     public Image profile;
 
     private void OnEnable()
     {
-        GameDataManager.FundsUpdated += OnFundsUpdated;
-        GameDataManager.LevelUpdated += OnLevelUpdated;
-        GameDataManager.BattlePointUpdated += OnBattlePointUpdated;
+        EventManager.StartListening(EventType.FundsUpdated, OnFundsUpdated);
+
     }
 
     private void OnDisable()
     {
-        GameDataManager.FundsUpdated -= OnFundsUpdated;
-        GameDataManager.FundsUpdated -= OnLevelUpdated;
-        GameDataManager.FundsUpdated -= OnBattlePointUpdated;
+        EventManager.StopListening(EventType.FundsUpdated, OnFundsUpdated);
     }
 
     void Start()
     {
-
+        playerInfo = GameDataManager.instance.playerInfo;
+        EventManager.StartListening(EventType.FundsUpdated, OnFundsUpdated);
+        EventManager.StartListening(EventType.BattlePointUpdated, OnBattlePointUpdated);
     }
 
-    void OnFundsUpdated(PlayerInfo info)
+    private void OnApplicationQuit()
     {
-        gold.text = info.gold.ToString();
-        diamond.text = info.diamond.ToString();
-        gem.text = info.gem.ToString();
+        EventManager.StopListening(EventType.FundsUpdated, OnFundsUpdated);
+        EventManager.StopListening(EventType.BattlePointUpdated, OnBattlePointUpdated);
+    }
+    void OnFundsUpdated(Dictionary<string, object> message)
+    {
+        gold.text = playerInfo.gold.ToString();
+        diamond.text = playerInfo.diamond.ToString();
+        gem.text = playerInfo.gem.ToString();
     }
 
     void OnLevelUpdated(PlayerInfo info)
     {
         level.text = "Lv. " + info.level.ToString("D2");
     }
-    void OnBattlePointUpdated(PlayerInfo info)
+    void OnBattlePointUpdated(Dictionary<string, object> message)
     {
-        battlePoint.text = info.battlePoint.ToString();
+        battlePoint.text = GameDataManager.instance.battlePoint.ToString();
     }
 
-    public void HideMenu()
+    public void ShowOnlyFunds()
     {
         //Color color = panel.color;
         //color.a = 0f;
@@ -62,7 +68,7 @@ public class PlayerInfoBar : MenuScreen
         battlePoint.SetActive(false);
     }
 
-    public void ShowMenu()
+    public void ShowPlayerInfo()
     {
         profile.gameObject.SetActive(true);
         level.SetActive(true);

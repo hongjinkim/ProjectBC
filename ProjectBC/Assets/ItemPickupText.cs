@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ItemPickupText : MonoBehaviour
 {
-    private Transform grid;
+    
     private TextMeshProUGUI textUGUI;
     private SpriteRenderer spriteRenderer;
 
@@ -14,13 +14,12 @@ public class ItemPickupText : MonoBehaviour
         Setup();
     }
 
-    private void Setup()
+    public void Setup()
     {
         textUGUI = GetComponent<TextMeshProUGUI>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        grid = GameDataManager.instance.noticeTransform;
 
-        transform.parent = grid;
+        transform.SetParent(GameManager.instance.pickUpGrid);
     }
     public void SetText(string text)
     {

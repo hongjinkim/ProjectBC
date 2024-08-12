@@ -8,6 +8,7 @@ using UnityEngine.Pool;
 using Random = UnityEngine.Random;
 public abstract class Character : MonoBehaviour, IBehavior
 {
+    //방어력이 1당 damagereduction+=0.2
     public enum UnitState
     {
         idle = 0,
@@ -60,14 +61,27 @@ public abstract class Character : MonoBehaviour, IBehavior
     public UnitState _unitState = UnitState.idle;
     public AttackType attackType;
     public CharacterDirection characterDirection;
-
+    public event Action<int> OnMaxHealthChanged;
 
 
     public Character attacker;
     private const float MAX_ENERGY = 100f;
     [Header("Infos")]
     public HeroInfo info;
-    public int maxHealth = 100;
+    [SerializeField]
+    private int _maxHealth;
+    public int maxHealth
+    {
+        get { return _maxHealth; }
+         set
+        {
+            if (_maxHealth != value)
+            {
+                _maxHealth = value;
+                OnMaxHealthChanged?.Invoke(_maxHealth);
+            }
+        }
+    }
     public int currentHealth;
     public float moveSpeed=1;
     public int attackDamage => info?.attackDamage ?? 1;
@@ -146,6 +160,8 @@ public abstract class Character : MonoBehaviour, IBehavior
     private float healthRegenTimer = 0f;
     private const float HEALTH_REGEN_INTERVAL = 1f; // 1초마다 HP 회복
 
+    private DungeonManager dungeonManager;
+
     // 기존 Character 메서드와 Player에서 가져온 메서드 통합
     protected virtual void InitializeSkillBook() { }
     public virtual void IncreaseCharacteristic(float amount) { }
@@ -166,8 +182,13 @@ public abstract class Character : MonoBehaviour, IBehavior
         //dungeon.DungeonInit();
         //transform.position = customTilemapManager.GetNearestValidPosition(transform.position);
         //StartCoroutine(AutoMoveCoroutine());
-        
+        if (info != null)
+        {
+            info.OnHpChanged += UpdateMaxHealth;
+            UpdateMaxHealth();
+        }
         InitializeHealth();
+        dungeonManager = DungeonManager.instance;
         UpdateAttackInterval();
     }
     protected virtual void InitializeHealth()
@@ -176,12 +197,12 @@ public abstract class Character : MonoBehaviour, IBehavior
     }
     public void UpdateAttackInterval()
     {
-        
-            // attackSpeed가 높을수록 attackInterval이 짧아집니다.
-            attackInterval = baseAttackInterval * (100f / attackSpeed);
 
+        // attackSpeed가 높을수록 attackInterval이 짧아집니다.
+        attackInterval = baseAttackInterval * (100f / attackSpeed);
     }
-    protected void Update()
+
+    protected virtual void Update()
     {
         OnUpdate?.Invoke(Time.deltaTime);
         CheckState();
@@ -204,6 +225,13 @@ public abstract class Character : MonoBehaviour, IBehavior
             }
         }
     }
+    protected virtual void OnDestroy()
+    {
+        if (info != null)
+        {
+            info.OnHpChanged -= UpdateMaxHealth;
+        }
+    }
     protected virtual void UseSkill()
     {
         OnSkillUse?.Invoke();
@@ -215,6 +243,7 @@ public abstract class Character : MonoBehaviour, IBehavior
         {
             UseSkill();
         }
+        
     }
     public void UpdateMaxHealth()
     {
@@ -673,9 +702,7 @@ public abstract class Character : MonoBehaviour, IBehavior
 
     protected virtual void InstantiateDmgTxtObj(float damage, Vector3 targetPosition, bool isCritical)
     {
-        if (GameManager.Instance.dungeonManager.canvas == null) return;
-
-        GameObject DamageTxtObj = Instantiate(PrefabDmgTxt, GameManager.Instance.dungeonManager.canvas.transform);
+        GameObject DamageTxtObj = Instantiate(PrefabDmgTxt, dungeonManager.canvasTransform);
         TextMeshProUGUI damageText = DamageTxtObj.GetComponent<TextMeshProUGUI>();
         damageText.text = Mathf.Round(damage).ToString();
 

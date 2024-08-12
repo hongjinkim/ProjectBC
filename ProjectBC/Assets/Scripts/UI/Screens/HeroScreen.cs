@@ -1,8 +1,6 @@
 using System;
 
-public class HeroScreen : MenuScreen
+public class HeroScreen : MainScreen
 {
-    public event Action<HeroInfo> EquipmentUpdated;
-
 
 }

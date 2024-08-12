@@ -37,6 +37,11 @@ public class Disassembly : MonoBehaviour
     [SerializeField] private List<Item> selectedItems = new List<Item>();
     [SerializeField] private List<ItemType> allowedTypes = new List<ItemType> { ItemType.Weapon, ItemType.Armor, ItemType.Helmet, ItemType.Leggings };
 
+    private void OnApplicationQuit()
+    {
+        EventManager.StopListening(EventType.ItemUpdated, UpdateSelectedItems);
+    }
+
     private void Awake()
     {
         InitializeToggleRarityMap();
@@ -46,8 +51,8 @@ public class Disassembly : MonoBehaviour
             toggles[i].onValueChanged.AddListener((isOn) => OnToggleValueChanged(toggles[index], isOn));
         }
 
-        GameDataManager.ItemUpdated += UpdateSelectedItems;
-        disassemblyButton.onClick.AddListener(ItemAllDisassemblyButton);
+        EventManager.StartListening(EventType.ItemUpdated, UpdateSelectedItems);
+
     }
 
     private void InitializeToggleRarityMap()
@@ -78,12 +83,12 @@ public class Disassembly : MonoBehaviour
             selectedRarities.Remove(rarity);
         }
 
-        UpdateSelectedItems();
+        UpdateSelectedItems(null);
     }
 
-    public void UpdateSelectedItems()
+    public void UpdateSelectedItems(Dictionary<string, object> message)
     {
-        selectedItems.Clear(); // ±âÁ¸ ¸®½ºÆ®¸¦ ºñ¿ì°í Àç»ç¿ë
+        selectedItems.Clear();
         var items = GameDataManager.instance.playerInfo.items;
 
         foreach (var item in items)
@@ -106,29 +111,13 @@ public class Disassembly : MonoBehaviour
             GetComponent<Text>().text = $"Selected items: {selectedItems.Count}";
         }
     }
-    // ÇÊ¿äÇÑ °æ¿ì selectedItems¿¡ Á¢±ÙÇÏ´Â ¸Þ¼­µå
+    // ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿?selectedItemsï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
     public List<Item> GetSelectedItems()
     {
-        return new List<Item>(selectedItems); // º¹»çº» ¹ÝÈ¯
+        return new List<Item>(selectedItems); // ï¿½ï¿½ï¿½çº» ï¿½ï¿½È¯
     }
 
-    public void ItemAllDisassemblyButton()
-    {
-        if (isPopup == false)
-        {
-            isPopup = true;
-            return;
-        }
 
-        if (isPopup)
-        {
-            ItemDisassembly();
-
-            inventoryBase.DisassemblyPopup.SetActive(false);
-            disassemblyText.text = "ÀÏ°ý ºÐÇØ";
-            isPopup = false;
-        }
-    }
 
     //public void ItemDisassembly()
     //{
@@ -166,7 +155,7 @@ public class Disassembly : MonoBehaviour
 
         foreach (Item item in itemsToDisassemble)
         {
-            GameDataManager.instance.playerInfo.items.Remove(item);
+            GameDataManager.instance.RemoveItem(item);
         }
 
         DisassemblyReward(itemsToDisassemble);  // itemsToDisassemble ¸®½ºÆ® Àü´Þ
@@ -175,9 +164,10 @@ public class Disassembly : MonoBehaviour
 
         selectedItems.Clear();
         UpdateUI();
-        GameDataManager.instance.UpdateItem();
+        //GameDataManager.instance.UpdateItem();
+        EventManager.TriggerEvent(EventType.ItemUpdated, null);
 
-        inventoryBase.InitializeInventory();
+        inventoryBase.InitializeInventory(null);
     }
 
     public void DisassemblyReward(List<Item> disassembledItems)
@@ -202,10 +192,10 @@ public class Disassembly : MonoBehaviour
             }
         }
 
-        // °ñµå Áö±Þ
+        // ï¿½ï¿½ï¿?ï¿½ï¿½ï¿½ï¿½
         GameDataManager.instance.playerInfo.gold += totalGold;
 
-        // ¾ÆÀÌÅÛ Áö±Þ
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         var inventory = GameDataManager.instance.playerInfo.items;
         foreach (var rewardItem in rewardItems)
         {
@@ -214,7 +204,7 @@ public class Disassembly : MonoBehaviour
             {
                 if (item.Params.Id == rewardItem.Key)
                 {
-                    item.Count += rewardItem.Value;
+                    item.count += rewardItem.Value;
                     itemExists = true;
                     break;
                 }
@@ -223,7 +213,7 @@ public class Disassembly : MonoBehaviour
             if (!itemExists)
             {
                 Item newItem = new Item(rewardItem.Key);
-                newItem.Count = rewardItem.Value;
+                newItem.count = rewardItem.Value;
                 inventory.Add(newItem);
             }
 
@@ -232,9 +222,12 @@ public class Disassembly : MonoBehaviour
 
         Debug.Log($"Gained {totalGold} gold from disassembly");
 
-        GameDataManager.instance.UpdateFunds();
-        GameDataManager.instance.UpdateItem();
-        inventoryBase.InitializeInventory();
+        //GameDataManager.instance.UpdateFunds();
+        //GameDataManager.instance.UpdateItem();
+        EventManager.TriggerEvent(EventType.FundsUpdated, null);
+        EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object>{ {"type", ItemType.Material } });
+
+        inventoryBase.InitializeInventory(null);
     }
     private int CalculateRewardAmount(RarityReward reward, int itemLevel)
     {
@@ -266,16 +259,16 @@ public class Disassembly : MonoBehaviour
                 }
 
                 // ¾ÆÀÌÅÛ Á¦°Å
-                GameDataManager.instance.playerInfo.items.Remove(item);
+                GameDataManager.instance.RemoveItem(item);
 
                 Debug.Log($"ºÐÇØ ¿Ï·á: {item.Params.Name}");
                 Debug.Log($"È¹µæÇÑ °ñµå: {goldReward}");
                 Debug.Log($"È¹µæÇÑ Àç·á: {string.Join(", ", reward.rewardItemIds)} (°¢ {rewardAmount}°³)");
 
                 // ÀÎº¥Åä¸® ¹× UI ¾÷µ¥ÀÌÆ®
-                GameDataManager.instance.UpdateFunds();
-                GameDataManager.instance.UpdateItem();
-                inventoryBase.InitializeInventory();
+                EventManager.TriggerEvent(EventType.FundsUpdated, null);
+                EventManager.TriggerEvent(EventType.ItemUpdated, null);
+                inventoryBase.InitializeInventory(null);
                 UpdateUI();
             }
             else
@@ -295,18 +288,7 @@ public class Disassembly : MonoBehaviour
 
     private void AddRewardItem(string itemId, int amount)
     {
-        var inventory = GameDataManager.instance.playerInfo.items;
-        var existingItem = inventory.Find(i => i.Params.Id == itemId);
-
-        if (existingItem != null)
-        {
-            existingItem.Count += amount;
-        }
-        else
-        {
-            Item newItem = new Item(itemId);
-            newItem.Count = amount;
-            inventory.Add(newItem);
-        }
+        Item newItem = new Item(itemId);
+        GameDataManager.instance.AddItem(newItem, amount);
     }
 }

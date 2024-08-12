@@ -2,19 +2,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
-public class TutorialWithUIInteraction : MonoBehaviour
+public class TutorialWithUIInteraction : PopUp
 {
     [SerializeField] private GameObject[] tutorialObjects;
     [SerializeField] private Button[] tutorialButtons;
-    [SerializeField] private Button[] autoClickButtons; // 자동으로 클릭될 버튼들
+    [SerializeField] private Button[] autoClickButtons;
     private int currentTutorialIndex = -1;
-    private void Start()
+    protected override void Start()
     {
         if (!GameDataManager.instance.playerInfo.isTutorial)
         {
             ActivateNextTutorial();
         }
-
         if (tutorialButtons != null)
         {
             for (int i = 0; i < tutorialButtons.Length; i++)
@@ -24,7 +23,6 @@ public class TutorialWithUIInteraction : MonoBehaviour
             }
         }
     }
-
     private IEnumerator HandleClick()
     {
         yield return new WaitForEndOfFrame();
@@ -48,14 +46,10 @@ public class TutorialWithUIInteraction : MonoBehaviour
         {
             tutorialObjects[currentTutorialIndex].SetActive(false);
         }
-
         currentTutorialIndex++;
-
         if (currentTutorialIndex < tutorialObjects.Length)
         {
             tutorialObjects[currentTutorialIndex].SetActive(true);
-
-
             if (currentTutorialIndex == 1)
             {
                 AutoClickButton(1);
@@ -80,9 +74,11 @@ public class TutorialWithUIInteraction : MonoBehaviour
             {
                 AutoClickButton(6);
             }
+            ShowScreen();
         }
         else
         {
+            HideScreen();
             GameDataManager.instance.playerInfo.isTutorial = true;
         }
     }

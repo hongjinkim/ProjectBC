@@ -49,17 +49,22 @@ public class ProtectionPanel : MonoBehaviour, ITraitPanel
             int level = traitLevels[i / 2];
             bool isLeftTrait = i % 2 == 0;
 
-            traitButtons[i].interactable = currentHeroInfo.level >= level;
-            traitDescriptions[i].text = traitNames[i];
+            bool isSelected = currentHeroInfo.IsTraitSelected(TraitType.Protection, level, isLeftTrait);
+            bool isOppositeSelected = currentHeroInfo.IsTraitSelected(TraitType.Protection, level, !isLeftTrait);
 
-            if (protectionTrait.Level >= level)
+            traitButtons[i].interactable = currentHeroInfo.level >= level && !isSelected && !isOppositeSelected;
+
+            if (isSelected)
             {
-                traitButtons[i].interactable = protectionTrait.IsLeftTrait == isLeftTrait;
-                if (protectionTrait.IsLeftTrait == isLeftTrait)
-                {
-                    traitButtons[i].GetComponent<Image>().color = Color.green; // 선택된 특성 표시
-                }
+                traitButtons[i].GetComponent<Image>().color = Color.yellow;
             }
+            else
+            {
+                traitButtons[i].GetComponent<Image>().color = Color.white;
+            }
+
+            if (traitDescriptions != null && i < traitDescriptions.Length)
+                traitDescriptions[i].text = traitNames[i];
 
             int buttonIndex = i;
             traitButtons[i].onClick.RemoveAllListeners();
@@ -69,8 +74,26 @@ public class ProtectionPanel : MonoBehaviour, ITraitPanel
 
     private void OnTraitButtonClicked(int level, bool isLeftTrait, int buttonIndex)
     {
-        protectionTrait.ChooseTrait(level, isLeftTrait);
-        protectionTrait.ApplyEffect(currentHeroInfo.character);
-        UpdateTraitButtons();
+        if (!currentHeroInfo.IsTraitSelected(TraitType.Concentration, level, isLeftTrait))
+        {
+            protectionTrait.ChooseTrait(level, isLeftTrait);
+
+            // Character가 없어도 효과를 저장
+            currentHeroInfo.SelectTrait(TraitType.Protection, level, isLeftTrait);
+            currentHeroInfo.AddTraitEffect(TraitType.Protection, level, isLeftTrait,
+                character => protectionTrait.ApplyEffect(character));
+
+            // Character가 있으면 즉시 적용
+            if (currentHeroInfo.character != null)
+            {
+                protectionTrait.ApplyEffect(currentHeroInfo.character);
+            }
+
+            UpdateTraitButtons();
+        }
+        else
+        {
+            Debug.Log("This trait has already been applied.");
+        }
     }
 }

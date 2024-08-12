@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -19,6 +20,8 @@ public class Loot
 }
 public class Dungeon : MonoBehaviour
 {
+    private DungeonManager dungeonManager;
+
     [Header("BasicInformation")]
     //public TilemapManagerGG tilemapManager;
     public string _themeCode;
@@ -33,7 +36,6 @@ public class Dungeon : MonoBehaviour
     private bool isBossRespawning = false;
     public Vector2 spawnAreaMin;
     public Vector2 spawnAreaMax;
-    Camera mainCamera;
 
     [Header("ActiveList")]
     public List<Character> _activeEnemyList = new List<Character>();
@@ -60,10 +62,7 @@ public class Dungeon : MonoBehaviour
     [SerializeField] private float totalDropRate = 0;
     public GameObject lootPrefab;
 
-    [Header("ItemPickupText")]
-    public ObjectPoolBehaviour objectPool;
-    [SerializeField] private float fadeDuration = 2.0f;
-    private WaitForSeconds wait => new WaitForSeconds(fadeDuration);
+    public int requiredBattlePoint { get; internal set; }
 
     private void OnEnable()
     {
@@ -81,7 +80,6 @@ public class Dungeon : MonoBehaviour
             loot.droppedItemPrefab = lootPrefab;
         }
 
-        mainCamera = Camera.main;
     }
     void Start()
     {   
@@ -103,6 +101,8 @@ public class Dungeon : MonoBehaviour
         SetBossList();
         DungeonInit();
         InvokeRepeating("OnPickupItem", 0f, 5f);
+
+        dungeonManager = DungeonManager.instance;
     }
 
     // 테스트용
@@ -427,13 +427,8 @@ public class Dungeon : MonoBehaviour
 
     private void RemoveHeroFromAllDungeons(Character hero) //에러가 나와서 포기?
     {
-
-
-        // DungeonManager의 인스턴스를 가져옵니다.
-        DungeonManager dungeonManager = GameManager.Instance.dungeonManager;
-
         // _allDungeonList를 순회하며 해당 영웅을 제거합니다.
-        foreach (Dungeon dungeon in GameManager.Instance.dungeonManager._allDungeonList)
+        foreach (Dungeon dungeon in dungeonManager._allDungeonList)
         {
             dungeon._activeHeroList.Remove(hero);
             dungeon._allCharacterList.Remove(hero);
@@ -472,7 +467,6 @@ public class Dungeon : MonoBehaviour
                 else
                 {
                     var item = new Item(i.id);
-                    item = RandomStat(item);
 
                     droppedItems.Add(item);
 
@@ -493,38 +487,23 @@ public class Dungeon : MonoBehaviour
         if (droppedGolds > 0)
         {
             GameDataManager.instance.playerInfo.gold += droppedGolds;
-            StartCoroutine(PickupNotice(droppedGolds.ToString() + " 골드를 획득 했습니다."));
+            EventManager.TriggerEvent(EventType.ItemPickup, new Dictionary<string, object> { { "gold", (string)(droppedGolds.ToString() + " 골드를 획득 했습니다.") } });
+            EventManager.TriggerEvent(EventType.FundsUpdated, null);
         }
 
         // 아이템 획득
-        var inventory = GameDataManager.instance.playerInfo.items;
-        foreach (Item item in droppedItems)
+        if (droppedItems != null)
         {
-            if (item.Params.Type == ItemType.Usable || item.Params.Type == ItemType.Material || item.Params.Type == ItemType.Crystal || item.Params.Type == ItemType.Exp)
+            foreach (Item item in droppedItems)
             {
-                bool hasItem = false;
-                foreach (Item _item in inventory)
-                {
-                    if (item.Params.Id == _item.Params.Id)
-                    {
-                        _item.Count++;
-                        hasItem = true;
-                        break;
-                    }
-                }
-                if (!hasItem)
-                {
-                    StartCoroutine(PickupNotice(item.Params.Name + "을(를) 획득 했습니다"));
-                    inventory.Add(item);
-                }
-
+                GameDataManager.instance.AddItem(item);
+                EventManager.TriggerEvent(EventType.ItemPickup, new Dictionary<string, object> { { "item", (string)(item.Params.Name + "을(를) 획득 했습니다") } });
+                EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { { "type", item.Params.Type} });
+                       
             }
-            else
-            {
-                StartCoroutine(PickupNotice(item.Params.Name + "을(를) 획득 했습니다"));
-                inventory.Add(item);
-            }
+            
         }
+
         // 필드 위애 아이템 표시 모두 제거
         foreach (GameObject go in droppedPrefabs)
         {
@@ -545,49 +524,12 @@ public class Dungeon : MonoBehaviour
         {
             HeroPotion.Instance.UpdatePotionCount();
         }
-
-        GameDataManager.instance.UpdateItem();
-        GameDataManager.instance.UpdateFunds();
     }
     
 
-    public Item RandomStat(Item item)
-    {
-        if (item.IsEquipment)
-        {
-            var statData = GameDataManager.instance.equipmentStatData[item.Params.Index];
-            item.Stat = new Stat(statData.BasicStats);
+    
 
-            for(int i = 0; i < item.Stat.basic.Count; i++)
-            {
-                item.LuckyPoint += item.Stat.basic[i].value - item.Stat.basic[i].minValue;
-                item.LuckyPercent += item.LuckyPoint*100 / item.Stat.basic[i].maxValue / item.Stat.basic.Count;
-            }
-
-            var rarity = item.Params.Rarity;
-            List<MagicStat> enumValues = new List<MagicStat>((MagicStat[])Enum.GetValues(typeof(MagicStat)));
-
-            for (int i = 0; i<= (int)(rarity); i++)
-            {
-                var randomIndex = Random.Range(0, enumValues.Count);
-
-                item.Stat.magic.Add(new Magic { id = (MagicStat)enumValues[randomIndex], value = 1/*추후 값  수정*/}) ;
-                enumValues.RemoveAt(randomIndex);
-            }
-        }
-        return item;
-    }
-
-    IEnumerator PickupNotice(string text)
-    {
-        GameObject textObject = objectPool.GetPooledObject();
-        textObject.GetComponent<ItemPickupText>().SetText(text);
-        textObject.SetActive(true);
-
-        yield return wait;
-
-        textObject.SetActive(false);
-    }
+    
 
 
 }

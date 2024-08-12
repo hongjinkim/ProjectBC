@@ -21,7 +21,7 @@ public class BattleDeckSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IBeg
     private Camera mainCamera;
     [SerializeField] private int slotIndex;
 
-    private void Awake()
+    private void Start()
     {
         InitializeComponents();
         mainCamera = Camera.main;
@@ -131,7 +131,7 @@ public class BattleDeckSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IBeg
                 Vector3Int cellPosition = tilemap.WorldToCell(hit.point);
                 Vector3 cellCenter = tilemap.GetCellCenterWorld(cellPosition);
 
-                GameManager_2.Instance.CreateHeroPrefabAtPosition(cellCenter, slotIndex);
+                GameManager.instance.CreateHeroPrefabAtPosition(cellCenter, slotIndex);
             }
 
         }

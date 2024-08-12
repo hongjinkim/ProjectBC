@@ -1,23 +1,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DungeonManager : MonoBehaviour
+public class DungeonManager : MonoSingleton<DungeonManager>
 {
-    public Canvas canvasPrefab;
-    public Canvas canvas;
+    public Transform canvasTransform;
 
     public List<Dungeon> _allDungeonPrefabList = new List<Dungeon>();
     public List<Dungeon> _allDungeonList = new List<Dungeon>();
     public List<Dungeon> _themeList = new List<Dungeon>();
 
-    public PopupManager popupManager;
+    //public PopupManager popupManager;
     public Dungeon _selectDungeon;
 
-    private void Awake()
-    {
-        GameManager.Instance.dungeonManager = this;
+    private MainUIManager _UIManager;
 
-        canvas = Instantiate(canvasPrefab);
+    private int requiredBattlePoint;
+    public int required = 0;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        _UIManager = MainUIManager.instance;
     }
 
     private void Start()
@@ -39,6 +42,9 @@ public class DungeonManager : MonoBehaviour
             xOffset += spacing;
             dungeonInstance.spawnAreaMax.x = xOffset;
 
+            dungeonInstance.requiredBattlePoint = 1500 + (int)(required * 50); // 입장 제한
+            required += 10;
+
             _allDungeonList.Add(dungeonInstance);
         }
         
@@ -56,11 +62,11 @@ public class DungeonManager : MonoBehaviour
             }
         }
 
-        popupManager.InitAdventurePopup(_themeList);
+        //popupManager.InitAdventurePopup(_themeList);
 
         SelectDungeon(0);
 
-        popupManager.adventurePopup.SetActive(true);
+        //popupManager.adventurePopup.SetActive(true);
     }
 
     public void SelectDungeon(int index)
@@ -70,11 +76,22 @@ public class DungeonManager : MonoBehaviour
 
     public void EnterDungeon()
     {
-        popupManager.ChangeCameraPos(_selectDungeon.transform.position);
-        
-        popupManager.ExitPopup(popupManager.adventurePopup);
+        Debug.Log(_selectDungeon.requiredBattlePoint);
 
-        popupManager.uiManager.ShowBattleScreen();
+        if (GameDataManager.instance.battlePoint <= _selectDungeon.requiredBattlePoint)
+        {
+            ToastMsg.instance.ShowMessage("배틀포인트가 부족합니다\n" + (_selectDungeon.requiredBattlePoint - GameDataManager.instance.battlePoint) + "만큼 부족" , 2.0f);
+            return;
+        }
+
+
+        ChangeCameraPos(_selectDungeon.transform.position);
+        _UIManager.ShowBattleScreen();
+    }
+
+    public void ChangeCameraPos(Vector3 position)
+    {
+        Camera.main.transform.position = new Vector3(position.x, Camera.main.transform.position.y, Camera.main.transform.position.z);
     }
 
     // void SetUnitList()
@@ -181,7 +198,7 @@ public class DungeonManager : MonoBehaviour
     //     // {
     //     //     Destroy(enemy);
     //     // }
-        
+
     //     // _ActiveEnemyList.Clear();
     //     // SetEnemyList();
 
@@ -227,7 +244,7 @@ public class DungeonManager : MonoBehaviour
     //         }
 
     //         _activeEnemyList.Clear();
-            
+
     //         SetEnemyList();
     //     }
     // }
@@ -248,7 +265,7 @@ public class DungeonManager : MonoBehaviour
     //             targetList = _activeHeroList;
     //             break;
     //     }
-        
+
     //     // closestDistance: 가장 가까운 유닛과의 거리를 저장하는 변수입니다. 초기값을 매우 큰 값(float.MaxValue)으로 설정하여 첫 번째 비교에서 무조건 갱신되도록 합니다.
     //     float closestDistance = float.MaxValue;
 

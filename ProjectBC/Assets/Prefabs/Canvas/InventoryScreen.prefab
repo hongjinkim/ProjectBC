@@ -418,17 +418,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a43803bc19b685d4abf501f0de8208b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _screenName: ItemInfo
+  _UIManager: {fileID: 0}
   iconBackground: {fileID: 3586823985773627811}
   icon: {fileID: 7639934173367508686}
   iconFrame: {fileID: 6135800340347257531}
   level: {fileID: 1985974822654066672}
   battlePoint: {fileID: 179278692938849959}
-  name: {fileID: 7385391934210599773}
+  itemName: {fileID: 0}
   rarity: {fileID: 2164620215189481466}
   type: {fileID: 6202186256714675619}
-  stat1: {fileID: 5576781180404970204}
-  stat2: {fileID: 601115002317620319}
-  stat3: {fileID: 7894407839365934870}
+  luckyPoint: {fileID: 0}
+  basicStats: []
+  magicStats: []
+  lockButton: {fileID: 0}
+  buttonText: {fileID: 0}
+  nextViewBtn: {fileID: 0}
+  prevViewBtn: {fileID: 0}
+  disassemblyBtn: {fileID: 0}
+  equipBtn: {fileID: 0}
+  isLocked: 0
+  currentIndex: 0
+  disassembly: {fileID: 0}
 --- !u!1 &337274712490616271
 GameObject:
   m_ObjectHideFlags: 0
@@ -878,18 +889,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d033c589886a75c45a5ef49a709e3f05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemCollection: {fileID: 11400000, guid: 3496197cc8159e14987beb99d0b1629c, type: 2}
-  ItemInfo: {fileID: 7195652422084296088}
   EquipmentInventory: {fileID: 3746720349812458160}
   UsableInventory: {fileID: 7505627736632850200}
   MaterialInventory: {fileID: 8850852338572612042}
   CrystalInventory: {fileID: 3546330998835294440}
-  WeaponInventory: {fileID: 0}
-  HelemtInventory: {fileID: 0}
-  ArmorInventory: {fileID: 0}
-  BootsInventory: {fileID: 0}
+  DisassemblyPopup: {fileID: 0}
+  disassembly: {fileID: 0}
   inventories: []
-  InitializeExample: 1
+  currentInventoryType: 0
+  ItemInfo: {fileID: 7195652422084296088}
 --- !u!1 &1088115541285612703
 GameObject:
   m_ObjectHideFlags: 0
@@ -3522,7 +3530,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -300, y: 196557.75}
+  m_AnchoredPosition: {x: -300, y: 197244.95}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &6294484114815633352
@@ -3894,7 +3902,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -300, y: 196557.75}
+  m_AnchoredPosition: {x: -300, y: 197244.95}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &5034314033971123723
@@ -4616,7 +4624,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -300, y: 196557.75}
+  m_AnchoredPosition: {x: -300, y: 197244.95}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &6968912655869758147
@@ -4870,7 +4878,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -300, y: 196557.75}
+  m_AnchoredPosition: {x: -300, y: 197244.95}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &5487710960475090197
