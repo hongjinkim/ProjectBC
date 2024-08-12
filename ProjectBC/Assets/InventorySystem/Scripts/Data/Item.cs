@@ -74,9 +74,8 @@ public class Item
                 item.stat.magic.Add(new Magic { id = (MagicStat)enumValues[randomIndex], value = 1/*추후 값  수정*/});
                 enumValues.RemoveAt(randomIndex);
             }
+            battlePoint = CalcItemBattlePoint();
         }
-
-        battlePoint = CalcItemBattlePoint();
 
         return item;
     }

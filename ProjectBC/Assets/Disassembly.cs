@@ -199,23 +199,7 @@ public class Disassembly : MonoBehaviour
         var inventory = GameDataManager.instance.playerInfo.items;
         foreach (var rewardItem in rewardItems)
         {
-            bool itemExists = false;
-            foreach (Item item in inventory)
-            {
-                if (item.Params.Id == rewardItem.Key)
-                {
-                    item.count += rewardItem.Value;
-                    itemExists = true;
-                    break;
-                }
-            }
-
-            if (!itemExists)
-            {
-                Item newItem = new Item(rewardItem.Key);
-                newItem.count = rewardItem.Value;
-                inventory.Add(newItem);
-            }
+            GameDataManager.instance.AddItem(new Item(rewardItem.Key), rewardItem.Value);
 
             Debug.Log($"Gained {rewardItem.Value} of reward item (ID: {rewardItem.Key})");
         }
@@ -225,7 +209,7 @@ public class Disassembly : MonoBehaviour
         //GameDataManager.instance.UpdateFunds();
         //GameDataManager.instance.UpdateItem();
         EventManager.TriggerEvent(EventType.FundsUpdated, null);
-        EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object>{ {"type", ItemType.Material } });
+        EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { { "type", ItemType.Material } });
 
         inventoryBase.InitializeInventory(null);
     }
@@ -288,7 +272,6 @@ public class Disassembly : MonoBehaviour
 
     private void AddRewardItem(string itemId, int amount)
     {
-        Item newItem = new Item(itemId);
-        GameDataManager.instance.AddItem(newItem, amount);
+        GameDataManager.instance.AddItem(new Item(itemId), amount);
     }
 }
