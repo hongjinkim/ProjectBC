@@ -62,6 +62,7 @@ public class HeroInfo
     public List<Trait> traits = new List<Trait>();
     public List<PlayerSkill> skills = new List<PlayerSkill>();
     public PlayerSkill activeSkill;
+    [JsonIgnore] private Sprite _sprite;
 
     private Sprite _sprite;
     [SerializeField]
@@ -77,6 +78,19 @@ public class HeroInfo
     public int strengthLevel = 1;
     public int defenseLevel = 1;
     public int masicResistanceLevel = 1;
+
+    // Equipment
+    public List<Item> EquippedItems;
+    public Dictionary<ItemType, Item> EquippedItemDictionary = new Dictionary<ItemType, Item>();
+
+    private void Start()
+    {
+        foreach(Item item in EquippedItems)
+        {
+            EquippedItemDictionary[item.Params.Type] = item;
+        }
+    }
+
     public HeroInfo(string name, HeroClass heroClass, int id, string imagePath)
     {
         this.id = id;
@@ -110,6 +124,9 @@ public class HeroInfo
         this.criticalDamage = 150;//ũ��Ƽ�õ�����
         this.defensePenetration = 0;//������
         // attackRange�� characteristicType�� ���⼭ �������� ����
+
+        EquippedItems = new List<Item>();
+
         InitializeTraits();
     }
     private void InitializeTraits()
@@ -136,6 +153,7 @@ public class HeroInfo
     //{
     //    return Resources.Load<Sprite>(imagePath);
     //}
+    [JsonIgnore]
     public Sprite Sprite
     {
         get

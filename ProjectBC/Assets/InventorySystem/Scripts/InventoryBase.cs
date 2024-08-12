@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 using static UnityEngine.Rendering.DebugUI;
 
 public class InventoryBase : ItemWorkspace
@@ -88,14 +89,14 @@ public class InventoryBase : ItemWorkspace
     {
         ItemInfo = (ItemInfo)MainUIManager.instance.ItemInfoPopUp;
         EventManager.StartListening(EventType.ItemUpdated, InitializeInventory);
-        InitializeInventory(null);
+        InitializeAllInventory();
         disassembly.disassemblyButton.onClick.AddListener(ItemAllDisassemblyButton);
     }
 
     /// <summary>
     /// Initialize owned items (just for example).
     /// </summary>
-    public void InitializeInventory(Dictionary<string, object> message)
+    public void InitializeAllInventory()
     {
         var allItems = GameDataManager.instance.playerInfo.items;
 
@@ -129,6 +130,125 @@ public class InventoryBase : ItemWorkspace
         Initialize(UsableInventory, inventoryItems[InventoryType.Usable]);
         Initialize(MaterialInventory, inventoryItems[InventoryType.Material]);
         Initialize(CrystalInventory, inventoryItems[InventoryType.Crystal]);
+    }
+
+    public void InitializeInventory(Dictionary<string, object> message)
+    {
+        //var allItems = GameDataManager.instance.playerInfo.items;
+
+        // 기존 아이템 리스트 초기화
+        //foreach (var list in inventoryItems.Values)
+        //{
+        //    list.Clear();
+        //}
+        if (message.ContainsKey("type"))
+        {
+            ItemType type = (ItemType)message["type"];
+            switch (type)
+            {
+                case ItemType.Usable:
+                case ItemType.Exp:
+                    inventoryItems[InventoryType.Usable].Clear();
+                    break;
+                case ItemType.Material:
+                    inventoryItems[InventoryType.Material].Clear();
+                    break;
+                case ItemType.Crystal:
+                    inventoryItems[InventoryType.Crystal].Clear();
+                    break;
+                default:
+                    inventoryItems[InventoryType.Equipment].Clear();
+                    break;
+            }
+
+            
+            switch (type)
+            {
+                case ItemType.Usable:
+                case ItemType.Exp:
+                    if(GameDataManager.instance.itemDictionary.ContainsKey(ItemType.Usable))
+                    {
+                        foreach (Item item in GameDataManager.instance.itemDictionary[ItemType.Usable])
+                        {
+                            inventoryItems[InventoryType.Usable].Add(item);
+                        }
+                    }
+                    if (GameDataManager.instance.itemDictionary.ContainsKey(ItemType.Exp))
+                    {
+                        foreach (Item item in GameDataManager.instance.itemDictionary[ItemType.Exp])
+                        {
+                            inventoryItems[InventoryType.Usable].Add(item);
+                        }
+                    }
+                    break;
+                case ItemType.Material:
+                    foreach (Item item in GameDataManager.instance.itemDictionary[type])
+                    {
+                        inventoryItems[InventoryType.Material].Add(item);
+                    }
+                    break;
+                case ItemType.Crystal:
+                    foreach (Item item in GameDataManager.instance.itemDictionary[type])
+                    {
+                        inventoryItems[InventoryType.Crystal].Add(item);
+                    }
+                    break;
+                default:
+                    if(GameDataManager.instance.itemDictionary.ContainsKey(ItemType.Weapon))
+                    {
+                        foreach (Item item in GameDataManager.instance.itemDictionary[ItemType.Weapon])
+                        {
+                            inventoryItems[InventoryType.Equipment].Add(item);
+                        }
+                    }
+                    if (GameDataManager.instance.itemDictionary.ContainsKey(ItemType.Helmet))
+                    {
+                        foreach (Item item in GameDataManager.instance.itemDictionary[ItemType.Helmet])
+                        {
+                            inventoryItems[InventoryType.Equipment].Add(item);
+                        }
+                    }
+                    if (GameDataManager.instance.itemDictionary.ContainsKey(ItemType.Armor))
+                    {
+                        foreach (Item item in GameDataManager.instance.itemDictionary[ItemType.Armor])
+                        {
+                            inventoryItems[InventoryType.Equipment].Add(item);
+                        }
+                    }
+                    if (GameDataManager.instance.itemDictionary.ContainsKey(ItemType.Leggings))
+                    {
+                        foreach (Item item in GameDataManager.instance.itemDictionary[ItemType.Leggings])
+                        {
+                            inventoryItems[InventoryType.Equipment].Add(item);
+                        }
+                    }
+                    break;
+            }
+
+            switch (type)
+            {
+                case ItemType.Usable:
+                case ItemType.Exp:
+                    Initialize(UsableInventory, inventoryItems[InventoryType.Usable]);
+                    break;
+                case ItemType.Material:
+                    Initialize(MaterialInventory, inventoryItems[InventoryType.Material]);
+                    break;
+                case ItemType.Crystal:
+                    Initialize(CrystalInventory, inventoryItems[InventoryType.Crystal]);
+                    break;
+                default:
+                    Initialize(EquipmentInventory, inventoryItems[InventoryType.Equipment]);
+                    break;
+            }
+        }
+        else
+        {
+            InitializeAllInventory();
+        }
+
+        
+
     }
 
     public void Initialize(ScrollInventory container, List<Item> inventory)
@@ -274,7 +394,7 @@ public class InventoryBase : ItemWorkspace
 
     private bool CanCraft(List<Item> materials)
     {
-        return materials.All(i => EquipmentInventory.Items.Any(j => j.Hash == i.Hash && j.Count >= i.Count));
+        return materials.All(i => EquipmentInventory.Items.Any(j => j.Hash == i.Hash && j.count >= i.count));
     }
 
     public override void Refresh()
