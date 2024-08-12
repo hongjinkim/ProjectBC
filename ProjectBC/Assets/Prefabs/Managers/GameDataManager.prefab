@@ -44,7 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c7b985148d1874b887b8ee6f29ca30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  savePath: 
   _saveFilename: savegame.json
   _debugValues: 0
   _resetGame: 0
@@ -56,6 +55,7 @@ MonoBehaviour:
     itemCapacity: 200
     heroes:
     - character: {fileID: 0}
+      appliedTraits: []
       id: 1001
       equippedItemIds: []
       heroName: Warrior
@@ -70,7 +70,6 @@ MonoBehaviour:
       intelligence: 10
       stamina: 10
       energy: 0
-      hp: 200
       attackDamage: 10
       defense: 0
       magicResistance: 0
@@ -88,64 +87,15 @@ MonoBehaviour:
       criticalDamage: 150
       defensePenetration: 0
       spritePath: 
+      _hp: 200
       heroPage: {fileID: 0}
       hpLevel: 1
       strengthLevel: 1
       defenseLevel: 1
       masicResistanceLevel: 1
-      Weapon:
-        id: 
-        modifier:
-          id: 0
-          level: 0
-        stat:
-          basic: []
-          magic: []
-        luckyPercent: 0
-        luckyPoint: 0
-        battlePoint: 0
-        count: 0
-        isLocked: 0
-      Helmet:
-        id: 
-        modifier:
-          id: 0
-          level: 0
-        stat:
-          basic: []
-          magic: []
-        luckyPercent: 0
-        luckyPoint: 0
-        battlePoint: 0
-        count: 0
-        isLocked: 0
-      Armor:
-        id: 
-        modifier:
-          id: 0
-          level: 0
-        stat:
-          basic: []
-          magic: []
-        luckyPercent: 0
-        luckyPoint: 0
-        battlePoint: 0
-        count: 0
-        isLocked: 0
-      Leggings:
-        id: 
-        modifier:
-          id: 0
-          level: 0
-        stat:
-          basic: []
-          magic: []
-        luckyPercent: 0
-        luckyPoint: 0
-        battlePoint: 0
-        count: 0
-        isLocked: 0
+      EquippedItems: []
     - character: {fileID: 0}
+      appliedTraits: []
       id: 1002
       equippedItemIds: []
       heroName: Wizard
@@ -160,7 +110,6 @@ MonoBehaviour:
       intelligence: 10
       stamina: 10
       energy: 0
-      hp: 200
       attackDamage: 10
       defense: 0
       magicResistance: 0
@@ -178,64 +127,15 @@ MonoBehaviour:
       criticalDamage: 150
       defensePenetration: 0
       spritePath: 
+      _hp: 200
       heroPage: {fileID: 0}
       hpLevel: 1
       strengthLevel: 1
       defenseLevel: 1
       masicResistanceLevel: 1
-      Weapon:
-        id: 
-        modifier:
-          id: 0
-          level: 0
-        stat:
-          basic: []
-          magic: []
-        luckyPercent: 0
-        luckyPoint: 0
-        battlePoint: 0
-        count: 0
-        isLocked: 0
-      Helmet:
-        id: 
-        modifier:
-          id: 0
-          level: 0
-        stat:
-          basic: []
-          magic: []
-        luckyPercent: 0
-        luckyPoint: 0
-        battlePoint: 0
-        count: 0
-        isLocked: 0
-      Armor:
-        id: 
-        modifier:
-          id: 0
-          level: 0
-        stat:
-          basic: []
-          magic: []
-        luckyPercent: 0
-        luckyPoint: 0
-        battlePoint: 0
-        count: 0
-        isLocked: 0
-      Leggings:
-        id: 
-        modifier:
-          id: 0
-          level: 0
-        stat:
-          basic: []
-          magic: []
-        luckyPercent: 0
-        luckyPoint: 0
-        battlePoint: 0
-        count: 0
-        isLocked: 0
+      EquippedItems: []
     - character: {fileID: 0}
+      appliedTraits: []
       id: 1003
       equippedItemIds: []
       heroName: Wizard
@@ -250,7 +150,6 @@ MonoBehaviour:
       intelligence: 10
       stamina: 10
       energy: 0
-      hp: 200
       attackDamage: 10
       defense: 0
       magicResistance: 0
@@ -268,64 +167,15 @@ MonoBehaviour:
       criticalDamage: 150
       defensePenetration: 0
       spritePath: 
+      _hp: 200
       heroPage: {fileID: 0}
       hpLevel: 1
       strengthLevel: 1
       defenseLevel: 1
       masicResistanceLevel: 1
-      Weapon:
-        id: 
-        modifier:
-          id: 0
-          level: 0
-        stat:
-          basic: []
-          magic: []
-        luckyPercent: 0
-        luckyPoint: 0
-        battlePoint: 0
-        count: 0
-        isLocked: 0
-      Helmet:
-        id: 
-        modifier:
-          id: 0
-          level: 0
-        stat:
-          basic: []
-          magic: []
-        luckyPercent: 0
-        luckyPoint: 0
-        battlePoint: 0
-        count: 0
-        isLocked: 0
-      Armor:
-        id: 
-        modifier:
-          id: 0
-          level: 0
-        stat:
-          basic: []
-          magic: []
-        luckyPercent: 0
-        luckyPoint: 0
-        battlePoint: 0
-        count: 0
-        isLocked: 0
-      Leggings:
-        id: 
-        modifier:
-          id: 0
-          level: 0
-        stat:
-          basic: []
-          magic: []
-        luckyPercent: 0
-        luckyPoint: 0
-        battlePoint: 0
-        count: 0
-        isLocked: 0
+      EquippedItems: []
     - character: {fileID: 0}
+      appliedTraits: []
       id: 1004
       equippedItemIds: []
       heroName: Wizard
@@ -340,7 +190,6 @@ MonoBehaviour:
       intelligence: 10
       stamina: 10
       energy: 0
-      hp: 200
       attackDamage: 10
       defense: 0
       magicResistance: 0
@@ -358,65 +207,14 @@ MonoBehaviour:
       criticalDamage: 150
       defensePenetration: 0
       spritePath: 
+      _hp: 200
       heroPage: {fileID: 0}
       hpLevel: 1
       strengthLevel: 1
       defenseLevel: 1
       masicResistanceLevel: 1
-      Weapon:
-        id: 
-        modifier:
-          id: 0
-          level: 0
-        stat:
-          basic: []
-          magic: []
-        luckyPercent: 0
-        luckyPoint: 0
-        battlePoint: 0
-        count: 0
-        isLocked: 0
-      Helmet:
-        id: 
-        modifier:
-          id: 0
-          level: 0
-        stat:
-          basic: []
-          magic: []
-        luckyPercent: 0
-        luckyPoint: 0
-        battlePoint: 0
-        count: 0
-        isLocked: 0
-      Armor:
-        id: 
-        modifier:
-          id: 0
-          level: 0
-        stat:
-          basic: []
-          magic: []
-        luckyPercent: 0
-        luckyPoint: 0
-        battlePoint: 0
-        count: 0
-        isLocked: 0
-      Leggings:
-        id: 
-        modifier:
-          id: 0
-          level: 0
-        stat:
-          basic: []
-          magic: []
-        luckyPercent: 0
-        luckyPoint: 0
-        battlePoint: 0
-        count: 0
-        isLocked: 0
+      EquippedItems: []
     username: GUEST_123456
-    battlePoint: 0
     level: 1
     musicVolume: 80
     sfxVolume: 80
@@ -2388,3 +2186,4 @@ MonoBehaviour:
     StatId3: 0
     StatValueMin3: 0
     StatValueMax3: 0
+  battlePoint: 0

@@ -250,6 +250,7 @@ public class HeroInfo
         level++;
         currentExp -= neededExp;
         neededExp *= 1.2f;
+        attackDamage += 6;
         switch (characteristicType)
         {
             case CharacteristicType.Agility:
@@ -316,7 +317,6 @@ public class HeroInfo
 
     private int CalculateBattlePoint()
     {
-        // �� ������ ���� �뷱���� ���� �����ؾ� �� �� �ֽ��ϴ�.
         return hp * 2 + attackDamage * 2 + defense * 3 + magicResistance * 3 + level * 5 + strength * 2 + intelligence * 2 + agility * 2 + damageBlock * 3;
     }
     public void SelectTrait(TraitType traitType, int level, bool isLeft)
