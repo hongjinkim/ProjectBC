@@ -20,7 +20,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         HeroDeckPrefab = new List<GameObject>(new GameObject[maxDeckSize]);
 
-        heroManager = FindObjectOfType<HeroManager>();
+        heroManager = HeroManager.instance;
         Invoke("InitializeHeroPrefabs", 0.1f);
 
         // 초기 덱 상태 반영

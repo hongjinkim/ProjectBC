@@ -64,9 +64,7 @@ public class HeroInfo
     public PlayerSkill activeSkill;
     [JsonIgnore] private Sprite _sprite;
 
-    private Sprite _sprite;
-    [SerializeField]
-    private int _hp;
+    [SerializeField] private int _hp;
     public HeroPage heroPage;
 
     public event Action OnExperienceChanged;
@@ -82,14 +80,6 @@ public class HeroInfo
     // Equipment
     public List<Item> EquippedItems;
     public Dictionary<ItemType, Item> EquippedItemDictionary = new Dictionary<ItemType, Item>();
-
-    private void Start()
-    {
-        foreach(Item item in EquippedItems)
-        {
-            EquippedItemDictionary[item.Params.Type] = item;
-        }
-    }
 
     public HeroInfo(string name, HeroClass heroClass, int id, string imagePath)
     {
@@ -367,6 +357,14 @@ public class HeroInfo
     {
         selectedTraits.Clear();
         appliedTraitEffects.Clear();
+    }
+
+    public void MakeEquipmentDictionary()
+    {
+        foreach (Item item in EquippedItems)
+        {
+            EquippedItemDictionary[item.Params.Type] = item;
+        }
     }
 }
 public class AppliedTraitEffect

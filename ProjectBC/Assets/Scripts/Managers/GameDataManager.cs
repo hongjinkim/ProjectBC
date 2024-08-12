@@ -85,6 +85,11 @@ public class GameDataManager : MonoSingleton<GameDataManager>
             _playerInfo.LoadJson(jsonString);
         }
         MakeItemDictionary();
+
+        foreach(HeroInfo hero in _playerInfo.heroes)
+        {
+            hero.MakeEquipmentDictionary();
+        }
       
     }
     public void SaveGame()
