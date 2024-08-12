@@ -12,6 +12,9 @@ public class DungeonTheme : PopUp
 
     [Header("Texts")]
     public TextMeshProUGUI themeNameText;
+    [SerializeField] public TextMeshProUGUI[] stageNameTexts;
+    [SerializeField] private Image[] stageImages;
+    [SerializeField] private TextMeshProUGUI[] navigationProgressTexts;
 
     protected override void Awake()
     {
@@ -43,13 +46,27 @@ public class DungeonTheme : PopUp
         //ThemeName
         //adventurePopup.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = themeList[0]._themeName;
 
-        for (int i = 0; i < themeList.Count; i++)
+
+        //for (int i = 0; i < themeList.Count; i++)
+        //{
+        //    // StageSlots
+        //    //adventurePopup.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = themeList[i]._stageName;
+        //    //adventurePopup.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(i).GetChild(1).GetComponent<Image>().sprite = themeList[i]._stageImage;
+        //    //adventurePopup.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(i).GetChild(2).GetComponent<TextMeshProUGUI>().text = "탐색진도 : " + themeList[i]._navigationProgress;
+        //}
+
+        if (themeList.Count > 0)
         {
-            // StageSlots
-            //adventurePopup.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = themeList[i]._stageName;
-            //adventurePopup.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(i).GetChild(1).GetComponent<Image>().sprite = themeList[i]._stageImage;
-            //adventurePopup.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(i).GetChild(2).GetComponent<TextMeshProUGUI>().text = "탐색진도 : " + themeList[i]._navigationProgress;
+            themeNameText.text = themeList[0]._themeName;
         }
+
+        for (int i = 0; i < themeList.Count && i < stageNameTexts.Length; i++)
+        {
+            stageNameTexts[i].text = themeList[i]._stageName;
+            //stageImages[i].sprite = themeList[i]._stageImage;
+            navigationProgressTexts[i].text = "탐색진도 : " + themeList[i]._navigationProgress;
+        }
+
     }
 
 }

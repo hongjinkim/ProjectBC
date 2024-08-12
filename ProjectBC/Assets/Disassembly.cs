@@ -111,31 +111,12 @@ public class Disassembly : MonoBehaviour
             GetComponent<Text>().text = $"Selected items: {selectedItems.Count}";
         }
     }
-    // ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿?selectedItemsï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
     public List<Item> GetSelectedItems()
     {
-        return new List<Item>(selectedItems); // ï¿½ï¿½ï¿½çº» ï¿½ï¿½È¯
+        return new List<Item>(selectedItems);
     }
 
 
-
-    //public void ItemDisassembly()
-    //{
-    //    List<Item> itemsToRemove = new List<Item>(selectedItems);
-
-    //    foreach (Item item in itemsToRemove)
-    //    {
-    //        GameDataManager.instance.playerInfo.items.Remove(item);
-
-    //    }
-    //    DisassemblyReward();
-
-    //    selectedItems.Clear();
-    //    UpdateUI();
-    //    GameDataManager.instance.UpdateItem();
-
-    //    inventoryBase.InitializeInventory();
-    //}
     public void ItemDisassembly()
     {
         List<Item> itemsToDisassemble = new List<Item>();
@@ -192,10 +173,8 @@ public class Disassembly : MonoBehaviour
             }
         }
 
-        // ï¿½ï¿½ï¿?ï¿½ï¿½ï¿½ï¿½
-        GameDataManager.instance.playerInfo.gold += totalGold;
+        GameDataManager.instance.playerInfo.gold += totalGold * 5;
 
-        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         var inventory = GameDataManager.instance.playerInfo.items;
         foreach (var rewardItem in rewardItems)
         {
@@ -204,10 +183,6 @@ public class Disassembly : MonoBehaviour
             Debug.Log($"Gained {rewardItem.Value} of reward item (ID: {rewardItem.Key})");
         }
 
-        Debug.Log($"Gained {totalGold} gold from disassembly");
-
-        //GameDataManager.instance.UpdateFunds();
-        //GameDataManager.instance.UpdateItem();
         EventManager.TriggerEvent(EventType.FundsUpdated, null);
         EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { { "type", ItemType.Material } });
 
@@ -223,9 +198,7 @@ public class Disassembly : MonoBehaviour
     {
         if (item.isSelected && !item.isLocked)
         {
-            Debug.Log($"ºÐÇØ ½ÃÀÛ: {item.Params.Name}");
 
-            // ¾ÆÀÌÅÛ ºÐÇØ ¹× º¸»ó °è»ê
             int goldReward = item.Params.Price;
             RarityReward reward = rarityRewards.Find(r => r.rarity == item.Params.Rarity);
 
@@ -249,7 +222,6 @@ public class Disassembly : MonoBehaviour
                 Debug.Log($"È¹µæÇÑ °ñµå: {goldReward}");
                 Debug.Log($"È¹µæÇÑ Àç·á: {string.Join(", ", reward.rewardItemIds)} (°¢ {rewardAmount}°³)");
 
-                // ÀÎº¥Åä¸® ¹× UI ¾÷µ¥ÀÌÆ®
                 EventManager.TriggerEvent(EventType.FundsUpdated, null);
                 EventManager.TriggerEvent(EventType.ItemUpdated, null);
                 inventoryBase.InitializeInventory(null);

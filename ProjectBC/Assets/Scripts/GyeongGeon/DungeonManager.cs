@@ -11,6 +11,7 @@ public class DungeonManager : MonoSingleton<DungeonManager>
 
     //public PopupManager popupManager;
     public Dungeon _selectDungeon;
+    public DungeonTheme dungeonTheme;
 
     private MainUIManager _UIManager;
 
@@ -65,13 +66,14 @@ public class DungeonManager : MonoSingleton<DungeonManager>
         //popupManager.InitAdventurePopup(_themeList);
 
         SelectDungeon(0);
-
+        dungeonTheme.InitAdventurePopup(_themeList);
         //popupManager.adventurePopup.SetActive(true);
     }
 
     public void SelectDungeon(int index)
     {
         _selectDungeon = _themeList[index];
+        dungeonTheme.themeNameText.text = _themeList[index]._stageName.ToString();
     }
 
     public void EnterDungeon()
