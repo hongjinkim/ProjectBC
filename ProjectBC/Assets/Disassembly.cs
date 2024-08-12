@@ -225,7 +225,7 @@ public class Disassembly : MonoBehaviour
         //GameDataManager.instance.UpdateFunds();
         //GameDataManager.instance.UpdateItem();
         EventManager.TriggerEvent(EventType.FundsUpdated, null);
-        EventManager.TriggerEvent(EventType.ItemUpdated, null);
+        EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object>{ {"type", ItemType.Material } });
 
         inventoryBase.InitializeInventory(null);
     }
