@@ -33,6 +33,8 @@ public class HeroPotion : MonoBehaviour
 
     public static HeroPotion Instance { get; private set; }
 
+    private List<Item> potions = new List<Item>();
+
     private void Awake()
     {
         if (Instance == null)
@@ -67,12 +69,16 @@ public class HeroPotion : MonoBehaviour
             potionInfos[i].count.text = string.Empty;
         }
 
-        for (int i = 0; i < GameDataManager.instance.playerInfo.items.Count; i++)
+        if (GameDataManager.instance.itemDictionary.ContainsKey(ItemType.Usable))
         {
-            Item item = GameDataManager.instance.playerInfo.items[i];
-            int count = item.Count;
+            potions = GameDataManager.instance.itemDictionary[ItemType.Usable];
+        }
 
-            switch (item.id)
+        foreach(Item item in potions)
+        {
+            int count = item.count;
+
+            switch (item.Params.Id)
             {
                 case "Potion_Green_S":
                     potionInfos[0].count.text = count.ToString();

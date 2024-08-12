@@ -49,19 +49,22 @@ public class MagicPanel : MonoBehaviour, ITraitPanel
             int level = traitLevels[i / 2];
             bool isLeftTrait = i % 2 == 0;
 
-            traitButtons[i].interactable = currentHeroInfo.level >= level &&
-                !currentHeroInfo.IsTraitSelected(TraitType.Magic, level, !isLeftTrait);
+            bool isSelected = currentHeroInfo.IsTraitSelected(TraitType.Magic, level, isLeftTrait);
+            bool isOppositeSelected = currentHeroInfo.IsTraitSelected(TraitType.Magic, level, !isLeftTrait);
 
-            if (currentHeroInfo.IsTraitSelected(TraitType.Magic, level, isLeftTrait))
+            traitButtons[i].interactable = currentHeroInfo.level >= level && !isSelected && !isOppositeSelected;
+
+            if (isSelected)
             {
-                traitButtons[i].GetComponent<Image>().color = Color.green;
+                traitButtons[i].GetComponent<Image>().color = Color.yellow;
             }
             else
             {
                 traitButtons[i].GetComponent<Image>().color = Color.white;
             }
 
-            traitDescriptions[i].text = traitNames[i];
+            if (traitDescriptions != null && i < traitDescriptions.Length)
+                traitDescriptions[i].text = traitNames[i];
 
             int buttonIndex = i;
             traitButtons[i].onClick.RemoveAllListeners();
@@ -71,11 +74,21 @@ public class MagicPanel : MonoBehaviour, ITraitPanel
 
     private void OnTraitButtonClicked(int level, bool isLeftTrait, int buttonIndex)
     {
-        if (!currentHeroInfo.IsTraitSelected(TraitType.Magic, level, isLeftTrait))
+        if (!currentHeroInfo.IsTraitSelected(TraitType.Concentration, level, isLeftTrait))
         {
             magicTrait.ChooseTrait(level, isLeftTrait);
-            magicTrait.ApplyEffect(currentHeroInfo.character);
+
+            // Character가 없어도 효과를 저장
             currentHeroInfo.SelectTrait(TraitType.Magic, level, isLeftTrait);
+            currentHeroInfo.AddTraitEffect(TraitType.Magic, level, isLeftTrait,
+                character => magicTrait.ApplyEffect(character));
+
+            // Character가 있으면 즉시 적용
+            if (currentHeroInfo.character != null)
+            {
+                magicTrait.ApplyEffect(currentHeroInfo.character);
+            }
+
             UpdateTraitButtons();
         }
         else

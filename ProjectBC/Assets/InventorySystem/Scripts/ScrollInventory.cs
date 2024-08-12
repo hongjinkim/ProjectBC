@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,22 +28,32 @@ public class ScrollInventory : ItemContainer
     public TextMeshProUGUI ItemCount;
     public TextMeshProUGUI ItemCapacity;
 
-    public Func<Item, int> SortingFunc = item => TypePriority.IndexOf(item.Params.Type); // You can override this.
+    public Func<Item, int> SortingFunc = item => TypePriority.IndexOf(item.Params.Rarity); // You can override this.
     public Func<Item, bool> FilterFunc; // You can override this.
 
     public Action OnRefresh;
 
-    private static readonly List<ItemType> TypePriority = new List<ItemType>
+    //private static readonly List<ItemType> TypePriority = new List<ItemType>
+    //    {
+    //        ItemType.Weapon,
+    //        ItemType.Helmet,
+    //        ItemType.Armor,
+    //        ItemType.Vest,
+    //        ItemType.Bracers,
+    //        ItemType.Leggings,
+    //        ItemType.Shield,
+    //        ItemType.Backpack,
+    //        ItemType.Jewelry,
+    //    };
+    private static readonly List<ItemRarity> TypePriority = new List<ItemRarity>
         {
-            ItemType.Weapon,
-            ItemType.Helmet,
-            ItemType.Armor,
-            ItemType.Vest,
-            ItemType.Bracers,
-            ItemType.Leggings,
-            ItemType.Shield,
-            ItemType.Backpack,
-            ItemType.Jewelry,
+            ItemRarity.Legendary,
+            ItemRarity.Epic,
+            ItemRarity.Rare,
+            ItemRarity.Common,
+            ItemRarity.Basic,
+            ItemRarity.Legacy,
+
         };
     private readonly List<InventoryItem> _itemInstances = new List<InventoryItem>(); // Reusing instances to reduce Instantiate() calls.
 
@@ -103,11 +114,11 @@ public class ScrollInventory : ItemContainer
         {
             items = new List<Item>();
 
-            var groups = Items.OrderBy(SortingFunc).ToList().GroupBy(i => i.Params.Type);
+            var groups = Items.OrderBy(SortingFunc).ToList().GroupBy(i => i.Params.Rarity);
 
             foreach (var group in groups)
             {
-                items.AddRange(group.OrderBy(i => i.Params.Class).ThenBy(i => i.Params.Price));
+                items.AddRange(group.OrderBy(i => i.Params.Type).ThenBy(i => i.Params.Price));
             }
         }
         else

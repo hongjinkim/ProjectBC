@@ -467,7 +467,6 @@ public class Dungeon : MonoBehaviour
                 else
                 {
                     var item = new Item(i.id);
-                    item = RandomStat(item);
 
                     droppedItems.Add(item);
 
@@ -493,37 +492,16 @@ public class Dungeon : MonoBehaviour
         }
 
         // 아이템 획득
-        var inventory = GameDataManager.instance.playerInfo.items;
         if (droppedItems != null)
         {
             foreach (Item item in droppedItems)
             {
-                if (item.Params.Type == ItemType.Usable || item.Params.Type == ItemType.Material || item.Params.Type == ItemType.Crystal || item.Params.Type == ItemType.Exp)
-                {
-                    bool hasItem = false; 
-                    foreach (Item _item in inventory)
-                    {
-                        if (item.Params.Id == _item.Params.Id)
-                        {
-                            _item.Count++;
-                            hasItem = true;
-                            break;
-                        }
-                    }
-                    if (!hasItem)
-                    {
-                        EventManager.TriggerEvent(EventType.ItemPickup, new Dictionary<string, object> { { "item", (string)(item.Params.Name + "을(를) 획득 했습니다") } });
-                        inventory.Add(item);
-                    }
-
-                }
-                else
-                {
-                    EventManager.TriggerEvent(EventType.ItemPickup, new Dictionary<string, object> { { "item", (string)(item.Params.Name + "을(를) 획득 했습니다") } });
-                    inventory.Add(item);
-                }
+                GameDataManager.instance.AddItem(item);
+                EventManager.TriggerEvent(EventType.ItemPickup, new Dictionary<string, object> { { "item", (string)(item.Params.Name + "을(를) 획득 했습니다") } });
+                EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { { "type", item.Params.Type} });
+                       
             }
-            EventManager.TriggerEvent(EventType.ItemUpdated, null);
+            
         }
 
         // 필드 위애 아이템 표시 모두 제거
@@ -549,32 +527,7 @@ public class Dungeon : MonoBehaviour
     }
     
 
-    public Item RandomStat(Item item)
-    {
-        if (item.IsEquipment)
-        {
-            var statData = GameDataManager.instance.equipmentStatData[item.Params.Index];
-            item.Stat = new Stat(statData.BasicStats);
-
-            for(int i = 0; i < item.Stat.basic.Count; i++)
-            {
-                item.LuckyPoint += item.Stat.basic[i].value - item.Stat.basic[i].minValue;
-                item.LuckyPercent += item.LuckyPoint*100 / item.Stat.basic[i].maxValue / item.Stat.basic.Count;
-            }
-
-            var rarity = item.Params.Rarity;
-            List<MagicStat> enumValues = new List<MagicStat>((MagicStat[])Enum.GetValues(typeof(MagicStat)));
-
-            for (int i = 0; i<= (int)(rarity); i++)
-            {
-                var randomIndex = Random.Range(0, enumValues.Count);
-
-                item.Stat.magic.Add(new Magic { id = (MagicStat)enumValues[randomIndex], value = 1/*추후 값  수정*/}) ;
-                enumValues.RemoveAt(randomIndex);
-            }
-        }
-        return item;
-    }
+    
 
     
 

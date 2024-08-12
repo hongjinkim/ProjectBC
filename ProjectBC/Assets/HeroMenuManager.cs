@@ -17,7 +17,8 @@ public class HeroMenuManager : MonoBehaviour
     public Button PotionEquipmentCloseButton;
     public Transform HeroScreen_Equipment;
 
-    
+
+
     private void Awake()
     {
         EquipmentMenu.SetAsLastSibling();

@@ -1,6 +1,9 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using static UnityEditor.Progress;
+using Unity.VisualScripting;
 
 public class HeroPage : HeroScreen
 {
@@ -13,6 +16,13 @@ public class HeroPage : HeroScreen
     [SerializeField] private HeroInfo _info;
     private Hero _currentHero;
     public int _idx;
+
+    [Header("ItemSlots")]
+    public ItemSlot Weapon;
+    public ItemSlot Helmet;
+    public ItemSlot Armor;
+    public ItemSlot Leggings;
+
 
     [Header("Images")]
     public Image characterImage;
@@ -32,6 +42,11 @@ public class HeroPage : HeroScreen
     [SerializeField] private HeroPotion heroPotion;
     [SerializeField] private PlayerInfoBar playerInfoBar;
 
+
+    [Header("Buttons")]
+    public Button FastEquipButton;
+    public Button UnEquipButton;
+
     public void Start()
     {
         if (attributeUI == null)
@@ -50,6 +65,9 @@ public class HeroPage : HeroScreen
     {
         _info.OnExperienceChanged += GaugeBarUpdate;
         _info.OnLevelUp += GaugeBarUpdate;
+
+        FastEquipButton.onClick.AddListener(FastEquip);
+        UnEquipButton.onClick.AddListener(UnEquip);
     }
 
     private void OnDisable()
@@ -130,33 +148,32 @@ public class HeroPage : HeroScreen
 
     public bool UseExpScroll(string scrollType)
     {
-        var ExpItem = GameDataManager.instance.playerInfo.items;
+        var ExpItem = GameDataManager.instance.itemDictionary[ItemType.Exp];
 
-        for (int i = 0; i < ExpItem.Count; i++)
+        foreach (Item item in ExpItem)
         {
-            if (ExpItem[i].id == scrollType)
+            
+            if (item.count > 0)
             {
-                if (ExpItem[i].Count > 0)
+                item.count--;
+
+                //GameDataManager.instance.UpdateItem();
+                //GameDataManager.instance.UpdateFunds();
+                EventManager.TriggerEvent(EventType.FundsUpdated, null);
+                EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { {"type", ItemType.Exp } });
+
+                if (ExpScroll.Instance != null)
                 {
-                    ExpItem[i].Count--;
-
-                    //GameDataManager.instance.UpdateItem();
-                    //GameDataManager.instance.UpdateFunds();
-                    EventManager.TriggerEvent(EventType.FundsUpdated, null);
-                    EventManager.TriggerEvent(EventType.ItemUpdated, null);
-
-                    if (ExpScroll.Instance != null)
-                    {
-                        ExpScroll.Instance.UpdateExpScrollCount();
-                    }
-
-                    if (ExpItem[i].Count == 0)
-                    {
-                        ExpItem.RemoveAt(i);
-                    }
-                    return true;
+                    ExpScroll.Instance.UpdateExpScrollCount();
                 }
+
+                if (item.count == 0)
+                {
+                    GameDataManager.instance.RemoveItem(item);
+                }
+                return true;
             }
+            
         }
         return false;
     }
@@ -261,6 +278,242 @@ public class HeroPage : HeroScreen
 
         //GameDataManager.instance.UpdateBattlePoint();
         EventManager.TriggerEvent(EventType.BattlePointUpdated, null);
+        int battlePoint = CalculateBattlePoint(_info);
+        BattlePointText.text = battlePoint.ToString();
+
+        UpdateEquipment();
+
+    }
+
+    private void UpdateEquipment()
+    {
+        UpdateWeapon();
+        UpdateHelmet();
+        UpdateArmor();
+        UpdateLeggings();
+    }
+
+    private void UpdateWeapon()
+    {
+        if(_info.EquippedItemDictionary.ContainsKey(ItemType.Weapon))  
+        {
+            Weapon.icon.sprite = ItemCollection.active.GetItemIcon(_info.EquippedItemDictionary[ItemType.Weapon])?.sprite;
+            Weapon.icon.color = Color.white;
+            Weapon.background.sprite = ItemCollection.active.GetBackground(_info.EquippedItemDictionary[ItemType.Weapon]) ?? ItemCollection.active.backgroundBrown;
+            Weapon.background.color = Color.white;
+        }
+        else
+        {
+            Weapon.icon.sprite = Weapon.BaseSprite;
+            Weapon.icon.color = new Color32(0, 0, 0, 100);
+            Weapon.background.sprite = ItemCollection.active.backgroundBrown;
+        }
+    }
+    private void UpdateHelmet()
+    {
+        if (_info.EquippedItemDictionary.ContainsKey(ItemType.Helmet))
+        {
+            Helmet.icon.sprite = ItemCollection.active.GetItemIcon(_info.EquippedItemDictionary[ItemType.Helmet])?.sprite;
+            Helmet.icon.color = Color.white;
+            Helmet.background.sprite = ItemCollection.active.GetBackground(_info.EquippedItemDictionary[ItemType.Helmet]) ?? ItemCollection.active.backgroundBrown;
+            Helmet.background.color = Color.white;
+        }
+        else
+        {
+            Helmet.icon.sprite = Helmet.BaseSprite;
+            Helmet.icon.color = new Color32(0, 0, 0, 100);
+            Helmet.background.sprite = ItemCollection.active.backgroundBrown;
+        }
+    }
+    private void UpdateArmor()
+    {
+        if (_info.EquippedItemDictionary.ContainsKey(ItemType.Armor))
+        {
+            Armor.icon.sprite = ItemCollection.active.GetItemIcon(_info.EquippedItemDictionary[ItemType.Armor])?.sprite;
+            Armor.icon.color = Color.white;
+            Armor.background.sprite = ItemCollection.active.GetBackground(_info.EquippedItemDictionary[ItemType.Armor]) ?? ItemCollection.active.backgroundBrown;
+            Armor.background.color = Color.white;
+        }
+        else
+        {
+            Armor.icon.sprite = Armor.BaseSprite;
+            Armor.icon.color = new Color32(0, 0, 0, 100);
+            Armor.background.sprite = ItemCollection.active.backgroundBrown;
+        }
+    }
+    private void UpdateLeggings()
+    {
+        if (_info.EquippedItemDictionary.ContainsKey(ItemType.Leggings))
+        {
+            Leggings.icon.sprite = ItemCollection.active.GetItemIcon(_info.EquippedItemDictionary[ItemType.Leggings])?.sprite;
+            Leggings.icon.color = Color.white;
+            Leggings.background.sprite = ItemCollection.active.GetBackground(_info.EquippedItemDictionary[ItemType.Leggings]) ?? ItemCollection.active.backgroundBrown;
+            Leggings.background.color = Color.white;
+        }
+        else
+        {
+            Leggings.icon.sprite = Leggings.BaseSprite;
+            Leggings.icon.color = new Color32(0, 0, 0, 100);
+            Leggings.background.sprite = ItemCollection.active.backgroundBrown;
+        }
+    }
+
+    private void FastEquip()
+    {
+        if(GameDataManager.instance.itemDictionary.ContainsKey(ItemType.Weapon))
+        {
+            var item = FindBestItem(GameDataManager.instance.itemDictionary[ItemType.Weapon]);
+            if (!_info.EquippedItemDictionary.ContainsKey(ItemType.Weapon))
+            {
+                var i = item.Clone();
+                _info.EquippedItems.Add(i);
+                _info.EquippedItemDictionary[ItemType.Weapon] = i;
+                GameDataManager.instance.RemoveItem(item);
+            }
+            else
+            {
+                if(_info.EquippedItemDictionary[ItemType.Weapon].battlePoint < item.battlePoint)
+                {
+                    GameDataManager.instance.AddItem(_info.EquippedItemDictionary[ItemType.Weapon]);
+                    _info.EquippedItems.Remove(_info.EquippedItemDictionary[ItemType.Weapon]);
+
+                    var i = item.Clone();
+                    _info.EquippedItems.Add(i);
+                    _info.EquippedItemDictionary[ItemType.Weapon] = i;
+                    GameDataManager.instance.RemoveItem(item);
+                }
+            }
+            UpdateWeapon();
+        }
+        if (GameDataManager.instance.itemDictionary.ContainsKey(ItemType.Helmet))
+        {
+            var item = FindBestItem(GameDataManager.instance.itemDictionary[ItemType.Helmet]);
+            if (!_info.EquippedItemDictionary.ContainsKey(ItemType.Helmet))
+            {
+                var i = item.Clone();
+                _info.EquippedItems.Add(i);
+                _info.EquippedItemDictionary[ItemType.Helmet] = i;
+                GameDataManager.instance.RemoveItem(item);
+            }
+            else
+            {
+                if (_info.EquippedItemDictionary[ItemType.Helmet].battlePoint < item.battlePoint)
+                {
+                    GameDataManager.instance.AddItem(_info.EquippedItemDictionary[ItemType.Helmet]);
+                    _info.EquippedItems.Remove(_info.EquippedItemDictionary[ItemType.Helmet]);
+
+                    var i = item.Clone();
+                    _info.EquippedItems.Add(i);
+                    _info.EquippedItemDictionary[ItemType.Helmet] = i;
+                    GameDataManager.instance.RemoveItem(item);
+                }
+            }
+            UpdateHelmet();
+        }
+        if (GameDataManager.instance.itemDictionary.ContainsKey(ItemType.Armor))
+        {
+            var item = FindBestItem(GameDataManager.instance.itemDictionary[ItemType.Armor]);
+            if (!_info.EquippedItemDictionary.ContainsKey(ItemType.Armor))
+            {
+                var i = item.Clone();
+                _info.EquippedItems.Add(i);
+                _info.EquippedItemDictionary[ItemType.Armor] = i;
+                GameDataManager.instance.RemoveItem(item);
+            }
+            else
+            {
+                if (_info.EquippedItemDictionary[ItemType.Armor].battlePoint < item.battlePoint)
+                {
+                    GameDataManager.instance.AddItem(_info.EquippedItemDictionary[ItemType.Armor]);
+                    _info.EquippedItems.Remove(_info.EquippedItemDictionary[ItemType.Armor]);
+
+                    var i = item.Clone();
+                    _info.EquippedItems.Add(i);
+                    _info.EquippedItemDictionary[ItemType.Armor] = i;
+                    GameDataManager.instance.RemoveItem(item);
+                }
+            }
+            UpdateArmor();
+        }
+        if (GameDataManager.instance.itemDictionary.ContainsKey(ItemType.Leggings))
+        {
+            var item = FindBestItem(GameDataManager.instance.itemDictionary[ItemType.Leggings]);
+            if (!_info.EquippedItemDictionary.ContainsKey(ItemType.Leggings))
+            {
+                var i = item.Clone();
+                _info.EquippedItems.Add(i);
+                _info.EquippedItemDictionary[ItemType.Leggings] = i;
+                GameDataManager.instance.RemoveItem(item);
+            }
+            else
+            {
+                if (_info.EquippedItemDictionary[ItemType.Leggings].battlePoint < item.battlePoint)
+                {
+                    GameDataManager.instance.AddItem(_info.EquippedItemDictionary[ItemType.Leggings]);
+                    _info.EquippedItems.Remove(_info.EquippedItemDictionary[ItemType.Leggings]);
+
+                    var i = item.Clone();
+                    _info.EquippedItems.Add(i);
+                    _info.EquippedItemDictionary[ItemType.Leggings] = i;
+                    GameDataManager.instance.RemoveItem(item);
+                }
+            }
+            UpdateLeggings();
+        }
+
+    }
+
+    private void UnEquip()
+    {
+        if (_info.EquippedItemDictionary.ContainsKey(ItemType.Weapon))
+        {
+            GameDataManager.instance.AddItem(_info.EquippedItemDictionary[ItemType.Weapon].Clone());
+            _info.EquippedItems.Remove(_info.EquippedItemDictionary[ItemType.Weapon]);
+            _info.EquippedItemDictionary.Remove(ItemType.Weapon);
+            UpdateWeapon();
+        }
+        if (_info.EquippedItemDictionary.ContainsKey(ItemType.Helmet))
+        {
+            GameDataManager.instance.AddItem(_info.EquippedItemDictionary[ItemType.Helmet].Clone());
+            _info.EquippedItems.Remove(_info.EquippedItemDictionary[ItemType.Helmet]);
+            _info.EquippedItemDictionary.Remove(ItemType.Helmet);
+            UpdateHelmet();
+        }
+        if (_info.EquippedItemDictionary.ContainsKey(ItemType.Armor))
+        {
+            GameDataManager.instance.AddItem(_info.EquippedItemDictionary[ItemType.Armor].Clone());
+            _info.EquippedItems.Remove(_info.EquippedItemDictionary[ItemType.Armor]);
+            _info.EquippedItemDictionary.Remove(ItemType.Armor);
+            UpdateArmor();
+        }
+        if (_info.EquippedItemDictionary.ContainsKey(ItemType.Leggings))
+        {
+            GameDataManager.instance.AddItem(_info.EquippedItemDictionary[ItemType.Leggings].Clone());
+            _info.EquippedItems.Remove(_info.EquippedItemDictionary[ItemType.Leggings]);
+            _info.EquippedItemDictionary.Remove(ItemType.Leggings);
+            UpdateLeggings();
+        }
+    }
+
+    private Item FindBestItem(List<Item> items)
+    {
+        int max = 0;
+        Item result = null;
+        foreach(Item item in items)
+        {
+            if(max < item.battlePoint)
+            {
+                max = item.battlePoint;
+                result = item;
+            }
+        }
+        return result;
+    }
+
+    private int CalculateBattlePoint(HeroInfo hero)
+    {
+        // �� ������ ���� �뷱���� ���� �����ؾ� �� �� �ֽ��ϴ�.
+        return hero.hp / 10 + hero.attackDamage * 2 + hero.defense * 3 + hero.magicResistance * 3 + hero.level * 5;
     }
 
 }

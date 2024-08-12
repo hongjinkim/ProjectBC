@@ -1,16 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+using System.IO;
 using static DB;
 using static JsonHelper;
 using Unity.VisualScripting;
 
 public class GameDataManager : MonoSingleton<GameDataManager>
 {
-    [SerializeField] private string savePath;
+    [SerializeField] private static string savePath => Application.persistentDataPath;
 
-    [SerializeField] private string _saveFilename = "savegame.dat";
+    [SerializeField] private string _saveFilename = "savegame.json";
 
     [SerializeField] private bool _debugValues;
     [SerializeField] private bool _resetGame;
@@ -38,6 +38,8 @@ public class GameDataManager : MonoSingleton<GameDataManager>
     {
         EventManager.StopListening(EventType.BattlePointUpdated, CalcBattlePoint);
     }
+    public Dictionary<ItemType, List<Item>> itemDictionary;
+
     void OnApplicationQuit()
     {
         SaveGame();
@@ -50,13 +52,13 @@ public class GameDataManager : MonoSingleton<GameDataManager>
 
     public override void Init()
     {
-        savePath = Application.persistentDataPath;
+        ItemCollection.active = itemCollection;
         //InitializeHeroes();
 
         LoadGame();
 
         
-        ItemCollection.active = itemCollection;
+        
     }
 
     void Start()
@@ -76,43 +78,19 @@ public class GameDataManager : MonoSingleton<GameDataManager>
         if (_playerInfo == null || _resetGame)
         {
             _playerInfo = NewGame();
+
         }
         else if (FileManager.LoadFromFile(_saveFilename, out var jsonString))
         {
             _playerInfo.LoadJson(jsonString);
         }
-
-        // È÷¾î·Î µ¥ÀÌÅÍ ·Îµå (Ãß°¡)
-        //if (FileManager.LoadFromFile("heroes_" + _saveFilename, out var heroesJsonString))
-        //{
-        //    _playerInfo.LoadHeroesFromJson(heroesJsonString);
-
-        //    if (_debugValues)
-        //    {
-        //        Debug.Log("SaveManager.LoadGame: heroes_" + _saveFilename + " json string: " + heroesJsonString);
-        //    }
-        //}
-
-        // notify other game objects 
-        if (_playerInfo != null)
-        {
-            //EventManager.instance.GameDataLoaded?.Invoke(_playerInfo);
-            //HeroesUpdated?.Invoke(_playerInfo.heroes); // Ãß°¡
-        }
+        MakeItemDictionary();
+      
     }
     public void SaveGame()
     {
         string jsonFile = _playerInfo.ToJson();
-        //string heroesJson = _playerInfo.HeroesToJson(); // Ãß°¡
-
-        // save to disk with FileDataHandler
-        if (FileManager.WriteToFile(_saveFilename, jsonFile)/* &&
-            FileManager.WriteToFile("heroes_" + _saveFilename, heroesJson)*/ && // Ãß°¡
-            _debugValues)
-        {
-
-            //Debug.Log("SaveManager.SaveGame: heroes_" + _saveFilename + " json string: " + heroesJson); // Ãß°¡
-        }
+        FileManager.WriteToFile(_saveFilename, jsonFile);
     }
 
     //void OnSettingsShown()
@@ -209,7 +187,7 @@ public class GameDataManager : MonoSingleton<GameDataManager>
         };
     }
 
-    // È÷¾î·Î °ü·Ã ¸Þ¼­µå (Ãß°¡)
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ (ï¿½ß°ï¿½)
     //public List<HeroInfo> GetAllHeroes()
     //{
     //    if (_playerInfo == null || _playerInfo.heroes == null)
@@ -253,11 +231,98 @@ public class GameDataManager : MonoSingleton<GameDataManager>
     //}
     private void CalcBattlePoint(Dictionary<string, object> message)
     {
-        // ÀüÃ¼ ¿µ¿õÀÇ ¹èÆ²Æ÷ÀÎÆ® ÇÕ°è¸¦ °è»ê
+        // ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ²ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Õ°è¸¦ ï¿½ï¿½ï¿½
         battlePoint = 0;
         foreach (var hero in _playerInfo.heroes)
         {
             battlePoint += hero.battlePoint;
         }
     }
+
+    private void MakeItemDictionary()
+    {
+        itemDictionary = new Dictionary<ItemType, List<Item>>();
+        foreach(Item item in _playerInfo.items)
+        {
+            if (!itemDictionary.ContainsKey(item.Params.Type))
+            {
+                itemDictionary[item.Params.Type] = new List<Item>();
+            }
+
+            itemDictionary[item.Params.Type].Add(item);
+        }
+    }
+
+    public void AddItem(Item item, int amount = 1)
+    {
+        _playerInfo.items.Add(item);
+
+        if (!itemDictionary.ContainsKey(item.Params.Type))
+        {
+            itemDictionary[item.Params.Type] = new List<Item>();
+        }
+        if (item.IsCanStacked)
+        {
+            bool hasItem = false;
+            foreach (Item _item in itemDictionary[item.Params.Type])
+            {
+                if (item.Params.Id == _item.Params.Id)
+                {
+                    _item.count+=amount;
+                    hasItem = true;
+                    break;
+                }
+            }
+            if (!hasItem)
+            {
+                itemDictionary[item.Params.Type].Add(item);
+            }
+        }
+        else
+        {
+            itemDictionary[item.Params.Type].Add(item);
+        }
+
+        EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { { "type", item.Params.Type } });
+    }
+
+    public void RemoveItem(Item item, int amount = 1)
+    {
+        _playerInfo.items.Remove(item);
+
+        if (item.IsCanStacked)
+        {
+            foreach (Item _item in itemDictionary[item.Params.Type])
+            {
+                if (item.Params.Id == _item.Params.Id)
+                {
+                    if(amount < _item.count)
+                        _item.count-=amount;
+                    else
+                    {
+                        Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
+                    }
+                    if (_item.count <=0)
+                    {
+                        itemDictionary[item.Params.Type].Remove(item);
+                    }
+                    break;
+                }
+            }
+        }
+        else
+        {
+            itemDictionary[item.Params.Type].Remove(item);
+        }
+
+        if (itemDictionary[item.Params.Type].Count == 0)
+        {
+            itemDictionary.Remove(item.Params.Type);
+        }
+
+        EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { { "type", item.Params.Type } });
+    }
+
+    
+
 }

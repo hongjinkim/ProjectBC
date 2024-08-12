@@ -11,6 +11,7 @@ public class HeroInfo
     public Dictionary<TraitType, Dictionary<int, bool>> selectedTraits = new Dictionary<TraitType, Dictionary<int, bool>>();
     public Character character;
     public List<AppliedTrait> appliedTraits = new List<AppliedTrait>();
+    public List<AppliedTraitEffect> appliedTraitEffects = new List<AppliedTraitEffect>();
     public int id; // �߰�
     public List<string> equippedItemIds = new List<string>(); // �߰�
     public string heroName;
@@ -61,6 +62,7 @@ public class HeroInfo
     public List<Trait> traits = new List<Trait>();
     public List<PlayerSkill> skills = new List<PlayerSkill>();
     public PlayerSkill activeSkill;
+    [JsonIgnore] private Sprite _sprite;
 
     private Sprite _sprite;
     [SerializeField]
@@ -76,6 +78,19 @@ public class HeroInfo
     public int strengthLevel = 1;
     public int defenseLevel = 1;
     public int masicResistanceLevel = 1;
+
+    // Equipment
+    public List<Item> EquippedItems;
+    public Dictionary<ItemType, Item> EquippedItemDictionary = new Dictionary<ItemType, Item>();
+
+    private void Start()
+    {
+        foreach(Item item in EquippedItems)
+        {
+            EquippedItemDictionary[item.Params.Type] = item;
+        }
+    }
+
     public HeroInfo(string name, HeroClass heroClass, int id, string imagePath)
     {
         this.id = id;
@@ -109,6 +124,9 @@ public class HeroInfo
         this.criticalDamage = 150;//ũ��Ƽ�õ�����
         this.defensePenetration = 0;//������
         // attackRange�� characteristicType�� ���⼭ �������� ����
+
+        EquippedItems = new List<Item>();
+
         InitializeTraits();
     }
     private void InitializeTraits()
@@ -135,6 +153,7 @@ public class HeroInfo
     //{
     //    return Resources.Load<Sprite>(imagePath);
     //}
+    [JsonIgnore]
     public Sprite Sprite
     {
         get
@@ -303,6 +322,13 @@ public class HeroInfo
     {
         activeSkill = skill;
     }
+ 
+
+    private int CalculateBattlePoint()
+    {
+        // �� ������ ���� �뷱���� ���� �����ؾ� �� �� �ֽ��ϴ�.
+        return hp * 2 + attackDamage * 2 + defense * 3 + magicResistance * 3 + level * 5 + strength * 2 + intelligence * 2 + agility * 2 + damageBlock * 3;
+    }
     public void SelectTrait(TraitType traitType, int level, bool isLeft)
     {
         if (!selectedTraits.ContainsKey(traitType))
@@ -323,9 +349,43 @@ public class HeroInfo
         }
         return false;
     }
-    private int CalculateBattlePoint()
+
+    public void AddTraitEffect(TraitType traitType, int level, bool isLeft, Action<Character> effect)
     {
-        // �� ������ ���� �뷱���� ���� �����ؾ� �� �� �ֽ��ϴ�.
-        return hp * 2 + attackDamage * 2 + defense * 3 + magicResistance * 3 + level * 5 + strength * 2 + intelligence * 2 + agility * 2 + damageBlock * 3;
+        appliedTraitEffects.Add(new AppliedTraitEffect(traitType, level, isLeft, effect));
+    }
+
+    public void ApplyTraitEffects(Character character)
+    {
+        foreach (var effect in appliedTraitEffects)
+        {
+            effect.Apply(character);
+        }
+    }
+
+    public void ClearTraits()
+    {
+        selectedTraits.Clear();
+        appliedTraitEffects.Clear();
+    }
+}
+public class AppliedTraitEffect
+{
+    public TraitType TraitType;
+    public int Level;
+    public bool IsLeft;
+    public Action<Character> Effect;
+
+    public AppliedTraitEffect(TraitType traitType, int level, bool isLeft, Action<Character> effect)
+    {
+        TraitType = traitType;
+        Level = level;
+        IsLeft = isLeft;
+        Effect = effect;
+    }
+
+    public void Apply(Character character)
+    {
+        Effect(character);
     }
 }
