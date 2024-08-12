@@ -131,6 +131,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8387894457836309445}
   - component: {fileID: 4846417198128392726}
+  - component: {fileID: 101507660857116444}
   m_Layer: 5
   m_Name: CampScreen
   m_TagString: Untagged
@@ -179,6 +180,20 @@ MonoBehaviour:
   pvpButton: {fileID: 1581700706846182252}
   stoneButton: {fileID: 4134322279180819726}
   dailyDungeonButton: {fileID: 8454495098053404260}
+--- !u!114 &101507660857116444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1367605692196587613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &1543384621520709233
 GameObject:
   m_ObjectHideFlags: 0

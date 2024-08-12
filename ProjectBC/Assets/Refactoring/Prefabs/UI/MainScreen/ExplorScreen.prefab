@@ -375,7 +375,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8257546289132262757}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: DungeonManager, Assembly-CSharp
+        m_MethodName: OpenAdventurePopup
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: D
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1853275066818921676
 GameObject:
   m_ObjectHideFlags: 0
@@ -1790,7 +1802,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8862610984443910241}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: DungeonManager, Assembly-CSharp
+        m_MethodName: OpenAdventurePopup
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: B
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3806539257333355125
 GameObject:
   m_ObjectHideFlags: 0
@@ -2300,7 +2324,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6911155072737487582}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: DungeonManager, Assembly-CSharp
+        m_MethodName: OpenAdventurePopup
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: C
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5596980806227145242
 GameObject:
   m_ObjectHideFlags: 0
@@ -2311,6 +2347,7 @@ GameObject:
   m_Component:
   - component: {fileID: 900090947660744648}
   - component: {fileID: 2205671800346355451}
+  - component: {fileID: 5143767234131034400}
   m_Layer: 5
   m_Name: ExplorScreen
   m_TagString: Untagged
@@ -2353,6 +2390,23 @@ MonoBehaviour:
   _screenName: ExploreScreen
   _UIManager: {fileID: 0}
   stage1: {fileID: 2941045440049514803}
+  stage2: {fileID: 576154236168125068}
+  stage3: {fileID: 3884390744440979915}
+  stage4: {fileID: 6232199366469396710}
+--- !u!114 &5143767234131034400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5596980806227145242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &5862764721050870684
 GameObject:
   m_ObjectHideFlags: 0
