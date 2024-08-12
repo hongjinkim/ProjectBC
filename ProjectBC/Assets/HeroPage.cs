@@ -275,7 +275,7 @@ public class HeroPage : HeroScreen
         BattlePointText.text = _info.battlePoint.ToString();
 
         //GameDataManager.instance.UpdateBattlePoint();
-        EventManager.TriggerEvent(EventType.BattlePointUpdated, null);
+        //EventManager.TriggerEvent(EventType.BattlePointUpdated, null);
         int battlePoint = CalculateBattlePoint(_info);
         BattlePointText.text = battlePoint.ToString();
 
@@ -306,6 +306,7 @@ public class HeroPage : HeroScreen
             Weapon.icon.color = new Color32(0, 0, 0, 100);
             Weapon.background.sprite = ItemCollection.active.backgroundBrown;
         }
+        EventManager.TriggerEvent(EventType.BattlePointUpdated, null);
     }
     private void UpdateHelmet()
     {
@@ -322,6 +323,7 @@ public class HeroPage : HeroScreen
             Helmet.icon.color = new Color32(0, 0, 0, 100);
             Helmet.background.sprite = ItemCollection.active.backgroundBrown;
         }
+        EventManager.TriggerEvent(EventType.BattlePointUpdated, null);
     }
     private void UpdateArmor()
     {
@@ -338,6 +340,7 @@ public class HeroPage : HeroScreen
             Armor.icon.color = new Color32(0, 0, 0, 100);
             Armor.background.sprite = ItemCollection.active.backgroundBrown;
         }
+        EventManager.TriggerEvent(EventType.BattlePointUpdated, null);
     }
     private void UpdateLeggings()
     {
@@ -354,6 +357,7 @@ public class HeroPage : HeroScreen
             Leggings.icon.color = new Color32(0, 0, 0, 100);
             Leggings.background.sprite = ItemCollection.active.backgroundBrown;
         }
+        EventManager.TriggerEvent(EventType.BattlePointUpdated, null);
     }
 
     private void FastEquip()

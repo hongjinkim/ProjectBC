@@ -94,6 +94,7 @@ public class Hero : Character
     {
         // 레벨업 시 수행할 작업...
         info.ApplyTraits(this);
+        EventManager.TriggerEvent(EventType.BattlePointUpdated, null);
     }
     private void OnTraitSelectionAvailable(int level)
     {
