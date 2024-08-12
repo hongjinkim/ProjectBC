@@ -83,12 +83,14 @@ public class ConcentrationPanel : MonoBehaviour, ITraitPanel
             int level = traitLevels[i / 2];
             bool isLeftTrait = i % 2 == 0;
 
-            traitButtons[i].interactable = currentHeroInfo.level >= level &&
-                !currentHeroInfo.IsTraitSelected(TraitType.Concentration, level, !isLeftTrait);
+            bool isSelected = currentHeroInfo.IsTraitSelected(TraitType.Concentration, level, isLeftTrait);
+            bool isOppositeSelected = currentHeroInfo.IsTraitSelected(TraitType.Concentration, level, !isLeftTrait);
 
-            if (currentHeroInfo.IsTraitSelected(TraitType.Concentration, level, isLeftTrait))
+            traitButtons[i].interactable = currentHeroInfo.level >= level && !isSelected && !isOppositeSelected;
+
+            if (isSelected)
             {
-                traitButtons[i].GetComponent<Image>().color = Color.green;
+                traitButtons[i].GetComponent<Image>().color = Color.yellow;
             }
             else
             {
@@ -109,8 +111,18 @@ public class ConcentrationPanel : MonoBehaviour, ITraitPanel
         if (!currentHeroInfo.IsTraitSelected(TraitType.Concentration, level, isLeftTrait))
         {
             concentrationTrait.ChooseTrait(level, isLeftTrait);
-            concentrationTrait.ApplyEffect(currentHeroInfo.character);
+
+            // Character가 없어도 효과를 저장
             currentHeroInfo.SelectTrait(TraitType.Concentration, level, isLeftTrait);
+            currentHeroInfo.AddTraitEffect(TraitType.Concentration, level, isLeftTrait,
+                character => concentrationTrait.ApplyEffect(character));
+
+            // Character가 있으면 즉시 적용
+            if (currentHeroInfo.character != null)
+            {
+                concentrationTrait.ApplyEffect(currentHeroInfo.character);
+            }
+
             UpdateTraitButtons();
         }
         else

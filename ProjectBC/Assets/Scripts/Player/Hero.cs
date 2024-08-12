@@ -41,6 +41,11 @@ public class Hero : Character
     protected override void Start()
     {
         base.Start();
+        // HeroInfo에서 Character로 참조 설정
+        info.character = this;
+
+        // 저장된 특성 효과 적용
+        info.ApplyTraitEffects(this);
         info.SetCharacter(this);
         //SetStat();
         StartCoroutine(RegenerateEnergy());
