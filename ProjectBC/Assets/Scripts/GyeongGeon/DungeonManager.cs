@@ -51,41 +51,50 @@ public class DungeonManager : MonoSingleton<DungeonManager>
         
     }
 
-    public void OpenAdventurePopup(string _themeCode)
-    {
-        _themeList.Clear();
+    //public void OpenAdventurePopup(string _themeCode)
+    //{
+    //    _themeList.Clear();
 
-        foreach (var dungeon in _allDungeonList)
-        {
-            if (dungeon._themeCode.Equals(_themeCode) && !_themeList.Contains(dungeon))
-            {
-                _themeList.Add(dungeon);
-            }
-        }
+    //    foreach (var dungeon in _allDungeonList)
+    //    {
+    //        if (dungeon._themeCode.Equals(_themeCode) && !_themeList.Contains(dungeon))
+    //        {
+    //            _themeList.Add(dungeon);
+    //        }
+    //    }
 
-        //popupManager.InitAdventurePopup(_themeList);
+    //    //popupManager.InitAdventurePopup(_themeList);
+    //    if (GameDataManager.instance.battlePoint <= _selectDungeon.requiredBattlePoint)
+    //    {
+    //        ToastMsg.instance.ShowMessage("배틀포인트가 부족합니다\n" + (_selectDungeon.requiredBattlePoint - GameDataManager.instance.battlePoint) + "만큼 부족", 2.0f);
+    //        return;
+    //    }
+    //    else
+    //    {
+    //        SelectDungeon(0);
+    //        dungeonTheme.InitAdventurePopup(_themeList);
+    //        //popupManager.adventurePopup.SetActive(true);
+    //    }
 
-        SelectDungeon(0);
-        dungeonTheme.InitAdventurePopup(_themeList);
-        //popupManager.adventurePopup.SetActive(true);
-    }
+    //}
 
     public void SelectDungeon(int index)
     {
-        _selectDungeon = _themeList[index];
-        dungeonTheme.themeNameText.text = _themeList[index]._stageName.ToString();
+        if (GameDataManager.instance.battlePoint <= _themeList[index].requiredBattlePoint)
+        {
+            ToastMsg.instance.ShowMessage("배틀포인트가 부족합니다\n" + (_themeList[index].requiredBattlePoint - GameDataManager.instance.battlePoint) + "부족", 1.5f);
+            return;
+        }
+        else
+        {
+            _selectDungeon = _themeList[index];
+            dungeonTheme.themeNameText.text = _themeList[index]._stageName.ToString();
+        }
+
     }
 
     public void EnterDungeon()
     {
-        Debug.Log(_selectDungeon.requiredBattlePoint);
-
-        if (GameDataManager.instance.battlePoint <= _selectDungeon.requiredBattlePoint)
-        {
-            ToastMsg.instance.ShowMessage("배틀포인트가 부족합니다\n" + (_selectDungeon.requiredBattlePoint - GameDataManager.instance.battlePoint) + "만큼 부족" , 2.0f);
-            return;
-        }
-
 
         ChangeCameraPos(_selectDungeon.transform.position);
         _UIManager.ShowBattleScreen();
