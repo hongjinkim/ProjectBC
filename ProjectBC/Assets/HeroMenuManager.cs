@@ -17,6 +17,11 @@ public class HeroMenuManager : MonoBehaviour
     public Button PotionEquipmentCloseButton;
     public Transform HeroScreen_Equipment;
 
+    [Header("Skill")]
+    public GameObject ArcherSkillPanel;
+    public GameObject KnightSkillPanel;
+    public GameObject WizardSkillPanel;
+    public GameObject PriestSkillPanel;
 
 
     private void Awake()

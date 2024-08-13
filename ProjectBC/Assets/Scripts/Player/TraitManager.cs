@@ -6,6 +6,7 @@ public class TraitManager : MonoBehaviour
     public GameObject concentrationPanel;
     public GameObject magicPanel;
     public GameObject protectionPanel;
+    public GameObject PriestPanel;
     public ConcentrationTrait concentrationTrait;
     public MagicTrait magicTrait;
     public ProtectionTrait protectionTrait;
