@@ -71,12 +71,12 @@ public class Item
             {
                 var randomIndex = Random.Range(0, enumValues.Count);
 
-                item.stat.magic.Add(new Magic { id = (MagicStat)enumValues[randomIndex], value = 1/*ÃßÈÄ °ª  ¼öÁ¤*/});
+                item.stat.magic.Add(new Magic { id = (MagicStat)enumValues[randomIndex], value = 1/*ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½*/});
                 enumValues.RemoveAt(randomIndex);
             }
         }
 
-        battlePoint = CalcItemBattlePoint();
+        //battlePoint = CalcItemBattlePoint();
 
         return item;
     }
@@ -86,7 +86,7 @@ public class Item
         int result = 0;
 
 
-        // ÃßÈÄ ½ºÅÈ Á¾·ù º°·Î ´Ù¸£°Ô Àû¿ë ÇÊ¿ä
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½
         if(stat.basic.Count != 0)
         {
             foreach (Basic basic in stat.basic)
