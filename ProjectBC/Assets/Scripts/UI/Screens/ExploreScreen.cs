@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,10 +44,15 @@ public class ExploreScreen : MainScreen
             }
         }
 
-        
-        //_UIManager.ExploreThemepopUp.GetComponent<ExploreThemePopup>().InitAdventurePopup(dungeonManager._themeList);
-        _UIManager.DungeonThemePopUp.ShowScreen();
 
         dungeonManager.SelectDungeon(0);
+
+
+        _UIManager.DungeonThemePopUp.ShowScreen();
+
+        //_UIManager.ExploreThemepopUp.GetComponent<ExploreThemePopup>().InitAdventurePopup(dungeonManager._themeList);
+
+
+
     }
 }
