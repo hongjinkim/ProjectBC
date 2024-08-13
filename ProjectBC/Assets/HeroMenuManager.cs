@@ -27,21 +27,25 @@ public class HeroMenuManager : MonoBehaviour
    
     public void OnEquipmentButtonClicked()
     {
+        traitManager.HideAllPanels();
         EquipmentMenu.SetAsLastSibling();
     }
 
     public void OnAttributeButtonClicked()
     {
+        traitManager.HideAllPanels();
         AttributeMenu.SetAsLastSibling();
     }
 
     public void OnLevelUpButtonClicked()
     {
+        traitManager.HideAllPanels();
         LevelUpMenu.SetAsLastSibling();
     }
 
     public void OnSkillButtonClicked()
     {
+        traitManager.HideAllPanels();
         SkillMenu.SetAsLastSibling();
     }
 

@@ -53,7 +53,9 @@ public abstract class Character : MonoBehaviour, IBehavior
     public GameObject canvas;
     public GameObject PrefabDmgTxt;
     float height = 1f;
-
+    private ConcentrationTrait concentrationTrait;
+    private MagicTrait magicTrait;
+    private ProtectionTrait protectionTrait;
     public Character _target;
 
     public Vector2 _tempDistance;
@@ -166,6 +168,13 @@ public abstract class Character : MonoBehaviour, IBehavior
     protected virtual void InitializeSkillBook() { }
     public virtual void IncreaseCharacteristic(float amount) { }
 
+    protected virtual void Awake()
+    {
+        // Trait 객체들을 초기화합니다.
+        concentrationTrait = new ConcentrationTrait();
+        magicTrait = new MagicTrait();
+        protectionTrait = new ProtectionTrait();
+    }
     protected virtual void Start()
     {
 
@@ -213,6 +222,34 @@ public abstract class Character : MonoBehaviour, IBehavior
             Die();
         }
 
+    }
+    private void ApplyTraits()
+    {
+        foreach (var appliedTrait in info.appliedTraits)
+        {
+            Trait trait = GetTrait(appliedTrait.Type);
+            if (trait != null)
+            {
+                trait.ChooseTrait(appliedTrait.Level, appliedTrait.IsLeft);
+                trait.ApplyEffect(this);
+            }
+        }
+    }
+
+    private Trait GetTrait(TraitType traitType)
+    {
+        switch (traitType)
+        {
+            case TraitType.Concentration:
+                return concentrationTrait;
+            case TraitType.Magic:
+                return magicTrait;
+            case TraitType.Protection:
+                return protectionTrait;
+            default:
+                Debug.LogError($"Unknown trait type: {traitType}");
+                return null;
+        }
     }
     protected IEnumerator RegenerateEnergy()
     {
