@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEditor.PackageManager;
 using System.Linq;
 
 public class ArcherSkillPanel : MonoBehaviour
