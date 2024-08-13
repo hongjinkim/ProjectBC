@@ -90,7 +90,6 @@ public class InventoryBase : ItemWorkspace
         ItemInfo = (ItemInfo)MainUIManager.instance.ItemInfoPopUp;
         EventManager.StartListening(EventType.ItemUpdated, InitializeInventory);
         InitializeAllInventory();
-        disassembly.disassemblyButton.onClick.AddListener(ItemAllDisassemblyButton);
     }
 
     /// <summary>
@@ -339,6 +338,7 @@ public class InventoryBase : ItemWorkspace
 
             disassembly.disassemblyText.text = "분해하기";
         }
+        ItemAllDisassemblyButton();
     }
 
     public void ItemAllDisassemblyButton()
@@ -355,6 +355,7 @@ public class InventoryBase : ItemWorkspace
 
             DisassemblyPopup.SetActive(false);
             disassembly.disassemblyText.text = "일괄 분해";
+
             disassembly.isPopup = false;
         }
     }
