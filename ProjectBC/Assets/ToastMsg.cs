@@ -9,6 +9,7 @@ public class ToastMsg : MonoSingleton<ToastMsg>
     [SerializeField] private float fontSize = 36f;
     private TextMeshProUGUI tmpText;
     private float fadeInOutTime = 0.3f;
+    public GameObject textObject;
 
     protected override void Awake()
     {
@@ -27,13 +28,13 @@ public class ToastMsg : MonoSingleton<ToastMsg>
             {
                 GameObject canvasObject = new GameObject("ToastCanvas");
                 canvas = canvasObject.AddComponent<Canvas>();
-                canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-                canvas.sortingOrder = 32767;
+                //canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+                //canvas.sortingOrder = 32767;
                 canvasObject.AddComponent<CanvasScaler>();
                 canvasObject.AddComponent<GraphicRaycaster>();
             }
 
-            GameObject textObject = new GameObject("ToastText");
+            textObject = new GameObject("ToastText");
             textObject.transform.SetParent(canvas.transform, false);
 
             tmpText = textObject.AddComponent<TextMeshProUGUI>();
@@ -46,6 +47,7 @@ public class ToastMsg : MonoSingleton<ToastMsg>
             rectTransform.anchorMax = new Vector2(0.5f, 0);
             rectTransform.anchoredPosition = new Vector2(0, 600);
             rectTransform.sizeDelta = new Vector2(600, 100);
+            
         }
         else
         {
@@ -53,6 +55,7 @@ public class ToastMsg : MonoSingleton<ToastMsg>
         }
         tmpText.fontSize = fontSize;
         tmpText.enabled = false;
+        
     }
 
     private void SetFont(TextMeshProUGUI textComponent)
@@ -87,6 +90,8 @@ public class ToastMsg : MonoSingleton<ToastMsg>
                 return;
             }
         }
+
+        textObject.transform.SetAsLastSibling();
         StopAllCoroutines();
         StartCoroutine(ShowMessageCoroutine(msg, durationTime));
     }
@@ -119,6 +124,7 @@ public class ToastMsg : MonoSingleton<ToastMsg>
         }
 
         target.alpha = endAlpha;
+        
     }
 
     public void SetFontSize(float newSize)
