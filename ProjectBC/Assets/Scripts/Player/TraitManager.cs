@@ -6,11 +6,11 @@ public class TraitManager : MonoBehaviour
     public GameObject concentrationPanel;
     public GameObject magicPanel;
     public GameObject protectionPanel;
-    public GameObject PriestPanel;
+    //public GameObject PriestPanel;
     public ConcentrationTrait concentrationTrait;
     public MagicTrait magicTrait;
     public ProtectionTrait protectionTrait;
-    // ... ´Ù¸¥ Æ¯¼º ÆĞ³Îµé ...
+    // ... ë‹¤ë¥¸ íŠ¹ì„± íŒ¨ë„ë“¤ ...
     private HeroInfo currentHeroInfo;
 
     private void Awake()
@@ -18,7 +18,7 @@ public class TraitManager : MonoBehaviour
         concentrationTrait = new ConcentrationTrait();
         magicTrait=new MagicTrait();
         protectionTrait=new ProtectionTrait();
-        // ´Ù¸¥ traitµéµµ ¿©±â¼­ ÃÊ±âÈ­
+        // ë‹¤ë¥¸ traitë“¤ë„ ì—¬ê¸°ì„œ ì´ˆê¸°í™”
     }
     public void ShowTraitPanel(HeroInfo heroInfo)
     {
@@ -96,7 +96,7 @@ public class TraitManager : MonoBehaviour
                 return magicPanel;
             case TraitType.Protection:
                 return protectionPanel;
-            // ... ´Ù¸¥ Æ¯¼º Å¸ÀÔ¿¡ ´ëÇÑ case Ãß°¡
+            // ... ë‹¤ë¥¸ íŠ¹ì„± íƒ€ì…ì— ëŒ€í•œ case ì¶”ê°€
             default:
                 return null;
         }
@@ -235,7 +235,7 @@ public class TraitManager : MonoBehaviour
     public void ApplyProtectionTraitRight40() { ApplyProtectionTrait(40, false); }
 }
 
-// ¸ğµç Æ¯¼º ÆĞ³ÎÀÌ ±¸ÇöÇØ¾ß ÇÒ ÀÎÅÍÆäÀÌ½º
+// ëª¨ë“  íŠ¹ì„± íŒ¨ë„ì´ êµ¬í˜„í•´ì•¼ í•  ì¸í„°í˜ì´ìŠ¤
 public interface ITraitPanel
 {
     void Initialize(HeroInfo heroInfo);
