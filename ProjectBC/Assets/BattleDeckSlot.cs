@@ -21,7 +21,14 @@ public class BattleDeckSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IBeg
     private Camera mainCamera;
     [SerializeField] private int slotIndex;
 
+    public Image hpBar;
+    private Coroutine hpUpdateCoroutine;
+
     private int _currentHealth => GameManager.instance.GetCurrentHealth(id);
+
+    [SerializeField] private float updateInterval = 0.1f; // HP 바 업데이트 간격
+    private float lastUpdateTime;
+
 
     private void Start()
     {
@@ -29,6 +36,15 @@ public class BattleDeckSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IBeg
         mainCamera = Camera.main;
     }
 
+    private void Update()
+    {
+
+        if (Time.time - lastUpdateTime >= updateInterval)
+        {
+            HpBarUpdate();
+            lastUpdateTime = Time.time;
+        }
+    }
     private void InitializeComponents()
     {
         canvas = GetComponentInParent<Canvas>();
@@ -138,5 +154,21 @@ public class BattleDeckSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IBeg
 
         }
 
+    }
+
+    private void HpBarUpdate()
+    {
+        int currentHealth = _currentHealth;
+        int maxHealth = hp * 5;  // 최대 체력은 hp * 5
+
+        if (maxHealth > 0)
+        {
+            hpBar.fillAmount = (float)_currentHealth / maxHealth;
+        }
+        else
+        {
+            hpBar.fillAmount = 0f;
+            Debug.LogWarning($"Max health for hero {id} is 0 or less.");
+        }
     }
 }
