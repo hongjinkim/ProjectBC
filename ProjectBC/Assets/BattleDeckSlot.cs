@@ -136,24 +136,33 @@ public class BattleDeckSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IBeg
         HandleDrop(eventData);
     }
 
+    //private void HandleDrop(PointerEventData eventData)
+    //{
+    //    Vector2 worldPoint = mainCamera.ScreenToWorldPoint(eventData.position);
+    //    RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
+
+    //    if (hit.collider != null)
+    //    {
+    //        Tilemap tilemap = hit.collider.GetComponent<Tilemap>();
+    //        if (tilemap != null && hit.collider.CompareTag("BattleField"))
+    //        {
+    //            Vector3Int cellPosition = tilemap.WorldToCell(hit.point);
+    //            Vector3 cellCenter = tilemap.GetCellCenterWorld(cellPosition);
+
+    //            GameManager.instance.CreateHeroPrefabAtPosition(cellCenter, slotIndex);
+    //        }
+    //    }
+    //}
     private void HandleDrop(PointerEventData eventData)
     {
         Vector2 worldPoint = mainCamera.ScreenToWorldPoint(eventData.position);
         RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
 
-        if (hit.collider != null)
+        if (hit.collider != null && hit.collider.CompareTag("BattleField"))
         {
-            Tilemap tilemap = hit.collider.GetComponent<Tilemap>();
-            if (tilemap != null && hit.collider.CompareTag("BattleField"))
-            {
-                Vector3Int cellPosition = tilemap.WorldToCell(hit.point);
-                Vector3 cellCenter = tilemap.GetCellCenterWorld(cellPosition);
-
-                GameManager.instance.CreateHeroPrefabAtPosition(cellCenter, slotIndex);
-            }
-
+            Vector3 dropPosition = hit.point;
+            GameManager.instance.CreateHeroPrefabAtPosition(dropPosition, slotIndex);
         }
-
     }
 
     private void HpBarUpdate()
