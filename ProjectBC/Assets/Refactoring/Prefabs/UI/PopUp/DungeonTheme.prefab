@@ -261,7 +261,19 @@ MonoBehaviour:
   _screenName: DungeonTheme
   _UIManager: {fileID: 0}
   dungeonEnterButton: {fileID: 2264589574172604957}
-  themeNameText: {fileID: 0}
+  themeNameText: {fileID: 973264294649170074}
+  stageNameTexts:
+  - {fileID: 1049869141668608664}
+  - {fileID: 8817167280455011765}
+  - {fileID: 7406783701798393731}
+  stageImages:
+  - {fileID: 301447666899485872}
+  - {fileID: 4840611678290712932}
+  - {fileID: 8691103423557715931}
+  navigationProgressTexts:
+  - {fileID: 5228123791397012759}
+  - {fileID: 6166785905171103835}
+  - {fileID: 5665388369778754178}
 --- !u!1 &803221550578033632
 GameObject:
   m_ObjectHideFlags: 0
@@ -486,7 +498,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -945,11 +957,11 @@ RectTransform:
   - {fileID: 4635292004999765697}
   m_Father: {fileID: 3614342174281576404}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 240, y: -28}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: -25}
   m_SizeDelta: {x: 180, y: 60}
-  m_Pivot: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &3335254738189899110
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1502,11 +1514,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 3614342174281576404}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 400}
-  m_SizeDelta: {x: 400, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 400, y: -810}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &4980777331883187601
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1851,10 +1863,10 @@ RectTransform:
   - {fileID: 1591245756159154602}
   m_Father: {fileID: 467172311700368504}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 90, y: -250}
-  m_SizeDelta: {x: 180, y: 400}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 190, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5904528370221064831
 CanvasRenderer:
@@ -1961,6 +1973,7 @@ GameObject:
   - component: {fileID: 3614342174281576404}
   - component: {fileID: 4450524911200840392}
   - component: {fileID: 3194095724307709241}
+  - component: {fileID: 6614465215545799774}
   m_Layer: 5
   m_Name: AdventurePopup
   m_TagString: Untagged
@@ -2029,6 +2042,26 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6614465215545799774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4858102986240606440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: 0
+  m_MinHeight: 0
+  m_PreferredWidth: 660
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &5035561504102486091
 GameObject:
   m_ObjectHideFlags: 0
@@ -2581,10 +2614,10 @@ RectTransform:
   - {fileID: 8336917666643592624}
   m_Father: {fileID: 467172311700368504}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 300, y: -250}
-  m_SizeDelta: {x: 180, y: 400}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 190, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8283963577563581465
 CanvasRenderer:
@@ -2718,10 +2751,10 @@ RectTransform:
   - {fileID: 4655466120309214734}
   m_Father: {fileID: 467172311700368504}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 510, y: -250}
-  m_SizeDelta: {x: 180, y: 400}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 190, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7804498855171468775
 CanvasRenderer:
@@ -2826,6 +2859,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 467172311700368504}
+  - component: {fileID: 7244435820890249665}
   m_Layer: 5
   m_Name: StageSlots
   m_TagString: Untagged
@@ -2852,9 +2886,35 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 33, y: -51.399902}
-  m_SizeDelta: {x: 5.9999924, y: -52.800034}
+  m_AnchoredPosition: {x: 0, y: 117.58148}
+  m_SizeDelta: {x: -29.999994, y: -481.0404}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7244435820890249665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7193800329103419901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_Spacing: 20
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &7536981243332982750
 GameObject:
   m_ObjectHideFlags: 0

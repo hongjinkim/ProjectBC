@@ -8,6 +8,7 @@ using static UnityEngine.ParticleSystem;
 [Serializable]
 public class HeroInfo
 {
+    public bool? seungsoo=null;
     public Dictionary<TraitType, Dictionary<int, bool>> selectedTraits = new Dictionary<TraitType, Dictionary<int, bool>>();
     public Character character;
     public List<AppliedTrait> appliedTraits = new List<AppliedTrait>();
@@ -162,7 +163,7 @@ public class HeroInfo
     public void ApplyTrait(Trait trait)
     {
         // 이미 적용된 특성인지 확인
-        if (appliedTraits.Exists(t => t.Type == trait.Type && t.Level == trait.Level && t.IsLeftTrait == trait.IsLeftTrait))
+        if (appliedTraits.Exists(t => t.Type == trait.Type && t.Level == trait.Level && t.IsLeft == trait.IsLeftTrait))
         {
             Debug.Log("This trait has already been applied.");
             return;
@@ -250,6 +251,7 @@ public class HeroInfo
         level++;
         currentExp -= neededExp;
         neededExp *= 1.2f;
+        attackDamage += 6;
         switch (characteristicType)
         {
             case CharacteristicType.Agility:
@@ -316,7 +318,6 @@ public class HeroInfo
 
     private int CalculateBattlePoint()
     {
-        // �� ������ ���� �뷱���� ���� �����ؾ� �� �� �ֽ��ϴ�.
         return hp * 2 + attackDamage * 2 + defense * 3 + magicResistance * 3 + level * 5 + strength * 2 + intelligence * 2 + agility * 2 + damageBlock * 3;
     }
     public void SelectTrait(TraitType traitType, int level, bool isLeft)
@@ -365,6 +366,15 @@ public class HeroInfo
         {
             EquippedItemDictionary[item.Params.Type] = item;
         }
+    }
+    public void AddAppliedTrait(TraitType traitType, int level, bool isLeft)
+    {
+        appliedTraits.Add(new AppliedTrait(traitType, level, isLeft));
+    }
+
+    public bool IsTraitApplied(TraitType traitType, int level, bool isLeft)
+    {
+        return appliedTraits.Exists(t => t.Type == traitType && t.Level == level && t.IsLeft == isLeft);
     }
 }
 public class AppliedTraitEffect

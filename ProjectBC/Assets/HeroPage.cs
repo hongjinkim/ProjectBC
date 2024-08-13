@@ -141,6 +141,7 @@ public class HeroPage : HeroScreen
         transform.SetAsFirstSibling();
         _UIManager.ToggleMenuBar(true);
         _UIManager.TogglePlayerInfo(true);
+        traitManager.HideAllPanels();
     }
 
 
@@ -275,7 +276,7 @@ public class HeroPage : HeroScreen
         BattlePointText.text = _info.battlePoint.ToString();
 
         //GameDataManager.instance.UpdateBattlePoint();
-        EventManager.TriggerEvent(EventType.BattlePointUpdated, null);
+        //EventManager.TriggerEvent(EventType.BattlePointUpdated, null);
         int battlePoint = CalculateBattlePoint(_info);
         BattlePointText.text = battlePoint.ToString();
 
@@ -306,6 +307,7 @@ public class HeroPage : HeroScreen
             Weapon.icon.color = new Color32(0, 0, 0, 100);
             Weapon.background.sprite = ItemCollection.active.backgroundBrown;
         }
+        EventManager.TriggerEvent(EventType.BattlePointUpdated, null);
     }
     private void UpdateHelmet()
     {
@@ -322,6 +324,7 @@ public class HeroPage : HeroScreen
             Helmet.icon.color = new Color32(0, 0, 0, 100);
             Helmet.background.sprite = ItemCollection.active.backgroundBrown;
         }
+        EventManager.TriggerEvent(EventType.BattlePointUpdated, null);
     }
     private void UpdateArmor()
     {
@@ -338,6 +341,7 @@ public class HeroPage : HeroScreen
             Armor.icon.color = new Color32(0, 0, 0, 100);
             Armor.background.sprite = ItemCollection.active.backgroundBrown;
         }
+        EventManager.TriggerEvent(EventType.BattlePointUpdated, null);
     }
     private void UpdateLeggings()
     {
@@ -354,6 +358,7 @@ public class HeroPage : HeroScreen
             Leggings.icon.color = new Color32(0, 0, 0, 100);
             Leggings.background.sprite = ItemCollection.active.backgroundBrown;
         }
+        EventManager.TriggerEvent(EventType.BattlePointUpdated, null);
     }
 
     private void FastEquip()
@@ -511,7 +516,7 @@ public class HeroPage : HeroScreen
     private int CalculateBattlePoint(HeroInfo hero)
     {
         // �� ������ ���� �뷱���� ���� �����ؾ� �� �� �ֽ��ϴ�.
-        return hero.hp / 10 + hero.attackDamage * 2 + hero.defense * 3 + hero.magicResistance * 3 + hero.level * 5;
+        return hero.hp * 2 + hero.attackDamage * 2 + hero.defense * 3 + hero.magicResistance * 3 + hero.level * 5 + hero.damageBlock * 5 + hero.strength * 2 + hero.agility * 2 + hero.intelligence * 2;
     }
 
 }

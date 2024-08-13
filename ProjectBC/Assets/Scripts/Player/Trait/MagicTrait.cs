@@ -27,10 +27,15 @@ public class MagicTrait : Trait
     {
         if (traitLevels.TryGetValue(Level, out var traitEffect))
         {
-            if (IsLeftTrait)
-                traitEffect.leftEffect(character);
-            else
-                traitEffect.rightEffect(character);
+            if (!character.info.IsTraitApplied(TraitType.Magic, Level, IsLeftTrait))
+            {
+                if (IsLeftTrait)
+                    traitEffect.leftEffect(character);
+                else
+                    traitEffect.rightEffect(character);
+
+                character.info.AddAppliedTrait(TraitType.Magic, Level, IsLeftTrait);
+            }
         }
     }
 
