@@ -18,8 +18,10 @@ public class CampScreen : MainScreen
     {
         portalButton.onClick.AddListener(_UIManager.PortalPopUp.ShowScreen);
 
-        dailyStoreButton.onClick.AddListener(_UIManager.DailyStorePopUp.ShowScreen);
+        //dailyStoreButton.onClick.AddListener(_UIManager.DailyStorePopUp.ShowScreen);
 
+
+        dailyStoreButton.onClick.AddListener(() => ToastMsg.instance.ShowMessage("개발중입니다", 0.5f));
         forgeButton.onClick.AddListener(() => ToastMsg.instance.ShowMessage("개발중입니다", 0.5f));
         dailyQuestButton.onClick.AddListener(() => ToastMsg.instance.ShowMessage("개발중입니다", 0.5f));
         pvpButton.onClick.AddListener(() => ToastMsg.instance.ShowMessage("개발중입니다", 0.5f));

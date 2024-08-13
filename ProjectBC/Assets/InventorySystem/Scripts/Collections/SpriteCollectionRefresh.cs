@@ -1,11 +1,11 @@
+#if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using UnityEditor;
 using UnityEngine;
-
+using UnityEditor;
 
 public class SpriteCollectionRefresh : AssetPostprocessor
 {
@@ -117,3 +117,4 @@ public class SpriteCollectionRefresh : AssetPostprocessor
         return parent.Name;
     }
 }
+#endif
