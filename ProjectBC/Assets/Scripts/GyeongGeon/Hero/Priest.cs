@@ -14,6 +14,7 @@ public class Priest : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     public MysticalPower mysticalPower;
     private float passiveEffectTimer = 0f;
     private const float PASSIVE_EFFECT_INTERVAL = 1f;
+    private Dictionary<Hero, bool> affectedHeroes = new Dictionary<Hero, bool>();
     private void Awake() 
     {
         lineRenderer = gameObject.AddComponent<LineRenderer>();
@@ -56,6 +57,8 @@ public class Priest : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     {
         Collider2D[] nearbyColliders = Physics2D.OverlapCircleAll(transform.position, info.attackRange);
 
+        HashSet<Hero> currentHeroes = new HashSet<Hero>();
+
         foreach (Collider2D collider in nearbyColliders)
         {
             if (collider.CompareTag("Hero"))
@@ -63,8 +66,12 @@ public class Priest : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
                 Hero hero = collider.GetComponent<Hero>();
                 if (hero != null && hero != this)
                 {
-                    ApplyHolyGrace(hero);
-                    ApplyMysticalPower(hero);
+                    currentHeroes.Add(hero);
+                    if (!affectedHeroes.ContainsKey(hero) || !affectedHeroes[hero])
+                    {
+                        ApplyHolyGrace(hero);
+                        affectedHeroes[hero] = true;
+                    }
                 }
             }
             else if (collider.CompareTag("Enemy"))
@@ -76,12 +83,35 @@ public class Priest : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
                 }
             }
         }
-    }
+        List<Hero> heroesToRemove = new List<Hero>();
+        foreach (var pair in affectedHeroes)
+        {
+            if (!currentHeroes.Contains(pair.Key))
+            {
+                RemoveHolyGrace(pair.Key);
+                heroesToRemove.Add(pair.Key);
+            }
+        }
 
+        foreach (var hero in heroesToRemove)
+        {
+            affectedHeroes.Remove(hero);
+        }
+    }
     private void ApplyHolyGrace(Hero hero)
     {
-        hero.info.defense += holyGrace.GetDefenseBonus();
-        hero.info.magicResistance += holyGrace.GetMagicResistanceBonus();
+        holyGrace.ApplyEffect(hero);
+    }
+
+    private void RemoveHolyGrace(Hero hero)
+    {
+        holyGrace.RemoveEffect(hero);
+    }
+    public void RemoveAllPassiveEffects()
+    {
+        holyGrace.RemoveAllEffects();
+        // 다른 패시브 스킬들에 대해서도 같은 작업 수행
+        affectedHeroes.Clear();
     }
 
     private void ApplyDazzlingLight(Enemy enemy)

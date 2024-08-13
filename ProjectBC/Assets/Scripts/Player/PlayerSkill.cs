@@ -19,7 +19,7 @@ public abstract class PlayerSkill
         MaxLevel = maxLevel;
         BaseDamage = baseDamage;
         Coefficients = coefficients;
-        Level = 1; // ±âº» ·¹º§Àº 1
+        Level = 1;
     }
 
     public void LevelUp()
@@ -30,7 +30,7 @@ public abstract class PlayerSkill
         }
         else
         {
-            Debug.Log("ÀÌ¹Ì ÃÖ´ë ·¹º§ÀÔ´Ï´Ù.");
+            Debug.Log("ì´ë¯¸ ìµœëŒ€ ë ˆë²¨ì…ë‹ˆë‹¤.");
         }
     }
 
