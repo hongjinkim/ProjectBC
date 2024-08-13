@@ -1,6 +1,6 @@
-
-using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
 
 [CustomEditor(typeof(IconCollection))]
 public class IconCollectionEditor : UnityEditor.Editor
@@ -17,3 +17,4 @@ public class IconCollectionEditor : UnityEditor.Editor
         }
     }
 }
+#endif

@@ -1,10 +1,9 @@
-using System.Collections;
+
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
 using static DB;
 using static JsonHelper;
-using Unity.VisualScripting;
+
 
 public class GameDataManager : MonoSingleton<GameDataManager>
 {
@@ -74,15 +73,22 @@ public class GameDataManager : MonoSingleton<GameDataManager>
     public void LoadGame()
     {
         // load saved data from FileDataHandler
-
+        string jsonString = "";
         if (_playerInfo == null || _resetGame)
         {
             _playerInfo = NewGame();
 
         }
-        else if (FileManager.LoadFromFile(_saveFilename, out var jsonString))
+        else if (FileManager.LoadFromFile(_saveFilename, out  jsonString))
         {
-            _playerInfo.LoadJson(jsonString);
+            if(jsonString == "")
+            {
+                _playerInfo = NewGame();
+            }
+            else
+            {
+                _playerInfo.LoadJson(jsonString);
+            }    
         }
         MakeItemDictionary();
 
