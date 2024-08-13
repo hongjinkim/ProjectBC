@@ -77,6 +77,7 @@ public class HeroPage : HeroScreen
     {
         _info = updatedInfo;
         UpdateUITexts();
+        UpdateEquipment();
         if (heroPotion != null)
         {
             heroPotion.UpdateCurrentHero(_info);  // HeroPotion ������Ʈ
@@ -117,6 +118,7 @@ public class HeroPage : HeroScreen
         characterImage.sprite = _info.Sprite;
 
         UpdateUITexts();
+        UpdateEquipment();
 
         if (attributeUI != null)
         {
@@ -280,7 +282,7 @@ public class HeroPage : HeroScreen
         int battlePoint = CalculateBattlePoint(_info);
         BattlePointText.text = battlePoint.ToString();
 
-        UpdateEquipment();
+        
 
     }
 
@@ -369,8 +371,12 @@ public class HeroPage : HeroScreen
             if (!_info.EquippedItemDictionary.ContainsKey(ItemType.Weapon))
             {
                 var i = item.Clone();
+
+                UpdateEquipmentStat(_info, i, true);
                 _info.EquippedItems.Add(i);
                 _info.EquippedItemDictionary[ItemType.Weapon] = i;
+
+
                 GameDataManager.instance.RemoveItem(item);
             }
             else
@@ -381,8 +387,11 @@ public class HeroPage : HeroScreen
                     _info.EquippedItems.Remove(_info.EquippedItemDictionary[ItemType.Weapon]);
 
                     var i = item.Clone();
+
+                    UpdateEquipmentStat(_info, i, true);
                     _info.EquippedItems.Add(i);
                     _info.EquippedItemDictionary[ItemType.Weapon] = i;
+
                     GameDataManager.instance.RemoveItem(item);
                 }
             }
@@ -394,8 +403,11 @@ public class HeroPage : HeroScreen
             if (!_info.EquippedItemDictionary.ContainsKey(ItemType.Helmet))
             {
                 var i = item.Clone();
+
+                UpdateEquipmentStat(_info, i, true);
                 _info.EquippedItems.Add(i);
                 _info.EquippedItemDictionary[ItemType.Helmet] = i;
+
                 GameDataManager.instance.RemoveItem(item);
             }
             else
@@ -406,8 +418,11 @@ public class HeroPage : HeroScreen
                     _info.EquippedItems.Remove(_info.EquippedItemDictionary[ItemType.Helmet]);
 
                     var i = item.Clone();
+
+                    UpdateEquipmentStat(_info, i, true);
                     _info.EquippedItems.Add(i);
                     _info.EquippedItemDictionary[ItemType.Helmet] = i;
+
                     GameDataManager.instance.RemoveItem(item);
                 }
             }
@@ -419,8 +434,11 @@ public class HeroPage : HeroScreen
             if (!_info.EquippedItemDictionary.ContainsKey(ItemType.Armor))
             {
                 var i = item.Clone();
+
+                UpdateEquipmentStat(_info, i, true);
                 _info.EquippedItems.Add(i);
                 _info.EquippedItemDictionary[ItemType.Armor] = i;
+
                 GameDataManager.instance.RemoveItem(item);
             }
             else
@@ -431,8 +449,11 @@ public class HeroPage : HeroScreen
                     _info.EquippedItems.Remove(_info.EquippedItemDictionary[ItemType.Armor]);
 
                     var i = item.Clone();
+
+                    UpdateEquipmentStat(_info, i, true);
                     _info.EquippedItems.Add(i);
                     _info.EquippedItemDictionary[ItemType.Armor] = i;
+
                     GameDataManager.instance.RemoveItem(item);
                 }
             }
@@ -444,8 +465,11 @@ public class HeroPage : HeroScreen
             if (!_info.EquippedItemDictionary.ContainsKey(ItemType.Leggings))
             {
                 var i = item.Clone();
+
+                UpdateEquipmentStat(_info, i, true);
                 _info.EquippedItems.Add(i);
                 _info.EquippedItemDictionary[ItemType.Leggings] = i;
+
                 GameDataManager.instance.RemoveItem(item);
             }
             else
@@ -456,8 +480,11 @@ public class HeroPage : HeroScreen
                     _info.EquippedItems.Remove(_info.EquippedItemDictionary[ItemType.Leggings]);
 
                     var i = item.Clone();
+
+                    UpdateEquipmentStat(_info, i, true);
                     _info.EquippedItems.Add(i);
                     _info.EquippedItemDictionary[ItemType.Leggings] = i;
+
                     GameDataManager.instance.RemoveItem(item);
                 }
             }
@@ -471,29 +498,42 @@ public class HeroPage : HeroScreen
         if (_info.EquippedItemDictionary.ContainsKey(ItemType.Weapon))
         {
             GameDataManager.instance.AddItem(_info.EquippedItemDictionary[ItemType.Weapon].Clone());
+
+            UpdateEquipmentStat(_info, _info.EquippedItemDictionary[ItemType.Weapon], false);
             _info.EquippedItems.Remove(_info.EquippedItemDictionary[ItemType.Weapon]);
             _info.EquippedItemDictionary.Remove(ItemType.Weapon);
+            
+
             UpdateWeapon();
         }
         if (_info.EquippedItemDictionary.ContainsKey(ItemType.Helmet))
         {
             GameDataManager.instance.AddItem(_info.EquippedItemDictionary[ItemType.Helmet].Clone());
+
+            UpdateEquipmentStat(_info, _info.EquippedItemDictionary[ItemType.Helmet], false);
             _info.EquippedItems.Remove(_info.EquippedItemDictionary[ItemType.Helmet]);
             _info.EquippedItemDictionary.Remove(ItemType.Helmet);
+
             UpdateHelmet();
         }
         if (_info.EquippedItemDictionary.ContainsKey(ItemType.Armor))
         {
             GameDataManager.instance.AddItem(_info.EquippedItemDictionary[ItemType.Armor].Clone());
+
+            UpdateEquipmentStat(_info, _info.EquippedItemDictionary[ItemType.Armor], false);
             _info.EquippedItems.Remove(_info.EquippedItemDictionary[ItemType.Armor]);
             _info.EquippedItemDictionary.Remove(ItemType.Armor);
+
             UpdateArmor();
         }
         if (_info.EquippedItemDictionary.ContainsKey(ItemType.Leggings))
         {
             GameDataManager.instance.AddItem(_info.EquippedItemDictionary[ItemType.Leggings].Clone());
+
+            UpdateEquipmentStat(_info, _info.EquippedItemDictionary[ItemType.Leggings], false);
             _info.EquippedItems.Remove(_info.EquippedItemDictionary[ItemType.Leggings]);
             _info.EquippedItemDictionary.Remove(ItemType.Leggings);
+
             UpdateLeggings();
         }
     }
@@ -519,4 +559,91 @@ public class HeroPage : HeroScreen
         return hero.hp * 2 + hero.attackDamage * 2 + hero.defense * 3 + hero.magicResistance * 3 + hero.level * 5 + hero.damageBlock * 5 + hero.strength * 2 + hero.agility * 2 + hero.intelligence * 2;
     }
 
+    private void UpdateEquipmentStat(HeroInfo info, Item equipment, bool equip)
+    {
+        int b = equip ? 1 : -1;
+
+        var stat = equipment.stat;
+
+        if (stat.basic.Count != 0)
+        {
+            foreach (Basic basic in stat.basic)
+            {
+                switch (basic.id)
+                {
+                    case BasicStat.AttackPower:
+                        info.attackDamage += basic.value * b;
+                        break;
+                    case BasicStat.Strength:
+                        info.strength += basic.value * b;
+                        break;
+                    case BasicStat.Agillity:
+                        info.agility += basic.value * b;
+                        break;
+                    case BasicStat.Intelligence:
+                        info.intelligence += basic.value * b;
+                        break;
+                    case BasicStat.Defense:
+                        info.defense += basic.value * b;
+                        break;
+                    case BasicStat.MagicResistance:
+                        info.magicResistance += basic.value * b;
+                        break;
+                    case BasicStat.Health:
+                        info.hp += basic.value * b;
+                        break;
+
+                }
+
+            }
+        }
+        if (stat.magic.Count != 0)
+        {
+            foreach (Magic magic in stat.magic)
+            {
+                switch (magic.id)
+                {
+                    case MagicStat.AttackPower:
+                        info.attackDamage += magic.value * b;
+                        break;
+                    case MagicStat.Strength:
+                        info.strength += magic.value * b;
+                        break;
+                    case MagicStat.Agillity:
+                        info.agility += magic.value * b;
+                        break;
+                    case MagicStat.Intelligence:
+                        info.intelligence += magic.value * b;
+                        break;
+                    case MagicStat.Defense:
+                        info.defense += magic.value * b;
+                        break;
+                    case MagicStat.MagicResistance:
+                        info.magicResistance += magic.value * b;
+                        break;
+                    case MagicStat.Health:
+                        info.hp += magic.value * b;
+                        break;
+                    case MagicStat.DamageBlock:
+                        info.damageBlock += magic.value * b;
+                        break;
+                    case MagicStat.HealthRegeneration:
+                        info.healthRegen += magic.value * b;
+                        break;
+                    case MagicStat.EnergyRegeneration:
+                        info.energyRegen += magic.value * b;
+                        break;
+                    case MagicStat.AttackSpeed:
+                        info.attackSpeed += magic.value * b;
+                        break;
+                    case MagicStat.TrueDamage:
+                        info.trueDamage += magic.value * b;
+                        break;
+                }
+            }
+        }
+
+        EventManager.TriggerEvent(EventType.BattlePointUpdated, null);
+        UpdateUITexts();
+    }
 }

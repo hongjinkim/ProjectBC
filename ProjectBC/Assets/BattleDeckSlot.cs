@@ -21,6 +21,8 @@ public class BattleDeckSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IBeg
     private Camera mainCamera;
     [SerializeField] private int slotIndex;
 
+    private int _currentHealth => GameManager.instance.GetCurrentHealth(id);
+
     private void Start()
     {
         InitializeComponents();
@@ -55,7 +57,7 @@ public class BattleDeckSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IBeg
 
             if (heroImage != null)
             {
-                // ÀÌ¹ÌÁö ·Îµå ¹× ¼³Á¤
+                // ì´ë¯¸ì§€ ë¡œë“œ ë° ì„¤ì •
                 Sprite heroSprite = Resources.Load<Sprite>(hero.imagePath);
                 if (heroSprite != null)
                 {
