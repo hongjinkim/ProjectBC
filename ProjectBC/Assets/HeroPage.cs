@@ -143,6 +143,7 @@ public class HeroPage : HeroScreen
         transform.SetAsFirstSibling();
         _UIManager.ToggleMenuBar(true);
         _UIManager.TogglePlayerInfo(true);
+        traitManager.HideAllPanels();
     }
 
 

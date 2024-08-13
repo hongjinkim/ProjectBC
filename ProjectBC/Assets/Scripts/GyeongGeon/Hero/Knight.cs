@@ -50,6 +50,7 @@ public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
         info.skills.Add(impregnable);
         info.activeSkill = shieldBash;
         ApplyPassiveSkills();
+        
     }
     protected override void Update()
     {

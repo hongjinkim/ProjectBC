@@ -57,7 +57,7 @@ public class Hero : Character
                 Trait trait = traitManager.GetTrait(appliedTrait.Type);
                 if (trait != null)
                 {
-                    trait.ChooseTrait(appliedTrait.Level, appliedTrait.IsLeftTrait);
+                    trait.ChooseTrait(appliedTrait.Level, appliedTrait.IsLeft);
                     trait.ApplyEffect(this);
                 }
             }

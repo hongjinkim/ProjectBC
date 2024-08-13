@@ -27,10 +27,15 @@ public class ConcentrationTrait : Trait
     {
         if (traitLevels.TryGetValue(Level, out var traitEffect))
         {
-            if (IsLeftTrait)
-                traitEffect.leftEffect(character);
-            else
-                traitEffect.rightEffect(character);
+            if (!character.info.IsTraitApplied(TraitType.Concentration, Level, IsLeftTrait))
+            {
+                if (IsLeftTrait)
+                    traitEffect.leftEffect(character);
+                else
+                    traitEffect.rightEffect(character);
+
+                character.info.AddAppliedTrait(TraitType.Concentration, Level, IsLeftTrait);
+            }
         }
     }
 
@@ -52,6 +57,7 @@ public class ConcentrationTrait : Trait
     private void ApplyCruelForce(Character character)
     {
         character.info.damageAmplification += 3;
+        Debug.Log(character.name);
         //if (character != null && character.info != null)
         //{
         //    character.info.damageAmplification += 3;
