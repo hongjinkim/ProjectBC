@@ -6,7 +6,7 @@ public class Hero : Character
     private const float MAX_ENERGY = 100f;
 
 
-    private const float REGEN_INTERVAL = 1f;
+    private const float REGEN_INTERVAL = 0.5f;
     private const float REGEN_PERCENT = 0.05f;
     private bool isRegenerating = false;
     private bool isTraitSelectionPending = false;
@@ -57,7 +57,7 @@ public class Hero : Character
                 Trait trait = traitManager.GetTrait(appliedTrait.Type);
                 if (trait != null)
                 {
-                    trait.ChooseTrait(appliedTrait.Level, appliedTrait.IsLeftTrait);
+                    trait.ChooseTrait(appliedTrait.Level, appliedTrait.IsLeft);
                     trait.ApplyEffect(this);
                 }
             }

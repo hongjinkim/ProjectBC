@@ -17,6 +17,11 @@ public class HeroMenuManager : MonoBehaviour
     public Button PotionEquipmentCloseButton;
     public Transform HeroScreen_Equipment;
 
+    [Header("Skill")]
+    public GameObject ArcherSkillPanel;
+    public GameObject KnightSkillPanel;
+    public GameObject WizardSkillPanel;
+    public GameObject PriestSkillPanel;
 
 
     private void Awake()
@@ -27,21 +32,25 @@ public class HeroMenuManager : MonoBehaviour
    
     public void OnEquipmentButtonClicked()
     {
+        traitManager.HideAllPanels();
         EquipmentMenu.SetAsLastSibling();
     }
 
     public void OnAttributeButtonClicked()
     {
+        traitManager.HideAllPanels();
         AttributeMenu.SetAsLastSibling();
     }
 
     public void OnLevelUpButtonClicked()
     {
+        traitManager.HideAllPanels();
         LevelUpMenu.SetAsLastSibling();
     }
 
     public void OnSkillButtonClicked()
     {
+        traitManager.HideAllPanels();
         SkillMenu.SetAsLastSibling();
     }
 

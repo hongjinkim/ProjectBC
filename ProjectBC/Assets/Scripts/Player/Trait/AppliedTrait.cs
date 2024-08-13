@@ -5,12 +5,12 @@ public class AppliedTrait
 {
     public TraitType Type;
     public int Level;
-    public bool IsLeftTrait;
+    public bool IsLeft;
 
-    public AppliedTrait(TraitType type, int level, bool isLeftTrait)
+    public AppliedTrait(TraitType type, int level, bool isLeft)
     {
         Type = type;
         Level = level;
-        IsLeftTrait = isLeftTrait;
+        IsLeft = isLeft;
     }
 }

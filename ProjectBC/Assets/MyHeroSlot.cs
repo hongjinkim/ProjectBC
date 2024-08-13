@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,9 +23,14 @@ public class MyHeroSlot : MonoBehaviour
     {
         
     }
+    private void Start()
+    {
+        
+    }
 
     public void SetMyHeroData(HeroInfo heroInfo, int index)
     {
+        
         if (heroInfo != null)
         {
             //id = hero.id;
@@ -43,11 +49,13 @@ public class MyHeroSlot : MonoBehaviour
             }
 
             gameObject.SetActive(true);
+            
         }
         else
         {
             ClearSlot();
         }
+        
     }
 
     public void ClearSlot()
@@ -69,6 +77,8 @@ public class MyHeroSlot : MonoBehaviour
 
     public void OnButtonClicked()
     {
+
         heroPage.OnHeroSelected(_info, myHeroIndex);
+        _info.character = GameManager.instance.heroCharacterScript[myHeroIndex];
     }
 }

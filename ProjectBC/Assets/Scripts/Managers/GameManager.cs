@@ -6,7 +6,7 @@ public class GameManager : MonoSingleton<GameManager>
     private DungeonManager dungeonManager;
     private HeroManager heroManager;
     private int maxDeckSize = 4;
-
+    public List<Character>heroCharacterScript=new List<Character>();
     [SerializeField] private GameObject KnightPrefab;
     [SerializeField] private GameObject WizardPrefab;
     [SerializeField] private GameObject PriestPrefab;
@@ -45,7 +45,7 @@ public class GameManager : MonoSingleton<GameManager>
                     GameObject instance = Instantiate(prefab);
 
                     instance.GetComponent<Character>().info = GameDataManager.instance.playerInfo.heroes[i];
-
+                    heroCharacterScript.Add(instance.GetComponent<Character>());
                     instance.SetActive(false);
                     heroPrefabs[heroId] = instance;
 

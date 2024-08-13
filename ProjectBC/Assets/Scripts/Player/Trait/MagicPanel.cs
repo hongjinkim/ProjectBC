@@ -74,19 +74,23 @@ public class MagicPanel : MonoBehaviour, ITraitPanel
 
     private void OnTraitButtonClicked(int level, bool isLeftTrait, int buttonIndex)
     {
-        if (!currentHeroInfo.IsTraitSelected(TraitType.Concentration, level, isLeftTrait))
+        if (!currentHeroInfo.IsTraitApplied(TraitType.Magic, level, isLeftTrait))
         {
             magicTrait.ChooseTrait(level, isLeftTrait);
-
-            // Character가 없어도 효과를 저장
-            currentHeroInfo.SelectTrait(TraitType.Magic, level, isLeftTrait);
-            currentHeroInfo.AddTraitEffect(TraitType.Magic, level, isLeftTrait,
-                character => magicTrait.ApplyEffect(character));
-
+            if (currentHeroInfo.seungsoo == null) currentHeroInfo.seungsoo = isLeftTrait;
+            else
+            {
+                if (currentHeroInfo.seungsoo != isLeftTrait) return;
+            }
             // Character가 있으면 즉시 적용
             if (currentHeroInfo.character != null)
             {
                 magicTrait.ApplyEffect(currentHeroInfo.character);
+            }
+            else
+            {
+                // Character가 없으면 HeroInfo에만 기록
+                currentHeroInfo.AddAppliedTrait(TraitType.Magic, level, isLeftTrait);
             }
 
             UpdateTraitButtons();

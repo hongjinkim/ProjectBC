@@ -141,6 +141,7 @@ public class HeroPage : HeroScreen
         transform.SetAsFirstSibling();
         _UIManager.ToggleMenuBar(true);
         _UIManager.TogglePlayerInfo(true);
+        traitManager.HideAllPanels();
     }
 
 
@@ -515,7 +516,7 @@ public class HeroPage : HeroScreen
     private int CalculateBattlePoint(HeroInfo hero)
     {
         // �� ������ ���� �뷱���� ���� �����ؾ� �� �� �ֽ��ϴ�.
-        return hero.hp / 10 + hero.attackDamage * 2 + hero.defense * 3 + hero.magicResistance * 3 + hero.level * 5;
+        return hero.hp * 2 + hero.attackDamage * 2 + hero.defense * 3 + hero.magicResistance * 3 + hero.level * 5 + hero.damageBlock * 5 + hero.strength * 2 + hero.agility * 2 + hero.intelligence * 2;
     }
 
 }

@@ -1,9 +1,18 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ConcentrationPanel : MonoBehaviour, ITraitPanel
 {
+    [SerializeField]
+    List<GameObject> level10 = new List<GameObject>();
+    [SerializeField]
+    List<GameObject> level20 = new List<GameObject>();
+    [SerializeField]
+    List<GameObject> level30 = new List<GameObject>();
+    [SerializeField]
+    List<GameObject> level40 = new List<GameObject>();
     public TextMeshProUGUI heroNameText;
     public TextMeshProUGUI levelText;
     public Image heroImage;
@@ -60,16 +69,12 @@ public class ConcentrationPanel : MonoBehaviour, ITraitPanel
 
     private void UpdateTraitButtons()
     {
-        if (currentHeroInfo == null)
+        if (currentHeroInfo == null || concentrationTrait == null)
         {
-            Debug.LogError("currentHeroInfo is null in UpdateTraitButtons");
+            Debug.LogError("currentHeroInfo or concentrationTrait is null in UpdateTraitButtons");
             return;
         }
-        if (concentrationTrait == null)
-        {
-            Debug.LogError("concentrationTrait is null in UpdateTraitButtons");
-            return;
-        }
+
         int[] traitLevels = { 10, 20, 30, 40 };
         string[] traitNames = {
             "막을 수 없는 힘", "잔인한 힘",
@@ -82,20 +87,18 @@ public class ConcentrationPanel : MonoBehaviour, ITraitPanel
         {
             int level = traitLevels[i / 2];
             bool isLeftTrait = i % 2 == 0;
-
+            //노드 다등록한다음에 빼주는 방법
+            //노드를 하나 선택했을때 같은레벨 선택할 수 있는 리스트에서 노드를 다 빼주면 됨 노드를 취소하면 다시 넣어주고
             bool isSelected = currentHeroInfo.IsTraitSelected(TraitType.Concentration, level, isLeftTrait);
             bool isOppositeSelected = currentHeroInfo.IsTraitSelected(TraitType.Concentration, level, !isLeftTrait);
 
-            traitButtons[i].interactable = currentHeroInfo.level >= level && !isSelected && !isOppositeSelected;
+            // 수정된 부분: 영웅 레벨, 현재 특성 선택 여부, 반대 특성 선택 여부를 모두 고려하여 버튼 활성화 상태 결정
+            bool canSelectTrait = currentHeroInfo.level >= level && !isSelected && !isOppositeSelected;
+            traitButtons[i].interactable = canSelectTrait;
 
-            if (isSelected)
-            {
-                traitButtons[i].GetComponent<Image>().color = Color.yellow;
-            }
-            else
-            {
-                traitButtons[i].GetComponent<Image>().color = Color.white;
-            }
+            // 수정된 부분: 선택된 특성에 대한 시각적 피드백 개선
+            Color buttonColor = isSelected ? Color.yellow : (canSelectTrait ? Color.white : Color.gray);
+            traitButtons[i].GetComponent<Image>().color = buttonColor;
 
             if (traitDescriptions != null && i < traitDescriptions.Length)
                 traitDescriptions[i].text = traitNames[i];
@@ -108,21 +111,24 @@ public class ConcentrationPanel : MonoBehaviour, ITraitPanel
 
     private void OnTraitButtonClicked(int level, bool isLeftTrait, int buttonIndex)
     {
-        if (!currentHeroInfo.IsTraitSelected(TraitType.Concentration, level, isLeftTrait))
+        if (!currentHeroInfo.IsTraitApplied(TraitType.Concentration, level, isLeftTrait))
         {
             concentrationTrait.ChooseTrait(level, isLeftTrait);
-
-            // Character가 없어도 효과를 저장
-            currentHeroInfo.SelectTrait(TraitType.Concentration, level, isLeftTrait);
-            currentHeroInfo.AddTraitEffect(TraitType.Concentration, level, isLeftTrait,
-                character => concentrationTrait.ApplyEffect(character));
-
-            // Character가 있으면 즉시 적용
+            
+            if (currentHeroInfo.seungsoo == null) currentHeroInfo.seungsoo = isLeftTrait;
+            else
+            {
+                if (currentHeroInfo.seungsoo != isLeftTrait) return;
+            }
             if (currentHeroInfo.character != null)
             {
+                
+                
                 concentrationTrait.ApplyEffect(currentHeroInfo.character);
             }
+           
 
+            // 특성 적용 후 UI 갱신
             UpdateTraitButtons();
         }
         else
