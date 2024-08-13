@@ -17,16 +17,16 @@ public class CampScreen : MainScreen
     private void Start()
     {
         portalButton.onClick.AddListener(_UIManager.PortalPopUp.ShowScreen);
+        dailyStoreButton.onClick.AddListener(_UIManager.DailyStorePopUp.ShowScreen);
 
         //dailyStoreButton.onClick.AddListener(_UIManager.DailyStorePopUp.ShowScreen);
 
 
-        dailyStoreButton.onClick.AddListener(() => ToastMsg.instance.ShowMessage("°³¹ßÁßÀÔ´Ï´Ù", 0.5f));
-        forgeButton.onClick.AddListener(() => ToastMsg.instance.ShowMessage("°³¹ßÁßÀÔ´Ï´Ù", 0.5f));
-        dailyQuestButton.onClick.AddListener(() => ToastMsg.instance.ShowMessage("°³¹ßÁßÀÔ´Ï´Ù", 0.5f));
-        pvpButton.onClick.AddListener(() => ToastMsg.instance.ShowMessage("°³¹ßÁßÀÔ´Ï´Ù", 0.5f));
-        stoneButton.onClick.AddListener(() => ToastMsg.instance.ShowMessage("°³¹ßÁßÀÔ´Ï´Ù", 0.5f));
-        dailyDungeonButton.onClick.AddListener(() => ToastMsg.instance.ShowMessage("°³¹ßÁßÀÔ´Ï´Ù", 0.5f));
+        forgeButton.onClick.AddListener(() => ToastMsg.instance.ShowMessage("ê°œë°œì˜ˆì •ìž…ë‹ˆë‹¤", 0.5f));
+        dailyQuestButton.onClick.AddListener(() => ToastMsg.instance.ShowMessage("ê°œë°œì˜ˆì •ìž…ë‹ˆë‹¤", 0.5f));
+        pvpButton.onClick.AddListener(() => ToastMsg.instance.ShowMessage("ê°œë°œì˜ˆì •ìž…ë‹ˆë‹¤", 0.5f));
+        stoneButton.onClick.AddListener(() => ToastMsg.instance.ShowMessage("ê°œë°œì˜ˆì •ìž…ë‹ˆë‹¤", 0.5f));
+        dailyDungeonButton.onClick.AddListener(() => ToastMsg.instance.ShowMessage("ê°œë°œì˜ˆì •ìž…ë‹ˆë‹¤", 0.5f));
     }
 
 }

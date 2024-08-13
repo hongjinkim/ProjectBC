@@ -50,34 +50,33 @@ public class Store : MonoBehaviour
 
         if (GameDataManager.instance.playerInfo.gold >= prize.price)
         {
-            // 플레이어의 자금에서 아이템 가격을 차감
             GameDataManager.instance.playerInfo.gold -= prize.price;
 
-            // 아이템을 인벤토리에 추가
             GameDataManager.instance.AddItem(itemToPurchase);
 
             // 구매 이벤트 발생 (아이템 정보 전달)
-            EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> 
-            { 
-                { "item", itemToPurchase.Params.Name + "을(를) 구매했습니다." } 
-            });
+            // EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> 
+            // { 
+            //     { "item", itemToPurchase.Params.Name + "을(를) 구매했습니다." } 
+            // });
+            ToastMsg.instance.ShowMessage(itemToPurchase.Params.Name+"을(를) 구매했습니다.", 0.5f);
 
-            // 자금 갱신 이벤트 발생
             EventManager.TriggerEvent(EventType.FundsUpdated, null);
 
             // 아이템 갱신 이벤트 발생
-            EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> 
-            { 
-                { "type", itemToPurchase.Params.Type } 
-            });
+            // EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> 
+            // { 
+            //     { "type", itemToPurchase.Params.Type } 
+            // });
         }
         else
         {
-            // 자금 부족 메시지 출력
-            EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> 
-            { 
-                { "message", "골드가 부족합니다." } 
-            });
+            ToastMsg.instance.ShowMessage("골드가 부족합니다.", 0.5f);
+            // // 자금 부족 메시지 출력
+            // EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> 
+            // { 
+            //     { "message", "골드가 부족합니다." } 
+            // });
         }
     }
 

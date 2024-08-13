@@ -28,6 +28,7 @@ public class ToastMsg : MonoSingleton<ToastMsg>
                 GameObject canvasObject = new GameObject("ToastCanvas");
                 canvas = canvasObject.AddComponent<Canvas>();
                 canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+                canvas.sortingOrder = 32767;
                 canvasObject.AddComponent<CanvasScaler>();
                 canvasObject.AddComponent<GraphicRaycaster>();
             }
