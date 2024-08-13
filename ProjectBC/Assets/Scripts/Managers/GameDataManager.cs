@@ -260,7 +260,6 @@ public class GameDataManager : MonoSingleton<GameDataManager>
 
     public void AddItem(Item item, int amount = 1)
     {
-        _playerInfo.items.Add(item);
 
         if (!itemDictionary.ContainsKey(item.Params.Type))
         {
@@ -280,11 +279,13 @@ public class GameDataManager : MonoSingleton<GameDataManager>
             }
             if (!hasItem)
             {
+                _playerInfo.items.Add(item);
                 itemDictionary[item.Params.Type].Add(item);
             }
         }
         else
         {
+            _playerInfo.items.Add(item);
             itemDictionary[item.Params.Type].Add(item);
         }
 
@@ -293,8 +294,6 @@ public class GameDataManager : MonoSingleton<GameDataManager>
 
     public void RemoveItem(Item item, int amount = 1)
     {
-        _playerInfo.items.Remove(item);
-
         if (item.IsCanStacked)
         {
             foreach (Item _item in itemDictionary[item.Params.Type])
@@ -309,6 +308,7 @@ public class GameDataManager : MonoSingleton<GameDataManager>
                     }
                     if (_item.count <=0)
                     {
+                        _playerInfo.items.Remove(item);
                         itemDictionary[item.Params.Type].Remove(item);
                     }
                     break;
@@ -317,11 +317,13 @@ public class GameDataManager : MonoSingleton<GameDataManager>
         }
         else
         {
+            _playerInfo.items.Remove(item);
             itemDictionary[item.Params.Type].Remove(item);
         }
 
         if (itemDictionary[item.Params.Type].Count == 0)
         {
+            _playerInfo.items.Remove(item);
             itemDictionary.Remove(item.Params.Type);
         }
 

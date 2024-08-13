@@ -149,8 +149,8 @@ public class AttributeUI : MonoBehaviour
 
     private (int goldCost, int expCost) CalculateCost(string propertyName)
     {
-        int baseGoldCost = 200;
-        int baseExpCost =  10;
+        int baseGoldCost = 100;
+        int baseExpCost =  2;
         int level = 1;
 
         switch (propertyName)
@@ -169,8 +169,8 @@ public class AttributeUI : MonoBehaviour
                 break;
         }
 
-        int goldCost = (int)(baseGoldCost * Mathf.Pow(1.2f, level - 1));
-        int expCost = (int)(baseExpCost * Mathf.Pow(1.1f, level - 1));
+        int goldCost = (int)(baseGoldCost * Mathf.Pow(1.05f, level - 1));
+        int expCost = (int)(baseExpCost * Mathf.Pow(1.02f, level - 1));
 
         return (goldCost, expCost);
     }

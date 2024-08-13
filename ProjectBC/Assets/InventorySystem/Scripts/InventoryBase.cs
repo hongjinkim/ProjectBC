@@ -90,7 +90,6 @@ public class InventoryBase : ItemWorkspace
         ItemInfo = (ItemInfo)MainUIManager.instance.ItemInfoPopUp;
         EventManager.StartListening(EventType.ItemUpdated, InitializeInventory);
         InitializeAllInventory();
-        disassembly.disassemblyButton.onClick.AddListener(ItemAllDisassemblyButton);
     }
 
     /// <summary>
@@ -141,7 +140,7 @@ public class InventoryBase : ItemWorkspace
         //{
         //    list.Clear();
         //}
-        if (message.ContainsKey("type"))
+        if (message != null)
         {
             ItemType type = (ItemType)message["type"];
             switch (type)
@@ -182,15 +181,21 @@ public class InventoryBase : ItemWorkspace
                     }
                     break;
                 case ItemType.Material:
-                    foreach (Item item in GameDataManager.instance.itemDictionary[type])
+                    if (GameDataManager.instance.itemDictionary.ContainsKey(ItemType.Material))
                     {
-                        inventoryItems[InventoryType.Material].Add(item);
+                        foreach (Item item in GameDataManager.instance.itemDictionary[type])
+                        {
+                            inventoryItems[InventoryType.Material].Add(item);
+                        }
                     }
                     break;
                 case ItemType.Crystal:
-                    foreach (Item item in GameDataManager.instance.itemDictionary[type])
+                    if (GameDataManager.instance.itemDictionary.ContainsKey(ItemType.Crystal))
                     {
-                        inventoryItems[InventoryType.Crystal].Add(item);
+                        foreach (Item item in GameDataManager.instance.itemDictionary[type])
+                        {
+                            inventoryItems[InventoryType.Crystal].Add(item);
+                        }
                     }
                     break;
                 default:
@@ -246,9 +251,6 @@ public class InventoryBase : ItemWorkspace
         {
             InitializeAllInventory();
         }
-
-        
-
     }
 
     public void Initialize(ScrollInventory container, List<Item> inventory)
@@ -336,6 +338,7 @@ public class InventoryBase : ItemWorkspace
 
             disassembly.disassemblyText.text = "분해하기";
         }
+        ItemAllDisassemblyButton();
     }
 
     public void ItemAllDisassemblyButton()
@@ -352,6 +355,7 @@ public class InventoryBase : ItemWorkspace
 
             DisassemblyPopup.SetActive(false);
             disassembly.disassemblyText.text = "일괄 분해";
+
             disassembly.isPopup = false;
         }
     }
