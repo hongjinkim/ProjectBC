@@ -1,6 +1,7 @@
-using UnityEditor;
-using UnityEngine;
 
+using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
 
 [CustomEditor(typeof(SpriteCollection))]
 public class SpriteCollectionEditor : UnityEditor.Editor
@@ -18,3 +19,4 @@ public class SpriteCollectionEditor : UnityEditor.Editor
         }
     }
 }
+#endif

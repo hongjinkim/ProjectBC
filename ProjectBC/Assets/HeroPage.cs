@@ -2,8 +2,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using static UnityEditor.Progress;
-using Unity.VisualScripting;
 
 public class HeroPage : HeroScreen
 {
