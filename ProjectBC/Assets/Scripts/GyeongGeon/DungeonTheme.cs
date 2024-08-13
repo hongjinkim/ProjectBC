@@ -9,6 +9,7 @@ public class DungeonTheme : PopUp
 
     [Header("Buttons")]
     public Button dungeonEnterButton;
+    public Button backButton;
 
     [Header("Texts")]
     public TextMeshProUGUI themeNameText;
@@ -29,6 +30,7 @@ public class DungeonTheme : PopUp
     {
         base.Start();
         dungeonEnterButton.onClick.AddListener(EnterDungeon);
+        backButton.onClick.AddListener(ClosedPopup);
     }
 
     private void EnterDungeon()
@@ -69,4 +71,8 @@ public class DungeonTheme : PopUp
 
     }
 
+    private void ClosedPopup()
+    {
+        MainUIManager.instance.DungeonThemePopUp.SetActive(false);
+    }
 }

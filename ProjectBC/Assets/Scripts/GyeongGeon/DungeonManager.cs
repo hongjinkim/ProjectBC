@@ -82,7 +82,7 @@ public class DungeonManager : MonoSingleton<DungeonManager>
     {
         if (GameDataManager.instance.battlePoint <= _themeList[index].requiredBattlePoint)
         {
-            ToastMsg.instance.ShowMessage("배틀포인트가 부족합니다\n" + (_themeList[index].requiredBattlePoint - GameDataManager.instance.battlePoint) + "만큼 부족", 2.0f);
+            ToastMsg.instance.ShowMessage("배틀포인트가 부족합니다\n" + (_themeList[index].requiredBattlePoint - GameDataManager.instance.battlePoint) + "부족", 1.5f);
             return;
         }
         else

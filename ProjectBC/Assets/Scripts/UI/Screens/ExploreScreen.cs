@@ -44,8 +44,10 @@ public class ExploreScreen : MainScreen
             }
         }
 
-
-        dungeonManager.SelectDungeon(0);
+        if (MainUIManager.instance.DungeonThemePopUp == null)
+        {
+            dungeonManager.SelectDungeon(0);
+        }
 
 
         _UIManager.DungeonThemePopUp.ShowScreen();
