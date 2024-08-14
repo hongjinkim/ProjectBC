@@ -5,10 +5,8 @@ using System.Collections.Generic;
 
 public class HeroPage : HeroScreen
 {
-
     public TraitManager traitManager;
     public HeroMenuManager heroMenuManager;
-    public ItemCollection itemCollection;
 
     [Header("current  hero info")]
     [SerializeField] private HeroInfo _info;
