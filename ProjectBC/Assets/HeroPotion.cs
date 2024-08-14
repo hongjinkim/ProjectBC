@@ -217,18 +217,18 @@ public class HeroPotion : MonoBehaviour
         {
             case 0: // Green S
             case 1: // Green M
-                int hpRestore = (index == 0) ? 50 : 100;
-                potionInfos[index].description = $"HP를 {hpRestore + currentHero.level * 5} 회복합니다.";
+                int hpRestore = (index == 0) ? 10 : 20;
+                potionInfos[index].description = $"HP를 {hpRestore + 5} 회복합니다.";
                 break;
             case 2: // Yellow S
             case 3: // Yellow M
                 int mpRestore = (index == 2) ? 30 : 60;
-                potionInfos[index].description = $"MP를 {mpRestore + currentHero.level * 3} 회복합니다.";
+                potionInfos[index].description = $"HP를 {mpRestore + 10} 회복합니다.";
                 break;
             case 4: // Red S
             case 5: // Red M
-                int atkBoost = (index == 4) ? 10 : 20;
-                potionInfos[index].description = $"공격력을 {atkBoost + currentHero.attackDamage / 10}만큼 일시적으로 증가시킵니다.";
+                int atkBoost = (index == 4) ? 80 : 100;
+                potionInfos[index].description = $"HP을 {atkBoost + 15} 회복합니다.";
                 break;
         }
     }
