@@ -31,14 +31,23 @@ public class Wizard : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
         info.characteristicType = CharacteristicType.Intellect;
         info.attackRange = 4;
 
+        
+        info.activeSkill = scorchedEarth;
+        Debug.Log($"Wizard initialized with {info.skills.Count} skills. Active skill: {info.activeSkill?.Name ?? "None"}");
+        foreach (var skill in info.skills)
+        {
+            Debug.Log($"Skill: {skill.Name}, Level: {skill.Level}");
+        };
+    }
+    public void SkillInit()
+    {
         scorchedEarth = new ScorchedEarth();
         mysticResonance = new MysticResonance();
         waveOfHeat = new WaveOfHeat();
         info.skills.Add(scorchedEarth);
         info.skills.Add(mysticResonance);
         info.skills.Add(waveOfHeat);
-        info.activeSkill = scorchedEarth;
-        Debug.Log(attackSpeed);
+
     }
     protected override void Update()
     {

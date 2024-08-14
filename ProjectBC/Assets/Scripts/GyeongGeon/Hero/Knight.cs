@@ -42,15 +42,15 @@ public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
         _heroClass = HeroClass.Knight;
         info.characteristicType = CharacteristicType.MuscularStrength;
         info.attackRange = 1; // 근접 공격 범위
-        shieldBash = new ShieldBash();
-        heavenlyBlessing = new HeavenlyBlessing();
-        impregnable = new Impregnable();
-        info.skills.Add(shieldBash);
-        info.skills.Add(heavenlyBlessing);
-        info.skills.Add(impregnable);
+        
+        
         info.activeSkill = shieldBash;
         ApplyPassiveSkills();
-        
+        Debug.Log($"Knight initialized with {info.skills.Count} skills. Active skill: {info.activeSkill?.Name ?? "None"}");
+        foreach (var skill in info.skills)
+        {
+            Debug.Log($"Skill: {skill.Name}, Level: {skill.Level}");
+        }
     }
     protected override void Update()
     {
@@ -58,6 +58,16 @@ public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
         
         CheckAndUseSkill();
         UpdateImpregnable();
+    }
+    public void skillInit()
+    {
+        shieldBash = new ShieldBash();
+        heavenlyBlessing = new HeavenlyBlessing();
+        impregnable = new Impregnable();
+        info.skills.Add(shieldBash);
+        info.skills.Add(heavenlyBlessing);
+        info.skills.Add(impregnable);
+        
     }
     private void UpdateImpregnable()
     {

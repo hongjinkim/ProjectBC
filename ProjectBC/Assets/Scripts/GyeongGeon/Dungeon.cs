@@ -493,10 +493,19 @@ public class Dungeon : MonoBehaviour
         {
             foreach (Item item in droppedItems)
             {
+                if(item.IsEquipment)
+                {
+                    if(InventoryFull())
+                    {
+                        EventManager.TriggerEvent(EventType.ItemPickup, new Dictionary<string, object> { { "item", "인벤토리가 가득 찼습니다." } });
+                        continue;
+                    }
+                }
+
                 GameDataManager.instance.AddItem(item);
                 EventManager.TriggerEvent(EventType.ItemPickup, new Dictionary<string, object> { { "item", (string)(item.Params.Name + "을(를) 획득 했습니다") } });
-                EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { { "type", item.Params.Type} });
-                       
+                EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { { "type", item.Params.Type } });
+                
             }
             
         }
@@ -523,6 +532,19 @@ public class Dungeon : MonoBehaviour
         }
     }
     
+    private bool InventoryFull()
+    {
+        int temp = 0;
+        if (GameDataManager.instance.itemDictionary.ContainsKey(ItemType.Weapon))
+            temp += GameDataManager.instance.itemDictionary[ItemType.Weapon].Count;
+        if (GameDataManager.instance.itemDictionary.ContainsKey(ItemType.Helmet))
+            temp += GameDataManager.instance.itemDictionary[ItemType.Helmet].Count;
+        if (GameDataManager.instance.itemDictionary.ContainsKey(ItemType.Armor))
+            temp += GameDataManager.instance.itemDictionary[ItemType.Armor].Count;
+        if (GameDataManager.instance.itemDictionary.ContainsKey(ItemType.Leggings))
+            temp += GameDataManager.instance.itemDictionary[ItemType.Leggings].Count;
+        return GameDataManager.instance.playerInfo.itemCapacity <= temp;
+    }
 
     
 

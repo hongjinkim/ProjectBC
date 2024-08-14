@@ -122,6 +122,7 @@ public class HeroMenuManager : MonoBehaviour
     public void OnPotionEquipmentClicked()
     {
         HeroScreen_Equipment.SetActive(true);
+        HeroScreen_Equipment.SetAsLastSibling();
     }
 
     public void OpPotionEquipmentClosed()

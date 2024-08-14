@@ -32,7 +32,7 @@ MonoBehaviour:
   - Index: 1
     Name: "\uD5EC\uBA67"
     Id: WarriorHelmet_Rare
-    Level: 10
+    Level: 1
     Rarity: 1
     Type: 3
     Class: 0
@@ -44,7 +44,7 @@ MonoBehaviour:
   - Index: 2
     Name: "\uD5EC\uBA67"
     Id: WarriorHelmet_Epic
-    Level: 20
+    Level: 6
     Rarity: 2
     Type: 3
     Class: 0
@@ -56,7 +56,7 @@ MonoBehaviour:
   - Index: 3
     Name: "\uD5EC\uBA67"
     Id: WarriorHelmet_Legendary
-    Level: 30
+    Level: 6
     Rarity: 3
     Type: 3
     Class: 0
@@ -80,7 +80,7 @@ MonoBehaviour:
   - Index: 5
     Name: "\uAC11\uC637"
     Id: WarriorArmor_Rare
-    Level: 10
+    Level: 1
     Rarity: 1
     Type: 2
     Class: 0
@@ -92,7 +92,7 @@ MonoBehaviour:
   - Index: 6
     Name: "\uAC11\uC637"
     Id: WarriorArmor_Epic
-    Level: 20
+    Level: 6
     Rarity: 2
     Type: 2
     Class: 0
@@ -104,7 +104,7 @@ MonoBehaviour:
   - Index: 7
     Name: "\uAC11\uC637"
     Id: WarriorArmor_Legendary
-    Level: 30
+    Level: 6
     Rarity: 3
     Type: 2
     Class: 0
@@ -128,7 +128,7 @@ MonoBehaviour:
   - Index: 9
     Name: "\uAC01\uBC18"
     Id: WarriorLeggings_Rare
-    Level: 10
+    Level: 1
     Rarity: 1
     Type: 9
     Class: 0
@@ -140,7 +140,7 @@ MonoBehaviour:
   - Index: 10
     Name: "\uAC01\uBC18"
     Id: WarriorLeggings_Epic
-    Level: 20
+    Level: 6
     Rarity: 2
     Type: 9
     Class: 0
@@ -152,7 +152,7 @@ MonoBehaviour:
   - Index: 11
     Name: "\uAC01\uBC18"
     Id: WarriorLeggings_Legendary
-    Level: 30
+    Level: 6
     Rarity: 3
     Type: 9
     Class: 0
@@ -176,7 +176,7 @@ MonoBehaviour:
   - Index: 13
     Name: "\uAC80"
     Id: WarriorSword_Rare
-    Level: 10
+    Level: 1
     Rarity: 1
     Type: 0
     Class: 0
@@ -188,7 +188,7 @@ MonoBehaviour:
   - Index: 14
     Name: "\uAC80"
     Id: WarriorSword_Epic
-    Level: 20
+    Level: 6
     Rarity: 2
     Type: 0
     Class: 0
@@ -200,7 +200,7 @@ MonoBehaviour:
   - Index: 15
     Name: "\uAC80"
     Id: WarriorSword_Legendary
-    Level: 30
+    Level: 6
     Rarity: 3
     Type: 0
     Class: 0
@@ -208,6 +208,582 @@ MonoBehaviour:
     Price: 300
     IconId: FantasyHeroes.Basic.MeleeWeapon2H.WarriorGreatsword
     SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.WarriorGreatsword
+    Meta: 
+  - Index: 16
+    Name: "\uD5EC\uBA67"
+    Id: ChampionHelmet_Common
+    Level: 11
+    Rarity: 0
+    Type: 3
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 20
+    IconId: FantasyHeroes.Basic.Helmet.ChampionArmor
+    SpriteId: FantasyHeroes.Basic.Helmet.ChampionArmor
+    Meta: 
+  - Index: 17
+    Name: "\uD5EC\uBA67"
+    Id: ChampionHelmet_Rare
+    Level: 11
+    Rarity: 1
+    Type: 3
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 200
+    IconId: FantasyHeroes.Basic.Helmet.ChampionArmor
+    SpriteId: FantasyHeroes.Basic.Helmet.ChampionArmor
+    Meta: 
+  - Index: 18
+    Name: "\uD5EC\uBA67"
+    Id: ChampionHelmet_Epic
+    Level: 16
+    Rarity: 2
+    Type: 3
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 400
+    IconId: FantasyHeroes.Basic.Helmet.ChampionArmor
+    SpriteId: FantasyHeroes.Basic.Helmet.ChampionArmor
+    Meta: 
+  - Index: 19
+    Name: "\uD5EC\uBA67"
+    Id: ChampionHelmet_Legendary
+    Level: 16
+    Rarity: 3
+    Type: 3
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 600
+    IconId: FantasyHeroes.Basic.Helmet.ChampionArmor
+    SpriteId: FantasyHeroes.Basic.Helmet.ChampionArmor
+    Meta: 
+  - Index: 20
+    Name: "\uAC11\uC637"
+    Id: ChampionArmor_Common
+    Level: 11
+    Rarity: 0
+    Type: 2
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 20
+    IconId: FantasyHeroes.Basic.Armor.ChampionArmor
+    SpriteId: FantasyHeroes.Basic.Armor.ChampionArmor
+    Meta: 
+  - Index: 21
+    Name: "\uAC11\uC637"
+    Id: ChampionArmor_Rare
+    Level: 11
+    Rarity: 1
+    Type: 2
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 200
+    IconId: FantasyHeroes.Basic.Armor.ChampionArmor
+    SpriteId: FantasyHeroes.Basic.Armor.ChampionArmor
+    Meta: 
+  - Index: 22
+    Name: "\uAC11\uC637"
+    Id: ChampionArmor_Epic
+    Level: 16
+    Rarity: 2
+    Type: 2
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 400
+    IconId: FantasyHeroes.Basic.Armor.ChampionArmor
+    SpriteId: FantasyHeroes.Basic.Armor.ChampionArmor
+    Meta: 
+  - Index: 23
+    Name: "\uAC11\uC637"
+    Id: ChampionArmor_Legendary
+    Level: 16
+    Rarity: 3
+    Type: 2
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 600
+    IconId: FantasyHeroes.Basic.Armor.ChampionArmor
+    SpriteId: FantasyHeroes.Basic.Armor.ChampionArmor
+    Meta: 
+  - Index: 24
+    Name: "\uAC01\uBC18"
+    Id: ChampionLeggings_Common
+    Level: 11
+    Rarity: 0
+    Type: 9
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 20
+    IconId: FantasyHeroes.Basic.Leggings.ChampionArmor
+    SpriteId: FantasyHeroes.Basic.Leggings.ChampionArmor
+    Meta: 
+  - Index: 25
+    Name: "\uAC01\uBC18"
+    Id: ChampionLeggings_Rare
+    Level: 11
+    Rarity: 1
+    Type: 9
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 200
+    IconId: FantasyHeroes.Basic.Leggings.ChampionArmor
+    SpriteId: FantasyHeroes.Basic.Leggings.ChampionArmor
+    Meta: 
+  - Index: 26
+    Name: "\uAC01\uBC18"
+    Id: ChampionLeggings_Epic
+    Level: 16
+    Rarity: 2
+    Type: 9
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 400
+    IconId: FantasyHeroes.Basic.Leggings.ChampionArmor
+    SpriteId: FantasyHeroes.Basic.Leggings.ChampionArmor
+    Meta: 
+  - Index: 27
+    Name: "\uAC01\uBC18"
+    Id: ChampionLeggings_Legendary
+    Level: 16
+    Rarity: 3
+    Type: 9
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 600
+    IconId: FantasyHeroes.Basic.Leggings.ChampionArmor
+    SpriteId: FantasyHeroes.Basic.Leggings.ChampionArmor
+    Meta: 
+  - Index: 28
+    Name: "\uAC80"
+    Id: ChampionSword_Common
+    Level: 11
+    Rarity: 0
+    Type: 0
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 20
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.ChampionBattlehammer
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.ChampionBattlehammer
+    Meta: 
+  - Index: 29
+    Name: "\uAC80"
+    Id: ChampionSword_Rare
+    Level: 11
+    Rarity: 1
+    Type: 0
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 200
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.ChampionBattlehammer
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.ChampionBattlehammer
+    Meta: 
+  - Index: 30
+    Name: "\uAC80"
+    Id: ChampionSword_Epic
+    Level: 16
+    Rarity: 2
+    Type: 0
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 400
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.ChampionBattlehammer
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.ChampionBattlehammer
+    Meta: 
+  - Index: 31
+    Name: "\uAC80"
+    Id: ChampionSword_Legendary
+    Level: 16
+    Rarity: 3
+    Type: 0
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 600
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.ChampionBattlehammer
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.ChampionBattlehammer
+    Meta: 
+  - Index: 32
+    Name: "\uD5EC\uBA67"
+    Id: ShadowHelmet_Common
+    Level: 21
+    Rarity: 0
+    Type: 3
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 40
+    IconId: FantasyHeroes.Basic.Helmet.ShadowTunic
+    SpriteId: FantasyHeroes.Basic.Helmet.ShadowTunic
+    Meta: 
+  - Index: 33
+    Name: "\uD5EC\uBA67"
+    Id: ShadowHelmet_Rare
+    Level: 21
+    Rarity: 1
+    Type: 3
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 400
+    IconId: FantasyHeroes.Basic.Helmet.ShadowTunic
+    SpriteId: FantasyHeroes.Basic.Helmet.ShadowTunic
+    Meta: 
+  - Index: 34
+    Name: "\uD5EC\uBA67"
+    Id: ShadowHelmet_Epic
+    Level: 26
+    Rarity: 2
+    Type: 3
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 800
+    IconId: FantasyHeroes.Basic.Helmet.ShadowTunic
+    SpriteId: FantasyHeroes.Basic.Helmet.ShadowTunic
+    Meta: 
+  - Index: 35
+    Name: "\uD5EC\uBA67"
+    Id: ShadowHelmet_Legendary
+    Level: 26
+    Rarity: 3
+    Type: 3
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 1200
+    IconId: FantasyHeroes.Basic.Helmet.ShadowTunic
+    SpriteId: FantasyHeroes.Basic.Helmet.ShadowTunic
+    Meta: 
+  - Index: 36
+    Name: "\uAC11\uC637"
+    Id: ShadowArmor_Common
+    Level: 21
+    Rarity: 0
+    Type: 2
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 40
+    IconId: FantasyHeroes.Basic.Armor.ShadowTunic
+    SpriteId: FantasyHeroes.Basic.Armor.ShadowTunic
+    Meta: 
+  - Index: 37
+    Name: "\uAC11\uC637"
+    Id: ShadowArmor_Rare
+    Level: 21
+    Rarity: 1
+    Type: 2
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 400
+    IconId: FantasyHeroes.Basic.Armor.ShadowTunic
+    SpriteId: FantasyHeroes.Basic.Armor.ShadowTunic
+    Meta: 
+  - Index: 38
+    Name: "\uAC11\uC637"
+    Id: ShadowArmor_Epic
+    Level: 26
+    Rarity: 2
+    Type: 2
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 800
+    IconId: FantasyHeroes.Basic.Armor.ShadowTunic
+    SpriteId: FantasyHeroes.Basic.Armor.ShadowTunic
+    Meta: 
+  - Index: 39
+    Name: "\uAC11\uC637"
+    Id: ShadowArmor_Legendary
+    Level: 26
+    Rarity: 3
+    Type: 2
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 1200
+    IconId: FantasyHeroes.Basic.Armor.ShadowTunic
+    SpriteId: FantasyHeroes.Basic.Armor.ShadowTunic
+    Meta: 
+  - Index: 40
+    Name: "\uAC01\uBC18"
+    Id: ShadowLeggings_Common
+    Level: 21
+    Rarity: 0
+    Type: 9
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 40
+    IconId: FantasyHeroes.Basic.Leggings.ShadowTunic
+    SpriteId: FantasyHeroes.Basic.Leggings.ShadowTunic
+    Meta: 
+  - Index: 41
+    Name: "\uAC01\uBC18"
+    Id: ShadowLeggings_Rare
+    Level: 21
+    Rarity: 1
+    Type: 9
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 400
+    IconId: FantasyHeroes.Basic.Leggings.ShadowTunic
+    SpriteId: FantasyHeroes.Basic.Leggings.ShadowTunic
+    Meta: 
+  - Index: 42
+    Name: "\uAC01\uBC18"
+    Id: ShadowLeggings_Epic
+    Level: 26
+    Rarity: 2
+    Type: 9
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 800
+    IconId: FantasyHeroes.Basic.Leggings.ShadowTunic
+    SpriteId: FantasyHeroes.Basic.Leggings.ShadowTunic
+    Meta: 
+  - Index: 43
+    Name: "\uAC01\uBC18"
+    Id: ShadowLeggings_Legendary
+    Level: 26
+    Rarity: 3
+    Type: 9
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 1200
+    IconId: FantasyHeroes.Basic.Leggings.ShadowTunic
+    SpriteId: FantasyHeroes.Basic.Leggings.ShadowTunic
+    Meta: 
+  - Index: 44
+    Name: "\uAC80"
+    Id: ShadowSword_Common
+    Level: 21
+    Rarity: 0
+    Type: 0
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 40
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.ShadowFang
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.ShadowFang
+    Meta: 
+  - Index: 45
+    Name: "\uAC80"
+    Id: ShadowSword_Rare
+    Level: 21
+    Rarity: 1
+    Type: 0
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 400
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.ShadowFang
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.ShadowFang
+    Meta: 
+  - Index: 46
+    Name: "\uAC80"
+    Id: ShadowSword_Epic
+    Level: 26
+    Rarity: 2
+    Type: 0
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 800
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.ShadowFang
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.ShadowFang
+    Meta: 
+  - Index: 47
+    Name: "\uAC80"
+    Id: ShadowSword_Legendary
+    Level: 26
+    Rarity: 3
+    Type: 0
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 1200
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.ShadowFang
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.ShadowFang
+    Meta: 
+  - Index: 48
+    Name: "\uD5EC\uBA67"
+    Id: CrusaderHelmet_Common
+    Level: 31
+    Rarity: 0
+    Type: 3
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 80
+    IconId: FantasyHeroes.Basic.Helmet.HighCrusaderArmor
+    SpriteId: FantasyHeroes.Basic.Helmet.HighCrusaderArmor
+    Meta: 
+  - Index: 49
+    Name: "\uD5EC\uBA67"
+    Id: CrusaderHelmet_Rare
+    Level: 31
+    Rarity: 1
+    Type: 3
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 800
+    IconId: FantasyHeroes.Basic.Helmet.HighCrusaderArmor
+    SpriteId: FantasyHeroes.Basic.Helmet.HighCrusaderArmor
+    Meta: 
+  - Index: 50
+    Name: "\uD5EC\uBA67"
+    Id: CrusaderHelmet_Epic
+    Level: 36
+    Rarity: 2
+    Type: 3
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 1600
+    IconId: FantasyHeroes.Basic.Helmet.HighCrusaderArmor
+    SpriteId: FantasyHeroes.Basic.Helmet.HighCrusaderArmor
+    Meta: 
+  - Index: 51
+    Name: "\uD5EC\uBA67"
+    Id: CrusaderHelmet_Legendary
+    Level: 36
+    Rarity: 3
+    Type: 3
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 2400
+    IconId: FantasyHeroes.Basic.Helmet.HighCrusaderArmor
+    SpriteId: FantasyHeroes.Basic.Helmet.HighCrusaderArmor
+    Meta: 
+  - Index: 52
+    Name: "\uAC11\uC637"
+    Id: CrusaderArmor_Common
+    Level: 31
+    Rarity: 0
+    Type: 2
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 80
+    IconId: FantasyHeroes.Basic.Armor.HighCrusaderArmor
+    SpriteId: FantasyHeroes.Basic.Armor.HighCrusaderArmor
+    Meta: 
+  - Index: 53
+    Name: "\uAC11\uC637"
+    Id: CrusaderArmor_Rare
+    Level: 31
+    Rarity: 1
+    Type: 2
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 800
+    IconId: FantasyHeroes.Basic.Armor.HighCrusaderArmor
+    SpriteId: FantasyHeroes.Basic.Armor.HighCrusaderArmor
+    Meta: 
+  - Index: 54
+    Name: "\uAC11\uC637"
+    Id: CrusaderArmor_Epic
+    Level: 36
+    Rarity: 2
+    Type: 2
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 1600
+    IconId: FantasyHeroes.Basic.Armor.HighCrusaderArmor
+    SpriteId: FantasyHeroes.Basic.Armor.HighCrusaderArmor
+    Meta: 
+  - Index: 55
+    Name: "\uAC11\uC637"
+    Id: CrusaderArmor_Legendary
+    Level: 36
+    Rarity: 3
+    Type: 2
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 2400
+    IconId: FantasyHeroes.Basic.Armor.HighCrusaderArmor
+    SpriteId: FantasyHeroes.Basic.Armor.HighCrusaderArmor
+    Meta: 
+  - Index: 56
+    Name: "\uAC01\uBC18"
+    Id: CrusaderLeggings_Common
+    Level: 31
+    Rarity: 0
+    Type: 9
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 80
+    IconId: FantasyHeroes.Basic.Leggings.HighCrusaderArmor
+    SpriteId: FantasyHeroes.Basic.Leggings.HighCrusaderArmor
+    Meta: 
+  - Index: 57
+    Name: "\uAC01\uBC18"
+    Id: CrusaderLeggings_Rare
+    Level: 31
+    Rarity: 1
+    Type: 9
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 800
+    IconId: FantasyHeroes.Basic.Leggings.HighCrusaderArmor
+    SpriteId: FantasyHeroes.Basic.Leggings.HighCrusaderArmor
+    Meta: 
+  - Index: 58
+    Name: "\uAC01\uBC18"
+    Id: CrusaderLeggings_Epic
+    Level: 36
+    Rarity: 2
+    Type: 9
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 1600
+    IconId: FantasyHeroes.Basic.Leggings.HighCrusaderArmor
+    SpriteId: FantasyHeroes.Basic.Leggings.HighCrusaderArmor
+    Meta: 
+  - Index: 59
+    Name: "\uAC01\uBC18"
+    Id: CrusaderLeggings_Legendary
+    Level: 36
+    Rarity: 3
+    Type: 9
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 2400
+    IconId: FantasyHeroes.Basic.Leggings.HighCrusaderArmor
+    SpriteId: FantasyHeroes.Basic.Leggings.HighCrusaderArmor
+    Meta: 
+  - Index: 60
+    Name: "\uAC80"
+    Id: CrusaderSword_Common
+    Level: 31
+    Rarity: 0
+    Type: 0
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 80
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.BizarreSword
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.BizarreSword
+    Meta: 
+  - Index: 61
+    Name: "\uAC80"
+    Id: CrusaderSword_Rare
+    Level: 31
+    Rarity: 1
+    Type: 0
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 800
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.BizarreSword
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.BizarreSword
+    Meta: 
+  - Index: 62
+    Name: "\uAC80"
+    Id: CrusaderSword_Epic
+    Level: 36
+    Rarity: 2
+    Type: 0
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 1600
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.BizarreSword
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.BizarreSword
+    Meta: 
+  - Index: 63
+    Name: "\uAC80"
+    Id: CrusaderSword_Legendary
+    Level: 36
+    Rarity: 3
+    Type: 0
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 2400
+    IconId: FantasyHeroes.Basic.MeleeWeapon2H.BizarreSword
+    SpriteId: FantasyHeroes.Basic.MeleeWeapon2H.BizarreSword
     Meta: 
   - Index: 0
     Name: "\uACBD\uD5D8\uCE58"
@@ -268,6 +844,174 @@ MonoBehaviour:
     Price: 10
     IconId: FantasyHeroes.Basic.Supplies.ScrollA
     SpriteId: FantasyHeroes.Basic.Supplies.ScrollA
+    Meta: 
+  - Index: 5
+    Name: "\uD3EC\uC158"
+    Id: Potion_Green_S
+    Level: 0
+    Rarity: 0
+    Type: 13
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.GreenPotionS
+    SpriteId: FantasyHeroes.Basic.Supplies.GreenPotionS
+    Meta: 
+  - Index: 6
+    Name: "\uD3EC\uC158"
+    Id: Potion_Green_M
+    Level: 0
+    Rarity: 1
+    Type: 13
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.GreenPotionM
+    SpriteId: FantasyHeroes.Basic.Supplies.GreenPotionM
+    Meta: 
+  - Index: 7
+    Name: "\uD3EC\uC158"
+    Id: Potion_Red_S
+    Level: 0
+    Rarity: 0
+    Type: 13
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.RedPotionS
+    SpriteId: FantasyHeroes.Basic.Supplies.RedPotionS
+    Meta: 
+  - Index: 8
+    Name: "\uD3EC\uC158"
+    Id: Potion_Red_M
+    Level: 0
+    Rarity: 1
+    Type: 13
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.RedPotionM
+    SpriteId: FantasyHeroes.Basic.Supplies.RedPotionM
+    Meta: 
+  - Index: 9
+    Name: "\uD3EC\uC158"
+    Id: Potion_Yellow_S
+    Level: 0
+    Rarity: 0
+    Type: 13
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.YellowPotionS
+    SpriteId: FantasyHeroes.Basic.Supplies.YellowPotionS
+    Meta: 
+  - Index: 10
+    Name: "\uD3EC\uC158"
+    Id: Potion_Yellow_M
+    Level: 0
+    Rarity: 1
+    Type: 13
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.YellowPotionM
+    SpriteId: FantasyHeroes.Basic.Supplies.YellowPotionM
+    Meta: 
+  - Index: 11
+    Name: "\uC7AC\uB8CC"
+    Id: Material_Iron
+    Level: 0
+    Rarity: -1
+    Type: 15
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.IronOre
+    SpriteId: FantasyHeroes.Basic.Supplies.IronOre
+    Meta: 
+  - Index: 12
+    Name: "\uC7AC\uB8CC"
+    Id: Material_Silver
+    Level: 0
+    Rarity: 0
+    Type: 15
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.SilverOre
+    SpriteId: FantasyHeroes.Basic.Supplies.SilverOre
+    Meta: 
+  - Index: 13
+    Name: "\uC7AC\uB8CC"
+    Id: Material_Gold
+    Level: 0
+    Rarity: 1
+    Type: 15
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.GoldOre
+    SpriteId: FantasyHeroes.Basic.Supplies.GoldOre
+    Meta: 
+  - Index: 14
+    Name: "\uBC14\uB098\uB098"
+    Id: Item_Banana
+    Level: 0
+    Rarity: -1
+    Type: 15
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.Banana
+    SpriteId: FantasyHeroes.Basic.Supplies.Banana
+    Meta: 
+  - Index: 15
+    Name: "\uBC84\uAC70"
+    Id: Item_Burger
+    Level: 0
+    Rarity: -1
+    Type: 15
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.Burger
+    SpriteId: FantasyHeroes.Basic.Supplies.Burger
+    Meta: 
+  - Index: 16
+    Name: "\uCF00\uC774\uD06C"
+    Id: Item_Cake
+    Level: 0
+    Rarity: -1
+    Type: 15
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.Cake
+    SpriteId: FantasyHeroes.Basic.Supplies.Cake
+    Meta: 
+  - Index: 17
+    Name: "\uB2F9\uADFC"
+    Id: Item_Carrot
+    Level: 0
+    Rarity: -1
+    Type: 15
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.Carrot
+    SpriteId: FantasyHeroes.Basic.Supplies.Carrot
+    Meta: 
+  - Index: 18
+    Name: "\uCCB4\uB9AC"
+    Id: Item_Cherry
+    Level: 0
+    Rarity: -1
+    Type: 15
+    Class: 0
+    Tags: 000000000000000000000000
+    Price: 10
+    IconId: FantasyHeroes.Basic.Supplies.Cherry
+    SpriteId: FantasyHeroes.Basic.Supplies.Cherry
     Meta: 
   backgroundBlue: {fileID: 21300000, guid: a7a9761b8498fc3469b31675a4250f17, type: 3}
   backgroundBrown: {fileID: 21300000, guid: 407123b69c6ad85469da2466fe776a87, type: 3}
