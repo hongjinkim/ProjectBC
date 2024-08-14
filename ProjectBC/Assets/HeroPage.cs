@@ -78,6 +78,9 @@ public class HeroPage : HeroScreen
         _info = updatedInfo;
         UpdateUITexts();
         UpdateEquipment();
+        //물약 업데이트
+        heroPotion.UpdatePotionSlot();
+       
         if (heroPotion != null)
         {
             heroPotion.UpdateCurrentHero(_info);  // HeroPotion ������Ʈ
@@ -119,6 +122,8 @@ public class HeroPage : HeroScreen
 
         UpdateUITexts();
         UpdateEquipment();
+        //물약 업데이트
+        heroPotion.UpdatePotionSlot();
 
         if (attributeUI != null)
         {

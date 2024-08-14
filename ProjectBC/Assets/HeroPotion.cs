@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
+using Unity.Android.Gradle;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -164,13 +166,9 @@ public class HeroPotion : MonoBehaviour
                 potionSelected.sprite = potionInfos[currentSelectedIndex].icon.sprite;
                 potionSelected.color = Color.white;
 
-                //여기에 리스트에 담는다
-
-                HeroInfo hero = GetComponentInParent<HeroPage>()._info;
-                hero.PotionItem = potions[currentSelectedIndex];
-
-
-                //potionSelectedCount.text = potionInfos[currentSelectedIndex].count.ToString();
+                currentHero.PotionItem = potions[currentSelectedIndex];
+                UpdatePotionSlot();
+              
             }
         }
         else
@@ -180,12 +178,16 @@ public class HeroPotion : MonoBehaviour
     }
 
 
+
+
     public void UpdateCurrentHero(HeroInfo hero)
     {
         currentHero = hero;
         ResetPotionUI();
         UpdatePotionInfo();
         LoadSelectedPotionForHero();
+
+        UpdatePotionSlot(); // 현재 영웅 변경 시 포션 슬롯 업데이트
     }
     private void UpdatePotionInfo()
     {
@@ -277,4 +279,52 @@ public class HeroPotion : MonoBehaviour
         }
     }
 
+    public void UpdatePotionSlot()
+    {
+        if (currentHero != null && currentHero.PotionItem != null)
+        {
+            // 현재 영웅이 포션을 가지고 있는 경우
+            if (potionSelected != null)
+            {
+                potionSelected.sprite = ItemCollection.active.GetItemIcon(currentHero.PotionItem)?.sprite;
+                potionSelected.color = Color.white;
+            }
+
+            if (selectedSlotImage != null)
+            {
+                //selectedSlotImage.sprite = ItemCollection.active.GetBackground(currentHero.PotionItem) ?? ItemCollection.active.backgroundBrown;
+                //selectedSlotImage.color = Color.white;
+
+                selectedSlotImage.sprite = ItemCollection.active.GetItemIcon(currentHero.PotionItem)?.sprite;
+                selectedSlotImage.color = Color.white;
+            }
+
+            if (potionSelectedCount != null)
+            {
+                potionSelectedCount.text = currentHero.PotionItem.count.ToString();
+                potionSelectedCount.gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            // 현재 영웅이 포션을 가지고 있지 않은 경우
+            if (potionSelected != null)
+            {
+                potionSelected.sprite = null;
+                potionSelected.color = new Color(1, 1, 1, 0); // 완전히 투명하게 설정
+            }
+
+            if (selectedSlotImage != null)
+            {
+                selectedSlotImage.sprite = ItemCollection.active.backgroundBrown;
+                selectedSlotImage.color = new Color(1, 1, 1, 0.5f); // 반투명하게 설정
+            }
+
+            if (potionSelectedCount != null)
+            {
+                potionSelectedCount.text = "";
+                potionSelectedCount.gameObject.SetActive(false);
+            }
+        }
+    }
 }
