@@ -10,10 +10,10 @@ public class ArcherSkillPanel : MonoBehaviour
     public Button marksmanshipButton;
     public Button weaknessDetectionButton;
 
-    public TextMeshProUGUI penetratingArrowLevelText;
-    public TextMeshProUGUI enhancedBowLevelText;
-    public TextMeshProUGUI marksmanshipLevelText;
-    public TextMeshProUGUI weaknessDetectionLevelText;
+    //public TextMeshProUGUI penetratingArrowLevelText;
+    //public TextMeshProUGUI enhancedBowLevelText;
+    //public TextMeshProUGUI marksmanshipLevelText;
+    //public TextMeshProUGUI weaknessDetectionLevelText;
 
     private Archer currentArcher;
 
@@ -79,10 +79,10 @@ public class ArcherSkillPanel : MonoBehaviour
 
     private void UpdateSkillLevels()
     {
-        penetratingArrowLevelText.text = $"Lv.{currentArcher.penetratingArrow.Level}";
-        enhancedBowLevelText.text = $"Lv.{currentArcher.enhancedBow.Level}";
-        marksmanshipLevelText.text = $"Lv.{currentArcher.marksmanship.Level}";
-        weaknessDetectionLevelText.text = $"Lv.{currentArcher.weaknessDetection.Level}";
+        //penetratingArrowLevelText.text = $"Lv.{currentArcher.penetratingArrow.Level}";
+        //enhancedBowLevelText.text = $"Lv.{currentArcher.enhancedBow.Level}";
+        //marksmanshipLevelText.text = $"Lv.{currentArcher.marksmanship.Level}";
+        //weaknessDetectionLevelText.text = $"Lv.{currentArcher.weaknessDetection.Level}";
 
         Debug.Log($"Current Archer Skill Levels: " +
               $"Penetrating Arrow: {currentArcher.penetratingArrow.Level}, " +
