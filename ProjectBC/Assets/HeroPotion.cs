@@ -163,6 +163,13 @@ public class HeroPotion : MonoBehaviour
 
                 potionSelected.sprite = potionInfos[currentSelectedIndex].icon.sprite;
                 potionSelected.color = Color.white;
+
+                //여기에 리스트에 담는다
+
+                HeroInfo hero = GetComponentInParent<HeroPage>()._info;
+                hero.PotionItem = potions[currentSelectedIndex];
+
+
                 //potionSelectedCount.text = potionInfos[currentSelectedIndex].count.ToString();
             }
         }

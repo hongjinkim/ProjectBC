@@ -11,7 +11,7 @@ public class HeroPage : HeroScreen
     public ItemCollection itemCollection;
 
     [Header("current  hero info")]
-    [SerializeField] private HeroInfo _info;
+    [SerializeField] public HeroInfo _info;
     private Hero _currentHero;
     public int _idx;
 
