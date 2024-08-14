@@ -41,10 +41,10 @@ public class Hero : Character
     protected override void Start()
     {
         base.Start();
-        // HeroInfo¿¡¼­ Character·Î ÂüÁ¶ ¼³Á¤
+        // HeroInfoì—ì„œ Characterë¡œ ì°¸ì¡° ì„¤ì •
         info.character = this;
 
-        // ÀúÀåµÈ Æ¯¼º È¿°ú Àû¿ë
+        // ì €ì¥ëœ íŠ¹ì„± íš¨ê³¼ ì ìš©
         info.ApplyTraitEffects(this);
         info.SetCharacter(this);
         //SetStat();
@@ -71,6 +71,9 @@ public class Hero : Character
     {
         base.Update();
         CheckAndUseSkill();
+
+        
+        //ActivePotion();
     }
     private IEnumerator RegenerateEnergy()
     {
@@ -92,7 +95,7 @@ public class Hero : Character
     }
     private void OnHeroLevelUp()
     {
-        // ·¹º§¾÷ ½Ã ¼öÇàÇÒ ÀÛ¾÷...
+        // ë ˆë²¨ì—… ì‹œ ìˆ˜í–‰í•  ì‘ì—…...
         info.ApplyTraits(this);
         EventManager.TriggerEvent(EventType.BattlePointUpdated, null);
     }
@@ -100,14 +103,14 @@ public class Hero : Character
     {
         isTraitSelectionPending = true;
         pendingTraitLevel = level;
-        // UI¸¦ ÅëÇØ »ç¿ëÀÚ¿¡°Ô Æ¯¼º ¼±ÅÃÀ» ¿äÃ»
+        // UIë¥¼ í†µí•´ ì‚¬ìš©ìì—ê²Œ íŠ¹ì„± ì„ íƒì„ ìš”ì²­
         RequestTraitSelectionFromUser();
     }
     private void RequestTraitSelectionFromUser()
     {
-        // ÀÌ ¸Ş¼­µå´Â UI ½Ã½ºÅÛÀ» ÅëÇØ »ç¿ëÀÚ¿¡°Ô Æ¯¼º ¼±ÅÃÀ» ¿äÃ»ÇÕ´Ï´Ù.
-        // ¿¹¸¦ µé¾î, Æ¯¼º ¼±ÅÃ ÆË¾÷À» Ç¥½ÃÇÒ ¼ö ÀÖ½À´Ï´Ù.
-        // ½ÇÁ¦ ±¸ÇöÀº °ÔÀÓÀÇ UI ½Ã½ºÅÛ¿¡ µû¶ó ´Ş¶óÁı´Ï´Ù.
+        // ì´ ë©”ì„œë“œëŠ” UI ì‹œìŠ¤í…œì„ í†µí•´ ì‚¬ìš©ìì—ê²Œ íŠ¹ì„± ì„ íƒì„ ìš”ì²­í•©ë‹ˆë‹¤.
+        // ì˜ˆë¥¼ ë“¤ì–´, íŠ¹ì„± ì„ íƒ íŒì—…ì„ í‘œì‹œí•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+        // ì‹¤ì œ êµ¬í˜„ì€ ê²Œì„ì˜ UI ì‹œìŠ¤í…œì— ë”°ë¼ ë‹¬ë¼ì§‘ë‹ˆë‹¤.
         
     }
     public void OnTraitSelected(bool isLeftTrait)
@@ -137,6 +140,58 @@ public class Hero : Character
             }
         }
     }
+
+
+    //private void ActivePotion()
+    //{
+
+    //    float healthPercentage = (float)currentHealth / maxHealth;
+    //    if (info.PotionItem != null && healthPercentage <= 0.9f)
+    //    {
+    //        Item inventoryPotion = GameDataManager.instance.playerInfo.items.Find(item =>
+    //                  item != null && item.Params != null && item.Params.Id == info.PotionItem.Params.Id);
+
+    //        if (inventoryPotion != null)
+    //        {
+    //            inventoryPotion.count--;
+
+
+    //            if (inventoryPotion.count <= 0)
+    //            {
+    //                GameDataManager.instance.playerInfo.items.Remove(inventoryPotion);
+    //                info.PotionItem = null; // ìºë¦­í„°ì˜ í¬ì…˜ ì•„ì´í…œ ì°¸ì¡° ì œê±°
+    //            }
+
+    //        }
+    //    }
+    //}
+
+    //private void ActivePotion()
+    //{
+    //    float healthPercentage = (float)currentHealth / maxHealth;
+
+    //    if (info.PotionItem != null && healthPercentage <= 0.9f)
+    //    {
+    //        // í¬ì…˜ ì‚¬ìš©
+    //        //Item inventoryPotion = GameDataManager.instance.playerInfo.items.Find(item => item != null && item.Params != null && item.Params.Id == info.PotionItem.Params.Id);
+
+    //        info.PotionItem.count--;
+    //        Debug.Log($"Used potion. Remaining count: {info.PotionItem.count}");
+
+    //        // í¬ì…˜ì„ ëª¨ë‘ ì‚¬ìš©í–ˆì„ ê²½ìš°
+    //        if (info.PotionItem.count <= 0)
+    //        {
+    //            info.PotionItem = null;
+    //        }
+
+    //        // ì—¬ê¸°ì— í¬ì…˜ íš¨ê³¼ ì ìš© ë¡œì§ ì¶”ê°€ (ì˜ˆ: ì²´ë ¥ íšŒë³µ)
+    //        // currentHealth = Mathf.Min(currentHealth + healAmount, maxHealth);
+    //    }
+    //}
+
+
+
+
 }
 
 
