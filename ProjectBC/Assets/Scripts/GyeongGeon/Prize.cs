@@ -9,5 +9,7 @@ public class Prize
     public string id;
     public string prizeName;
     public int price;
+    public Item needmaterial;
+    
     public GameObject prize;
 }
