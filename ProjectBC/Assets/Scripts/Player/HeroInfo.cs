@@ -82,6 +82,9 @@ public class HeroInfo
     public List<Item> EquippedItems;
     public Dictionary<ItemType, Item> EquippedItemDictionary = new Dictionary<ItemType, Item>();
 
+    public Item PotionItem;
+
+
     public HeroInfo(string name, HeroClass heroClass, int id, string imagePath)
     {
         this.id = id;

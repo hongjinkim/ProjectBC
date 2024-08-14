@@ -5,13 +5,11 @@ using System.Collections.Generic;
 
 public class HeroPage : HeroScreen
 {
-
     public TraitManager traitManager;
     public HeroMenuManager heroMenuManager;
-    public ItemCollection itemCollection;
 
     [Header("current  hero info")]
-    [SerializeField] private HeroInfo _info;
+    [SerializeField] public HeroInfo _info;
     private Hero _currentHero;
     public int _idx;
 
@@ -78,6 +76,9 @@ public class HeroPage : HeroScreen
         _info = updatedInfo;
         UpdateUITexts();
         UpdateEquipment();
+        //물약 업데이트
+        heroPotion.UpdatePotionSlot();
+       
         if (heroPotion != null)
         {
             heroPotion.UpdateCurrentHero(_info);  // HeroPotion ������Ʈ
@@ -119,6 +120,8 @@ public class HeroPage : HeroScreen
 
         UpdateUITexts();
         UpdateEquipment();
+        //물약 업데이트
+        heroPotion.UpdatePotionSlot();
 
         if (attributeUI != null)
         {

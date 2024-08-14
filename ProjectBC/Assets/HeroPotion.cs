@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Android.Gradle;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,6 +29,10 @@ public class HeroPotion : MonoBehaviour
 
     [SerializeField] private Color normalColor = Color.white;
     [SerializeField] private Color selectedColor = Color.yellow;
+
+    public Image potionSelected;
+    public TextMeshProUGUI potionSelectedCount;
+
     private int currentSelectedIndex = -1;
 
     private HeroInfo currentHero;
@@ -143,6 +150,7 @@ public class HeroPotion : MonoBehaviour
         }
     }
 
+
     private void SwapPotion()
     {
         if (currentSelectedIndex >= 0 && currentSelectedIndex < potionInfos.Length)
@@ -152,6 +160,17 @@ public class HeroPotion : MonoBehaviour
                 selectedSlotImage.sprite = potionInfos[currentSelectedIndex].icon.sprite;
                 selectedSlotImage.color = Color.white;
             }
+
+            if (potionSelected != null && potionInfos[currentSelectedIndex].icon != null)
+            {
+
+                potionSelected.sprite = potionInfos[currentSelectedIndex].icon.sprite;
+                potionSelected.color = Color.white;
+
+                currentHero.PotionItem = potions[currentSelectedIndex];
+                UpdatePotionSlot();
+              
+            }
         }
         else
         {
@@ -160,19 +179,23 @@ public class HeroPotion : MonoBehaviour
     }
 
 
+
+
     public void UpdateCurrentHero(HeroInfo hero)
     {
         currentHero = hero;
         ResetPotionUI();
         UpdatePotionInfo();
         LoadSelectedPotionForHero();
+
+        UpdatePotionSlot(); // í˜„ì¬ ì˜ì›… ë³€ê²½ ì‹œ í¬ì…˜ ìŠ¬ë¡¯ ì—…ë°ì´íŠ¸
     }
     private void UpdatePotionInfo()
     {
         if (currentHero == null) return;
 
-        // ¿©±â¼­ currentHeroÀÇ Á¤º¸¸¦ ¹ÙÅÁÀ¸·Î Æ÷¼Ç Á¤º¸¸¦ ¾÷µ¥ÀÌÆ®ÇÕ´Ï´Ù.
-        // ¿¹¸¦ µé¾î, ¿µ¿õÀÇ ·¹º§ÀÌ³ª ¼Ó¼º¿¡ µû¶ó Æ÷¼ÇÀÇ È¿°ú¸¦ ´Ù¸£°Ô ¼³Á¤ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+        // ì—¬ê¸°ì„œ currentHeroì˜ ì •ë³´ë¥¼ ë°”íƒ•ìœ¼ë¡œ í¬ì…˜ ì •ë³´ë¥¼ ì—…ë°ì´íŠ¸í•©ë‹ˆë‹¤.
+        // ì˜ˆë¥¼ ë“¤ì–´, ì˜ì›…ì˜ ë ˆë²¨ì´ë‚˜ ì†ì„±ì— ë”°ë¼ í¬ì…˜ì˜ íš¨ê³¼ë¥¼ ë‹¤ë¥´ê²Œ ì„¤ì •í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
         for (int i = 0; i < potionInfos.Length; i++)
         {
             UpdatePotionEffect(i);
@@ -188,24 +211,24 @@ public class HeroPotion : MonoBehaviour
     {
         if (index < 0 || index >= potionInfos.Length) return;
 
-        // ¿µ¿õÀÇ Á¤º¸¿¡ µû¶ó Æ÷¼Ç È¿°ú¸¦ °è»êÇÏ°í ¼³¸íÀ» ¾÷µ¥ÀÌÆ®ÇÕ´Ï´Ù.
-        // ÀÌ´Â °ÔÀÓÀÇ ±¸Ã¼ÀûÀÎ ±ÔÄ¢¿¡ µû¶ó ´Ş¶óÁú ¼ö ÀÖ½À´Ï´Ù.
+        // ì˜ì›…ì˜ ì •ë³´ì— ë”°ë¼ í¬ì…˜ íš¨ê³¼ë¥¼ ê³„ì‚°í•˜ê³  ì„¤ëª…ì„ ì—…ë°ì´íŠ¸í•©ë‹ˆë‹¤.
+        // ì´ëŠ” ê²Œì„ì˜ êµ¬ì²´ì ì¸ ê·œì¹™ì— ë”°ë¼ ë‹¬ë¼ì§ˆ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
         switch (index)
         {
             case 0: // Green S
             case 1: // Green M
-                int hpRestore = (index == 0) ? 50 : 100;
-                potionInfos[index].description = $"HP¸¦ {hpRestore + currentHero.level * 5} È¸º¹ÇÕ´Ï´Ù.";
+                int hpRestore = (index == 0) ? 10 : 20;
+                potionInfos[index].description = $"HPë¥¼ {hpRestore + 5} íšŒë³µí•©ë‹ˆë‹¤.";
                 break;
             case 2: // Yellow S
             case 3: // Yellow M
                 int mpRestore = (index == 2) ? 30 : 60;
-                potionInfos[index].description = $"MP¸¦ {mpRestore + currentHero.level * 3} È¸º¹ÇÕ´Ï´Ù.";
+                potionInfos[index].description = $"HPë¥¼ {mpRestore + 10} íšŒë³µí•©ë‹ˆë‹¤.";
                 break;
             case 4: // Red S
             case 5: // Red M
-                int atkBoost = (index == 4) ? 10 : 20;
-                potionInfos[index].description = $"°ø°İ·ÂÀ» {atkBoost + currentHero.attackDamage / 10}¸¸Å­ ÀÏ½ÃÀûÀ¸·Î Áõ°¡½ÃÅµ´Ï´Ù.";
+                int atkBoost = (index == 4) ? 80 : 100;
+                potionInfos[index].description = $"HPì„ {atkBoost + 15} íšŒë³µí•©ë‹ˆë‹¤.";
                 break;
         }
     }
@@ -221,11 +244,10 @@ public class HeroPotion : MonoBehaviour
         }
         else
         {
-            // ÀúÀåµÈ Á¤º¸°¡ ¾øÀ¸¸é Æ÷¼Ç ¼±ÅÃ ÇØÁ¦ »óÅÂ·Î À¯Áö
+            // ì €ì¥ëœ ì •ë³´ê°€ ì—†ìœ¼ë©´ í¬ì…˜ ì„ íƒ í•´ì œ ìƒíƒœë¡œ ìœ ì§€
             ResetPotionUI();
         }
     }
-
     private void ResetPotionUI()
     {
         currentSelectedIndex = -1;
@@ -233,6 +255,10 @@ public class HeroPotion : MonoBehaviour
         {
             selectedSlotImage.sprite = null;
             selectedSlotImage.color = Color.clear;
+
+            potionSelected.sprite = null;
+            potionSelected.color = Color.clear;
+
         }
         if (_potionName != null)
         {
@@ -243,7 +269,7 @@ public class HeroPotion : MonoBehaviour
             _potionDescription.text = "";
         }
 
-        // ¸ğµç Æ÷¼Ç ¹öÆ° »ö»ó ÃÊ±âÈ­
+        // ëª¨ë“  í¬ì…˜ ë²„íŠ¼ ìƒ‰ìƒ ì´ˆê¸°í™”
         for (int i = 0; i < _potionButtons.Length; i++)
         {
             Image buttonImage = _potionButtons[i].GetComponent<Image>();
@@ -251,6 +277,80 @@ public class HeroPotion : MonoBehaviour
             {
                 buttonImage.color = normalColor;
             }
+        }
+    }
+
+    public void UpdatePotionSlot()
+    {
+        try
+        {
+            if (currentHero != null && currentHero.PotionItem != null && currentHero.PotionItem.Params != null)
+            {
+                Debug.Log($"Updating potion slot for hero: {currentHero.heroName}, Potion: {currentHero.PotionItem.Params.Id}");
+
+                Sprite potionSprite = null;
+                try
+                {
+                    potionSprite = ItemCollection.active.GetItemIcon(currentHero.PotionItem)?.sprite;
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError($"Error getting potion icon: {e.Message}");
+                }
+
+                if (potionSprite != null)
+                {
+                    if (potionSelected != null)
+                    {
+                        potionSelected.sprite = potionSprite;
+                        potionSelected.color = Color.white;
+                    }
+                    if (selectedSlotImage != null)
+                    {
+                        selectedSlotImage.sprite = potionSprite;
+                        selectedSlotImage.color = Color.white;
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning($"No sprite found for potion: {currentHero.PotionItem.Params.Id}");
+                }
+
+                if (potionSelectedCount != null)
+                {
+                    potionSelectedCount.text = currentHero.PotionItem.count.ToString();
+                    potionSelectedCount.gameObject.SetActive(true);
+                }
+            }
+            else
+            {
+                Debug.Log("No potion equipped or invalid potion data");
+                ResetPotionSlot();
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Error in UpdatePotionSlot: {e.Message}");
+            ResetPotionSlot();
+        }
+    }
+
+    private void ResetPotionSlot()
+    {
+        if (potionSelected != null)
+        {
+            potionSelected.sprite = null;
+            potionSelected.color = new Color(1, 1, 1, 0);
+        }
+        if (selectedSlotImage != null)
+        {
+            selectedSlotImage.sprite = ItemCollection.active.backgroundBrown;
+            selectedSlotImage.color = new Color(1, 1, 1, 0.5f);
+        }
+        if (potionSelectedCount != null)
+        {
+            potionSelectedCount.text = "";
+            potionSelectedCount.gameObject.SetActive(false);
         }
     }
 }
