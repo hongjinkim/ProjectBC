@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class HolyGrace : PlayerSkill
 {
@@ -8,8 +6,8 @@ public class HolyGrace : PlayerSkill
     private int[] magicResistanceBonus = { 2, 4, 6, 8, 10 };
 
     public HolyGrace() : base(
-        "½Å¼ºÇÑ ÀºÇý",
-        "»çÁ¦ÀÇ ºûÀº ±ÙÃ³ ¿µ¿õµéÀ» °­È­½ÃÅµ´Ï´Ù.",
+        "ì‹ ì„±í•œ ì€í˜œ",
+        "ì‚¬ì œì˜ ë¹›ì€ ê·¼ì²˜ ì˜ì›…ë“¤ì„ ê°•í™”ì‹œí‚µë‹ˆë‹¤.",
         5,
         new int[] { 0, 0, 0, 0, 0 },
         new float[] { 0, 0, 0, 0, 0 }
@@ -19,5 +17,45 @@ public class HolyGrace : PlayerSkill
     public int GetDefenseBonus() => defenseBonus[Level - 1];
     public int GetMagicResistanceBonus() => magicResistanceBonus[Level - 1];
 
+    public struct BuffInfo
+    {
+        public int DefenseBonus;
+        public int MagicResistanceBonus;
+    }
+
+    private Dictionary<Hero, BuffInfo> appliedBuffs = new Dictionary<Hero, BuffInfo>();
+
+    public void ApplyEffect(Hero hero)
+    {
+        int defenseBonus = GetDefenseBonus();
+        int magicResistanceBonus = GetMagicResistanceBonus();
+
+        hero.info.defense += defenseBonus;
+        hero.info.magicResistance += magicResistanceBonus;
+
+        appliedBuffs[hero] = new BuffInfo { DefenseBonus = defenseBonus, MagicResistanceBonus = magicResistanceBonus };
+    }
+
+    public void RemoveEffect(Hero hero)
+    {
+        if (appliedBuffs.TryGetValue(hero, out BuffInfo buffInfo))
+        {
+            hero.info.defense -= buffInfo.DefenseBonus;
+            hero.info.magicResistance -= buffInfo.MagicResistanceBonus;
+            appliedBuffs.Remove(hero);
+        }
+    }
+
+    public void RemoveAllEffects()
+    {
+        foreach (var pair in appliedBuffs)
+        {
+            Hero hero = pair.Key;
+            BuffInfo buffInfo = pair.Value;
+            hero.info.defense -= buffInfo.DefenseBonus;
+            hero.info.magicResistance -= buffInfo.MagicResistanceBonus;
+        }
+        appliedBuffs.Clear();
+    }
     public override void UseSkill(Hero caster) { }
 }
