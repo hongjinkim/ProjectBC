@@ -23,7 +23,6 @@ public class KnightSkillPanel : MonoBehaviour
 
     public void SetCurrentKnight(Knight knight)
     {
-        knight.skillInit();
         currentKnight = knight;
         SkillInit();
         if (currentKnight == null)

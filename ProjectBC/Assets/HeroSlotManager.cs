@@ -48,6 +48,8 @@ public class HeroSlotManager : MonoBehaviour
 
         heroPage.OnHeroSelected(hero[idx], idx);
         UpdateHeroSubscription(idx);
+
+        
     }
 
     public void PrevHeroSelect()

@@ -8,9 +8,9 @@ public class Wizard : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     private LineRenderer lineRenderer;
     public bool isSelected = false;
     private List<Vector3> previewPath;
-    public ScorchedEarth scorchedEarth;
-    public MysticResonance mysticResonance;
-    public WaveOfHeat waveOfHeat;
+    public ScorchedEarth scorchedEarth = new ScorchedEarth();
+    public MysticResonance mysticResonance = new MysticResonance();
+    public WaveOfHeat waveOfHeat = new WaveOfHeat();
 
     private float passiveEffectTimer = 0f;
     private const float PASSIVE_EFFECT_INTERVAL = 1f;
@@ -27,6 +27,9 @@ public class Wizard : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     protected override void Start() 
     {
         base.Start();
+
+        SkillInit();
+
         _heroClass = HeroClass.Priest;
         info.characteristicType = CharacteristicType.Intellect;
         info.attackRange = 4;
@@ -41,9 +44,7 @@ public class Wizard : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     }
     public void SkillInit()
     {
-        scorchedEarth = new ScorchedEarth();
-        mysticResonance = new MysticResonance();
-        waveOfHeat = new WaveOfHeat();
+
         info.skills.Add(scorchedEarth);
         info.skills.Add(mysticResonance);
         info.skills.Add(waveOfHeat);

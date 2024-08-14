@@ -23,7 +23,7 @@ public class WizardSkillPanel : MonoBehaviour
 
     public void SetCurrentWizard(Wizard wizard)
     {
-        wizard.SkillInit();
+
         currentWizard = wizard;
         Init();
         if (currentWizard == null)

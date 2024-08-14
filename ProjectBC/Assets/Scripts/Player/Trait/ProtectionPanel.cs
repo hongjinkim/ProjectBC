@@ -4,9 +4,9 @@ using UnityEngine.UI;
 
 public class ProtectionPanel : MonoBehaviour, ITraitPanel
 {
-    public TextMeshProUGUI heroNameText;
-    public TextMeshProUGUI levelText;
-    public Image heroImage;
+    //public TextMeshProUGUI heroNameText;
+    //public TextMeshProUGUI levelText;
+    //public Image heroImage;
     public Button[] traitButtons; // 8개의 버튼 (레벨당 2개씩, 4개 레벨)
     public TextMeshProUGUI[] traitDescriptions; // 8개의 설명 텍스트
     public Image[] traitIcons; // 8개의 특성 아이콘
@@ -28,9 +28,9 @@ public class ProtectionPanel : MonoBehaviour, ITraitPanel
 
     private void UpdateUI()
     {
-        heroNameText.text = currentHeroInfo.heroName;
-        levelText.text = "Level: " + currentHeroInfo.level.ToString();
-        heroImage.sprite = currentHeroInfo.Sprite;
+        //heroNameText.text = currentHeroInfo.heroName;
+        //levelText.text = "Level: " + currentHeroInfo.level.ToString();
+        //heroImage.sprite = currentHeroInfo.Sprite;
         UpdateTraitButtons();
     }
 

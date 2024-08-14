@@ -107,6 +107,7 @@ public class HeroPage : HeroScreen
             heroPotion.UpdateCurrentHero(info);  // HeroPotion ������Ʈ
         }
         transform.SetAsLastSibling();
+        
     }
     public void Initialize()
     {

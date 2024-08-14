@@ -13,12 +13,11 @@ public class ConcentrationPanel : MonoBehaviour, ITraitPanel
     List<GameObject> level30 = new List<GameObject>();
     [SerializeField]
     List<GameObject> level40 = new List<GameObject>();
-    public TextMeshProUGUI heroNameText;
-    public TextMeshProUGUI levelText;
-    public Image heroImage;
-    public Button[] traitButtons; // 8°³ÀÇ ¹öÆ° (·¹º§´ç 2°³¾¿, 4°³ ·¹º§)
-    public TextMeshProUGUI[] traitDescriptions; // 8°³ÀÇ ¼³¸í ÅØ½ºÆ®
-    public Image[] traitIcons; // 8°³ÀÇ Æ¯¼º ¾ÆÀÌÄÜ
+    //public TextMeshProUGUI levelText;
+    //public Image heroImage;
+    public Button[] traitButtons; // 8ê°œì˜ ë²„íŠ¼ (ë ˆë²¨ë‹¹ 2ê°œì”©, 4ê°œ ë ˆë²¨)
+    public TextMeshProUGUI[] traitDescriptions; // 8ê°œì˜ ì„¤ëª… í…ìŠ¤íŠ¸
+    public Image[] traitIcons; // 8ê°œì˜ íŠ¹ì„± ì•„ì´ì½˜
 
     private HeroInfo currentHeroInfo;
     private ConcentrationTrait concentrationTrait;
@@ -49,20 +48,20 @@ public class ConcentrationPanel : MonoBehaviour, ITraitPanel
             return;
         }
 
-        if (heroNameText != null)
-            heroNameText.text = currentHeroInfo.heroName;
-        else
-            Debug.LogWarning("heroNameText is not assigned in ConcentrationPanel");
+        //if (heroNameText != null)
+        //    heroNameText.text = currentHeroInfo.heroName;
+        //else
+        //    Debug.LogWarning("heroNameText is not assigned in ConcentrationPanel");
 
-        if (levelText != null)
-            levelText.text = "Level: " + currentHeroInfo.level.ToString();
-        else
-            Debug.LogWarning("levelText is not assigned in ConcentrationPanel");
+        //if (levelText != null)
+        //    levelText.text = "Level: " + currentHeroInfo.level.ToString();
+        //else
+        //    Debug.LogWarning("levelText is not assigned in ConcentrationPanel");
 
-        if (heroImage != null && currentHeroInfo.Sprite != null)
-            heroImage.sprite = currentHeroInfo.Sprite;
-        else
-            Debug.LogWarning("heroImage or currentHeroInfo.Sprite is not assigned in ConcentrationPanel");
+        //if (heroImage != null && currentHeroInfo.Sprite != null)
+        //    heroImage.sprite = currentHeroInfo.Sprite;
+        //else
+        //    Debug.LogWarning("heroImage or currentHeroInfo.Sprite is not assigned in ConcentrationPanel");
 
         UpdateTraitButtons();
     }
@@ -77,26 +76,26 @@ public class ConcentrationPanel : MonoBehaviour, ITraitPanel
 
         int[] traitLevels = { 10, 20, 30, 40 };
         string[] traitNames = {
-            "¸·À» ¼ö ¾ø´Â Èû", "ÀÜÀÎÇÑ Èû",
-            "°¡Á× ¹ş±â±â", "¹«ÀÚºñ",
-            "ºĞ¼â", "¿µÈ¥ÀÇ ¼öÈ®",
-            "ÀüÅõ ´É·Â", "Æø·ÂÀûÀÎ ¼º°İ"
+            "ë§‰ì„ ìˆ˜ ì—†ëŠ” í˜", "ì”ì¸í•œ í˜",
+            "ê°€ì£½ ë²—ê¸°ê¸°", "ë¬´ìë¹„",
+            "ë¶„ì‡„", "ì˜í˜¼ì˜ ìˆ˜í™•",
+            "ì „íˆ¬ ëŠ¥ë ¥", "í­ë ¥ì ì¸ ì„±ê²©"
         };
 
         for (int i = 0; i < traitButtons.Length; i++)
         {
             int level = traitLevels[i / 2];
             bool isLeftTrait = i % 2 == 0;
-            //³ëµå ´Ùµî·ÏÇÑ´ÙÀ½¿¡ »©ÁÖ´Â ¹æ¹ı
-            //³ëµå¸¦ ÇÏ³ª ¼±ÅÃÇßÀ»¶§ °°Àº·¹º§ ¼±ÅÃÇÒ ¼ö ÀÖ´Â ¸®½ºÆ®¿¡¼­ ³ëµå¸¦ ´Ù »©ÁÖ¸é µÊ ³ëµå¸¦ Ãë¼ÒÇÏ¸é ´Ù½Ã ³Ö¾îÁÖ°í
+            //ë…¸ë“œ ë‹¤ë“±ë¡í•œë‹¤ìŒì— ë¹¼ì£¼ëŠ” ë°©ë²•
+            //ë…¸ë“œë¥¼ í•˜ë‚˜ ì„ íƒí–ˆì„ë•Œ ê°™ì€ë ˆë²¨ ì„ íƒí•  ìˆ˜ ìˆëŠ” ë¦¬ìŠ¤íŠ¸ì—ì„œ ë…¸ë“œë¥¼ ë‹¤ ë¹¼ì£¼ë©´ ë¨ ë…¸ë“œë¥¼ ì·¨ì†Œí•˜ë©´ ë‹¤ì‹œ ë„£ì–´ì£¼ê³ 
             bool isSelected = currentHeroInfo.IsTraitSelected(TraitType.Concentration, level, isLeftTrait);
             bool isOppositeSelected = currentHeroInfo.IsTraitSelected(TraitType.Concentration, level, !isLeftTrait);
 
-            // ¼öÁ¤µÈ ºÎºĞ: ¿µ¿õ ·¹º§, ÇöÀç Æ¯¼º ¼±ÅÃ ¿©ºÎ, ¹İ´ë Æ¯¼º ¼±ÅÃ ¿©ºÎ¸¦ ¸ğµÎ °í·ÁÇÏ¿© ¹öÆ° È°¼ºÈ­ »óÅÂ °áÁ¤
+            // ìˆ˜ì •ëœ ë¶€ë¶„: ì˜ì›… ë ˆë²¨, í˜„ì¬ íŠ¹ì„± ì„ íƒ ì—¬ë¶€, ë°˜ëŒ€ íŠ¹ì„± ì„ íƒ ì—¬ë¶€ë¥¼ ëª¨ë‘ ê³ ë ¤í•˜ì—¬ ë²„íŠ¼ í™œì„±í™” ìƒíƒœ ê²°ì •
             bool canSelectTrait = currentHeroInfo.level >= level && !isSelected && !isOppositeSelected;
             traitButtons[i].interactable = canSelectTrait;
 
-            // ¼öÁ¤µÈ ºÎºĞ: ¼±ÅÃµÈ Æ¯¼º¿¡ ´ëÇÑ ½Ã°¢Àû ÇÇµå¹é °³¼±
+            // ìˆ˜ì •ëœ ë¶€ë¶„: ì„ íƒëœ íŠ¹ì„±ì— ëŒ€í•œ ì‹œê°ì  í”¼ë“œë°± ê°œì„ 
             Color buttonColor = isSelected ? Color.yellow : (canSelectTrait ? Color.white : Color.gray);
             traitButtons[i].GetComponent<Image>().color = buttonColor;
 
@@ -128,7 +127,7 @@ public class ConcentrationPanel : MonoBehaviour, ITraitPanel
             }
            
 
-            // Æ¯¼º Àû¿ë ÈÄ UI °»½Å
+            // íŠ¹ì„± ì ìš© í›„ UI ê°±ì‹ 
             UpdateTraitButtons();
         }
         else

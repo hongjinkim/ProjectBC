@@ -79,6 +79,7 @@ public class MyHeroSlot : MonoBehaviour
     {
 
         heroPage.OnHeroSelected(_info, myHeroIndex);
+        heroPage.heroMenuManager.EquipmentMenu.SetAsLastSibling();
         _info.character = GameManager.instance.heroCharacterScript[myHeroIndex];
     }
 }
