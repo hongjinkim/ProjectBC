@@ -16,7 +16,7 @@ public class PriestSkillPanel : MonoBehaviour
 
     private Priest currentPriest;
 
-    private void Start()
+    private void Init()
     {
         purifyingLightButton.onClick.AddListener(() => LevelUpSkill(currentPriest.purifyingLight));
         dazzlingLightButton.onClick.AddListener(() => LevelUpSkill(currentPriest.dazzlingLight));
@@ -26,16 +26,42 @@ public class PriestSkillPanel : MonoBehaviour
 
     public void SetCurrentPriest(Priest priest)
     {
+        Debug.Log(priest.info.skills.Count);
+
+        priest.skillInit();
+
         currentPriest = priest;
+        Init();
+        if (currentPriest == null)
+        {
+            Debug.LogError("SetCurrentPriest was called with a null priest.");
+        }
+        else
+        {
+            Debug.Log($"SetCurrentPriest called with archer: {currentPriest.name}");
+            Debug.Log($"Archer has {currentPriest.info.skills.Count} skills:");
+
+            foreach (var skill in currentPriest.info.skills)
+            {
+                Debug.Log($"Skill: {skill.Name}, Level: {skill.Level}");
+            }
+        }
         UpdateSkillLevels();
+
     }
 
     private void LevelUpSkill(PlayerSkill skill)
     {
         if (skill.Level < skill.MaxLevel)
         {
+            int oldLevel = skill.Level;
             skill.LevelUp();
+            Debug.Log($"{skill.Name} leveled up from {oldLevel} to {skill.Level}");
             UpdateSkillLevels();
+        }
+        else
+        {
+            Debug.Log($"{skill.Name} is already at max level ({skill.MaxLevel})");
         }
     }
 

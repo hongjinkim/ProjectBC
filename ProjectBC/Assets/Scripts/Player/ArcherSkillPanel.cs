@@ -18,21 +18,21 @@ public class ArcherSkillPanel : MonoBehaviour
 
     private Archer currentArcher;
 
-    private void Start()
+    public void Init()
     {
-        if (penetratingArrowButton != null)
-            penetratingArrowButton.onClick.AddListener(() => LevelUpSkill(currentArcher?.info.skills.Find(s => s is PenetratingArrow)));
-        if (enhancedBowButton != null)
-            enhancedBowButton.onClick.AddListener(() => LevelUpSkill(currentArcher?.info.skills.Find(s => s is EnhancedBow)));
-        if (marksmanshipButton != null)
-            marksmanshipButton.onClick.AddListener(() => LevelUpSkill(currentArcher?.info.skills.Find(s => s is Marksmanship)));
-        if (weaknessDetectionButton != null)
-            weaknessDetectionButton.onClick.AddListener(() => LevelUpSkill(currentArcher?.info.skills.Find(s => s is WeaknessDetection)));
+        penetratingArrowButton.onClick.AddListener(() => LevelUpSkill(currentArcher.penetratingArrow));
+        enhancedBowButton.onClick.AddListener(() => LevelUpSkill(currentArcher.enhancedBow));
+        marksmanshipButton.onClick.AddListener(() => LevelUpSkill(currentArcher.marksmanship));
+        weaknessDetectionButton.onClick.AddListener(() => LevelUpSkill(currentArcher.weaknessDetection));
     }
 
     public void SetCurrentArcher(Archer archer)
     {
+        archer.skillInit();
         currentArcher = archer;
+        Init();
+
+
         if (currentArcher == null)
         {
             Debug.LogError("SetCurrentArcher was called with a null archer.");
@@ -41,6 +41,7 @@ public class ArcherSkillPanel : MonoBehaviour
         {
             Debug.Log($"SetCurrentArcher called with archer: {currentArcher.name}");
             Debug.Log($"Archer has {currentArcher.info.skills.Count} skills:");
+
             foreach (var skill in currentArcher.info.skills)
             {
                 Debug.Log($"Skill: {skill.Name}, Level: {skill.Level}");

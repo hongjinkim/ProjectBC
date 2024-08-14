@@ -14,16 +14,7 @@ public class Archer : Hero
         _heroClass = HeroClass.Archer;
         info.characteristicType = CharacteristicType.Agility;
         info.attackRange = 4;
-        penetratingArrow = new PenetratingArrow();
-        enhancedBow = new EnhancedBow();
-        marksmanship = new Marksmanship();
-        weaknessDetection = new WeaknessDetection();
-
-        info.skills.Clear();  // 기존 스킬 리스트를 비웁니다.
-        info.skills.Add(penetratingArrow);
-        info.skills.Add(enhancedBow);
-        info.skills.Add(marksmanship);
-        info.skills.Add(weaknessDetection);
+        
 
 
 
@@ -35,7 +26,18 @@ public class Archer : Hero
             Debug.Log($"Skill: {skill.Name}, Level: {skill.Level}");
         }
     }
+    public void skillInit()
+    {
+        penetratingArrow = new PenetratingArrow();
+        enhancedBow = new EnhancedBow();
+        marksmanship = new Marksmanship();
+        weaknessDetection = new WeaknessDetection();
+        info.skills.Add(penetratingArrow);
+        info.skills.Add(enhancedBow);
+        info.skills.Add(marksmanship);
+        info.skills.Add(weaknessDetection);
 
+    }
     //private void Update()
     //{
     //    if (info.energy >= 100)

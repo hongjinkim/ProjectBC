@@ -14,7 +14,7 @@ public class KnightSkillPanel : MonoBehaviour
 
     private Knight currentKnight;
 
-    private void Start()
+    public void SkillInit()
     {
         shieldBashButton.onClick.AddListener(() => LevelUpSkill(currentKnight.shieldBash));
         heavenlyBlessingButton.onClick.AddListener(() => LevelUpSkill(currentKnight.heavenlyBlessing));
@@ -23,7 +23,23 @@ public class KnightSkillPanel : MonoBehaviour
 
     public void SetCurrentKnight(Knight knight)
     {
+        knight.skillInit();
         currentKnight = knight;
+        SkillInit();
+        if (currentKnight == null)
+        {
+            Debug.LogError("SetCurrentKnight was called with a null archer.");
+        }
+        else
+        {
+            Debug.Log($"SetCurrentKnight called with archer: {currentKnight.name}");
+            Debug.Log($"Knight has {currentKnight.info.skills.Count} skills:");
+
+            foreach (var skill in currentKnight.info.skills)
+            {
+                Debug.Log($"Skill: {skill.Name}, Level: {skill.Level}");
+            }
+        }
         UpdateSkillLevels();
     }
 
@@ -31,8 +47,14 @@ public class KnightSkillPanel : MonoBehaviour
     {
         if (skill.Level < skill.MaxLevel)
         {
+            int oldLevel = skill.Level;
             skill.LevelUp();
+            Debug.Log($"{skill.Name} leveled up from {oldLevel} to {skill.Level}");
             UpdateSkillLevels();
+        }
+        else
+        {
+            Debug.Log($"{skill.Name} is already at max level ({skill.MaxLevel})");
         }
     }
 

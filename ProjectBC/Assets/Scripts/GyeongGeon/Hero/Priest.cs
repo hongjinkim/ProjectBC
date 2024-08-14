@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -32,15 +33,27 @@ public class Priest : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
         info.characteristicType = CharacteristicType.Intellect;
         info.attackRange = 4;
 
-        purifyingLight = new PurifyingLight();
-        holyGrace = new HolyGrace();
-        dazzlingLight = new DazzlingLight();
-        mysticalPower = new MysticalPower();
+        
+        info.activeSkill = purifyingLight;
+        Debug.Log($"Priest initialized with {info.skills.Count} skills. Active skill: {info.activeSkill?.Name ?? "None"}");
+        foreach (var skill in info.skills)
+        {
+            Debug.Log($"Skill: {skill.Name}, Level: {skill.Level}");
+        }
+    }
+    public void skillInit()
+    {
+
+        
+            purifyingLight = new PurifyingLight();
+            holyGrace = new HolyGrace();
+            dazzlingLight = new DazzlingLight();
+            mysticalPower = new MysticalPower();
+        
         info.skills.Add(purifyingLight);
         info.skills.Add(holyGrace);
         info.skills.Add(dazzlingLight);
         info.skills.Add(mysticalPower);
-        info.activeSkill = purifyingLight;
     }
     protected override void Update()
     {
