@@ -70,6 +70,7 @@ public class HeroSlotManager : MonoBehaviour
         {
             heroInfo.OnExperienceChanged -= heroPage.GaugeBarUpdate;
             heroInfo.OnLevelUp -= heroPage.GaugeBarUpdate;
+
         }
 
         heroInfo = hero[newIdx];
@@ -79,6 +80,7 @@ public class HeroSlotManager : MonoBehaviour
         heroPage.GaugeBarUpdate();
 
         attributeUI.UpdateHeroAttributes(heroInfo);
+
     }
 
 }

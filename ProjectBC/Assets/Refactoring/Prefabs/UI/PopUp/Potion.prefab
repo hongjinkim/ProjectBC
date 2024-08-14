@@ -3167,6 +3167,7 @@ GameObject:
   - component: {fileID: 2324820532712409464}
   - component: {fileID: 8476290028091414711}
   - component: {fileID: 7446612394342138426}
+  - component: {fileID: 3621659557888108676}
   m_Layer: 0
   m_Name: Potion
   m_TagString: Untagged
@@ -3246,6 +3247,58 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _screenName: Potion
   _UIManager: {fileID: 0}
+--- !u!114 &3621659557888108676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7343261756775615220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52e6e83a50656e1429b7c3693e223dd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _potionButtons:
+  - {fileID: 5293640487153551812}
+  - {fileID: 8441802003502739909}
+  - {fileID: 8397200170467083331}
+  - {fileID: 6874563837295227716}
+  - {fileID: 9147293029529754593}
+  - {fileID: 8121815582087502244}
+  _potionName: {fileID: 3328204463643927616}
+  _potionDescription: {fileID: 2186859795756115009}
+  potionInfos:
+  - name: "\uC791\uC740 \uCD08\uB85D \uD3EC\uC158"
+    description: "\uCCB4\uB825 2 \uD68C\uBCF5"
+    icon: {fileID: 5290833042395944520}
+    count: {fileID: 8078368022428046025}
+  - name: "\uD070 \uCD08\uB85D \uD3EC\uC158"
+    description: "\uCCB4\uB825 3 \uD68C\uBCF5"
+    icon: {fileID: 8957806108699433232}
+    count: {fileID: 1719106518387612850}
+  - name: "\uC791\uC740 \uB178\uB780 \uD3EC\uC158"
+    description: "\uCCB4\uB825 4 \uD68C\uBCF5"
+    icon: {fileID: 3699857374831731610}
+    count: {fileID: 8270481491821118218}
+  - name: "\uD070 \uB178\uB780 \uD3EC\uC158"
+    description: "\uCCB4\uB825 5 \uD68C\uBCF5"
+    icon: {fileID: 1230090982245312248}
+    count: {fileID: 3356675324903224616}
+  - name: "\uC791\uC740 \uBE68\uAC04 \uD3EC\uC158"
+    description: "\uCCB4\uB825 6 \uD68C\uBCF5"
+    icon: {fileID: 5360354600110206703}
+    count: {fileID: 2001071835302081614}
+  - name: "\uD070 \uBE68\uAC04 \uD3EC\uC158"
+    description: "\uCCB4\uB825 7 \uD68C\uBCF5"
+    icon: {fileID: 8952620542384553751}
+    count: {fileID: 8132112716700175299}
+  swapButton: {fileID: 6990935896989525718}
+  selectedSlotImage: {fileID: 7024495914564469033}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  potionSelected: {fileID: 0}
+  potionSelectedCount: {fileID: 0}
 --- !u!1 &7458736129095642229
 GameObject:
   m_ObjectHideFlags: 0
