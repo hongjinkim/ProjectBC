@@ -153,33 +153,34 @@ public class HeroPage : HeroScreen
 
     public bool UseExpScroll(string scrollType)
     {
-        var ExpItem = GameDataManager.instance.itemDictionary[ItemType.Exp];
-
-        foreach (Item item in ExpItem)
+        if (!GameDataManager.instance.itemDictionary.ContainsKey(ItemType.Exp))
         {
-            
-            if (item.count > 0)
-            {
-                item.count--;
-
-                //GameDataManager.instance.UpdateItem();
-                //GameDataManager.instance.UpdateFunds();
-                EventManager.TriggerEvent(EventType.FundsUpdated, null);
-                EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { {"type", ItemType.Exp } });
-
-                if (ExpScroll.Instance != null)
-                {
-                    ExpScroll.Instance.UpdateExpScrollCount();
-                }
-
-                if (item.count == 0)
-                {
-                    GameDataManager.instance.RemoveItem(item);
-                }
-                return true;
-            }
-            
+            return false;
         }
+
+        var ExpItems = GameDataManager.instance.itemDictionary[ItemType.Exp];
+        Item targetScroll = ExpItems.Find(item => item.Params.Id == scrollType);
+
+        if (targetScroll != null && targetScroll.count > 0)
+        {
+            targetScroll.count--;
+
+            EventManager.TriggerEvent(EventType.FundsUpdated, null);
+            EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { { "type", ItemType.Exp } });
+
+            if (ExpScroll.Instance != null)
+            {
+                ExpScroll.Instance.UpdateExpScrollCount();
+            }
+
+            if (targetScroll.count == 0)
+            {
+                GameDataManager.instance.RemoveItem(targetScroll);
+            }
+            return true;
+        }
+
+        Debug.Log($"{scrollType} 경험치 스크롤이 없습니다.");
         return false;
     }
 
@@ -201,11 +202,6 @@ public class HeroPage : HeroScreen
         {
             _info.AddExp(exp);
         }
-        else
-        {
-            Debug.Log($"{scrollType} ����ġ ��ũ���� �����ϴ�.");
-        }
-
     }
     public void OnTalentButtonClicked()
     {
