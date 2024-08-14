@@ -47,7 +47,6 @@ public class HeroPage : HeroScreen
     {
         if (attributeUI == null)
         {
-            Debug.LogError("AttributeUI is not assigned in the inspector for HeroPage");
         }
         else
         {
@@ -96,10 +95,7 @@ public class HeroPage : HeroScreen
         {
             heroMenuManager.UpdateCurrentHero(_info);
         }
-        else
-        {
-            Debug.LogError("HeroMenuManager is not assigned in HeroPage");
-        }
+
         traitManager.SetCurrentHero(_info);
         attributeUI.UpdateHeroAttributes(info);
         if (heroPotion != null)
@@ -113,7 +109,6 @@ public class HeroPage : HeroScreen
     {
         if (_info == null)
         {
-            Debug.LogError("_info is null in Initialize");
             return;
         }
 
@@ -128,18 +123,10 @@ public class HeroPage : HeroScreen
         {
             attributeUI.UpdateHeroAttributes(_info);
         }
-        else
-        {
-            Debug.LogError("attributeUI is null in Initialize");
-        }
 
         if (heroPotion != null)
         {
             heroPotion.UpdateCurrentHero(_info);  // HeroPotion ������Ʈ
-        }
-        else
-        {
-            Debug.LogError("heroPotion is null in Initialize");
         }
     }
     public void OnBackButtonClicked()
@@ -179,8 +166,6 @@ public class HeroPage : HeroScreen
             }
             return true;
         }
-
-        Debug.Log($"{scrollType} 경험치 스크롤이 없습니다.");
         return false;
     }
 
@@ -209,10 +194,6 @@ public class HeroPage : HeroScreen
         {
             traitManager.ShowTraitPanel(_info);
         }
-        else
-        {
-            Debug.LogError("TraitManager is not assigned in HeroPage");
-        }
     }
     public void OnLevelupButtonClicked()
     {
@@ -229,31 +210,73 @@ public class HeroPage : HeroScreen
 
         string[] scrollTypes = { "Exp_Legendary", "Exp_Epic", "Exp_Rare", "Exp_Common", "Exp_Basic" };
         int[] expValues = { 5, 4, 3, 2, 1 };
-
         float totalExpGained = 0;
+        Dictionary<string, int> scrollsUsed = new Dictionary<string, int>();
 
         for (int i = 0; i < scrollTypes.Length; i++)
         {
-            while (neededExp > 0)
-            {
-                if (UseExpScroll(scrollTypes[i]))
-                {
-                    totalExpGained += expValues[i];
-                    neededExp -= expValues[i];
-                }
-                else
-                {
-                    break;
-                }
-            }
+            int availableScrolls = GetAvailableScrollCount(scrollTypes[i]);
+            int scrollsNeeded = Mathf.Min(availableScrolls, Mathf.CeilToInt(neededExp / expValues[i]));
 
-            if (neededExp <= 0) break;
+            if (scrollsNeeded > 0)
+            {
+                scrollsUsed[scrollTypes[i]] = scrollsNeeded;
+                float expGained = scrollsNeeded * expValues[i];
+                totalExpGained += expGained;
+                neededExp -= expGained;
+
+                if (neededExp <= 0) break;
+            }
         }
 
+        // 한 번에 아이템 사용 및 경험치 증가
         if (totalExpGained > 0)
         {
+            foreach (var scroll in scrollsUsed)
+            {
+                UseExpScrollBatch(scroll.Key, scroll.Value);
+            }
             _info.AddExp(totalExpGained);
+
+            // UI 갱신
+            UpdateExpScrollUI();
         }
+    }
+
+    private int GetAvailableScrollCount(string scrollType)
+    {
+        if (GameDataManager.instance.itemDictionary.TryGetValue(ItemType.Exp, out var expItems))
+        {
+            var scroll = expItems.Find(item => item.Params.Id == scrollType);
+            return scroll?.count ?? 0;
+        }
+        return 0;
+    }
+    private void UseExpScrollBatch(string scrollType, int count)
+    {
+        if (GameDataManager.instance.itemDictionary.TryGetValue(ItemType.Exp, out var expItems))
+        {
+            var scroll = expItems.Find(item => item.Params.Id == scrollType);
+            if (scroll != null)
+            {
+                scroll.count -= count;
+                if (scroll.count <= 0)
+                {
+                    GameDataManager.instance.RemoveItem(scroll);
+                }
+            }
+        }
+    }
+
+    private void UpdateExpScrollUI()
+    {
+        EventManager.TriggerEvent(EventType.FundsUpdated, null);
+        EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { { "type", ItemType.Exp } });
+        if (ExpScroll.Instance != null)
+        {
+            ExpScroll.Instance.UpdateExpScrollCount();
+        }
+        // 추가로 필요한 UI 업데이트 로직
     }
 
     public void GaugeBarUpdate()
