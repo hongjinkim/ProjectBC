@@ -631,7 +631,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 2fb98fc8ef2e573458a7b14fe0810d21, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.88235295}
   m_FlipX: 0
@@ -760,7 +760,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.40000004, g: 0.40000004, b: 0.40000004, a: 1}
   m_FlipX: 0
@@ -926,8 +926,6 @@ MonoBehaviour:
   droppedGolds: 0
   totalDropRate: 0
   lootPrefab: {fileID: 6398687339744348316, guid: 78836114cce56cf4191abc5b2ca58fad, type: 3}
-  objectPool: {fileID: 8896680016165505103}
-  fadeDuration: 2
 --- !u!114 &8896680016165505103
 MonoBehaviour:
   m_ObjectHideFlags: 0
