@@ -47,7 +47,7 @@ public class PlayerInfo
         this.musicVolume = 80f;
         this.sfxVolume = 80f;
 
-        this.itemCapacity = 30;
+        this.itemCapacity = 200;
 
         InitInventory();
     }

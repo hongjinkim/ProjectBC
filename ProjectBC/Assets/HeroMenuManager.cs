@@ -17,11 +17,11 @@ public class HeroMenuManager : MonoBehaviour
     public Button PotionEquipmentCloseButton;
     public Transform HeroScreen_Equipment;
 
-    [Header("Skill")]
-    public GameObject ArcherSkillPanel;
-    public GameObject KnightSkillPanel;
-    public GameObject WizardSkillPanel;
-    public GameObject PriestSkillPanel;
+    [Header("Skill Panels")]
+    public ArcherSkillPanel archerSkillPanel;
+    public KnightSkillPanel knightSkillPanel;
+    public WizardSkillPanel wizardSkillPanel;
+    public PriestSkillPanel priestSkillPanel;
 
 
     private void Awake()
@@ -34,8 +34,17 @@ public class HeroMenuManager : MonoBehaviour
     {
         traitManager.HideAllPanels();
         EquipmentMenu.SetAsLastSibling();
+       
     }
 
+
+    private void HideAllSkillPanels()
+    {
+        archerSkillPanel.gameObject.SetActive(false);
+        knightSkillPanel.gameObject.SetActive(false);
+        wizardSkillPanel.gameObject.SetActive(false);
+        priestSkillPanel.gameObject.SetActive(false);
+    }
     public void OnAttributeButtonClicked()
     {
         traitManager.HideAllPanels();
@@ -52,8 +61,43 @@ public class HeroMenuManager : MonoBehaviour
     {
         traitManager.HideAllPanels();
         SkillMenu.SetAsLastSibling();
+        HideAllSkillPanels();
+        SetCurrentHeroToSkillPanel();
     }
-
+    private void SetCurrentHeroToSkillPanel()
+    {
+        switch (currentHeroInfo.heroClass)
+        {
+            case HeroClass.Archer:
+                Debug.Log($"Attempting to set Archer: {currentHeroInfo.character}");
+                if (currentHeroInfo.character == null)
+                {
+                    Debug.LogError("currentHeroInfo.character is null for Archer");
+                }
+                else if (!(currentHeroInfo.character is Archer))
+                {
+                    Debug.LogError($"currentHeroInfo.character is not an Archer. Actual type: {currentHeroInfo.character.GetType()}");
+                }
+                else
+                {
+                    archerSkillPanel.gameObject.SetActive(true);
+                    archerSkillPanel.SetCurrentArcher(currentHeroInfo.character as Archer);
+                }
+                break;
+            case HeroClass.Knight:
+                knightSkillPanel.gameObject.SetActive(true);
+                knightSkillPanel.SetCurrentKnight(currentHeroInfo.character as Knight);
+                break;
+            case HeroClass.Priest:
+                priestSkillPanel.gameObject.SetActive(true);
+                priestSkillPanel.SetCurrentPriest(currentHeroInfo.character as Priest);
+                break;
+            case HeroClass.Wizard:
+                wizardSkillPanel.gameObject.SetActive(true);
+                wizardSkillPanel.SetCurrentWizard(currentHeroInfo.character as Wizard);
+                break;
+        }
+    }
     public void OnTalentButtonClicked()
     {
         TraitMenu.SetAsLastSibling();
@@ -78,6 +122,7 @@ public class HeroMenuManager : MonoBehaviour
     public void OnPotionEquipmentClicked()
     {
         HeroScreen_Equipment.SetActive(true);
+        HeroScreen_Equipment.SetAsLastSibling();
     }
 
     public void OpPotionEquipmentClosed()

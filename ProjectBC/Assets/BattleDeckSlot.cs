@@ -21,12 +21,30 @@ public class BattleDeckSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IBeg
     private Camera mainCamera;
     [SerializeField] private int slotIndex;
 
+    public Image hpBar;
+    private Coroutine hpUpdateCoroutine;
+
+    private int _currentHealth => GameManager.instance.GetCurrentHealth(id);
+
+    [SerializeField] private float updateInterval = 0.1f; // HP Î∞î ÏóÖÎç∞Ïù¥Ìä∏ Í∞ÑÍ≤©
+    private float lastUpdateTime;
+
+
     private void Start()
     {
         InitializeComponents();
         mainCamera = Camera.main;
     }
 
+    private void Update()
+    {
+
+        if (Time.time - lastUpdateTime >= updateInterval)
+        {
+            HpBarUpdate();
+            lastUpdateTime = Time.time;
+        }
+    }
     private void InitializeComponents()
     {
         canvas = GetComponentInParent<Canvas>();
@@ -55,7 +73,7 @@ public class BattleDeckSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IBeg
 
             if (heroImage != null)
             {
-                // ¿ÃπÃ¡ˆ ∑ŒµÂ π◊ º≥¡§
+                // Ïù¥ÎØ∏ÏßÄ Î°úÎìú Î∞è ÏÑ§Ï†ï
                 Sprite heroSprite = Resources.Load<Sprite>(hero.imagePath);
                 if (heroSprite != null)
                 {
@@ -118,23 +136,48 @@ public class BattleDeckSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IBeg
         HandleDrop(eventData);
     }
 
+    //private void HandleDrop(PointerEventData eventData)
+    //{
+    //    Vector2 worldPoint = mainCamera.ScreenToWorldPoint(eventData.position);
+    //    RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
+
+    //    if (hit.collider != null)
+    //    {
+    //        Tilemap tilemap = hit.collider.GetComponent<Tilemap>();
+    //        if (tilemap != null && hit.collider.CompareTag("BattleField"))
+    //        {
+    //            Vector3Int cellPosition = tilemap.WorldToCell(hit.point);
+    //            Vector3 cellCenter = tilemap.GetCellCenterWorld(cellPosition);
+
+    //            GameManager.instance.CreateHeroPrefabAtPosition(cellCenter, slotIndex);
+    //        }
+    //    }
+    //}
     private void HandleDrop(PointerEventData eventData)
     {
         Vector2 worldPoint = mainCamera.ScreenToWorldPoint(eventData.position);
         RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
 
-        if (hit.collider != null)
+        if (hit.collider != null && hit.collider.CompareTag("BattleField"))
         {
-            Tilemap tilemap = hit.collider.GetComponent<Tilemap>();
-            if (tilemap != null && hit.collider.CompareTag("BattleField"))
-            {
-                Vector3Int cellPosition = tilemap.WorldToCell(hit.point);
-                Vector3 cellCenter = tilemap.GetCellCenterWorld(cellPosition);
-
-                GameManager.instance.CreateHeroPrefabAtPosition(cellCenter, slotIndex);
-            }
-
+            Vector3 dropPosition = hit.point;
+            GameManager.instance.CreateHeroPrefabAtPosition(dropPosition, slotIndex);
         }
+    }
 
+    private void HpBarUpdate()
+    {
+        int currentHealth = _currentHealth;
+        int maxHealth = hp * 5;  // ÏµúÎåÄ Ï≤¥Î†•ÏùÄ hp * 5
+
+        if (maxHealth > 0)
+        {
+            hpBar.fillAmount = (float)_currentHealth / maxHealth;
+        }
+        else
+        {
+            hpBar.fillAmount = 0f;
+            Debug.LogWarning($"Max health for hero {id} is 0 or less.");
+        }
     }
 }

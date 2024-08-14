@@ -14,6 +14,20 @@ public class Archer : Hero
         _heroClass = HeroClass.Archer;
         info.characteristicType = CharacteristicType.Agility;
         info.attackRange = 4;
+        
+
+
+
+        info.activeSkill = penetratingArrow;
+        ApplyPassiveSkills();
+        Debug.Log($"Archer initialized with {info.skills.Count} skills. Active skill: {info.activeSkill?.Name ?? "None"}");
+        foreach (var skill in info.skills)
+        {
+            Debug.Log($"Skill: {skill.Name}, Level: {skill.Level}");
+        }
+    }
+    public void skillInit()
+    {
         penetratingArrow = new PenetratingArrow();
         enhancedBow = new EnhancedBow();
         marksmanship = new Marksmanship();
@@ -23,41 +37,37 @@ public class Archer : Hero
         info.skills.Add(marksmanship);
         info.skills.Add(weaknessDetection);
 
-        info.activeSkill = penetratingArrow;
-        ApplyPassiveSkills();
-        Debug.Log($"Archer initialized with {info.skills.Count} skills. Active skill: {info.activeSkill?.Name ?? "None"}");
     }
-
     //private void Update()
     //{
     //    if (info.energy >= 100)
     //    {
     //        info.energy = 0;
     //        UseSkill();
-    //        // ½ºÅ³ »ç¿ë ·ÎÁ÷...
+    //        // ìŠ¤í‚¬ ì‚¬ìš© ë¡œì§...
     //    }
     //}
     protected override void Update()
     {
-        base.Update(); // ÀÌ ºÎºĞÀÌ Áß¿äÇÕ´Ï´Ù!
-        // Ãß°¡ÀûÀÎ Archer Æ¯Á¤ ¾÷µ¥ÀÌÆ® ·ÎÁ÷
+        base.Update(); // ì´ ë¶€ë¶„ì´ ì¤‘ìš”í•©ë‹ˆë‹¤!
+        // ì¶”ê°€ì ì¸ Archer íŠ¹ì • ì—…ë°ì´íŠ¸ ë¡œì§
     }
     private void ApplyPassiveSkills()
     {
-        // °­È­µÈ È° Àû¿ë
+        // ê°•í™”ëœ í™œ ì ìš©
         info.trueDamage += enhancedBow.GetTrueDamageBonus();
 
-        // »ç°İ¼ú Àû¿ë
+        // ì‚¬ê²©ìˆ  ì ìš©
         info.attackSpeed += marksmanship.GetAttackSpeedBonus();
 
-        // ¾àÁ¡ Æ÷Âø Àû¿ë
+        // ì•½ì  í¬ì°© ì ìš©
         info.defensePenetration += weaknessDetection.GetDefensePenetrationBonus();
 
-        // ÆĞ½Ãºê ½ºÅ³ Àû¿ë ÈÄ °ü·Ã ¼Ó¼º ¾÷µ¥ÀÌÆ®
+        // íŒ¨ì‹œë¸Œ ìŠ¤í‚¬ ì ìš© í›„ ê´€ë ¨ ì†ì„± ì—…ë°ì´íŠ¸
         UpdateAttackInterval();
     }
 
-    // ·¹º§¾÷ÀÌ³ª ½ºÅ³ ·¹º§ º¯°æ ½Ã È£Ãâ
+    // ë ˆë²¨ì—…ì´ë‚˜ ìŠ¤í‚¬ ë ˆë²¨ ë³€ê²½ ì‹œ í˜¸ì¶œ
     public void UpdatePassiveSkills()
     {
         ApplyPassiveSkills();
@@ -72,7 +82,7 @@ public class Archer : Hero
         //IncreaseAgility(amount * 2);
     }
 
-    // Archer Æ¯À¯ÀÇ ¸Ş¼­µå Ãß°¡
+    // Archer íŠ¹ìœ ì˜ ë©”ì„œë“œ ì¶”ê°€
     protected override void UseSkill()
     {
         Debug.Log($"Archer UseSkill method called. Current Energy: {Energy}");
@@ -81,7 +91,7 @@ public class Archer : Hero
         {
             Debug.Log($"Archer energy is full, using {info.activeSkill.Name}");
             info.activeSkill.UseSkill(this);
-            Energy = 0;  // ½ºÅ³ »ç¿ë ÈÄ ¿¡³ÊÁö ¸®¼Â
+            Energy = 0;  // ìŠ¤í‚¬ ì‚¬ìš© í›„ ì—ë„ˆì§€ ë¦¬ì…‹
         }
         //else
         //{

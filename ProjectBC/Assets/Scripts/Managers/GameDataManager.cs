@@ -38,9 +38,20 @@ public class GameDataManager : MonoSingleton<GameDataManager>
         EventManager.StopListening(EventType.BattlePointUpdated, CalcBattlePoint);
     }
     public Dictionary<ItemType, List<Item>> itemDictionary;
-
+    private void RemoveAllTemporaryEffects()
+    {
+        foreach (HeroInfo hero in _playerInfo.heroes)
+        {
+            if (hero.character is Priest priest)
+            {
+                priest.RemoveAllPassiveEffects();
+            }
+            // 다른 클래스의 임시 효과도 여기서 제거
+        }
+    }
     void OnApplicationQuit()
     {
+        RemoveAllTemporaryEffects();
         SaveGame();
     }
 

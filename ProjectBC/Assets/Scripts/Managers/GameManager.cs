@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoSingleton<GameManager>
@@ -23,7 +24,7 @@ public class GameManager : MonoSingleton<GameManager>
         heroManager = HeroManager.instance;
         Invoke("InitializeHeroPrefabs", 0.1f);
 
-        // ÃÊ±â µ¦ »óÅÂ ¹İ¿µ
+        // ì´ˆê¸° ë± ìƒíƒœ ë°˜ì˜
         for (int i = 0; i < heroManager.Deck.Count; i++)
         {
             UpdateHeroDeckPrefab(i, heroManager.Deck[i].id);
@@ -41,7 +42,7 @@ public class GameManager : MonoSingleton<GameManager>
                 GameObject prefab = prefabArray[i];
                 if (prefab != null)
                 {
-                    int heroId = heroManager.AllHeroes[i].id; // 1¹ø ÇÁ¸®ÆÕÀÇ id = 1001
+                    int heroId = heroManager.AllHeroes[i].id; // 1ë²ˆ í”„ë¦¬íŒ¹ì˜ id = 1001
                     GameObject instance = Instantiate(prefab);
 
                     instance.GetComponent<Character>().info = GameDataManager.instance.playerInfo.heroes[i];
@@ -95,8 +96,6 @@ public class GameManager : MonoSingleton<GameManager>
         return new List<int>(heroPrefabs.Keys);
     }
 
-
-
     ///
 
     public void UpdateHeroDeckPrefab(int index, int heroId)
@@ -106,4 +105,14 @@ public class GameManager : MonoSingleton<GameManager>
             HeroDeckPrefab[index] = prefab;
         }
     }
+
+    public int GetCurrentHealth(int heroId)
+    {
+        if(heroPrefabs.TryGetValue(heroId, out GameObject heroInstance))
+        {
+            return heroInstance.GetComponent<Character>().currentHealth;
+        }
+        return 0;
+    }
+
 }
