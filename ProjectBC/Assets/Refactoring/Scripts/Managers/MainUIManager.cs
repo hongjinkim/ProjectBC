@@ -36,6 +36,8 @@ public class MainUIManager : MonoSingleton<MainUIManager>
 
     void Start()
     {
+        Screen.SetResolution(760, 1280, true);
+
         Time.timeScale = 1f;
         mainCamera = Camera.main;
         ShowHomeScreen();
