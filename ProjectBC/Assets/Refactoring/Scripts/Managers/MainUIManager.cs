@@ -36,7 +36,12 @@ public class MainUIManager : MonoSingleton<MainUIManager>
 
     void Start()
     {
-        Screen.SetResolution(760, 1280, true);
+#if UNITY_STANDALONE_WIN
+        // Windows 플랫폼에서의 해상도 설정
+        Screen.SetResolution(695, 1120, false);
+#elif UNITY_WEBGL
+        Screen.SetResolution(590, 960, false);
+#endif
 
         Time.timeScale = 1f;
         mainCamera = Camera.main;
