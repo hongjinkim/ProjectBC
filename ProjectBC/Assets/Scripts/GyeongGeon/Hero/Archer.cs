@@ -8,6 +8,8 @@ public class Archer : Hero
     public EnhancedBow enhancedBow = new EnhancedBow();
     public Marksmanship marksmanship = new Marksmanship();
     public WeaknessDetection weaknessDetection = new WeaknessDetection();
+    [SerializeField]
+    private GameObject skillEffectPrefab;
     protected override void Start() 
     {
         base.Start();
@@ -23,10 +25,22 @@ public class Archer : Hero
 
         info.activeSkill = penetratingArrow;
         ApplyPassiveSkills();
+        SetSkillEffectPrefab();
         Debug.Log($"Archer initialized with {info.skills.Count} skills. Active skill: {info.activeSkill?.Name ?? "None"}");
         foreach (var skill in info.skills)
         {
             Debug.Log($"Skill: {skill.Name}, Level: {skill.Level}");
+        }
+    }
+    private void SetSkillEffectPrefab()
+    {
+        if (skillEffectPrefab != null)
+        {
+            penetratingArrow.SetEffectPrefab(skillEffectPrefab);
+        }
+        else
+        {
+            Debug.LogWarning("Skill effect prefab is not assigned in Archer!");
         }
     }
     public void SkillInit()

@@ -22,6 +22,8 @@ public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     public HeavenlyBlessing heavenlyBlessing = new HeavenlyBlessing();
     public Impregnable impregnable = new Impregnable();
     private bool isImpregnableApplied = false;
+    [SerializeField]
+    private GameObject shieldBashEffectPrefab;
     private void Awake() 
     {
         lineRenderer = gameObject.AddComponent<LineRenderer>();
@@ -42,7 +44,7 @@ public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
         base.Start();
 
         SkillInit();
-
+        SetSkillEffectPrefab();
         _heroClass = HeroClass.Knight;
         info.characteristicType = CharacteristicType.MuscularStrength;
         info.attackRange = 1; // 근접 공격 범위
@@ -54,6 +56,17 @@ public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
         foreach (var skill in info.skills)
         {
             Debug.Log($"Skill: {skill.Name}, Level: {skill.Level}");
+        }
+    }
+    private void SetSkillEffectPrefab()
+    {
+        if (shieldBashEffectPrefab != null)
+        {
+            shieldBash.SetEffectPrefab(shieldBashEffectPrefab);
+        }
+        else
+        {
+            Debug.LogWarning("Shield Bash effect prefab is not assigned in Knight!");
         }
     }
     protected override void Update()

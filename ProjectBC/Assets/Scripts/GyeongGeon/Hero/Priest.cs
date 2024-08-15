@@ -16,6 +16,8 @@ public class Priest : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     private float passiveEffectTimer = 0f;
     private const float PASSIVE_EFFECT_INTERVAL = 1f;
     private Dictionary<Hero, bool> affectedHeroes = new Dictionary<Hero, bool>();
+    [SerializeField]
+    private GameObject purifyingLightEffectPrefab;
     private void Awake() 
     {
         lineRenderer = gameObject.AddComponent<LineRenderer>();
@@ -31,7 +33,7 @@ public class Priest : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
         base.Start();
 
         SkillInit();
-
+        SetSkillEffectPrefab();
         _heroClass = HeroClass.Priest;
         info.characteristicType = CharacteristicType.Intellect;
         info.attackRange = 4;
@@ -42,6 +44,17 @@ public class Priest : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
         foreach (var skill in info.skills)
         {
             Debug.Log($"Skill: {skill.Name}, Level: {skill.Level}");
+        }
+    }
+    private void SetSkillEffectPrefab()
+    {
+        if (purifyingLightEffectPrefab != null)
+        {
+            purifyingLight.SetEffectPrefab(purifyingLightEffectPrefab);
+        }
+        else
+        {
+            Debug.LogWarning("Purifying Light effect prefab is not assigned in Priest!");
         }
     }
     public void SkillInit()
