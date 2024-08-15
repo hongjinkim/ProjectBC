@@ -1792,24 +1792,81 @@ MonoBehaviour:
   _unitState: 0
   attackType: 1
   characterDirection: 0
-  maxHealth: 1000
+  attacker: {fileID: 0}
+  info:
+    character: {fileID: 0}
+    appliedTraits: []
+    id: 0
+    equippedItemIds: []
+    heroName: 
+    heroClass: 0
+    characteristicType: 0
+    level: 0
+    currentExp: 0
+    neededExp: 0
+    imagePath: 
+    strength: 0
+    agility: 0
+    intelligence: 0
+    stamina: 0
+    energy: 0
+    attackDamage: 0
+    defense: 0
+    magicResistance: 0
+    attackSpeed: 0
+    healthRegen: 0
+    energyRegen: 0
+    attackRange: 0
+    expAmplification: 0
+    trueDamage: 0
+    damageBlock: 0
+    lifeSteal: 0
+    damageAmplification: 0
+    damageReduction: 0
+    criticalChance: 0
+    criticalDamage: 0
+    defensePenetration: 0
+    spritePath: 
+    _hp: 0
+    heroPage: {fileID: 0}
+    hpLevel: 0
+    strengthLevel: 0
+    defenseLevel: 0
+    masicResistanceLevel: 0
+    EquippedItems: []
+    PotionItem:
+      id: 
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+  _maxHealth: 0
   currentHealth: 0
   moveSpeed: 1
-  attackDamage: 10
-  attackSpeed: 1
-  attackRange: 2
+  attackInterval: 0
   findRange: 1000
+  level: 0
+  currentExp: 0
+  needexp: 0
   findTimer: 0
   attackTimer: 0
   fadeObject: {fileID: 912966552287644753}
   spriteRenderers: []
   fadeDuration: 2
-  currentExp: 0
-  needexp: 0
+  baseAttackInterval: 1
   autoMove: 0
   attackEffectPrefab: {fileID: 5880797563127281583, guid: 265d3a5ba69981a4698ceabcedf368b0, type: 3}
+  traitManager: {fileID: 0}
   _heroClass: 3
   isSelected: 0
+  scorchedEarthEffectPrefab: {fileID: 1462327970484030, guid: f01c1eba69de19e44b04d8d651aaac37, type: 3}
 --- !u!1 &940755850821350036
 GameObject:
   m_ObjectHideFlags: 0

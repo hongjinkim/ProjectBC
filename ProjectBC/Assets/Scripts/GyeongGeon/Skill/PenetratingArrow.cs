@@ -2,60 +2,78 @@ using UnityEngine;
 
 public class PenetratingArrow : PlayerSkill
 {
+    private GameObject arrowEffectPrefab; // privateë¡œ ë³€ê²½
+
     public PenetratingArrow() : base(
-        "°üÅëÇÏ´Â È­»ì",
-        "Archer´Â °­·ÂÇÑ È­»ìÀ» ½î¾Æ ±âº»ÇÇÇØ()+°ø°İÇÇÇØ*½ºÅ³°è¼öÀÇ µ¥¹ÌÁö¸¦ Á÷¼±°æ·ÎÀÇ ¸ğµç Àû¿¡°Ô ¹°¸®Àû ÇÇÇØ¸¦ ÀÔÈù´Ù.",
+        "ê´€í†µí•˜ëŠ” í™”ì‚´",
+        "ArcherëŠ” ê°•ë ¥í•œ í™”ì‚´ì„ ì˜ì•„ ê¸°ë³¸í”¼í•´()+ê³µê²©í”¼í•´*ìŠ¤í‚¬ê³„ìˆ˜ì˜ ë°ë¯¸ì§€ë¥¼ ì§ì„ ê²½ë¡œì˜ ëª¨ë“  ì ì—ê²Œ ë¬¼ë¦¬ì  í”¼í•´ë¥¼ ì…íŒë‹¤.",
         5,
         new int[] { 12, 24, 36, 48, 60 },
         new float[] { 1.2f, 1.4f, 1.6f, 1.8f, 2.0f })
     {
     }
 
+    public void SetEffectPrefab(GameObject prefab)
+    {
+        arrowEffectPrefab = prefab;
+    }
+
     public override void UseSkill(Hero caster)
     {
-        
         Archer archer = caster as Archer;
         if (archer == null)
         {
-            
+            Debug.LogError("Caster is not an Archer!");
             return;
         }
 
         int baseDamage = BaseDamage[Level - 1];
         float coefficient = Coefficients[Level - 1];
         float totalDamage = baseDamage + (archer.attackDamage * coefficient);
-        
-
-        int enemiesHit = 0;
 
         if (archer._target != null)
         {
             Vector2 direction = (archer._target.transform.position - archer.transform.position).normalized;
-            float maxDistance = 100f; // ½ºÅ³ÀÇ ÃÖ´ë »ç°Å¸®
+            float maxDistance = 100f; // ìŠ¤í‚¬ì˜ ìµœëŒ€ ì‚¬ê±°ë¦¬
 
-            // ¸ğµç Enemy °´Ã¼¸¦ Ã£½À´Ï´Ù
+            // ì´í™íŠ¸ëŠ” ì²« ë²ˆì§¸ ëŒ€ìƒì—ê²Œë§Œ ìƒì„±
+            CreateArrowEffect(archer._target.transform.position, direction);
+
             Enemy[] allEnemies = GameObject.FindObjectsOfType<Enemy>();
-
             foreach (Enemy enemy in allEnemies)
             {
                 Vector2 toEnemy = enemy.transform.position - archer.transform.position;
                 float dotProduct = Vector2.Dot(toEnemy.normalized, direction);
 
-                // ÀûÀÌ È­»ìÀÇ °æ·Î »ó¿¡ ÀÖ°í, ÃÖ´ë »ç°Å¸® ³»¿¡ ÀÖ´ÂÁö È®ÀÎÇÕ´Ï´Ù
                 if (dotProduct > 0.99f && toEnemy.magnitude <= maxDistance)
                 {
                     enemy.TakeDamage(archer, totalDamage);
-                    enemiesHit++;
-                    
                 }
             }
         }
         else
         {
-            
+            Debug.LogWarning("No target found for Penetrating Arrow skill.");
         }
 
-        
         archer.Energy = 0;
+    }
+
+    private void CreateArrowEffect(Vector3 position, Vector2 direction)
+    {
+        if (arrowEffectPrefab != null)
+        {
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+            GameObject effectInstance = Object.Instantiate(arrowEffectPrefab, position, rotation);
+
+            effectInstance.transform.localScale *= 0.5f;
+            Object.Destroy(effectInstance, 1f);
+        }
+        else
+        {
+            Debug.LogWarning("Arrow effect prefab is not assigned!");
+        }
     }
 }

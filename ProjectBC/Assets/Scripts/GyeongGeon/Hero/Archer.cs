@@ -4,10 +4,19 @@ using UnityEngine;
 public class Archer : Hero
 {
     public HeroClass _heroClass;
+<<<<<<< Updated upstream
     public PenetratingArrow penetratingArrow;
     public EnhancedBow enhancedBow;
     public Marksmanship marksmanship;
     public WeaknessDetection weaknessDetection;
+=======
+    public PenetratingArrow penetratingArrow = new PenetratingArrow();
+    public EnhancedBow enhancedBow = new EnhancedBow();
+    public Marksmanship marksmanship = new Marksmanship();
+    public WeaknessDetection weaknessDetection = new WeaknessDetection();
+    [SerializeField]
+    private GameObject skillEffectPrefab;
+>>>>>>> Stashed changes
     protected override void Start() 
     {
         base.Start();
@@ -20,6 +29,7 @@ public class Archer : Hero
 
         info.activeSkill = penetratingArrow;
         ApplyPassiveSkills();
+        SetSkillEffectPrefab();
         Debug.Log($"Archer initialized with {info.skills.Count} skills. Active skill: {info.activeSkill?.Name ?? "None"}");
         foreach (var skill in info.skills)
         {
@@ -98,5 +108,16 @@ public class Archer : Hero
         //    base.UseSkill();
         //    Debug.Log($"Not enough energy to use skill or no active skill set. Current energy: {Energy}, Active skill: {info.activeSkill?.Name ?? "None"}");
         //}
+    }
+    private void SetSkillEffectPrefab()
+    {
+        if (skillEffectPrefab != null)
+        {
+            penetratingArrow.SetEffectPrefab(skillEffectPrefab);
+        }
+        else
+        {
+            Debug.LogWarning("Skill effect prefab is not assigned in Archer!");
+        }
     }
 }

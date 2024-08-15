@@ -16,6 +16,8 @@ public class Priest : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     private float passiveEffectTimer = 0f;
     private const float PASSIVE_EFFECT_INTERVAL = 1f;
     private Dictionary<Hero, bool> affectedHeroes = new Dictionary<Hero, bool>();
+    [SerializeField]
+    private GameObject purifyingLightEffectPrefab;
     private void Awake() 
     {
         lineRenderer = gameObject.AddComponent<LineRenderer>();
@@ -29,6 +31,12 @@ public class Priest : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     protected override void Start()
     {
         base.Start();
+<<<<<<< Updated upstream
+=======
+
+        SkillInit();
+        SetSkillEffectPrefab();
+>>>>>>> Stashed changes
         _heroClass = HeroClass.Priest;
         info.characteristicType = CharacteristicType.Intellect;
         info.attackRange = 4;
@@ -177,7 +185,17 @@ public class Priest : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
         //     DrawPath(previewPath);
         // }
     }
-
+    private void SetSkillEffectPrefab()
+    {
+        if (purifyingLightEffectPrefab != null)
+        {
+            purifyingLight.SetEffectPrefab(purifyingLightEffectPrefab);
+        }
+        else
+        {
+            Debug.LogWarning("Purifying Light effect prefab is not assigned in Priest!");
+        }
+    }
     public void OnEndDrag(PointerEventData eventData)
     {
         HandleSelectionAndMovement();

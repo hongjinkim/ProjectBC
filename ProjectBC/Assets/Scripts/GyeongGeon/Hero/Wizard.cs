@@ -14,6 +14,8 @@ public class Wizard : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
 
     private float passiveEffectTimer = 0f;
     private const float PASSIVE_EFFECT_INTERVAL = 1f;
+    [SerializeField]
+    private GameObject scorchedEarthEffectPrefab;
     private void Awake() 
     {
         lineRenderer = gameObject.AddComponent<LineRenderer>();
@@ -27,6 +29,12 @@ public class Wizard : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     protected override void Start() 
     {
         base.Start();
+<<<<<<< Updated upstream
+=======
+
+        SkillInit();
+        SetSkillEffectPrefab();
+>>>>>>> Stashed changes
         _heroClass = HeroClass.Priest;
         info.characteristicType = CharacteristicType.Intellect;
         info.attackRange = 4;
@@ -48,6 +56,17 @@ public class Wizard : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
         info.skills.Add(mysticResonance);
         info.skills.Add(waveOfHeat);
 
+    }
+    private void SetSkillEffectPrefab()
+    {
+        if (scorchedEarthEffectPrefab != null)
+        {
+            scorchedEarth.SetEffectPrefab(scorchedEarthEffectPrefab);
+        }
+        else
+        {
+            Debug.LogWarning("Scorched Earth effect prefab is not assigned in Wizard!");
+        }
     }
     protected override void Update()
     {
