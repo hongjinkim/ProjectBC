@@ -2,14 +2,21 @@ using UnityEngine;
 
 public class ShieldBash : PlayerSkill
 {
+    private GameObject shieldBashEffectPrefab;
+
     public ShieldBash() : base(
-        "¹æÆĞ °¡°İ",
-        "ÀûÀ» ¶§·Á ±âº» ÇÇÇØ+°ø°İ ÇÇÇØ*½ºÅ³ °è¼ö ÀÇ ¹°¸®Àû ÇÇÇØ¸¦ ÀÔÈü´Ï´Ù.",
+        "ë°©íŒ¨ ê°€ê²©",
+        "ì ì„ ë•Œë ¤ ê¸°ë³¸ í”¼í•´+ê³µê²© í”¼í•´*ìŠ¤í‚¬ ê³„ìˆ˜ ì˜ ë¬¼ë¦¬ì  í”¼í•´ë¥¼ ì…í™ë‹ˆë‹¤.",
         5,
         new int[] { 10, 20, 30, 40, 50 },
         new float[] { 1.15f, 1.3f, 1.45f, 1.6f, 1.75f }
     )
     {
+    }
+
+    public void SetEffectPrefab(GameObject prefab)
+    {
+        shieldBashEffectPrefab = prefab;
     }
 
     public override void UseSkill(Hero caster)
@@ -20,7 +27,6 @@ public class ShieldBash : PlayerSkill
             Debug.LogError("ShieldBash skill can only be used by Knight");
             return;
         }
-
         if (knight._target == null)
         {
             Debug.Log("No target found for ShieldBash skill");
@@ -36,23 +42,40 @@ public class ShieldBash : PlayerSkill
         {
             enemy.TakeDamage(knight, totalDamage);
             Debug.Log($"ShieldBash hit {enemy.name} for {totalDamage} damage");
+
+            // ìŠ¤í‚¬ ì´í™íŠ¸ ìƒì„±
+            CreateSkillEffect(enemy.transform.position, knight.transform.position);
         }
         else
         {
             Debug.Log("ShieldBash target is not an enemy");
         }
 
-        // ½ºÅ³ »ç¿ë ÈÄ ¿¡³ÊÁö ¼Ò¸ğ
+        // ìŠ¤í‚¬ ì‚¬ìš© í›„ ì—ë„ˆì§€ ì†Œëª¨
         knight.Energy = 0;
-
-        // ½ºÅ³ ÀÌÆåÆ® »ı¼º (¿É¼Ç)
-        CreateSkillEffect(knight._target.transform.position);
     }
 
-    private void CreateSkillEffect(Vector3 position)
+    private void CreateSkillEffect(Vector3 targetPosition, Vector3 knightPosition)
     {
-        // ¿©±â¿¡ ½ºÅ³ ÀÌÆåÆ®¸¦ »ı¼ºÇÏ´Â ÄÚµå¸¦ Ãß°¡ÇÒ ¼ö ÀÖ½À´Ï´Ù.
-        // ¿¹: ÆÄÆ¼Å¬ ½Ã½ºÅÛÀ» »ç¿ëÇÏ¿© ¹æÆĞ Ãæµ¹ È¿°ú¸¦ »ı¼º
-        Debug.Log("ShieldBash effect created at " + position);
+        if (shieldBashEffectPrefab != null)
+        {
+            // ë°©í–¥ ê³„ì‚°
+            Vector2 direction = (targetPosition - knightPosition).normalized;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+            // ì´í™íŠ¸ ìƒì„±
+            GameObject effectInstance = Object.Instantiate(shieldBashEffectPrefab, targetPosition, rotation);
+
+            // ì´í™íŠ¸ í¬ê¸°ë¥¼ ë” í¬ê²Œ ì¡°ì • (ì˜ˆ: ì›ë˜ í¬ê¸°ì˜ 2ë°°)
+            effectInstance.transform.localScale *= 2f;
+
+            // ì´í™íŠ¸ ì§€ì† ì‹œê°„ì„ ì•½ê°„ ëŠ˜ë¦¼ (ì„ íƒì )
+            Object.Destroy(effectInstance, 1.5f);
+        }
+        else
+        {
+            Debug.LogWarning("Shield Bash effect prefab is not assigned!");
+        }
     }
 }
