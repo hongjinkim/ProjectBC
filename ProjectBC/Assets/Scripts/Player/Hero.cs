@@ -12,6 +12,7 @@ public class Hero : Character
     private bool isTraitSelectionPending = false;
     private int pendingTraitLevel = 0;
     [SerializeField] private TraitManager traitManager;
+    private Coroutine energyRegenerationCoroutine;
     protected virtual void OnEnable()
     {
         InstantFadeIn();
@@ -19,6 +20,10 @@ public class Hero : Character
         {
             CancelInvoke("RegenerateHealth");
             isRegenerating = false;
+        }
+        if (energyRegenerationCoroutine == null)
+        {
+            energyRegenerationCoroutine = StartCoroutine(RegenerateEnergy());
         }
     }
 
@@ -35,6 +40,11 @@ public class Hero : Character
         {
             Revive();
         }
+        if (energyRegenerationCoroutine != null)
+        {
+            StopCoroutine(energyRegenerationCoroutine);
+            energyRegenerationCoroutine = null;
+        }
     }
 
 
@@ -48,7 +58,7 @@ public class Hero : Character
         info.ApplyTraitEffects(this);
         info.SetCharacter(this);
         //SetStat();
-        StartCoroutine(RegenerateEnergy());
+       
         SetupHeroInfoEvents();
         if (traitManager != null)
         {
