@@ -167,7 +167,7 @@ public class BattleDeckSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IBeg
 
     private void HpBarUpdate()
     {
-        int currentHealth = _currentHealth;
+        hp = HeroManager.instance.Deck[slotIndex].hp;
         int maxHealth = hp * 5;  // 최대 체력은 hp * 5
 
         if (maxHealth > 0)

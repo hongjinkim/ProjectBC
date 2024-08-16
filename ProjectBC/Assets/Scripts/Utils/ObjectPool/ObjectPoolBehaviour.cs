@@ -49,4 +49,12 @@ public class ObjectPoolBehaviour : MonoBehaviour
 
     }
 
+    public void ClearObjects()
+    {
+        foreach(GameObject obj in pooledObjects)
+        {
+            obj.SetActive(false);
+        }
+    }
+
 }

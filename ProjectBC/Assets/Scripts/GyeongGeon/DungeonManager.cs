@@ -95,9 +95,9 @@ public class DungeonManager : MonoSingleton<DungeonManager>
 
     public void EnterDungeon()
     {
-
         ChangeCameraPos(_selectDungeon.transform.position);
         _UIManager.ShowBattleScreen();
+        EventManager.TriggerEvent(EventType.DungeonEntered, null);
     }
 
     public void ChangeCameraPos(Vector3 position)
