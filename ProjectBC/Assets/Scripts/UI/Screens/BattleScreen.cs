@@ -18,7 +18,15 @@ public class BattleScreen : MainScreen
         EventManager.StopListening(EventType.ItemPickup, OnPickup);
     }
 
+    private void OnEnable()
+    {
+        SoundManager.Instance.EnableBattleSounds();
+    }
 
+    private void OnDisable()
+    {
+        SoundManager.Instance.DisableBattleSounds();
+    }
     void OnPickup(Dictionary<string, object> message)
     {
         if(IsVisible())

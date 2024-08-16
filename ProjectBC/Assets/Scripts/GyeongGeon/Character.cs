@@ -373,8 +373,8 @@ public abstract class Character : MonoBehaviour, IBehavior
 
             // Life Steal 적용
             attacker.ApplyLifeSteal(totalDamage);
+            SoundManager.Instance.PlayHitSound();
 
-            
         }
         OnHit?.Invoke(this);
     }
