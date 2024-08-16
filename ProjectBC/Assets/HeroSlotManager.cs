@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +9,11 @@ public class HeroSlotManager : MonoBehaviour
     public HeroManager heroManager;
     public HeroPage heroPage;
     public HeroInfo heroInfo;
-
+    public HeroMenuManager heroMenuManager;
     public List<MyHeroSlot> slots;
 
     private List<HeroInfo> hero;
-
+    
     [SerializeField] private AttributeUI attributeUI;
 
     public void OnValidate()
@@ -40,30 +41,43 @@ public class HeroSlotManager : MonoBehaviour
     {
         int idx = heroPage._idx;
         int max = hero.Count();
-
-        if (idx == max - 1)
+        
+        if (idx == max-1)
             idx = 0;
         else
             idx++;
 
         heroPage.OnHeroSelected(hero[idx], idx);
         UpdateHeroSubscription(idx);
-
+        Debug.Log(idx);
+        if (heroMenuManager.SkillMenu.GetSiblingIndex() == 4)
+        {
+            heroMenuManager.UpdateCurrentHero(hero[idx]);
+            heroMenuManager.OnSkillButtonClicked();
+        }
+            Debug.Log(hero[idx].heroName);
         
     }
 
     public void PrevHeroSelect()
     {
         int idx = heroPage._idx;
-        int max = hero.Count();
+        int max = hero.Count()-1;
 
         if (idx == 0)
-            idx = max - 1;
+            idx = max;
         else
             idx--;
 
         heroPage.OnHeroSelected(hero[idx], idx);
         UpdateHeroSubscription(idx);
+        if (heroMenuManager.SkillMenu.GetSiblingIndex() == 4)
+        {
+            heroMenuManager.UpdateCurrentHero(hero[idx]);
+            heroMenuManager.OnSkillButtonClicked();
+        }
+        
+        Debug.Log(hero[idx].heroName);
     }
 
     private void UpdateHeroSubscription(int newIdx)
