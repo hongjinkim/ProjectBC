@@ -77,7 +77,7 @@ public class ScorchedEarth : PlayerSkill
             effectInstance.transform.localScale = new Vector3(effectScale, effectScale, effectScale);
 
             // 이펙트 지속 시간 설정 (예: 2초)
-            Object.Destroy(effectInstance, 2f);
+            Object.Destroy(effectInstance, 1f);
         }
         else
         {

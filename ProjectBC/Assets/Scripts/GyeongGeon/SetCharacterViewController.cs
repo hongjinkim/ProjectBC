@@ -34,16 +34,49 @@ public class SetCharacterViewController : MonoBehaviour
     {
         dungeonManager = DungeonManager.instance;
         InitHpBar();
-        
+        if (character.info != null)
+        {
+            InitEnergyBar();
+        }
+    }
+    public void InitEnergyBar()
+    {
+        if (prefabEnergyBar != null)
+        {
+            energyBarObj = Instantiate(prefabEnergyBar, dungeonManager.canvasTransform);
+
+            energyBar = energyBarObj.GetComponent<RectTransform>();
+            currentEnergyBarAmount = energyBar.transform.GetChild(0).GetChild(0).GetComponent<Image>();
+        }
     }
 
     private void Update()
     {
         CalPosHpBar();
         ControlViewHpBar();
+        if (character.info != null)
+        {
+            CalPosEnergyBar(); // 새로 추가
+            ControlViewEnergyBar();
+        }// 새로 추가
         ControlActive();
     }
+    public void CalPosEnergyBar()
+    {
+        if (energyBar != null)
+        {
+            Vector3 _energyBarPos = mainCamera.WorldToScreenPoint(new Vector3(character.transform.position.x, character.transform.position.y + height + 0.2f, 0));
+            energyBar.position = _energyBarPos;
+        }
+    }
 
+    public void ControlViewEnergyBar()
+    {
+        if (character is Hero hero)
+        {
+            currentEnergyBarAmount.fillAmount = hero.info.energy / 100f; // 에너지의 최대값이 100이라고 가정
+        }
+    }
     public void InitHpBar()
     {
         hpBarObj = Instantiate(prefabHpBar , dungeonManager.canvasTransform);
@@ -64,13 +97,24 @@ public class SetCharacterViewController : MonoBehaviour
 
     public void ControlActive()
     {
-        if(currentHpBarAmount.fillAmount <= 0)
+        if (currentHpBarAmount.fillAmount <= 0)
         {
             hpBarObj.SetActive(false);
+
+            if (energyBar != null)
+            {
+                energyBarObj.SetActive(false);
+            }
         }
         else if (currentHpBarAmount.fillAmount > 0 && !hpBarObj.activeSelf)
         {
             hpBarObj.SetActive(true);
+
+
+            if (energyBar != null)
+            {
+                energyBarObj.SetActive(true);
+            }
         }
     }
 

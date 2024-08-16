@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 public class Hero : Character
 {
     private const float MAX_ENERGY = 100f;
@@ -12,6 +13,9 @@ public class Hero : Character
     private bool isTraitSelectionPending = false;
     private int pendingTraitLevel = 0;
     [SerializeField] private TraitManager traitManager;
+    private Coroutine energyRegenerationCoroutine;
+    
+    public Image energyBar;
     protected virtual void OnEnable()
     {
         InstantFadeIn();
@@ -19,6 +23,10 @@ public class Hero : Character
         {
             CancelInvoke("RegenerateHealth");
             isRegenerating = false;
+        }
+        if (energyRegenerationCoroutine == null)
+        {
+            energyRegenerationCoroutine = StartCoroutine(RegenerateEnergy());
         }
     }
 
@@ -35,6 +43,11 @@ public class Hero : Character
         {
             Revive();
         }
+        if (energyRegenerationCoroutine != null)
+        {
+            StopCoroutine(energyRegenerationCoroutine);
+            energyRegenerationCoroutine = null;
+        }
     }
 
 
@@ -43,12 +56,12 @@ public class Hero : Character
         base.Start();
         // HeroInfo에서 Character로 참조 설정
         info.character = this;
-
+        
         // 저장된 특성 효과 적용
         info.ApplyTraitEffects(this);
         info.SetCharacter(this);
         //SetStat();
-        StartCoroutine(RegenerateEnergy());
+       
         SetupHeroInfoEvents();
         if (traitManager != null)
         {
@@ -66,14 +79,22 @@ public class Hero : Character
         {
             Debug.LogWarning("TraitManager is not assigned to Hero");
         }
+        
     }
     protected override void Update()
     {
         base.Update();
         CheckAndUseSkill();
-
         
+
         //ActivePotion();
+    }
+    private void EnergyBarUpdate()
+    {
+        if (energyBar != null)
+        {
+            energyBar.fillAmount = info.energy / 100f; // 에너지의 최대값이 100이라고 가정
+        }
     }
     private IEnumerator RegenerateEnergy()
     {
@@ -87,6 +108,7 @@ public class Hero : Character
             }
         }
     }
+    
     
     private void SetupHeroInfoEvents()
     {
