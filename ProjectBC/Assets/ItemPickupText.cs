@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class ItemPickupText : MonoBehaviour
 {
@@ -32,7 +33,7 @@ public class ItemPickupText : MonoBehaviour
         switch (rarity)
         {
             case (ItemRarity.Basic):
-                temp = $"<color=gray>{text}</color>";
+                temp = $"<color=grey>{text}</color>";
                 break;
             case (ItemRarity.Common):
                 temp = $"<color=green>{text}</color>";
