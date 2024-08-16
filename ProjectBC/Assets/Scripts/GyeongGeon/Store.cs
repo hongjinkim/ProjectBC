@@ -87,8 +87,6 @@ public class Store : MonoBehaviour
             GameDataManager.instance.AddItem(itemToPurchase);
 
             ToastMsg.instance.ShowMessage(itemToPurchase.Params.Name + "을(를) 구매했습니다.", 0.5f);
-            //EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { { "type", material.Params.Type } });
-            _dailyStore.UpdateMaterialCount();
         }
         else
         {

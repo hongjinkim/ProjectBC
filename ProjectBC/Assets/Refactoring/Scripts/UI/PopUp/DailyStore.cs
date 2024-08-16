@@ -11,9 +11,9 @@ public class DailyStore : PopUp
 
     [Header("Texts")]
     public TextMeshProUGUI gold;
-    public TextMeshProUGUI _ironMaterial;
-    public TextMeshProUGUI _silverMaterial;
-    public TextMeshProUGUI _goldMaterial;
+    public TextMeshProUGUI ironMaterial;
+    public TextMeshProUGUI silverMaterial;
+    public TextMeshProUGUI goldMaterial;
 
 
     private PlayerInfo playerInfo;
@@ -22,34 +22,32 @@ public class DailyStore : PopUp
     private void OnEnable()
     {
         EventManager.StartListening(EventType.FundsUpdated, OnGoldUpdated);
+        EventManager.StartListening(EventType.ItemUpdated, OnItemUpdate);
     }
     private void OnDisable()
     {
         EventManager.StopListening(EventType.FundsUpdated, OnGoldUpdated);
-    }
-
-    public override void ShowScreen()
-    {
-        base.ShowScreen();
+        EventManager.StopListening(EventType.ItemUpdated, OnItemUpdate);
     }
 
     protected override void Start()
     {
         base.Start();
         playerInfo = GameDataManager.instance.playerInfo;
+
         OnGoldUpdated(null);
-        UpdateMaterialCount();
+        OnItemUpdate(null);
+
         backButton.onClick.AddListener(_UIManager.DailyStorePopUp.HideScreen);
     }
 
     private void OnGoldUpdated(Dictionary<string, object> message)
     {
         gold.text = playerInfo.gold.ToString();
-        UpdateMaterialCount();
     }
 
 
-    public void UpdateMaterialCount()
+    public void OnItemUpdate(Dictionary<string, object> message)
     {
         if (GameDataManager.instance.itemDictionary.ContainsKey(ItemType.Material))
         {
@@ -58,22 +56,18 @@ public class DailyStore : PopUp
 
         foreach (Item item in Materials)
         {
-            int count;
 
             if (item.Params.Id == "Material_Iron")
             {
-                count = item.count;
-                _ironMaterial.text = count.ToString();
+                ironMaterial.text = item.count.ToString();
             }
             else if (item.Params.Id == "Material_Silver")
             {
-                count = item.count;
-                _silverMaterial.text = count.ToString();
+                silverMaterial.text = item.count.ToString();
             }
             else if (item.Params.Id == "Material_Gold")
             {
-                count = item.count;
-                _goldMaterial.text = count.ToString();
+                goldMaterial.text = item.count.ToString();
             }
 
         }
