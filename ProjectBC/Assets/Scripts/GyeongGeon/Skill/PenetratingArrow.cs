@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PenetratingArrow : PlayerSkill
 {
-    private GameObject arrowEffectPrefab; // private로 변경
+    private GameObject arrowEffectPrefab;
 
     public PenetratingArrow() : base(
         "관통하는 화살",
@@ -71,9 +71,6 @@ public class PenetratingArrow : PlayerSkill
             effectInstance.transform.localScale *= 0.5f;
             Object.Destroy(effectInstance, 1f);
         }
-        else
-        {
-            Debug.LogWarning("Arrow effect prefab is not assigned!");
-        }
+       
     }
 }

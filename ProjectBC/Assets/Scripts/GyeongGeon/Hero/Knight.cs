@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Experimental.AI;
 using UnityEngine.TextCore.Text;
 
 public enum HeroClass
@@ -17,9 +18,9 @@ public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     private LineRenderer lineRenderer;
     public bool isSelected = false;
     private List<Vector3> previewPath;
-    public ShieldBash shieldBash;
-    public HeavenlyBlessing heavenlyBlessing;
-    public Impregnable impregnable;
+    public ShieldBash shieldBash = new ShieldBash();
+    public HeavenlyBlessing heavenlyBlessing = new HeavenlyBlessing();
+    public Impregnable impregnable = new Impregnable();
     private bool isImpregnableApplied = false;
     [SerializeField]
     private GameObject shieldBashEffectPrefab;
@@ -41,12 +42,9 @@ public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
 
     {
         base.Start();
-<<<<<<< Updated upstream
-=======
 
         SkillInit();
         SetSkillEffectPrefab();
->>>>>>> Stashed changes
         _heroClass = HeroClass.Knight;
         info.characteristicType = CharacteristicType.MuscularStrength;
         info.attackRange = 1; // 근접 공격 범위
@@ -60,6 +58,17 @@ public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
             Debug.Log($"Skill: {skill.Name}, Level: {skill.Level}");
         }
     }
+    private void SetSkillEffectPrefab()
+    {
+        if (shieldBashEffectPrefab != null)
+        {
+            shieldBash.SetEffectPrefab(shieldBashEffectPrefab);
+        }
+        else
+        {
+            Debug.LogWarning("Shield Bash effect prefab is not assigned in Knight!");
+        }
+    }
     protected override void Update()
     {
         base.Update();
@@ -67,11 +76,9 @@ public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
         CheckAndUseSkill();
         UpdateImpregnable();
     }
-    public void skillInit()
+    public void SkillInit()
     {
-        shieldBash = new ShieldBash();
-        heavenlyBlessing = new HeavenlyBlessing();
-        impregnable = new Impregnable();
+
         info.skills.Add(shieldBash);
         info.skills.Add(heavenlyBlessing);
         info.skills.Add(impregnable);
@@ -100,7 +107,8 @@ public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     }
     private void ApplyPassiveSkills()
     {
-        heavenlyBlessing.ApplyEffect(this);
+        if(heavenlyBlessing != null)
+            heavenlyBlessing.ApplyEffect(this);
        
     }
     protected override void UseSkill()
@@ -183,15 +191,5 @@ public class Knight : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
         //     base.SetNewPath(nearestValidPosition);
         // }
     }
-    private void SetSkillEffectPrefab()
-    {
-        if (shieldBashEffectPrefab != null)
-        {
-            shieldBash.SetEffectPrefab(shieldBashEffectPrefab);
-        }
-        else
-        {
-            Debug.LogWarning("Shield Bash effect prefab is not assigned in Knight!");
-        }
-    }
+   
 }

@@ -347,6 +347,20 @@ public class GameDataManager : MonoSingleton<GameDataManager>
         EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { { "type", item.Params.Type } });
     }
 
-    
+    public int GetItemQuantity(Item item)
+    {
+        if (itemDictionary.ContainsKey(item.Params.Type))
+        {
+            foreach (Item _item in itemDictionary[item.Params.Type])
+            {
+                if (_item.Params.Id == item.Params.Id)
+                {
+                    return _item.count;
+                }
+            }
+        }
+
+        return 0;
+    }
 
 }

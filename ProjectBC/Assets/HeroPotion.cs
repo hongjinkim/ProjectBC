@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
-using Unity.Android.Gradle;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -54,10 +52,9 @@ public class HeroPotion : MonoBehaviour
     {
         for (int i = 0; i < _potionButtons.Length; i++)
         {
-            int index = i;
             if (_potionButtons[i] != null)
             {
-                _potionButtons[i].onClick.AddListener(() => SelectPotion(index));
+                _potionButtons[i].onClick.AddListener(() => SelectPotion(i));
             }
         }
 

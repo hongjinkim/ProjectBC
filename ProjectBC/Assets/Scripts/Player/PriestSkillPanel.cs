@@ -9,10 +9,10 @@ public class PriestSkillPanel : MonoBehaviour
     public Button holyGraceButton;
     public Button mysticalPowerButton;
 
-    public TextMeshProUGUI purifyingLightLevelText;
-    public TextMeshProUGUI dazzlingLightLevelText;
-    public TextMeshProUGUI holyGraceLevelText;
-    public TextMeshProUGUI mysticalPowerLevelText;
+    //public TextMeshProUGUI purifyingLightLevelText;
+    //public TextMeshProUGUI dazzlingLightLevelText;
+    //public TextMeshProUGUI holyGraceLevelText;
+    //public TextMeshProUGUI mysticalPowerLevelText;
 
     private Priest currentPriest;
 
@@ -26,9 +26,7 @@ public class PriestSkillPanel : MonoBehaviour
 
     public void SetCurrentPriest(Priest priest)
     {
-        Debug.Log(priest.info.skills.Count);
-
-        priest.skillInit();
+        ///Debug.Log(priest.info.skills.Count);
 
         currentPriest = priest;
         Init();
@@ -67,9 +65,9 @@ public class PriestSkillPanel : MonoBehaviour
 
     private void UpdateSkillLevels()
     {
-        purifyingLightLevelText.text = $"Lv.{currentPriest.purifyingLight.Level}";
-        dazzlingLightLevelText.text = $"Lv.{currentPriest.dazzlingLight.Level}";
-        holyGraceLevelText.text = $"Lv.{currentPriest.holyGrace.Level}";
-        mysticalPowerLevelText.text = $"Lv.{currentPriest.mysticalPower.Level}";
+        //purifyingLightLevelText.text = $"Lv.{currentPriest.purifyingLight.Level}";
+        //dazzlingLightLevelText.text = $"Lv.{currentPriest.dazzlingLight.Level}";
+        //holyGraceLevelText.text = $"Lv.{currentPriest.holyGrace.Level}";
+        //mysticalPowerLevelText.text = $"Lv.{currentPriest.mysticalPower.Level}";
     }
 }

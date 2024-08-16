@@ -8,9 +8,9 @@ public class WizardSkillPanel : MonoBehaviour
     public Button mysticResonanceButton;
     public Button waveOfHeatButton;
 
-    public TextMeshProUGUI scorchedEarthLevelText;
-    public TextMeshProUGUI mysticResonanceLevelText;
-    public TextMeshProUGUI waveOfHeatLevelText;
+    //public TextMeshProUGUI scorchedEarthLevelText;
+    //public TextMeshProUGUI mysticResonanceLevelText;
+    //public TextMeshProUGUI waveOfHeatLevelText;
 
     private Wizard currentWizard;
 
@@ -23,7 +23,7 @@ public class WizardSkillPanel : MonoBehaviour
 
     public void SetCurrentWizard(Wizard wizard)
     {
-        wizard.SkillInit();
+
         currentWizard = wizard;
         Init();
         if (currentWizard == null)
@@ -60,8 +60,8 @@ public class WizardSkillPanel : MonoBehaviour
 
     private void UpdateSkillLevels()
     {
-        scorchedEarthLevelText.text = $"Lv.{currentWizard.scorchedEarth.Level}";
-        mysticResonanceLevelText.text = $"Lv.{currentWizard.mysticResonance.Level}";
-        waveOfHeatLevelText.text = $"Lv.{currentWizard.waveOfHeat.Level}";
+        //scorchedEarthLevelText.text = $"Lv.{currentWizard.scorchedEarth.Level}";
+        //mysticResonanceLevelText.text = $"Lv.{currentWizard.mysticResonance.Level}";
+        //waveOfHeatLevelText.text = $"Lv.{currentWizard.waveOfHeat.Level}";
     }
 }
