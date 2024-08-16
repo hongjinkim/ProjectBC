@@ -4,13 +4,18 @@ using UnityEngine;
 public class Archer : Hero
 {
     public HeroClass _heroClass;
-    public PenetratingArrow penetratingArrow;
-    public EnhancedBow enhancedBow;
-    public Marksmanship marksmanship;
-    public WeaknessDetection weaknessDetection;
+    public PenetratingArrow penetratingArrow = new PenetratingArrow();
+    public EnhancedBow enhancedBow = new EnhancedBow();
+    public Marksmanship marksmanship = new Marksmanship();
+    public WeaknessDetection weaknessDetection = new WeaknessDetection();
+    [SerializeField]
+    private GameObject skillEffectPrefab;
     protected override void Start() 
     {
         base.Start();
+
+        SkillInit();
+
         _heroClass = HeroClass.Archer;
         info.characteristicType = CharacteristicType.Agility;
         info.attackRange = 4;
@@ -20,18 +25,27 @@ public class Archer : Hero
 
         info.activeSkill = penetratingArrow;
         ApplyPassiveSkills();
+        SetSkillEffectPrefab();
         Debug.Log($"Archer initialized with {info.skills.Count} skills. Active skill: {info.activeSkill?.Name ?? "None"}");
         foreach (var skill in info.skills)
         {
             Debug.Log($"Skill: {skill.Name}, Level: {skill.Level}");
         }
     }
-    public void skillInit()
+    private void SetSkillEffectPrefab()
     {
-        penetratingArrow = new PenetratingArrow();
-        enhancedBow = new EnhancedBow();
-        marksmanship = new Marksmanship();
-        weaknessDetection = new WeaknessDetection();
+        if (skillEffectPrefab != null)
+        {
+            penetratingArrow.SetEffectPrefab(skillEffectPrefab);
+        }
+        else
+        {
+            Debug.LogWarning("Skill effect prefab is not assigned in Archer!");
+        }
+    }
+    public void SkillInit()
+    {
+        
         info.skills.Add(penetratingArrow);
         info.skills.Add(enhancedBow);
         info.skills.Add(marksmanship);

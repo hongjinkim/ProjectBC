@@ -13809,6 +13809,8 @@ MonoBehaviour:
   characterDirection: 0
   attacker: {fileID: 0}
   info:
+    character: {fileID: 0}
+    appliedTraits: []
     id: 0
     equippedItemIds: []
     heroName: 
@@ -13823,7 +13825,6 @@ MonoBehaviour:
     intelligence: 0
     stamina: 0
     energy: 0
-    hp: 0
     attackDamage: 0
     defense: 0
     magicResistance: 0
@@ -13841,11 +13842,30 @@ MonoBehaviour:
     criticalDamage: 0
     defensePenetration: 0
     spritePath: 
-    traits: []
+    _hp: 0
     heroPage: {fileID: 0}
+    hpLevel: 0
+    strengthLevel: 0
+    defenseLevel: 0
+    masicResistanceLevel: 0
+    EquippedItems: []
+    PotionItem:
+      id: 
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+  _maxHealth: 0
   currentHealth: 0
   moveSpeed: 1
-  attackSpeed: 1
+  attackInterval: 0
   findRange: 1000
   level: 0
   currentExp: 0
@@ -13855,9 +13875,12 @@ MonoBehaviour:
   fadeObject: {fileID: 8340941735757190716}
   spriteRenderers: []
   fadeDuration: 2
+  baseAttackInterval: 1
   autoMove: 0
   attackEffectPrefab: {fileID: 5880797563127281583, guid: 265d3a5ba69981a4698ceabcedf368b0, type: 3}
+  traitManager: {fileID: 0}
   _heroClass: 1
+  skillEffectPrefab: {fileID: 4021103657954561961, guid: f9d94e8e6dfca864f9ed30f339ccbdef, type: 3}
 --- !u!1 &8343313963056250784
 GameObject:
   m_ObjectHideFlags: 0

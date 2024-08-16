@@ -9,13 +9,15 @@ public class Priest : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     private LineRenderer lineRenderer;
     public bool isSelected = false;
     private List<Vector3> previewPath;
-    public PurifyingLight purifyingLight;
-    public HolyGrace holyGrace;
-    public DazzlingLight dazzlingLight;
-    public MysticalPower mysticalPower;
+    public PurifyingLight purifyingLight = new PurifyingLight();
+    public HolyGrace holyGrace = new HolyGrace();
+    public DazzlingLight dazzlingLight = new DazzlingLight();
+    public MysticalPower mysticalPower = new MysticalPower();
     private float passiveEffectTimer = 0f;
     private const float PASSIVE_EFFECT_INTERVAL = 1f;
     private Dictionary<Hero, bool> affectedHeroes = new Dictionary<Hero, bool>();
+    [SerializeField]
+    private GameObject purifyingLightEffectPrefab;
     private void Awake() 
     {
         lineRenderer = gameObject.AddComponent<LineRenderer>();
@@ -29,6 +31,9 @@ public class Priest : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
     protected override void Start()
     {
         base.Start();
+
+        SkillInit();
+        SetSkillEffectPrefab();
         _heroClass = HeroClass.Priest;
         info.characteristicType = CharacteristicType.Intellect;
         info.attackRange = 4;
@@ -41,19 +46,25 @@ public class Priest : Hero, IDragHandler, IEndDragHandler, IBeginDragHandler
             Debug.Log($"Skill: {skill.Name}, Level: {skill.Level}");
         }
     }
-    public void skillInit()
+    private void SetSkillEffectPrefab()
     {
-
-        
-            purifyingLight = new PurifyingLight();
-            holyGrace = new HolyGrace();
-            dazzlingLight = new DazzlingLight();
-            mysticalPower = new MysticalPower();
+        if (purifyingLightEffectPrefab != null)
+        {
+            purifyingLight.SetEffectPrefab(purifyingLightEffectPrefab);
+        }
+        else
+        {
+            Debug.LogWarning("Purifying Light effect prefab is not assigned in Priest!");
+        }
+    }
+    public void SkillInit()
+    {
         
         info.skills.Add(purifyingLight);
         info.skills.Add(holyGrace);
         info.skills.Add(dazzlingLight);
-        info.skills.Add(mysticalPower);
+        info.skills.Add(mysticalPower);    
+
     }
     protected override void Update()
     {

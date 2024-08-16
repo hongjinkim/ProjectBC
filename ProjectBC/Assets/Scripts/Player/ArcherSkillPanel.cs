@@ -27,7 +27,7 @@ public class ArcherSkillPanel : MonoBehaviour
 
     public void SetCurrentArcher(Archer archer)
     {
-        archer.skillInit();
+
         currentArcher = archer;
         Init();
 

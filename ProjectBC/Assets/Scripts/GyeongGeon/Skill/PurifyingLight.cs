@@ -3,14 +3,21 @@ using System.Linq;
 
 public class PurifyingLight : PlayerSkill
 {
+    private GameObject purifyingLightEffectPrefab;
+
     public PurifyingLight() : base(
-        "ºûÀÇ Á¤È­",
-        "ÀüÀå¿¡¼­ HP°¡ °¡Àå ³·Àº ¿µ¿õÀ» Ä¡À¯ÇÕ´Ï´Ù.",
+        "ë¹›ì˜ ì •í™”",
+        "ì „ì¥ì—ì„œ HPê°€ ê°€ì¥ ë‚®ì€ ì˜ì›…ì„ ì¹˜ìœ í•©ë‹ˆë‹¤.",
         5,
         new int[] { 200, 280, 360, 440, 520 },
-        new float[] { 1, 1, 1, 1, 1 }  // °è¼ö°¡ ¾øÀ¸¹Ç·Î 1·Î ¼³Á¤
+        new float[] { 1, 1, 1, 1, 1 }  // ê³„ìˆ˜ê°€ ì—†ìœ¼ë¯€ë¡œ 1ë¡œ ì„¤ì •
     )
     {
+    }
+
+    public void SetEffectPrefab(GameObject prefab)
+    {
+        purifyingLightEffectPrefab = prefab;
     }
 
     public override void UseSkill(Hero caster)
@@ -28,6 +35,7 @@ public class PurifyingLight : PlayerSkill
         if (targetHero != null)
         {
             HealHero(targetHero, healAmount);
+            CreateHealEffect(targetHero.transform.position);
             Debug.Log($"PurifyingLight healed {targetHero.name} for {healAmount} HP");
         }
         else
@@ -46,7 +54,7 @@ public class PurifyingLight : PlayerSkill
             .OrderBy(h => h.currentHealth / (float)h.maxHealth)
             .FirstOrDefault();
 
-        // AttackRange ¾È¿¡ ´Ù¸¥ ¿µ¿õÀÌ ¾ø°í Priest ÀÚ½ÅÀÇ HP°¡ ÃÖ´ë°¡ ¾Æ´Ò °æ¿ì
+        // AttackRange ì•ˆì— ë‹¤ë¥¸ ì˜ì›…ì´ ì—†ê³  Priest ìì‹ ì˜ HPê°€ ìµœëŒ€ê°€ ì•„ë‹ ê²½ìš°
         if (lowestHpHero == null && priest.currentHealth < priest.maxHealth)
         {
             lowestHpHero = priest;
@@ -58,5 +66,23 @@ public class PurifyingLight : PlayerSkill
     private void HealHero(Hero hero, int healAmount)
     {
         hero.currentHealth = Mathf.Min(hero.currentHealth + healAmount, hero.maxHealth);
+    }
+
+    private void CreateHealEffect(Vector3 position)
+    {
+        if (purifyingLightEffectPrefab != null)
+        {
+            GameObject effectInstance = Object.Instantiate(purifyingLightEffectPrefab, position, Quaternion.identity);
+
+            // ì´í™íŠ¸ í¬ê¸°ë¥¼ 1/4ë¡œ ì¤„ì„
+            effectInstance.transform.localScale = Vector3.one * 0.375f; // 1.5 * 0.25 = 0.375
+
+            // ì´í™íŠ¸ ì§€ì† ì‹œê°„ ì„¤ì • (ì˜ˆ: 2ì´ˆ)
+            Object.Destroy(effectInstance, 2f);
+        }
+        else
+        {
+            Debug.LogWarning("Purifying Light effect prefab is not assigned!");
+        }
     }
 }

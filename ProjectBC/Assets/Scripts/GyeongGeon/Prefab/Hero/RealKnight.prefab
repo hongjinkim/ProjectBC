@@ -8525,6 +8525,19 @@ MonoBehaviour:
     defenseLevel: 0
     masicResistanceLevel: 0
     EquippedItems: []
+    PotionItem:
+      id: 
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
   _maxHealth: 0
   currentHealth: 0
   moveSpeed: 1
@@ -8544,6 +8557,7 @@ MonoBehaviour:
   traitManager: {fileID: 0}
   _heroClass: 0
   isSelected: 0
+  shieldBashEffectPrefab: {fileID: 2353600328335836179, guid: ceec7516237b4104b94300043ca39784, type: 3}
 --- !u!1 &5603650666556835841
 GameObject:
   m_ObjectHideFlags: 0

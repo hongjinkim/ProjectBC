@@ -28,8 +28,6 @@ public class PriestSkillPanel : MonoBehaviour
     {
         ///Debug.Log(priest.info.skills.Count);
 
-        priest.skillInit();
-
         currentPriest = priest;
         Init();
         if (currentPriest == null)

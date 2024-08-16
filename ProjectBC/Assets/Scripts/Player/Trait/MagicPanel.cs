@@ -4,12 +4,12 @@ using UnityEngine.UI;
 
 public class MagicPanel : MonoBehaviour, ITraitPanel
 {
-    public TextMeshProUGUI heroNameText;
-    public TextMeshProUGUI levelText;
-    public Image heroImage;
-    public Button[] traitButtons; // 8°³ÀÇ ¹öÆ° (·¹º§´ç 2°³¾¿, 4°³ ·¹º§)
-    public TextMeshProUGUI[] traitDescriptions; // 8°³ÀÇ ¼³¸í ÅØ½ºÆ®
-    public Image[] traitIcons; // 8°³ÀÇ Æ¯¼º ¾ÆÀÌÄÜ
+    //public TextMeshProUGUI heroNameText;
+    //public TextMeshProUGUI levelText;
+    //public Image heroImage;
+    public Button[] traitButtons; // 8ê°œì˜ ë²„íŠ¼ (ë ˆë²¨ë‹¹ 2ê°œì”©, 4ê°œ ë ˆë²¨)
+    public TextMeshProUGUI[] traitDescriptions; // 8ê°œì˜ ì„¤ëª… í…ìŠ¤íŠ¸
+    public Image[] traitIcons; // 8ê°œì˜ íŠ¹ì„± ì•„ì´ì½˜
 
     private HeroInfo currentHeroInfo;
     private MagicTrait magicTrait;
@@ -28,9 +28,9 @@ public class MagicPanel : MonoBehaviour, ITraitPanel
 
     private void UpdateUI()
     {
-        heroNameText.text = currentHeroInfo.heroName;
-        levelText.text = "Level: " + currentHeroInfo.level.ToString();
-        heroImage.sprite = currentHeroInfo.Sprite;
+        //heroNameText.text = currentHeroInfo.heroName;
+        //levelText.text = "Level: " + currentHeroInfo.level.ToString();
+        //heroImage.sprite = currentHeroInfo.Sprite;
         UpdateTraitButtons();
     }
 
@@ -38,10 +38,10 @@ public class MagicPanel : MonoBehaviour, ITraitPanel
     {
         int[] traitLevels = { 10, 20, 30, 40 };
         string[] traitNames = {
-            "¿¡³ÊÁö Èí¼ö", "¿¡³ÊÁö »çÀÌÆİ",
-            "¿¡Å×¸£ Ãæ°İ", "ºñÀü À¯¼º",
-            "ºñÀü Ä§½Ä", "±İÁöµÈ ÁÖ¹®",
-            "¸¶³ª Á¤Á¦", "ÈûÀÇ Ãæ°İ"
+            "ì—ë„ˆì§€ í¡ìˆ˜", "ì—ë„ˆì§€ ì‚¬ì´í€",
+            "ì—í…Œë¥´ ì¶©ê²©", "ë¹„ì „ ìœ ì„±",
+            "ë¹„ì „ ì¹¨ì‹", "ê¸ˆì§€ëœ ì£¼ë¬¸",
+            "ë§ˆë‚˜ ì •ì œ", "í˜ì˜ ì¶©ê²©"
         };
 
         for (int i = 0; i < traitButtons.Length; i++)
@@ -82,14 +82,14 @@ public class MagicPanel : MonoBehaviour, ITraitPanel
             {
                 if (currentHeroInfo.seungsoo != isLeftTrait) return;
             }
-            // Character°¡ ÀÖÀ¸¸é Áï½Ã Àû¿ë
+            // Characterê°€ ìˆìœ¼ë©´ ì¦‰ì‹œ ì ìš©
             if (currentHeroInfo.character != null)
             {
                 magicTrait.ApplyEffect(currentHeroInfo.character);
             }
             else
             {
-                // Character°¡ ¾øÀ¸¸é HeroInfo¿¡¸¸ ±â·Ï
+                // Characterê°€ ì—†ìœ¼ë©´ HeroInfoì—ë§Œ ê¸°ë¡
                 currentHeroInfo.AddAppliedTrait(TraitType.Magic, level, isLeftTrait);
             }
 

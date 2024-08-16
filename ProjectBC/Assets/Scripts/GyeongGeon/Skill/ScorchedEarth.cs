@@ -3,42 +3,51 @@ using System.Collections.Generic;
 
 public class ScorchedEarth : PlayerSkill
 {
-    public float aoeRadius = 0.8f; // AOE ¹üÀ§ ¹İ°æ
+    public float aoeRadius = 0.8f; // AOE ë²”ìœ„ ë°˜ê²½
     private float damageMultiplier = 1f;
+    private GameObject scorchedEarthEffectPrefab;
+
     public ScorchedEarth() : base(
-        "±×À»¸° ´ëÁö",
-        "¸¶¹ı»ç´Â ´ëÁö¸¦ ÅÂ¿ì´Â ºÒ²ÉÀ» ¼ÒÈ¯ÇÏ¿© ±âº» ÇÇÇØ+°ø°İÇÇÇØ*½ºÅ³°è¼öÀÇ ¹üÀ§ ¸¶¹ıÇÇÇØ¸¦ ÀÔÈü´Ï´Ù.",
+        "ê·¸ì„ë¦° ëŒ€ì§€",
+        "ë§ˆë²•ì‚¬ëŠ” ëŒ€ì§€ë¥¼ íƒœìš°ëŠ” ë¶ˆê½ƒì„ ì†Œí™˜í•˜ì—¬ ê¸°ë³¸ í”¼í•´+ê³µê²©í”¼í•´*ìŠ¤í‚¬ê³„ìˆ˜ì˜ ë²”ìœ„ ë§ˆë²•í”¼í•´ë¥¼ ì…í™ë‹ˆë‹¤.",
         5,
         new int[] { 15, 25, 35, 45, 60 },
         new float[] { 1.2f, 1.4f, 1.6f, 1.8f, 2.0f }
     )
     {
     }
+
+    public void SetEffectPrefab(GameObject prefab)
+    {
+        scorchedEarthEffectPrefab = prefab;
+    }
+
     public void SetDamageMultiplier(float multiplier)
     {
         damageMultiplier = multiplier;
     }
+
     public override void UseSkill(Hero caster)
     {
         Wizard wizard = caster as Wizard;
         if (wizard == null)
         {
-            
+            Debug.LogError("Caster is not a Wizard!");
             return;
         }
-
         if (wizard._target == null)
         {
-            
+            Debug.LogWarning("No target found for Scorched Earth skill.");
             return;
         }
 
         int baseDamage = BaseDamage[Level - 1];
         float coefficient = Coefficients[Level - 1];
         float totalDamage = (baseDamage + (wizard.attackDamage * coefficient)) * damageMultiplier;
+
         Vector2 targetPosition = wizard._target.transform.position;
 
-        // ¹üÀ§ ³»ÀÇ ¸ğµç ÀûÀ» Ã£¾Æ µ¥¹ÌÁö¸¦ ÀÔÈû
+        // ë²”ìœ„ ë‚´ì˜ ëª¨ë“  ì ì„ ì°¾ì•„ ë°ë¯¸ì§€ë¥¼ ì…í˜
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(targetPosition, aoeRadius);
         foreach (Collider2D hitCollider in hitColliders)
         {
@@ -50,17 +59,29 @@ public class ScorchedEarth : PlayerSkill
             }
         }
 
-        // ½ºÅ³ »ç¿ë ÈÄ ¿¡³ÊÁö ¼Ò¸ğ
+        // ìŠ¤í‚¬ ì‚¬ìš© í›„ ì—ë„ˆì§€ ì†Œëª¨
         wizard.Energy = 0;
 
-        // ½ºÅ³ ÀÌÆåÆ® »ı¼º (¿É¼Ç)
+        // ìŠ¤í‚¬ ì´í™íŠ¸ ìƒì„±
         CreateSkillEffect(targetPosition);
     }
 
     private void CreateSkillEffect(Vector2 position)
     {
-        // ¿©±â¿¡ ½ºÅ³ ÀÌÆåÆ®¸¦ »ı¼ºÇÏ´Â ÄÚµå¸¦ Ãß°¡ÇÒ ¼ö ÀÖ½À´Ï´Ù.
-        // ¿¹: ÆÄÆ¼Å¬ ½Ã½ºÅÛÀ» »ç¿ëÇÏ¿© ºÒ²É È¿°ú¸¦ »ı¼º
-        Debug.Log("ScorchedEarth effect created at " + position);
+        if (scorchedEarthEffectPrefab != null)
+        {
+            GameObject effectInstance = Object.Instantiate(scorchedEarthEffectPrefab, position, Quaternion.identity);
+
+            // ì´í™íŠ¸ì˜ í¬ê¸°ë¥¼ AOE ë°˜ê²½ì— ë§ê²Œ ì¡°ì •
+            float effectScale = aoeRadius * 2; // ì§ê²½ì„ ê¸°ì¤€ìœ¼ë¡œ í¬ê¸° ì¡°ì •
+            effectInstance.transform.localScale = new Vector3(effectScale, effectScale, effectScale);
+
+            // ì´í™íŠ¸ ì§€ì† ì‹œê°„ ì„¤ì • (ì˜ˆ: 2ì´ˆ)
+            Object.Destroy(effectInstance, 2f);
+        }
+        else
+        {
+            Debug.LogWarning("Scorched Earth effect prefab is not assigned!");
+        }
     }
 }
