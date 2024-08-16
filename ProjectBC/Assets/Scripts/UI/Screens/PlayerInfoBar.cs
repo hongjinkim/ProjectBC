@@ -43,9 +43,9 @@ public class PlayerInfoBar : BaseScreen
     }
     void OnFundsUpdated(Dictionary<string, object> message)
     {
-        gold.text = playerInfo.gold.ToString();
-        diamond.text = playerInfo.diamond.ToString();
-        gem.text = playerInfo.gem.ToString();
+        gold.text = NumberFormatter.FormatNumber(playerInfo.gold);
+        diamond.text = NumberFormatter.FormatNumber(playerInfo.diamond);
+        gem.text = NumberFormatter.FormatNumber(playerInfo.gem);
     }
 
     void OnLevelUpdated(PlayerInfo info)
@@ -54,7 +54,7 @@ public class PlayerInfoBar : BaseScreen
     }
     void OnBattlePointUpdated(Dictionary<string, object> message)
     {
-        battlePoint.text = GameDataManager.instance.battlePoint.ToString();
+        battlePoint.text = NumberFormatter.FormatNumber(GameDataManager.instance.battlePoint);
     }
 
     public void ShowOnlyFunds()

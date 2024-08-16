@@ -43,7 +43,7 @@ public class DailyStore : PopUp
 
     private void OnGoldUpdated(Dictionary<string, object> message)
     {
-        gold.text = playerInfo.gold.ToString();
+        gold.text = NumberFormatter.FormatNumber(playerInfo.gold);
     }
 
 

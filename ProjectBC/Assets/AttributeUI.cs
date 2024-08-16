@@ -58,7 +58,7 @@ public class AttributeUI : MonoBehaviour
 
     private void MyGoldUpdate(Dictionary<string, object> message)
     {
-        myGold.text = GameDataManager.instance.playerInfo.gold.ToString();
+        myGold.text = NumberFormatter.FormatNumber(GameDataManager.instance.playerInfo.gold);
     }
 
     public void UpdateHeroAttributes(HeroInfo hero)
@@ -107,7 +107,7 @@ public class AttributeUI : MonoBehaviour
         int currentPropertyLevel = GetCurrentPropertyLevel(propertyName);
         if (currentPropertyLevel >= currentHero.level)
         {
-            Debug.Log($"{propertyName} ·¹º§ÀÌ ÀÌ¹Ì ¿µ¿õ ·¹º§°ú °°°Å³ª ³ô½À´Ï´Ù. ´õ ÀÌ»ó ¿Ã¸± ¼ö ¾ø½À´Ï´Ù.");
+            Debug.Log($"{propertyName} ë ˆë²¨ì´ ì´ë¯¸ ì˜ì›… ë ˆë²¨ê³¼ ê°™ê±°ë‚˜ ë†’ìŠµë‹ˆë‹¤. ë” ì´ìƒ ì˜¬ë¦´ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
@@ -143,7 +143,7 @@ public class AttributeUI : MonoBehaviour
         }
         else
         {
-            Debug.Log("Gold ¶Ç´Â Exp°¡ ºÎÁ·ÇÕ´Ï´Ù!");
+            Debug.Log("Gold ë˜ëŠ” Expê°€ ë¶€ì¡±í•©ë‹ˆë‹¤!");
         }
     }
 
