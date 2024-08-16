@@ -22,7 +22,7 @@ public class MainUIManager : MonoSingleton<MainUIManager>
     public PopUp ItemInfoPopUp;
     public PopUp DungeonThemePopUp;
     public PopUp PotionPopUp;
-
+    public PopUp SettingsPopUp;
 
     List<MainScreen> _allMainScreens = new List<MainScreen>();
 
@@ -65,7 +65,10 @@ public class MainUIManager : MonoSingleton<MainUIManager>
         if (_inventoryScreen != null)
             _allMainScreens.Add(_inventoryScreen);
     }
-
+    public void ShowSettingsPopup()
+    {
+        SettingsPopUp.ShowScreen();
+    }
     // shows one main screen at a time
     void ShowMainScreen(MainScreen screen)
     {

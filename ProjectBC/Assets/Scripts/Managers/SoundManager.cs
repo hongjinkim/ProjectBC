@@ -11,7 +11,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip hitSound;
 
     private bool isBattleSoundsEnabled = false;
-
+    private float volume = 0.1f;
     private void Awake()
     {
         if (Instance == null)
@@ -29,7 +29,17 @@ public class SoundManager : MonoBehaviour
     {
         PlayMusic(backgroundMusic);
     }
+    public void SetVolume(float newVolume)
+    {
+        volume = newVolume;
+        musicSource.volume = volume;
+        effectsSource.volume = volume;
+    }
 
+    public float GetVolume()
+    {
+        return volume;
+    }
     public void PlayMusic(AudioClip clip)
     {
         musicSource.clip = clip;
