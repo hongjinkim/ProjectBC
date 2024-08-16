@@ -8449,7 +8449,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 7845404084639546749, guid: a5a9b68bd9b0d6d4994338c01a3b9136, type: 3}
   prefabHpBar: {fileID: 5007069763672503864, guid: cff3db33975fd044394c02c5d2ecfa0e, type: 3}
-  prefabEnergyBar: {fileID: 0}
+  prefabEnergyBar: {fileID: 5007069763672503864, guid: 7e98513dbb04ece41923776b6e744589, type: 3}
 --- !u!114 &6719724232351885715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8555,6 +8555,7 @@ MonoBehaviour:
   autoMove: 0
   attackEffectPrefab: {fileID: 5880797563127281583, guid: 265d3a5ba69981a4698ceabcedf368b0, type: 3}
   traitManager: {fileID: 0}
+  energyBar: {fileID: 0}
   _heroClass: 0
   isSelected: 0
   shieldBashEffectPrefab: {fileID: 2353600328335836179, guid: ceec7516237b4104b94300043ca39784, type: 3}
