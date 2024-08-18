@@ -14,7 +14,10 @@ public class Hero : Character
     private int pendingTraitLevel = 0;
     [SerializeField] private TraitManager traitManager;
     private Coroutine energyRegenerationCoroutine;
-    
+
+    float healthPercentage => (float)currentHealth / maxHealth;
+
+
     public Image energyBar;
     protected virtual void OnEnable()
     {
@@ -87,7 +90,7 @@ public class Hero : Character
         CheckAndUseSkill();
         
 
-        //ActivePotion();
+        ActivePotion();
     }
     private void EnergyBarUpdate()
     {
@@ -188,28 +191,41 @@ public class Hero : Character
     //    }
     //}
 
-    //private void ActivePotion()
-    //{
-    //    float healthPercentage = (float)currentHealth / maxHealth;
+    private void ActivePotion()
+    {
+   
+        if (info.PotionItem.id != "" &&  info.potionUseHp >= healthPercentage)
+        {
+            // 포션 사용
+            GameDataManager.instance.RemoveItem(info.PotionItem);
 
-    //    if (info.PotionItem != null && healthPercentage <= 0.9f)
-    //    {
-    //        // 포션 사용
-    //        //Item inventoryPotion = GameDataManager.instance.playerInfo.items.Find(item => item != null && item.Params != null && item.Params.Id == info.PotionItem.Params.Id);
+            // 여기에 포션 효과 적용 로직 추가 (예: 체력 회복)
+            int healAmount = 0;
+            switch(info.PotionItem.id)
+            {
+                case ("Potion_Green_S"):
+                    healAmount = 100;
+                    break;
+                case ("Potion_Green_M"):
+                    healAmount = 200;
+                    break;
+                case ("Potion_Yellow_S"):
+                    healAmount = 300;
+                    break;
+                case ("Potion_Yellow_M"):
+                    healAmount = 400;
+                    break;
+                case ("Potion_Red_S"):
+                    healAmount = 500;
+                    break;
+                case ("Potion_Red_M"):
+                    healAmount = 600;
+                    break;
 
-    //        info.PotionItem.count--;
-    //        Debug.Log($"Used potion. Remaining count: {info.PotionItem.count}");
-
-    //        // 포션을 모두 사용했을 경우
-    //        if (info.PotionItem.count <= 0)
-    //        {
-    //            info.PotionItem = null;
-    //        }
-
-    //        // 여기에 포션 효과 적용 로직 추가 (예: 체력 회복)
-    //        // currentHealth = Mathf.Min(currentHealth + healAmount, maxHealth);
-    //    }
-    //}
+            }
+            currentHealth += Mathf.Min(currentHealth + healAmount, maxHealth);
+        }
+    }
 
 
 

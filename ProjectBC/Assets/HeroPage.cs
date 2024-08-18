@@ -18,6 +18,7 @@ public class HeroPage : HeroScreen
     public ItemSlot Helmet;
     public ItemSlot Armor;
     public ItemSlot Leggings;
+    public ItemSlot Potion;
 
 
     [Header("Images")]
@@ -30,6 +31,7 @@ public class HeroPage : HeroScreen
     public TextMeshProUGUI AttackText;
     public TextMeshProUGUI DefenseText;
     public TextMeshProUGUI ResistanceText;
+    public TextMeshProUGUI potionCount;
 
     [Header("ExpGaegu")]
     public Image gauge;
@@ -42,6 +44,8 @@ public class HeroPage : HeroScreen
     [Header("Buttons")]
     public Button FastEquipButton;
     public Button UnEquipButton;
+
+    
 
     public void Start()
     {
@@ -76,7 +80,7 @@ public class HeroPage : HeroScreen
         UpdateUITexts();
         UpdateEquipment();
         //물약 업데이트
-        heroPotion.UpdatePotionSlot();
+        UpdatePotion();
        
         if (heroPotion != null)
         {
@@ -117,7 +121,7 @@ public class HeroPage : HeroScreen
         UpdateUITexts();
         UpdateEquipment();
         //물약 업데이트
-        heroPotion.UpdatePotionSlot();
+        UpdatePotion();
 
         if (attributeUI != null)
         {
@@ -307,6 +311,25 @@ public class HeroPage : HeroScreen
 
         
 
+    }
+
+    public void UpdatePotion()
+    {
+        if(_info.PotionItem.id != "")
+        {
+            Potion.icon.sprite = ItemCollection.active.GetItemIcon(_info.PotionItem)?.sprite;
+            Potion.icon.color = Color.white;
+            Potion.background.sprite = ItemCollection.active.GetBackground(_info.PotionItem) ?? ItemCollection.active.backgroundBrown;
+            Potion.background.color = Color.white;
+            potionCount.text = _info.PotionItem.count.ToString();
+        }
+        else
+        {
+            Potion.icon.sprite = Potion.BaseSprite;
+            Potion.icon.color = new Color32(0, 0, 0, 100);
+            Potion.background.sprite = ItemCollection.active.backgroundBrown;
+            potionCount.text = "";
+        }
     }
 
     private void UpdateEquipment()

@@ -84,6 +84,8 @@ public class HeroInfo
 
     public Item PotionItem;
 
+    public float potionUseHp = 0.5f;
+
 
     public HeroInfo(string name, HeroClass heroClass, int id, string imagePath)
     {

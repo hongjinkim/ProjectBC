@@ -527,10 +527,6 @@ public class Dungeon : MonoBehaviour
         {
             ExpScroll.Instance.UpdateExpScrollCount();
         }
-        if (HeroPotion.Instance != null)
-        {
-            HeroPotion.Instance.UpdatePotionCount();
-        }
     }
     
     private bool InventoryFull()

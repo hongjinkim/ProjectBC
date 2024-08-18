@@ -15,7 +15,6 @@ public class HeroMenuManager : MonoBehaviour
     [Header("Potion")]
     public Button PotionEquipmentButton;
     public Button PotionEquipmentCloseButton;
-    public Transform HeroScreen_Equipment;
 
     [Header("Skill Panels")]
     public ArcherSkillPanel archerSkillPanel;
@@ -121,12 +120,11 @@ public class HeroMenuManager : MonoBehaviour
 
     public void OnPotionEquipmentClicked()
     {
-        HeroScreen_Equipment.SetActive(true);
-        HeroScreen_Equipment.SetAsLastSibling();
+        MainUIManager.instance.PotionPopUp.GetComponent<Potion>().UpdatePotion(currentHeroInfo.PotionItem.id);
     }
 
     public void OpPotionEquipmentClosed()
     {
-        HeroScreen_Equipment.SetActive(false);
+        MainUIManager.instance.PotionPopUp.HideScreen();
     }
 }
