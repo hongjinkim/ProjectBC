@@ -33,7 +33,7 @@ public class WizardSkillPanel : MonoBehaviour
         else
         {
             Debug.Log($"SetCurrentWizard called with wizard: {currentWizard.name}");
-            Debug.Log($"Archer has {currentWizard.info.skills.Count} skills:");
+            Debug.Log($"Wizard has {currentWizard.info.skills.Count} skills:");
 
             foreach (var skill in currentWizard.info.skills)
             {

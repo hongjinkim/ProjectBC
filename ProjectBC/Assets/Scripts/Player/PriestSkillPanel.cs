@@ -36,8 +36,8 @@ public class PriestSkillPanel : MonoBehaviour
         }
         else
         {
-            Debug.Log($"SetCurrentPriest called with archer: {currentPriest.name}");
-            Debug.Log($"Archer has {currentPriest.info.skills.Count} skills:");
+            Debug.Log($"SetCurrentPriest called with priest: {currentPriest.name}");
+            Debug.Log($"priest has {currentPriest.info.skills.Count} skills:");
 
             foreach (var skill in currentPriest.info.skills)
             {
