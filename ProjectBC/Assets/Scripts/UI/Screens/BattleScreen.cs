@@ -12,10 +12,12 @@ public class BattleScreen : MainScreen
     private void Start()
     {
         EventManager.StartListening(EventType.ItemPickup, OnPickup);
+        EventManager.StartListening(EventType.DungeonEntered, ClearPickupNotice);
     }
     private void OnApplicationQuit()
     {
         EventManager.StopListening(EventType.ItemPickup, OnPickup);
+        EventManager.StopListening(EventType.DungeonEntered, ClearPickupNotice);
     }
 
     private void OnEnable()
@@ -37,7 +39,10 @@ public class BattleScreen : MainScreen
             }
             if (message.ContainsKey("item"))
             {
-                StartCoroutine(PickupNotice((string)message["item"]));
+                if(message.ContainsKey("rarity"))
+                    StartCoroutine(PickupNotice((string)message["item"], (ItemRarity)message["rarity"]));
+                else
+                    StartCoroutine(PickupNotice((string)message["item"]));
             }
         }
     }
@@ -52,5 +57,20 @@ public class BattleScreen : MainScreen
         yield return wait;
 
         textObject.SetActive(false);
+    }
+    IEnumerator PickupNotice(string text, ItemRarity rarity)
+    {
+        GameObject textObject = objectPool.GetPooledObject();
+        textObject.GetComponent<ItemPickupText>().SetText(text, rarity);
+        textObject.SetActive(true);
+
+        yield return wait;
+
+        textObject.SetActive(false);
+    }
+
+    public void ClearPickupNotice(Dictionary<string, object> message)
+    {
+        objectPool.ClearObjects();
     }
 }

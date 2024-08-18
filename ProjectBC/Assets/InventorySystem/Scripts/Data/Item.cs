@@ -71,7 +71,7 @@ public class Item
             {
                 var randomIndex = Random.Range(0, enumValues.Count);
 
-                item.stat.magic.Add(new Magic { id = (MagicStat)enumValues[randomIndex], value = 1/*���� ��  ����*/});
+                item.stat.magic.Add(new Magic { id = (MagicStat)enumValues[randomIndex], value = Random.Range(1, (int)rarity*10+10)/*���� ��  ����*/});
                 enumValues.RemoveAt(randomIndex);
             }
             battlePoint = CalcItemBattlePoint();

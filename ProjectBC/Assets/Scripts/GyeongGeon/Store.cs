@@ -13,6 +13,8 @@ public class Store : MonoBehaviour
     public Button _goldPageBtn;
     public Button _materialPageBtn;
 
+    public DailyStore _dailyStore;
+
     void Start()
     {
         _currentPrizeList = _goldPrizeList;
@@ -85,7 +87,6 @@ public class Store : MonoBehaviour
             GameDataManager.instance.AddItem(itemToPurchase);
 
             ToastMsg.instance.ShowMessage(itemToPurchase.Params.Name + "을(를) 구매했습니다.", 0.5f);
-            //EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { { "type", material.Params.Type } });
         }
         else
         {

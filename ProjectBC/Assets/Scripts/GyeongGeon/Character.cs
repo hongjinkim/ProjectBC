@@ -570,7 +570,12 @@ public abstract class Character : MonoBehaviour, IBehavior
     //}
     void OnMove()
     {
-        CheckDistance();
+        if(CheckDistance()) return;
+
+        if (_unitState == UnitState.idle)
+        {
+            return;
+        }
 
         _dirVec = (Vector2)(_target.transform.position - transform.position).normalized;
 

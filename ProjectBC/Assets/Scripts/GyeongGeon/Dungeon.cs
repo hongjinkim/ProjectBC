@@ -503,7 +503,8 @@ public class Dungeon : MonoBehaviour
                 }
 
                 GameDataManager.instance.AddItem(item);
-                EventManager.TriggerEvent(EventType.ItemPickup, new Dictionary<string, object> { { "item", (string)(item.Params.Name + "을(를) 획득 했습니다") } });
+                EventManager.TriggerEvent(EventType.ItemPickup, new Dictionary<string, object> { { "item", (string)(item.Params.Name) },
+                                                                                                    { "rarity",item.Params.Rarity}});
                 EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { { "type", item.Params.Type } });
                 
             }

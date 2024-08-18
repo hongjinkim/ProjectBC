@@ -39,7 +39,7 @@ public class ItemInfo : PopUp
 
     public bool isLocked = false;
     public Item Item { get; protected set; }
-    public int currentIndex; // »õ·Î Ãß°¡µÈ ÇÊµå
+    public int currentIndex; // ìƒˆë¡œ ì¶”ê°€ëœ í•„ë“œ
 
     //public GearBase gearBase;
     public Disassembly disassembly;
@@ -85,26 +85,32 @@ public class ItemInfo : PopUp
         iconFrame.raycastTarget = true;
         level.text = "Lv. " + item.Params.Level.ToString("D2");
         itemName.text = item.Params.Name;
-        rarity.text = "Ç°Áú : " + item.Params.Rarity.ToString();
+        rarity.text = "í’ˆì§ˆ : " + item.Params.Rarity.ToString();
         type.text = item.Params.Type.ToString();
         battlePoint.text = item.battlePoint.ToString();
         if (item.IsEquipment)
         {
-            luckyPoint.text = "·°Å°Æ÷ÀÎÆ®: " + item.luckyPoint.ToString() + "(" +item.luckyPercent.ToString()+ "%)";
+            luckyPoint.text = "ëŸ­í‚¤í¬ì¸íŠ¸: " + item.luckyPoint.ToString() + "(" +item.luckyPercent.ToString()+ "%)";
 
-            for(int i = 0; i < item.stat.basic.Count; i++)
+            for(int i = 0; i < basicStats.Count; i++)
             {
-                basicStats[i].text = item.stat.basic[i].value <= 0 ? null : item.stat.basic[i].id.ToString() + "  " + "+" + item.stat.basic[i].value.ToString() + "    (+" + (item.stat.basic[i].value - item.stat.basic[i].minValue).ToString() + ")";
+                if (item.stat.basic.Count > i)
+                    basicStats[i].text = item.stat.basic[i].value <= 0 ? null : item.stat.basic[i].id.ToString() + "  " + "+" + item.stat.basic[i].value.ToString() + "    (+" + (item.stat.basic[i].value - item.stat.basic[i].minValue).ToString() + ")";
+                else
+                    basicStats[i].text = null;
             }
-            for (int i = 0; i < item.stat.magic.Count; i++)
+            for (int i = 0; i < magicStats.Count; i++)
             {
-                magicStats[i].text = item.stat.magic[i].value <= 0 ? null : item.stat.magic[i].id.ToString() + "  " + "+" + item.stat.magic[i].value.ToString();
+                if (item.stat.magic.Count > i)
+                    magicStats[i].text = item.stat.magic[i].value <= 0 ? null : item.stat.magic[i].id.ToString() + "  " + "+" + item.stat.magic[i].value.ToString();
+                else
+                    magicStats[i].text = null;
             }
 
         }
         else
         {
-            // Àåºñ ¾ÆÀÌÅÛÀÌ ¾Æ´Ò °æ¿ì ½ºÅÈ ¹ÌÇ¥±â ÈÄ ¼³¸í Ç¥½Ã
+            // ì¥ë¹„ ì•„ì´í…œì´ ì•„ë‹ ê²½ìš° ìŠ¤íƒ¯ ë¯¸í‘œê¸° í›„ ì„¤ëª… í‘œì‹œ
             luckyPoint.text = null;
             foreach(TextMeshProUGUI text in basicStats)
             {
@@ -151,7 +157,7 @@ public class ItemInfo : PopUp
 
     private void EquipButtonClicked()
     {
-        Debug.Log("ÀåÂø");
+        Debug.Log("ì¥ì°©");
     }
 
     public void SelectPreviousItem()
@@ -163,7 +169,7 @@ public class ItemInfo : PopUp
         }
         if (currentIndex == -1)
         {
-            // ÇöÀç ¼±ÅÃµÈ ¾ÆÀÌÅÛÀÌ ¾ø°Å³ª ÇöÀç ÀÎº¥Åä¸®¿¡ ¾ø´Â °æ¿ì, ¸¶Áö¸· ¾ÆÀÌÅÛ ¼±ÅÃ
+            // í˜„ì¬ ì„ íƒëœ ì•„ì´í…œì´ ì—†ê±°ë‚˜ í˜„ì¬ ì¸ë²¤í† ë¦¬ì— ì—†ëŠ” ê²½ìš°, ë§ˆì§€ë§‰ ì•„ì´í…œ ì„ íƒ
             Initialize(currentItems[currentItems.Count - 1], currentItems);
         }
         else
@@ -181,7 +187,7 @@ public class ItemInfo : PopUp
         }
         if (currentIndex == -1)
         {
-            // ÇöÀç ¼±ÅÃµÈ ¾ÆÀÌÅÛÀÌ ¾ø°Å³ª ÇöÀç ÀÎº¥Åä¸®¿¡ ¾ø´Â °æ¿ì, Ã¹ ¹øÂ° ¾ÆÀÌÅÛ ¼±ÅÃ
+            // í˜„ì¬ ì„ íƒëœ ì•„ì´í…œì´ ì—†ê±°ë‚˜ í˜„ì¬ ì¸ë²¤í† ë¦¬ì— ì—†ëŠ” ê²½ìš°, ì²« ë²ˆì§¸ ì•„ì´í…œ ì„ íƒ
             Initialize(currentItems[0], currentItems);
         }
         else

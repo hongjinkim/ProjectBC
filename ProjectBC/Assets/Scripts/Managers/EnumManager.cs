@@ -154,12 +154,12 @@ public enum BasicStat
 }
 public enum TraitType
 {
-    Concentration, // ÁıÁß
-    Plunder,       // ¾àÅ»
-    Magic,         // ¿ä¼ú
-    Protection,    // º¸È£
-    Life,          // »ı¸í
-    Explosion      // Æø¹ß
+    Concentration, // ì§‘ì¤‘
+    Plunder,       // ì•½íƒˆ
+    Magic,         // ìš”ìˆ 
+    Protection,    // ë³´í˜¸
+    Life,          // ìƒëª…
+    Explosion      // í­ë°œ
 }
 
 public enum CharacterState
@@ -233,7 +233,8 @@ public enum EventType
     BattlePointUpdated,
     ItemUpdated,
     ItemPickup,
-    HeroUpdated
+    HeroUpdated,
+    DungeonEntered
 }
 
 public enum InventoryType
