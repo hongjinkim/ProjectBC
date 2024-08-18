@@ -1335,8 +1335,450 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   goldPrizeListTransform: {fileID: 5210159385486184274}
   materialPrizeListTransform: {fileID: 7126803469186684524}
-  goldPrizeList: []
-  materialPrizeList: []
+  goldPrizeList:
+  - id: Potion_Green_S
+    prizeName: 
+    price: 10
+    needmaterial:
+      id: Material_Gold
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
+  - id: Potion_Green_M
+    prizeName: 
+    price: 50
+    needmaterial:
+      id: Material_Gold
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
+  - id: Potion_Yellow_S
+    prizeName: 
+    price: 20
+    needmaterial:
+      id: Material_Gold
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
+  - id: Potion_Yellow_M
+    prizeName: 
+    price: 100
+    needmaterial:
+      id: Material_Gold
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
+  - id: Potion_Red_S
+    prizeName: 
+    price: 30
+    needmaterial:
+      id: Material_Gold
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
+  - id: Potion_Red_M
+    prizeName: 
+    price: 150
+    needmaterial:
+      id: Material_Gold
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
+  - id: Exp_Basic
+    prizeName: 
+    price: 100
+    needmaterial:
+      id: Material_Gold
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
+  - id: Exp_Common
+    prizeName: 
+    price: 300
+    needmaterial:
+      id: Material_Gold
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
+  - id: Exp_Rare
+    prizeName: 
+    price: 1000
+    needmaterial:
+      id: Material_Gold
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
+  - id: Exp_Epic
+    prizeName: 
+    price: 2000
+    needmaterial:
+      id: Material_Gold
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
+  - id: Exp_Legendary
+    prizeName: 
+    price: 3000
+    needmaterial:
+      id: Material_Gold
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
+  materialPrizeList:
+  - id: Item_Banana
+    prizeName: 
+    price: 50
+    needmaterial:
+      id: Material_Iron
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
+  - id: Item_Burger
+    prizeName: 
+    price: 50
+    needmaterial:
+      id: Material_Iron
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
+  - id: Item_Cake
+    prizeName: 
+    price: 50
+    needmaterial:
+      id: Material_Iron
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
+  - id: Item_Carrot
+    prizeName: 
+    price: 50
+    needmaterial:
+      id: Material_Iron
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
+  - id: Item_Cherry
+    prizeName: 
+    price: 50
+    needmaterial:
+      id: Material_Iron
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
+  - id: Item_Banana
+    prizeName: 
+    price: 40
+    needmaterial:
+      id: Material_Silver
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
+  - id: Item_Burger
+    prizeName: 
+    price: 40
+    needmaterial:
+      id: Material_Silver
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
+  - id: Item_Cake
+    prizeName: 
+    price: 40
+    needmaterial:
+      id: Material_Silver
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
+  - id: Item_Carrot
+    prizeName: 
+    price: 40
+    needmaterial:
+      id: Material_Silver
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
+  - id: Item_Cherry
+    prizeName: 
+    price: 40
+    needmaterial:
+      id: Material_Silver
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
+  - id: Item_Banana
+    prizeName: 
+    price: 20
+    needmaterial:
+      id: Material_Gold
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
+  - id: Item_Burger
+    prizeName: 
+    price: 20
+    needmaterial:
+      id: Material_Gold
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
+  - id: Item_Cake
+    prizeName: 
+    price: 20
+    needmaterial:
+      id: Material_Gold
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
+  - id: Item_Carrot
+    prizeName: 
+    price: 20
+    needmaterial:
+      id: Material_Gold
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
+  - id: Item_Cherry
+    prizeName: 
+    price: 20
+    needmaterial:
+      id: Material_Gold
+      modifier:
+        id: 0
+        level: 0
+      stat:
+        basic: []
+        magic: []
+      luckyPercent: 0
+      luckyPoint: 0
+      battlePoint: 0
+      count: 0
+      isLocked: 0
+    prize: {fileID: 9214206304317312853, guid: 885720d20d70d614d9d21d1bff52ed79, type: 3}
   goldPageBtn: {fileID: 5953935534459294261}
   materialPageBtn: {fileID: 6700441224309847163}
   currentPage: 
