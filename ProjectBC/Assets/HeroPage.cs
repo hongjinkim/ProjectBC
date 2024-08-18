@@ -315,13 +315,23 @@ public class HeroPage : HeroScreen
 
     public void UpdatePotion()
     {
-        if(_info.PotionItem.id != "")
+        if(_info.potionId != "")
         {
-            Potion.icon.sprite = ItemCollection.active.GetItemIcon(_info.PotionItem)?.sprite;
-            Potion.icon.color = Color.white;
-            Potion.background.sprite = ItemCollection.active.GetBackground(_info.PotionItem) ?? ItemCollection.active.backgroundBrown;
-            Potion.background.color = Color.white;
-            potionCount.text = _info.PotionItem.count.ToString();
+            Potion.icon.sprite = ItemCollection.active.GetItemIcon(_info.potionId)?.sprite;
+            
+            Potion.background.sprite = ItemCollection.active.GetBackground(_info.potionId) ?? ItemCollection.active.backgroundBrown;
+            if(_info.potionItem == null)
+            {
+                Potion.icon.color = Color.grey;
+                Potion.background.color = Color.grey;
+                potionCount.text = "0";
+            }
+            else
+            {
+                Potion.icon.color = Color.white;
+                Potion.background.color = Color.white;
+                potionCount.text = _info.potionItem.count.ToString();
+            }
         }
         else
         {

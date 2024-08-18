@@ -5,35 +5,50 @@ using UnityEngine.UI;
 
 public class Store : MonoBehaviour
 {
-    public Transform _SalesListTransform;
-    public List<Prize> _goldPrizeList;
-    public List<Prize> _materialPrizeList;
-    public List<Prize> _currentPrizeList;
+    //public Transform _SalesListTransform;
+    [Header("Transform")]
+    public Transform goldPrizeListTransform;
+    public Transform materialPrizeListTransform;
 
-    public Button _goldPageBtn;
-    public Button _materialPageBtn;
 
-    public DailyStore _dailyStore;
+    public List<Prize> goldPrizeList;
+    public List<Prize> materialPrizeList;
+    //public List<Prize> _currentPrizeList;
+
+    [Header("Button")]
+    public Button goldPageBtn;
+    public Button materialPageBtn;
+
+    [SerializeField] private string currentPage;
 
     void Start()
     {
-        _currentPrizeList = _goldPrizeList;
+        //_currentPrizeList = goldPrizeList;
         DisplayShopItems();
+        OnGoldPageButtonClicked();
 
-        _goldPageBtn.onClick.AddListener(() => OnGoldPageButtonClicked());
-        _materialPageBtn.onClick.AddListener(() => OnMaterialPageButtonClicked());
+        goldPageBtn.onClick.AddListener(() => OnGoldPageButtonClicked());
+        materialPageBtn.onClick.AddListener(() => OnMaterialPageButtonClicked());
     }
 
     void DisplayShopItems()
     {
-        foreach (Transform child in _SalesListTransform)
-        {
-            Destroy(child.gameObject);
-        }
+        //foreach (Transform child in _SalesListTransform)
+        //{
+        //    Destroy(child.gameObject);
+        //}
 
-        foreach (Prize i in _currentPrizeList)
+        foreach (Prize i in goldPrizeList)
         {
-            GameObject GO = Instantiate(i.prize, _SalesListTransform);
+            GameObject GO = Instantiate(i.prize, goldPrizeListTransform);
+
+            var item = new Item(i.id);
+
+            SetItemDetails(GO, i, item);
+        }
+        foreach (Prize i in materialPrizeList)
+        {
+            GameObject GO = Instantiate(i.prize, materialPrizeListTransform);
 
             var item = new Item(i.id);
 
@@ -51,11 +66,11 @@ public class Store : MonoBehaviour
     
     void OnBuyButtonClicked(Prize prize, Item itemToPurchase)
     {
-        if (_currentPrizeList == _goldPrizeList)
+        if (currentPage == "gold")
         {
             PurchaseItemWithGold(prize, itemToPurchase);
         }
-        else if (_currentPrizeList == _materialPrizeList)
+        else if (currentPage == "material")
         {
             PurchaseItemWithMaterial(prize, itemToPurchase);
         }
@@ -96,14 +111,18 @@ public class Store : MonoBehaviour
 
     void OnGoldPageButtonClicked()
     {
-        _currentPrizeList = _goldPrizeList;
-        DisplayShopItems();
+        goldPrizeListTransform.SetActive(true);
+        materialPrizeListTransform.SetActive(false);
+
+        currentPage = "gold";
     }
 
     void OnMaterialPageButtonClicked()
     {
-        _currentPrizeList = _materialPrizeList;
-        DisplayShopItems();
+        goldPrizeListTransform.SetActive(false);
+        materialPrizeListTransform.SetActive(true);
+
+        currentPage = "material";
     }
 
 }

@@ -315,9 +315,9 @@ public class GameDataManager : MonoSingleton<GameDataManager>
         {
             foreach (Item _item in itemDictionary[item.Params.Type])
             {
-                if (item.Params.Id == _item.Params.Id)
+                if (item.id == _item.id)
                 {
-                    if(amount < _item.count)
+                    if(amount <= _item.count)
                         _item.count-=amount;
                     else
                     {
@@ -325,8 +325,8 @@ public class GameDataManager : MonoSingleton<GameDataManager>
                     }
                     if (_item.count <=0)
                     {
-                        _playerInfo.items.Remove(item);
-                        itemDictionary[item.Params.Type].Remove(item);
+                        _playerInfo.items.Remove(_item);
+                        itemDictionary[_item.Params.Type].Remove(_item);
                     }
                     break;
                 }
@@ -361,6 +361,20 @@ public class GameDataManager : MonoSingleton<GameDataManager>
         }
 
         return 0;
+    }
+    public Item FindItem(string id, ItemType type)
+    {
+        if (!itemDictionary.ContainsKey(type))
+            return null;
+        else
+        {
+            foreach(Item item in itemDictionary[type])
+            {
+                if (id == item.id)
+                    return item;
+            }
+        }
+        return null;
     }
 
 }

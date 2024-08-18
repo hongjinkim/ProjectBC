@@ -16,6 +16,8 @@ public class Hero : Character
     private Coroutine energyRegenerationCoroutine;
 
     float healthPercentage => (float)currentHealth / maxHealth;
+    Item potion;
+    int healAmount;
 
 
     public Image energyBar;
@@ -88,9 +90,6 @@ public class Hero : Character
     {
         base.Update();
         CheckAndUseSkill();
-        
-
-        ActivePotion();
     }
     private void EnergyBarUpdate()
     {
@@ -191,40 +190,54 @@ public class Hero : Character
     //    }
     //}
 
+    public override void TakeDamage(Character attacker, float damage)
+    {
+        base.TakeDamage(attacker, damage);
+        ActivePotion();
+    }
+
     private void ActivePotion()
     {
-   
-        if (info.PotionItem.id != "" &&  info.potionUseHp >= healthPercentage)
+        if (info.potionUseHp >= healthPercentage)
         {
+            if (potion != info.potionItem)
+                potion = info.potionItem;
             // 포션 사용
-            GameDataManager.instance.RemoveItem(info.PotionItem);
-
-            // 여기에 포션 효과 적용 로직 추가 (예: 체력 회복)
-            int healAmount = 0;
-            switch(info.PotionItem.id)
+            if(potion != null)
             {
-                case ("Potion_Green_S"):
-                    healAmount = 100;
-                    break;
-                case ("Potion_Green_M"):
-                    healAmount = 200;
-                    break;
-                case ("Potion_Yellow_S"):
-                    healAmount = 300;
-                    break;
-                case ("Potion_Yellow_M"):
-                    healAmount = 400;
-                    break;
-                case ("Potion_Red_S"):
-                    healAmount = 500;
-                    break;
-                case ("Potion_Red_M"):
-                    healAmount = 600;
-                    break;
+                GameDataManager.instance.RemoveItem(potion);
 
+                // 여기에 포션 효과 적용 로직 추가 (예: 체력 회복)
+                
+                switch (potion.id)
+                {
+                    case ("Potion_Green_S"):
+                        healAmount = 100;
+                        break;
+                    case ("Potion_Green_M"):
+                        healAmount = 200;
+                        break;
+                    case ("Potion_Yellow_S"):
+                        healAmount = 300;
+                        break;
+                    case ("Potion_Yellow_M"):
+                        healAmount = 400;
+                        break;
+                    case ("Potion_Red_S"):
+                        healAmount = 500;
+                        break;
+                    case ("Potion_Red_M"):
+                        healAmount = 600;
+                        break;
+                    default:
+                        healAmount = 0;
+                        break;
+
+                }
+                currentHealth = Mathf.Min(currentHealth + healAmount, maxHealth);
             }
-            currentHealth += Mathf.Min(currentHealth + healAmount, maxHealth);
         }
+            
     }
 
 

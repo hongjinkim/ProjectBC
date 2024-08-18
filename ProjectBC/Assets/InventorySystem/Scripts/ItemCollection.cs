@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 [CreateAssetMenu(fileName = "ItemCollection", menuName = "Scriptables/ItemCollection")]
 public class ItemCollection : ScriptableObject
@@ -47,6 +48,17 @@ public class ItemCollection : ScriptableObject
 
         return itemParams;
     }
+    public ItemParams GetItemParams(string id)
+    {
+        var itemParams = items.SingleOrDefault(i => i.Id == id);
+
+        if (itemParams == null)
+        {
+            throw new Exception($"Item params not found: {id}");
+        }
+
+        return itemParams;
+    }
 
     public ItemSprite GetItemSprite(Item item)
     {
@@ -71,6 +83,23 @@ public class ItemCollection : ScriptableObject
         _itemIcons ??= CacheIcons();
 
         var itemParams = GetItemParams(item);
+
+        if (itemParams.IconId == null) return null;
+
+        if (_itemIcons.ContainsKey(itemParams.IconId))
+        {
+            return _itemIcons[itemParams.IconId];
+        }
+
+        Debug.LogWarning($"Icon not found: {itemParams.IconId}");
+
+        return null;
+    }
+    public ItemIcon GetItemIcon(string id)
+    {
+        _itemIcons ??= CacheIcons();
+
+        var itemParams = GetItemParams(id);
 
         if (itemParams.IconId == null) return null;
 
@@ -125,6 +154,19 @@ public class ItemCollection : ScriptableObject
         if (GetBackgroundCustom != null) return GetBackgroundCustom(item) ?? backgroundBrown;
 
         switch (item.Params.Rarity)
+        {
+            case ItemRarity.Legacy: return backgroundGrey;
+            case ItemRarity.Basic: return backgroundGrey;
+            case ItemRarity.Common: return backgroundGreen;
+            case ItemRarity.Rare: return backgroundBlue;
+            case ItemRarity.Epic: return backgroundPurple;
+            case ItemRarity.Legendary: return backgroundRed;
+            default: throw new NotImplementedException();
+        }
+    }
+    public Sprite GetBackground(string id)
+    {
+        switch (GetItemParams(id).Rarity)
         {
             case ItemRarity.Legacy: return backgroundGrey;
             case ItemRarity.Basic: return backgroundGrey;

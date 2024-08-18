@@ -10,6 +10,7 @@ public class Potion : PopUp
     public void UpdatePotion(string id)
     {
         ShowScreen();
+        heroPotion.UpdatePotionInfo(null);
         heroPotion.UpdateHeroPotionItem(id);
     }
 

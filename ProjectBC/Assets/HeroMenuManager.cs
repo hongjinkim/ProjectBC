@@ -120,7 +120,7 @@ public class HeroMenuManager : MonoBehaviour
 
     public void OnPotionEquipmentClicked()
     {
-        MainUIManager.instance.PotionPopUp.GetComponent<Potion>().UpdatePotion(currentHeroInfo.PotionItem.id);
+        MainUIManager.instance.PotionPopUp.GetComponent<Potion>().UpdatePotion(currentHeroInfo.potionId);
     }
 
     public void OpPotionEquipmentClosed()

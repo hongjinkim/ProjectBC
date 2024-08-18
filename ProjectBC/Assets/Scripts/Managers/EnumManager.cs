@@ -125,7 +125,8 @@ public enum ItemType
     //Material
     Material = 15,
     //Crystal
-    Crystal = 16
+    Crystal = 16,
+    Gold = 17
 }
 public enum MagicStat
 {

@@ -82,7 +82,9 @@ public class HeroInfo
     public List<Item> EquippedItems;
     public Dictionary<ItemType, Item> EquippedItemDictionary = new Dictionary<ItemType, Item>();
 
-    public Item PotionItem;
+    public string potionId;
+    public Item potionItem => GameDataManager.instance.FindItem(potionId, ItemType.Usable);
+
 
     public float potionUseHp = 0.5f;
 

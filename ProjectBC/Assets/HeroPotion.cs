@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class HeroPotion : MonoBehaviour
 {
     public HeroPage heropage;
+    public Potion potionPopup;
 
     [Header("Slider")]
     public Slider slider;
@@ -48,8 +49,15 @@ public class HeroPotion : MonoBehaviour
 
     public static HeroPotion Instance { get; private set; }
 
-    private List<Item> potions = new List<Item>();
-
+    private void OnValidate()
+    {
+        _potionInfos.Add(potionGreenS);
+        _potionInfos.Add(potionGreenM);
+        _potionInfos.Add(potionYellowS);
+        _potionInfos.Add(potionYellowM);
+        _potionInfos.Add(potionRedS);
+        _potionInfos.Add(potionRedM);
+    }
 
     private void Start()
     {
@@ -60,12 +68,7 @@ public class HeroPotion : MonoBehaviour
         potionRedS.button.onClick.AddListener(() => SelectPotion(potionRedS));
         potionRedM.button.onClick.AddListener(() => SelectPotion(potionRedM));
 
-        _potionInfos.Add(potionGreenS);
-        _potionInfos.Add(potionGreenM);
-        _potionInfos.Add(potionYellowS);
-        _potionInfos.Add(potionYellowM);
-        _potionInfos.Add(potionRedS);
-        _potionInfos.Add(potionRedM);
+        
 
         EventManager.StartListening(EventType.ItemUpdated, UpdatePotionInfo);
 
@@ -97,26 +100,23 @@ public class HeroPotion : MonoBehaviour
             }
         }
 
-        if(temp)
+        if (temp)
         {
-            if (GameDataManager.instance.itemDictionary.ContainsKey(ItemType.Usable))
-            {
-                potions = GameDataManager.instance.itemDictionary[ItemType.Usable];
-            }
             foreach (PotionInfo info in _potionInfos)
             {
-                if (info.item.id == "")
+                var item = GameDataManager.instance.FindItem(info.id, ItemType.Usable);
+                if (item == null)
                 {
-                    foreach (Item item in potions)
-                    {
-                        if (info.id == item.id)
-                        {
-                            info.item = item;
-                            break;
-                        }
-                    }
+                    info.icon.color = Color.grey;
+                    info.background.color = Color.grey;
+                    info.count.text = "0";
                 }
-                info.count.text = info.item.count.ToString();
+                else
+                {
+                    info.icon.color = Color.white;
+                    info.background.color = Color.white;
+                    info.count.text = item.count.ToString();
+                }
             }
         }
     }
@@ -124,11 +124,10 @@ public class HeroPotion : MonoBehaviour
     private void SelectPotion(PotionInfo info)
     {
         selectedPotionInfo.id = info.id;
-        selectedPotionInfo.item = info.item;
         selectedPotionInfo.icon.sprite = info.icon.sprite;
         selectedPotionInfo.count.text = info.count.text;
         selectedPotionInfo.icon.color = Color.white;
-        selectedPotionInfo.background.sprite = ItemCollection.active.GetBackground(info.item) ?? ItemCollection.active.backgroundBrown;
+        selectedPotionInfo.background.sprite = ItemCollection.active.GetBackground(new Item(info.id)) ?? ItemCollection.active.backgroundBrown;
         selectedPotionInfo.background.color = Color.white;
 
         _potionName.text = info.potionName;
@@ -138,11 +137,12 @@ public class HeroPotion : MonoBehaviour
 
     private void SwapPotion()
     {
-        if(currentHero.PotionItem.id != selectedPotionInfo.id)
+        if(currentHero.potionId != selectedPotionInfo.id)
         {
-            currentHero.PotionItem = selectedPotionInfo.item;
+            currentHero.potionId = selectedPotionInfo.id;
         }
         heropage.UpdatePotion();
+        potionPopup.HideScreen();
     }
 
     public void UpdateCurrentHero(HeroInfo hero)
@@ -195,7 +195,6 @@ public class HeroPotion : MonoBehaviour
     private void ResetPotionUI()
     {
         selectedPotionInfo.id = "";
-        selectedPotionInfo.item = null;
         selectedPotionInfo.icon.sprite = baseSprite;
         selectedPotionInfo.icon.color = new Color32(0, 0, 0, 100);
         selectedPotionInfo.background.sprite = ItemCollection.active.backgroundBrown;

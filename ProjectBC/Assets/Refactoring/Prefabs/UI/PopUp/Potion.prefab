@@ -174,19 +174,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Potion_Yellow_S
   potionName: "\uC791\uC740 \uB178\uB780 \uD3EC\uC158"
-  item:
-    id: 
-    modifier:
-      id: 0
-      level: 0
-    stat:
-      basic: []
-      magic: []
-    luckyPercent: 0
-    luckyPoint: 0
-    battlePoint: 0
-    count: 0
-    isLocked: 0
   description: "\uCCB4\uB825\uC744 300 \uD68C\uBCF5\uD569\uB2C8\uB2E4"
   icon: {fileID: 3699857374831731610}
   background: {fileID: 1667702905936694580}
@@ -1058,7 +1045,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2573613752066714966}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 0.9
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -1284,19 +1271,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Potion_Green_M
   potionName: "\uD070 \uCD08\uB85D \uD3EC\uC158"
-  item:
-    id: 
-    modifier:
-      id: 0
-      level: 0
-    stat:
-      basic: []
-      magic: []
-    luckyPercent: 0
-    luckyPoint: 0
-    battlePoint: 0
-    count: 0
-    isLocked: 0
   description: "\uCCB4\uB825\uC744 200 \uD68C\uBCF5\uD569\uB2C8\uB2E4"
   icon: {fileID: 8957806108699433232}
   background: {fileID: 776530534252286481}
@@ -3085,19 +3059,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 
   potionName: 
-  item:
-    id: 
-    modifier:
-      id: 0
-      level: 0
-    stat:
-      basic: []
-      magic: []
-    luckyPercent: 0
-    luckyPoint: 0
-    battlePoint: 0
-    count: 0
-    isLocked: 0
   description: 
   icon: {fileID: 7024495914564469033}
   background: {fileID: 5872535119090580087}
@@ -3499,19 +3460,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Potion_Green_S
   potionName: "\uC791\uC740 \uCD08\uB85D \uD3EC\uC158"
-  item:
-    id: 
-    modifier:
-      id: 0
-      level: 0
-    stat:
-      basic: []
-      magic: []
-    luckyPercent: 0
-    luckyPoint: 0
-    battlePoint: 0
-    count: 0
-    isLocked: 0
   description: "\uCCB4\uB825\uC744 100 \uD68C\uBCF5\uD569\uB2C8\uB2E4"
   icon: {fileID: 5290833042395944520}
   background: {fileID: 8607144781207203095}
@@ -3691,19 +3639,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Potion_Red_S
   potionName: "\uBE68\uAC04 \uC791\uC740 \uD3EC\uC158"
-  item:
-    id: 
-    modifier:
-      id: 0
-      level: 0
-    stat:
-      basic: []
-      magic: []
-    luckyPercent: 0
-    luckyPoint: 0
-    battlePoint: 0
-    count: 0
-    isLocked: 0
   description: "\uCCB4\uB825\uC744 500 \uD68C\uBCF5\uD569\uB2C8\uB2E4"
   icon: {fileID: 5360354600110206703}
   background: {fileID: 153372679095186645}
@@ -3815,6 +3750,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heropage: {fileID: 0}
+  potionPopup: {fileID: 7446612394342138426}
   slider: {fileID: 5804062955138766243}
   potionGreenS: {fileID: 6873287196836773675}
   potionGreenM: {fileID: 4772931339598421405}
@@ -3823,7 +3759,37 @@ MonoBehaviour:
   potionRedS: {fileID: 1944390112674094730}
   potionRedM: {fileID: 1125035520386168484}
   selectedPotionInfo: {fileID: 1998172278867570068}
-  _potionInfos: []
+  _potionInfos:
+  - {fileID: 6873287196836773675}
+  - {fileID: 4772931339598421405}
+  - {fileID: 2535159455280699966}
+  - {fileID: 1782489361297924382}
+  - {fileID: 1944390112674094730}
+  - {fileID: 1125035520386168484}
+  - {fileID: 6873287196836773675}
+  - {fileID: 4772931339598421405}
+  - {fileID: 2535159455280699966}
+  - {fileID: 1782489361297924382}
+  - {fileID: 1944390112674094730}
+  - {fileID: 1125035520386168484}
+  - {fileID: 6873287196836773675}
+  - {fileID: 4772931339598421405}
+  - {fileID: 2535159455280699966}
+  - {fileID: 1782489361297924382}
+  - {fileID: 1944390112674094730}
+  - {fileID: 1125035520386168484}
+  - {fileID: 6873287196836773675}
+  - {fileID: 4772931339598421405}
+  - {fileID: 2535159455280699966}
+  - {fileID: 1782489361297924382}
+  - {fileID: 1944390112674094730}
+  - {fileID: 1125035520386168484}
+  - {fileID: 6873287196836773675}
+  - {fileID: 4772931339598421405}
+  - {fileID: 2535159455280699966}
+  - {fileID: 1782489361297924382}
+  - {fileID: 1944390112674094730}
+  - {fileID: 1125035520386168484}
   swapButton: {fileID: 6990935896989525718}
   _potionName: {fileID: 3328204463643927616}
   _potionDescription: {fileID: 2186859795756115009}
@@ -4196,19 +4162,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Potion_Red_M
   potionName: "\uBE68\uAC04 \uD070 \uD3EC\uC158"
-  item:
-    id: 
-    modifier:
-      id: 0
-      level: 0
-    stat:
-      basic: []
-      magic: []
-    luckyPercent: 0
-    luckyPoint: 0
-    battlePoint: 0
-    count: 0
-    isLocked: 0
   description: "\uCCB4\uB825\uC744 600 \uD68C\uBCF5\uD569\uB2C8\uB2E4"
   icon: {fileID: 8952620542384553751}
   background: {fileID: 6840886532997938047}
@@ -5055,19 +5008,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Potion_Yellow_M
   potionName: "\uD070 \uB178\uB780 \uD3EC\uC158"
-  item:
-    id: 
-    modifier:
-      id: 0
-      level: 0
-    stat:
-      basic: []
-      magic: []
-    luckyPercent: 0
-    luckyPoint: 0
-    battlePoint: 0
-    count: 0
-    isLocked: 0
   description: "\uCCB4\uB825\uC744 400 \uD68C\uBCF5\uD569\uB2C8\uB2E4."
   icon: {fileID: 1230090982245312248}
   background: {fileID: 3205613414889731411}
