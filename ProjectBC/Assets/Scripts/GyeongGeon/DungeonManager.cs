@@ -51,32 +51,32 @@ public class DungeonManager : MonoSingleton<DungeonManager>
         
     }
 
-    //public void OpenAdventurePopup(string _themeCode)
-    //{
-    //    _themeList.Clear();
+    public void OpenAdventurePopup(string _themeCode)
+    {
+       _themeList.Clear();
 
-    //    foreach (var dungeon in _allDungeonList)
-    //    {
-    //        if (dungeon._themeCode.Equals(_themeCode) && !_themeList.Contains(dungeon))
-    //        {
-    //            _themeList.Add(dungeon);
-    //        }
-    //    }
+       foreach (var dungeon in _allDungeonList)
+       {
+           if (dungeon._themeCode.Equals(_themeCode) && !_themeList.Contains(dungeon))
+           {
+               _themeList.Add(dungeon);
+           }
+       }
 
-    //    //popupManager.InitAdventurePopup(_themeList);
-    //    if (GameDataManager.instance.battlePoint <= _selectDungeon.requiredBattlePoint)
-    //    {
-    //        ToastMsg.instance.ShowMessage("배틀포인트가 부족합니다\n" + (_selectDungeon.requiredBattlePoint - GameDataManager.instance.battlePoint) + "만큼 부족", 2.0f);
-    //        return;
-    //    }
-    //    else
-    //    {
-    //        SelectDungeon(0);
-    //        dungeonTheme.InitAdventurePopup(_themeList);
-    //        //popupManager.adventurePopup.SetActive(true);
-    //    }
+       //popupManager.InitAdventurePopup(_themeList);
+       if (GameDataManager.instance.battlePoint <= _selectDungeon.requiredBattlePoint)
+       {
+           ToastMsg.instance.ShowMessage("배틀포인트가 부족합니다\n" + (_selectDungeon.requiredBattlePoint - GameDataManager.instance.battlePoint) + "만큼 부족", 2.0f);
+           return;
+       }
+       else
+       {
+           SelectDungeon(0);
+           dungeonTheme.InitAdventurePopup(_themeList);
+           //popupManager.adventurePopup.SetActive(true);
+       }
 
-    //}
+    }
 
     public void SelectDungeon(int index)
     {
