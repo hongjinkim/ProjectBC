@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HeroMenuManager : MonoBehaviour
 {
-    private HeroInfo currentHeroInfo;
+    
+    public HeroInfo currentHeroInfo;
     public TraitManager traitManager;
     [Header("Menus")]
     public Transform EquipmentMenu;
@@ -25,6 +27,7 @@ public class HeroMenuManager : MonoBehaviour
 
     private void Awake()
     {
+       
         EquipmentMenu.SetAsLastSibling();
     }
 
@@ -58,30 +61,23 @@ public class HeroMenuManager : MonoBehaviour
 
     public void OnSkillButtonClicked()
     {
+        
         traitManager.HideAllPanels();
         SkillMenu.SetAsLastSibling();
+        
         HideAllSkillPanels();
         SetCurrentHeroToSkillPanel();
     }
     private void SetCurrentHeroToSkillPanel()
     {
+        
         switch (currentHeroInfo.heroClass)
         {
-            case HeroClass.Archer:
-                Debug.Log($"Attempting to set Archer: {currentHeroInfo.character}");
-                if (currentHeroInfo.character == null)
-                {
-                    Debug.LogError("currentHeroInfo.character is null for Archer");
-                }
-                else if (!(currentHeroInfo.character is Archer))
-                {
-                    Debug.LogError($"currentHeroInfo.character is not an Archer. Actual type: {currentHeroInfo.character.GetType()}");
-                }
-                else
-                {
+            case HeroClass.Archer:          
+
                     archerSkillPanel.gameObject.SetActive(true);
+                
                     archerSkillPanel.SetCurrentArcher(currentHeroInfo.character as Archer);
-                }
                 break;
             case HeroClass.Knight:
                 knightSkillPanel.gameObject.SetActive(true);
@@ -115,6 +111,7 @@ public class HeroMenuManager : MonoBehaviour
     }
     public void UpdateCurrentHero(HeroInfo heroInfo)
     {
+        Debug.Log(heroInfo.heroName);
         currentHeroInfo = heroInfo;
     }
 

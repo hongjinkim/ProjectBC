@@ -1140,6 +1140,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 232467952307058108, guid: 618dd29eb18635e4ba6cc3754af9a057, type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3417252855763389845, guid: 618dd29eb18635e4ba6cc3754af9a057, type: 3}
       propertyPath: m_Name
       value: SoundManager
@@ -2956,6 +2960,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4630437001468997424, guid: 7d17c1af4e0d2b546bea1d906cc94ce2, type: 3}
   m_PrefabInstance: {fileID: 5480426573035854047}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5314137042972816921 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5990856157966378147, guid: 7d17c1af4e0d2b546bea1d906cc94ce2, type: 3}
+  m_PrefabInstance: {fileID: 5480426573035854047}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efe8a7218de3b7449a03da0ee7d44d18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5350067646055425306
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3333,6 +3348,10 @@ PrefabInstance:
       propertyPath: TraitMenu
       value: 
       objectReference: {fileID: 14407034}
+    - target: {fileID: 1875393365981784187, guid: 7d17c1af4e0d2b546bea1d906cc94ce2, type: 3}
+      propertyPath: slotManager
+      value: 
+      objectReference: {fileID: 5314137042972816921}
     - target: {fileID: 1875393365981784187, guid: 7d17c1af4e0d2b546bea1d906cc94ce2, type: 3}
       propertyPath: traitManager
       value: 
@@ -3989,6 +4008,10 @@ PrefabInstance:
       propertyPath: heroManager
       value: 
       objectReference: {fileID: 7987044590726623249}
+    - target: {fileID: 5990856157966378147, guid: 7d17c1af4e0d2b546bea1d906cc94ce2, type: 3}
+      propertyPath: heroMenuManager
+      value: 
+      objectReference: {fileID: 1108961153}
     - target: {fileID: 6155663969328613242, guid: 7d17c1af4e0d2b546bea1d906cc94ce2, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

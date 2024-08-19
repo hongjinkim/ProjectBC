@@ -60,11 +60,12 @@ public class Hero : Character
     {
         base.Start();
         // HeroInfo에서 Character로 참조 설정
+        if (info.character == null)
         info.character = this;
         
         // 저장된 특성 효과 적용
         info.ApplyTraitEffects(this);
-        info.SetCharacter(this);
+        //info.SetCharacter(this);
         //SetStat();
        
         SetupHeroInfoEvents();

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +9,11 @@ public class HeroSlotManager : MonoBehaviour
     public HeroManager heroManager;
     public HeroPage heroPage;
     public HeroInfo heroInfo;
-
+    public HeroMenuManager heroMenuManager;
     public List<MyHeroSlot> slots;
 
     private List<HeroInfo> hero;
-
+    
     [SerializeField] private AttributeUI attributeUI;
 
     public void OnValidate()
@@ -40,30 +41,54 @@ public class HeroSlotManager : MonoBehaviour
     {
         int idx = heroPage._idx;
         int max = hero.Count();
-
-        if (idx == max - 1)
+        
+        if (idx == max-1)
             idx = 0;
         else
             idx++;
 
         heroPage.OnHeroSelected(hero[idx], idx);
         UpdateHeroSubscription(idx);
-
+        
+        if (heroMenuManager.SkillMenu.GetSiblingIndex() == 4)
+        {
+            //heroPage._info.character = hero[idx].character;
+            //Debug.Log(hero[idx].character);
+            if (heroMenuManager.currentHeroInfo.character == null)
+            {
+                heroMenuManager.currentHeroInfo.character = GameManager.instance.heroCharacterScript[idx];
+            }
+            heroMenuManager.UpdateCurrentHero(hero[idx]);
+            heroMenuManager.OnSkillButtonClicked();
+            Debug.Log(hero[idx].character);
+        }
+            
         
     }
 
     public void PrevHeroSelect()
     {
         int idx = heroPage._idx;
-        int max = hero.Count();
+        int max = hero.Count()-1;
 
         if (idx == 0)
-            idx = max - 1;
+            idx = max;
         else
             idx--;
 
         heroPage.OnHeroSelected(hero[idx], idx);
         UpdateHeroSubscription(idx);
+        if (heroMenuManager.SkillMenu.GetSiblingIndex() == 4)
+        {
+            if (heroMenuManager.currentHeroInfo.character == null)
+            {
+                heroMenuManager.currentHeroInfo.character = GameManager.instance.heroCharacterScript[idx];
+            }
+            heroMenuManager.UpdateCurrentHero(hero[idx]);
+            heroMenuManager.OnSkillButtonClicked();
+        }
+        
+        
     }
 
     private void UpdateHeroSubscription(int newIdx)

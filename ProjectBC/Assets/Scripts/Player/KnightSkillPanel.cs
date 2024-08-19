@@ -8,13 +8,13 @@ public class KnightSkillPanel : MonoBehaviour
     public Button heavenlyBlessingButton;
     public Button impregnableButton;
 
-    //public TextMeshProUGUI shieldBashLevelText;
-    //public TextMeshProUGUI heavenlyBlessingLevelText;
-    //public TextMeshProUGUI impregnableLevelText;
+    public TextMeshProUGUI shieldBashLevelText;
+    public TextMeshProUGUI heavenlyBlessingLevelText;
+    public TextMeshProUGUI impregnableLevelText;
 
     private Knight currentKnight;
 
-    public void SkillInit()
+    public void Init()
     {
         shieldBashButton.onClick.AddListener(() => LevelUpSkill(currentKnight.shieldBash));
         heavenlyBlessingButton.onClick.AddListener(() => LevelUpSkill(currentKnight.heavenlyBlessing));
@@ -23,15 +23,17 @@ public class KnightSkillPanel : MonoBehaviour
 
     public void SetCurrentKnight(Knight knight)
     {
+        
         currentKnight = knight;
-        SkillInit();
+        Init();
+
         if (currentKnight == null)
         {
-            Debug.LogError("SetCurrentKnight was called with a null archer.");
+            Debug.LogError("SetCurrentKnight was called with a null knight.");
         }
         else
         {
-            Debug.Log($"SetCurrentKnight called with archer: {currentKnight.name}");
+            Debug.Log($"SetCurrentKnight called with knight: {currentKnight.name}");
             Debug.Log($"Knight has {currentKnight.info.skills.Count} skills:");
 
             foreach (var skill in currentKnight.info.skills)
@@ -59,8 +61,8 @@ public class KnightSkillPanel : MonoBehaviour
 
     private void UpdateSkillLevels()
     {
-        //shieldBashLevelText.text = $"Lv.{currentKnight.shieldBash.Level}";
-        //heavenlyBlessingLevelText.text = $"Lv.{currentKnight.heavenlyBlessing.Level}";
-        //impregnableLevelText.text = $"Lv.{currentKnight.impregnable.Level}";
+        shieldBashLevelText.text = $"Lv.{currentKnight.shieldBash.Level}";
+        heavenlyBlessingLevelText.text = $"Lv.{currentKnight.heavenlyBlessing.Level}";
+        impregnableLevelText.text = $"Lv.{currentKnight.impregnable.Level}";
     }
 }
