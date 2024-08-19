@@ -25,7 +25,7 @@ public class MyHeroSlot : MonoBehaviour
     }
     private void Start()
     {
-        
+       
     }
 
     public void SetMyHeroData(HeroInfo heroInfo, int index)
@@ -80,9 +80,6 @@ public class MyHeroSlot : MonoBehaviour
 
         heroPage.OnHeroSelected(_info, myHeroIndex);
         heroPage.heroMenuManager.EquipmentMenu.SetAsLastSibling();
-        if (_info.character == null)
-        {
-            _info.character = GameManager.instance.heroCharacterScript[myHeroIndex];
-        }
+       
     }
 }

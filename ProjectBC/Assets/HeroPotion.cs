@@ -148,7 +148,7 @@ public class HeroPotion : MonoBehaviour
     public void UpdateCurrentHero(HeroInfo hero)
     {
         currentHero = hero;
-        ResetPotionUI();
+        //ResetPotionUI();
 
         //UpdatePotionSlot(); // 현재 영웅 변경 시 포션 슬롯 업데이트
         slider.value = hero.potionUseHp;
@@ -165,6 +165,7 @@ public class HeroPotion : MonoBehaviour
                 return;
             }
         }
+        ResetPotionUI();
     }
     //private void UpdatePotionEffect(int index)
     //{

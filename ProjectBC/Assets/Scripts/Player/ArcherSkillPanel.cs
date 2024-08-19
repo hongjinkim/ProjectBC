@@ -17,12 +17,20 @@ public class ArcherSkillPanel : MonoBehaviour
 
     private Archer currentArcher;
 
-    public void Init()
+
+    private void Start()
     {
         penetratingArrowButton.onClick.AddListener(() => LevelUpSkill(currentArcher.penetratingArrow));
         enhancedBowButton.onClick.AddListener(() => LevelUpSkill(currentArcher.enhancedBow));
         marksmanshipButton.onClick.AddListener(() => LevelUpSkill(currentArcher.marksmanship));
         weaknessDetectionButton.onClick.AddListener(() => LevelUpSkill(currentArcher.weaknessDetection));
+    }
+    public void Init()
+    {
+        //penetratingArrowButton.onClick.AddListener(() => LevelUpSkill(currentArcher.penetratingArrow));
+        //enhancedBowButton.onClick.AddListener(() => LevelUpSkill(currentArcher.enhancedBow));
+        //marksmanshipButton.onClick.AddListener(() => LevelUpSkill(currentArcher.marksmanship));
+        //weaknessDetectionButton.onClick.AddListener(() => LevelUpSkill(currentArcher.weaknessDetection));
     }
 
     public void SetCurrentArcher(Archer archer)

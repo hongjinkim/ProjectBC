@@ -16,12 +16,20 @@ public class PriestSkillPanel : MonoBehaviour
 
     private Priest currentPriest;
 
-    private void Init()
+    private void Start()
     {
         purifyingLightButton.onClick.AddListener(() => LevelUpSkill(currentPriest.purifyingLight));
         dazzlingLightButton.onClick.AddListener(() => LevelUpSkill(currentPriest.dazzlingLight));
         holyGraceButton.onClick.AddListener(() => LevelUpSkill(currentPriest.holyGrace));
         mysticalPowerButton.onClick.AddListener(() => LevelUpSkill(currentPriest.mysticalPower));
+    }
+
+    private void Init()
+    {
+        //purifyingLightButton.onClick.AddListener(() => LevelUpSkill(currentPriest.purifyingLight));
+        //dazzlingLightButton.onClick.AddListener(() => LevelUpSkill(currentPriest.dazzlingLight));
+        //holyGraceButton.onClick.AddListener(() => LevelUpSkill(currentPriest.holyGrace));
+        //mysticalPowerButton.onClick.AddListener(() => LevelUpSkill(currentPriest.mysticalPower));
     }
 
     public void SetCurrentPriest(Priest priest)

@@ -14,12 +14,18 @@ public class WizardSkillPanel : MonoBehaviour
 
     private Wizard currentWizard;
 
-    private void Init()
+    private void Start()
     {
-        
         scorchedEarthButton.onClick.AddListener(() => LevelUpSkill(currentWizard.scorchedEarth));
         mysticResonanceButton.onClick.AddListener(() => LevelUpSkill(currentWizard.mysticResonance));
         waveOfHeatButton.onClick.AddListener(() => LevelUpSkill(currentWizard.waveOfHeat));
+    }
+    private void Init()
+    {
+        
+        //scorchedEarthButton.onClick.AddListener(() => LevelUpSkill(currentWizard.scorchedEarth));
+        //mysticResonanceButton.onClick.AddListener(() => LevelUpSkill(currentWizard.mysticResonance));
+        //waveOfHeatButton.onClick.AddListener(() => LevelUpSkill(currentWizard.waveOfHeat));
     }
 
     public void SetCurrentWizard(Wizard wizard)

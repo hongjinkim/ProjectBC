@@ -4762,19 +4762,8 @@ MonoBehaviour:
     defenseLevel: 0
     masicResistanceLevel: 0
     EquippedItems: []
-    PotionItem:
-      id: 
-      modifier:
-        id: 0
-        level: 0
-      stat:
-        basic: []
-        magic: []
-      luckyPercent: 0
-      luckyPoint: 0
-      battlePoint: 0
-      count: 0
-      isLocked: 0
+    potionId: 
+    potionUseHp: 0
   traitManager: {fileID: 0}
   EquipmentMenu: {fileID: 6633391636707837254}
   AttributeMenu: {fileID: 7661878256196884320}
@@ -4783,7 +4772,6 @@ MonoBehaviour:
   TraitMenu: {fileID: 0}
   PotionEquipmentButton: {fileID: 6977485655179857876}
   PotionEquipmentCloseButton: {fileID: 0}
-  HeroScreen_Equipment: {fileID: 0}
   archerSkillPanel: {fileID: 4718538130043889551}
   knightSkillPanel: {fileID: 4372573042023297041}
   wizardSkillPanel: {fileID: 2765689510518120995}
@@ -17038,24 +17026,14 @@ MonoBehaviour:
     defenseLevel: 0
     masicResistanceLevel: 0
     EquippedItems: []
-    PotionItem:
-      id: 
-      modifier:
-        id: 0
-        level: 0
-      stat:
-        basic: []
-        magic: []
-      luckyPercent: 0
-      luckyPoint: 0
-      battlePoint: 0
-      count: 0
-      isLocked: 0
+    potionId: 
+    potionUseHp: 0
   _idx: 0
   Weapon: {fileID: 1269646739672817952}
   Helmet: {fileID: 5681071310292274174}
   Armor: {fileID: 766676754970739142}
   Leggings: {fileID: 7105870956016356781}
+  Potion: {fileID: 5256333797904948254}
   characterImage: {fileID: 5072617004046622658}
   levlText: {fileID: 2304622043921481900}
   BattlePointText: {fileID: 2457582361992512275}
@@ -17063,6 +17041,7 @@ MonoBehaviour:
   AttackText: {fileID: 5468246693096910311}
   DefenseText: {fileID: 7147294899623926400}
   ResistanceText: {fileID: 507006552449255432}
+  potionCount: {fileID: 3716287326661767239}
   gauge: {fileID: 3312693013045916088}
   attributeUI: {fileID: 4911583569429449532}
   heroPotion: {fileID: 0}
@@ -23723,19 +23702,8 @@ MonoBehaviour:
     defenseLevel: 0
     masicResistanceLevel: 0
     EquippedItems: []
-    PotionItem:
-      id: 
-      modifier:
-        id: 0
-        level: 0
-      stat:
-        basic: []
-        magic: []
-      luckyPercent: 0
-      luckyPoint: 0
-      battlePoint: 0
-      count: 0
-      isLocked: 0
+    potionId: 
+    potionUseHp: 0
   heroMenuManager: {fileID: 1875393365981784187}
   slots:
   - {fileID: 8713820633855456311}

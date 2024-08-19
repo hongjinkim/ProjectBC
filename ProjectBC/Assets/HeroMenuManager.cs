@@ -29,9 +29,15 @@ public class HeroMenuManager : MonoBehaviour
     {
        
         EquipmentMenu.SetAsLastSibling();
+        //SetCurrentHeroToSkillPanel();
     }
 
-   
+    private void Start()
+    {
+        SetCurrentHeroToSkillPanel();
+    }
+
+
     public void OnEquipmentButtonClicked()
     {
         traitManager.HideAllPanels();
@@ -66,32 +72,47 @@ public class HeroMenuManager : MonoBehaviour
         SkillMenu.SetAsLastSibling();
         
         HideAllSkillPanels();
-        SetCurrentHeroToSkillPanel();
+        switch (currentHeroInfo.heroClass)
+        {
+            case HeroClass.Archer:
+                archerSkillPanel.SetActive(true);
+                break;
+            case HeroClass.Knight:
+                knightSkillPanel.SetActive(true);
+                break;
+            case HeroClass.Priest:
+                priestSkillPanel.SetActive(true);
+                break;
+            case HeroClass.Wizard:
+                wizardSkillPanel.SetActive(true);
+                break;
+        }
     }
     private void SetCurrentHeroToSkillPanel()
     {
-        
-        switch (currentHeroInfo.heroClass)
-        {
-            case HeroClass.Archer:          
+        var heroes = GameDataManager.instance.playerInfo.heroes;
 
-                    archerSkillPanel.gameObject.SetActive(true);
-                
-                    archerSkillPanel.SetCurrentArcher(currentHeroInfo.character as Archer);
-                break;
-            case HeroClass.Knight:
-                knightSkillPanel.gameObject.SetActive(true);
-                knightSkillPanel.SetCurrentKnight(currentHeroInfo.character as Knight);
-                break;
-            case HeroClass.Priest:
-                priestSkillPanel.gameObject.SetActive(true);
-                priestSkillPanel.SetCurrentPriest(currentHeroInfo.character as Priest);
-                break;
-            case HeroClass.Wizard:
-                wizardSkillPanel.gameObject.SetActive(true);
-                wizardSkillPanel.SetCurrentWizard(currentHeroInfo.character as Wizard);
-                break;
+        for(int i = 0; i < heroes.Count; i++)
+        {
+            if (heroes[i].character == null)
+                heroes[i].character = GameManager.instance.heroCharacterScript[i];
+            switch (heroes[i].heroClass)
+            {
+                case HeroClass.Archer:
+                    archerSkillPanel.SetCurrentArcher(heroes[i].character as Archer);
+                    break;
+                case HeroClass.Knight:
+                    knightSkillPanel.SetCurrentKnight(heroes[i].character as Knight);
+                    break;
+                case HeroClass.Priest:
+                    priestSkillPanel.SetCurrentPriest(heroes[i].character as Priest);
+                    break;
+                case HeroClass.Wizard:
+                    wizardSkillPanel.SetCurrentWizard(heroes[i].character as Wizard);
+                    break;
+            }
         }
+
     }
     public void OnTalentButtonClicked()
     {

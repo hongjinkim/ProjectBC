@@ -1,10 +1,9 @@
 
 using UnityEngine;
 
-public abstract class PlayerSkill
+[System.Serializable]
+public class PlayerSkill
 {
-
-
     public string Name { get; private set; }
     public string Description { get; private set; }
     public int Level { get; private set; }
@@ -34,6 +33,9 @@ public abstract class PlayerSkill
         }
     }
 
-    public abstract void UseSkill(Hero caster);
+    public virtual void UseSkill(Hero caster)
+    {
+
+    }
 }
 

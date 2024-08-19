@@ -14,11 +14,25 @@ public class KnightSkillPanel : MonoBehaviour
 
     private Knight currentKnight;
 
-    public void Init()
+    private void Awake()
+    {
+        //shieldBashButton.onClick.AddListener(() => LevelUpSkill(currentKnight.shieldBash));
+        //heavenlyBlessingButton.onClick.AddListener(() => LevelUpSkill(currentKnight.heavenlyBlessing));
+        //impregnableButton.onClick.AddListener(() => LevelUpSkill(currentKnight.impregnable));
+    }
+
+    private void Start()
     {
         shieldBashButton.onClick.AddListener(() => LevelUpSkill(currentKnight.shieldBash));
         heavenlyBlessingButton.onClick.AddListener(() => LevelUpSkill(currentKnight.heavenlyBlessing));
         impregnableButton.onClick.AddListener(() => LevelUpSkill(currentKnight.impregnable));
+    }
+
+    public void Init()
+    {
+        //shieldBashButton.onClick.AddListener(() => LevelUpSkill(currentKnight.shieldBash));
+        //heavenlyBlessingButton.onClick.AddListener(() => LevelUpSkill(currentKnight.heavenlyBlessing));
+        //impregnableButton.onClick.AddListener(() => LevelUpSkill(currentKnight.impregnable));
     }
 
     public void SetCurrentKnight(Knight knight)

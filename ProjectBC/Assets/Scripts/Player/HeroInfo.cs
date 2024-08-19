@@ -66,7 +66,6 @@ public class HeroInfo
     [JsonIgnore] private Sprite _sprite;
 
     [SerializeField] private int _hp;
-    public HeroPage heroPage;
 
     public event Action OnExperienceChanged;
     public event Action OnLevelUp;
