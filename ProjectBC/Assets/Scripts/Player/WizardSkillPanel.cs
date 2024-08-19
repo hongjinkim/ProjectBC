@@ -8,14 +8,15 @@ public class WizardSkillPanel : MonoBehaviour
     public Button mysticResonanceButton;
     public Button waveOfHeatButton;
 
-    //public TextMeshProUGUI scorchedEarthLevelText;
-    //public TextMeshProUGUI mysticResonanceLevelText;
-    //public TextMeshProUGUI waveOfHeatLevelText;
+    public TextMeshProUGUI scorchedEarthLevelText;
+    public TextMeshProUGUI mysticResonanceLevelText;
+    public TextMeshProUGUI waveOfHeatLevelText;
 
     private Wizard currentWizard;
 
     private void Init()
     {
+        
         scorchedEarthButton.onClick.AddListener(() => LevelUpSkill(currentWizard.scorchedEarth));
         mysticResonanceButton.onClick.AddListener(() => LevelUpSkill(currentWizard.mysticResonance));
         waveOfHeatButton.onClick.AddListener(() => LevelUpSkill(currentWizard.waveOfHeat));
@@ -23,8 +24,10 @@ public class WizardSkillPanel : MonoBehaviour
 
     public void SetCurrentWizard(Wizard wizard)
     {
-
+        
+        
         currentWizard = wizard;
+        
         Init();
         if (currentWizard == null)
         {
@@ -45,6 +48,7 @@ public class WizardSkillPanel : MonoBehaviour
 
     private void LevelUpSkill(PlayerSkill skill)
     {
+        Debug.Log(skill);
         if (skill.Level < skill.MaxLevel)
         {
             int oldLevel = skill.Level;
@@ -60,8 +64,8 @@ public class WizardSkillPanel : MonoBehaviour
 
     private void UpdateSkillLevels()
     {
-        //scorchedEarthLevelText.text = $"Lv.{currentWizard.scorchedEarth.Level}";
-        //mysticResonanceLevelText.text = $"Lv.{currentWizard.mysticResonance.Level}";
-        //waveOfHeatLevelText.text = $"Lv.{currentWizard.waveOfHeat.Level}";
+        scorchedEarthLevelText.text = $"Lv.{currentWizard.scorchedEarth.Level}";
+        mysticResonanceLevelText.text = $"Lv.{currentWizard.mysticResonance.Level}";
+        waveOfHeatLevelText.text = $"Lv.{currentWizard.waveOfHeat.Level}";
     }
 }

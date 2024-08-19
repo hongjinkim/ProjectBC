@@ -49,13 +49,20 @@ public class HeroSlotManager : MonoBehaviour
 
         heroPage.OnHeroSelected(hero[idx], idx);
         UpdateHeroSubscription(idx);
-        Debug.Log(idx);
+        
         if (heroMenuManager.SkillMenu.GetSiblingIndex() == 4)
         {
+            //heroPage._info.character = hero[idx].character;
+            //Debug.Log(hero[idx].character);
+            if (heroMenuManager.currentHeroInfo.character == null)
+            {
+                heroMenuManager.currentHeroInfo.character = GameManager.instance.heroCharacterScript[idx];
+            }
             heroMenuManager.UpdateCurrentHero(hero[idx]);
             heroMenuManager.OnSkillButtonClicked();
+            Debug.Log(hero[idx].character);
         }
-            Debug.Log(hero[idx].heroName);
+            
         
     }
 
@@ -73,11 +80,15 @@ public class HeroSlotManager : MonoBehaviour
         UpdateHeroSubscription(idx);
         if (heroMenuManager.SkillMenu.GetSiblingIndex() == 4)
         {
+            if (heroMenuManager.currentHeroInfo.character == null)
+            {
+                heroMenuManager.currentHeroInfo.character = GameManager.instance.heroCharacterScript[idx];
+            }
             heroMenuManager.UpdateCurrentHero(hero[idx]);
             heroMenuManager.OnSkillButtonClicked();
         }
         
-        Debug.Log(hero[idx].heroName);
+        
     }
 
     private void UpdateHeroSubscription(int newIdx)

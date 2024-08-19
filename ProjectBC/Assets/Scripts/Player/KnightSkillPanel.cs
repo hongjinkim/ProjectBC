@@ -8,9 +8,9 @@ public class KnightSkillPanel : MonoBehaviour
     public Button heavenlyBlessingButton;
     public Button impregnableButton;
 
-    //public TextMeshProUGUI shieldBashLevelText;
-    //public TextMeshProUGUI heavenlyBlessingLevelText;
-    //public TextMeshProUGUI impregnableLevelText;
+    public TextMeshProUGUI shieldBashLevelText;
+    public TextMeshProUGUI heavenlyBlessingLevelText;
+    public TextMeshProUGUI impregnableLevelText;
 
     private Knight currentKnight;
 
@@ -23,8 +23,10 @@ public class KnightSkillPanel : MonoBehaviour
 
     public void SetCurrentKnight(Knight knight)
     {
+        
         currentKnight = knight;
         Init();
+
         if (currentKnight == null)
         {
             Debug.LogError("SetCurrentKnight was called with a null knight.");
@@ -59,8 +61,8 @@ public class KnightSkillPanel : MonoBehaviour
 
     private void UpdateSkillLevels()
     {
-        //shieldBashLevelText.text = $"Lv.{currentKnight.shieldBash.Level}";
-        //heavenlyBlessingLevelText.text = $"Lv.{currentKnight.heavenlyBlessing.Level}";
-        //impregnableLevelText.text = $"Lv.{currentKnight.impregnable.Level}";
+        shieldBashLevelText.text = $"Lv.{currentKnight.shieldBash.Level}";
+        heavenlyBlessingLevelText.text = $"Lv.{currentKnight.heavenlyBlessing.Level}";
+        impregnableLevelText.text = $"Lv.{currentKnight.impregnable.Level}";
     }
 }

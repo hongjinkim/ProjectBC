@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class HeroMenuManager : MonoBehaviour
 {
     
-    private HeroInfo currentHeroInfo;
+    public HeroInfo currentHeroInfo;
     public TraitManager traitManager;
     [Header("Menus")]
     public Transform EquipmentMenu;
@@ -62,18 +62,22 @@ public class HeroMenuManager : MonoBehaviour
 
     public void OnSkillButtonClicked()
     {
-          
+        
         traitManager.HideAllPanels();
         SkillMenu.SetAsLastSibling();
+        
         HideAllSkillPanels();
         SetCurrentHeroToSkillPanel();
     }
     private void SetCurrentHeroToSkillPanel()
     {
+        
         switch (currentHeroInfo.heroClass)
         {
             case HeroClass.Archer:          
+
                     archerSkillPanel.gameObject.SetActive(true);
+                
                     archerSkillPanel.SetCurrentArcher(currentHeroInfo.character as Archer);
                 break;
             case HeroClass.Knight:
@@ -108,6 +112,7 @@ public class HeroMenuManager : MonoBehaviour
     }
     public void UpdateCurrentHero(HeroInfo heroInfo)
     {
+        Debug.Log(heroInfo.heroName);
         currentHeroInfo = heroInfo;
     }
 
