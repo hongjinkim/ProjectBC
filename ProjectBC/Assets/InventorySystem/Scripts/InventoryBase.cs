@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class InventoryBase : ItemWorkspace
@@ -15,6 +16,18 @@ public class InventoryBase : ItemWorkspace
     [Header("Disassembly")]
     public GameObject DisassemblyPopup;
     public Disassembly disassembly;
+    public TextMeshProUGUI basicCount;
+    public TextMeshProUGUI commonCount;
+    public TextMeshProUGUI rareCount;
+    public TextMeshProUGUI epicCount;
+    public TextMeshProUGUI legendaryCount;
+
+    private int basic;
+    private int common;
+    private int rare;
+    private int epic;
+    private int legendary;
+
     //[Header("Sort Equipments by Type")]
     //public ScrollInventory WeaponInventory;
     //public ScrollInventory HelemtInventory;
@@ -32,7 +45,9 @@ public class InventoryBase : ItemWorkspace
     public Action<Item> OnEquip;
     public Func<Item, bool> CanEquip = i => true;
 
-    [SerializeField]private ItemInfo ItemInfo;
+    private ItemInfo itemInfo;
+    private EquipmentInfo equipmentInfo;
+
 
     void OnEnable()
     {
@@ -84,9 +99,12 @@ public class InventoryBase : ItemWorkspace
 
     public void Start()
     {
-        ItemInfo = (ItemInfo)MainUIManager.instance.ItemInfoPopUp;
+        itemInfo = (ItemInfo)MainUIManager.instance.ItemInfoPopUp;
+        equipmentInfo = (EquipmentInfo)MainUIManager.instance.EquipmentInfoPopUp;
+
         EventManager.StartListening(EventType.ItemUpdated, InitializeInventory);
         InitializeAllInventory();
+
     }
 
     /// <summary>
@@ -96,7 +114,7 @@ public class InventoryBase : ItemWorkspace
     {
         var allItems = GameDataManager.instance.playerInfo.items;
 
-        // ±‚¡∏ æ∆¿Ã≈€ ∏ÆΩ∫∆Æ √ ±‚»≠
+        // Í∏∞Ï°¥ ÏïÑÏù¥ÌÖú Î¶¨Ïä§Ìä∏ Ï¥àÍ∏∞Ìôî
         foreach (var list in inventoryItems.Values)
         {
             list.Clear();
@@ -132,7 +150,7 @@ public class InventoryBase : ItemWorkspace
     {
         //var allItems = GameDataManager.instance.playerInfo.items;
 
-        // ±‚¡∏ æ∆¿Ã≈€ ∏ÆΩ∫∆Æ √ ±‚»≠
+        // Í∏∞Ï°¥ ÏïÑÏù¥ÌÖú Î¶¨Ïä§Ìä∏ Ï¥àÍ∏∞Ìôî
         //foreach (var list in inventoryItems.Values)
         //{
         //    list.Clear();
@@ -260,10 +278,6 @@ public class InventoryBase : ItemWorkspace
         currentInventoryType = newType;
         ShowInventory(GetInventoryByType(newType));
         SelectedItem = null;
-        if (ItemInfo != null)
-        {
-            ItemInfo.Reset();
-        }
         Refresh();
     }
 
@@ -291,18 +305,21 @@ public class InventoryBase : ItemWorkspace
                 case ItemType.Usable:
                 case ItemType.Exp:
                     inventoryType = InventoryType.Usable;
+                    itemInfo.Initialize(SelectedItem, inventoryItems[inventoryType]);
                     break;
                 case ItemType.Material:
                     inventoryType = InventoryType.Material;
+                    itemInfo.Initialize(SelectedItem, inventoryItems[inventoryType]);
                     break;
                 case ItemType.Crystal:
                     inventoryType = InventoryType.Crystal;
+                    itemInfo.Initialize(SelectedItem, inventoryItems[inventoryType]);
                     break;
                 default:
                     inventoryType = InventoryType.Equipment;
+                    equipmentInfo.Initialize(SelectedItem, inventoryItems[inventoryType]);
                     break;
             }
-            ItemInfo.Initialize(SelectedItem, inventoryItems[inventoryType]);
         }
         Refresh();
     }
@@ -333,7 +350,9 @@ public class InventoryBase : ItemWorkspace
         {
             DisassemblyPopup.SetActive(true);
 
-            disassembly.disassemblyText.text = "∫–«ÿ«œ±‚";
+            CountAllItems();
+
+            disassembly.disassemblyText.text = "Î∂ÑÌï¥ÌïòÍ∏∞";
         }
         ItemAllDisassemblyButton();
     }
@@ -351,7 +370,7 @@ public class InventoryBase : ItemWorkspace
             disassembly.ItemDisassembly();
 
             DisassemblyPopup.SetActive(false);
-            disassembly.disassemblyText.text = "¿œ∞˝ ∫–«ÿ";
+            disassembly.disassemblyText.text = "ÏùºÍ¥Ñ Î∂ÑÌï¥";
 
             disassembly.isPopup = false;
         }
@@ -400,12 +419,6 @@ public class InventoryBase : ItemWorkspace
 
     public override void Refresh()
     {
-        if (SelectedItem == null)
-        {
-            ItemInfo.Reset();
-        }
-
-
         OnRefresh?.Invoke(SelectedItem);
     }
 
@@ -424,5 +437,47 @@ public class InventoryBase : ItemWorkspace
             default:
                 return null;
         }
+    }
+
+    private void CountAllItems()
+    {
+        basic = 0;
+        common = 0;
+        rare = 0;
+        epic = 0;
+        legendary = 0;
+
+        if(inventoryItems.ContainsKey(InventoryType.Equipment))
+        {
+            foreach(Item item in inventoryItems[InventoryType.Equipment])
+            {
+                switch(item.Params.Rarity)
+                {
+                    case ItemRarity.Basic:
+                        basic++;
+                        break;
+                    case ItemRarity.Common:
+                        common++;
+                        break;
+                    case ItemRarity.Rare:
+                        rare++;
+                        break;
+                    case ItemRarity.Epic:
+                        epic++;
+                        break;
+                    case ItemRarity.Legendary:
+                        legendary++;
+                        break;
+                }
+            }
+        }
+
+        basicCount.text = basic.ToString();
+        commonCount.text = common.ToString();
+        rareCount.text = rare.ToString();
+        epicCount.text = epic.ToString();
+        legendaryCount.text = legendary.ToString();
+
+
     }
 }

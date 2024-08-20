@@ -149,8 +149,8 @@ public class HeroPage : HeroScreen
             return false;
         }
 
-        var ExpItems = GameDataManager.instance.itemDictionary[ItemType.Exp];
-        Item targetScroll = ExpItems.Find(item => item.Params.Id == scrollType);
+        //var ExpItems = GameDataManager.instance.itemDictionary[ItemType.Exp];
+        Item targetScroll = GameDataManager.instance.FindItem(scrollType, ItemType.Exp);//ExpItems.Find(item => item.Params.Id == scrollType);
 
         if (targetScroll != null && targetScroll.count > 0)
         {
@@ -600,7 +600,7 @@ public class HeroPage : HeroScreen
         Item result = null;
         foreach(Item item in items)
         {
-            if(max < item.battlePoint)
+            if (max < item.battlePoint && _info.level >= item.Params.Level)
             {
                 max = item.battlePoint;
                 result = item;

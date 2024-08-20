@@ -76,6 +76,7 @@ public class DB
         public ItemTag Tag2;
         public ItemTag Tag3;
         public int Price;
+        public string Description;
         public string IconId;
         public string SpriteId;
         public string Meta;
@@ -101,7 +102,7 @@ public class DB
             {
                 var basicStats = new List<Basic>();
 
-                // °¢ StatValueMin¿¡ µû¶ó Basic °´Ã¼ Ãß°¡
+                // ê° StatValueMinì— ë”°ë¼ Basic ê°ì²´ ì¶”ê°€
                 if (StatValueMin1 > 0)
                 {
                     basicStats.Add(new Basic

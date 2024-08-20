@@ -201,6 +201,7 @@ public class GameDataManager : MonoSingleton<GameDataManager>
             Class = data.Class,
             Tags = new List<ItemTag> { data.Tag1, data.Tag2, data.Tag3 },
             // Properties = new List<Property> { new Property(data.PropertyId1, data.PropertyValue1), new Property(data.PropertyId2, data.PropertyValue2) },
+            Description = data.Description,
             Price = data.Price,
 
             IconId = data.IconId,
