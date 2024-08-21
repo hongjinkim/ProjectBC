@@ -90,24 +90,27 @@ public class HeroPage : HeroScreen
 
     public void OnHeroSelected(HeroInfo info, int idx)
     {
-        _UIManager.ToggleMenuBar(false);
-        _UIManager.TogglePlayerInfo(false);
-        _idx = idx;
-        _info = info;
-        Initialize();
-        if (heroMenuManager != null)
+        if(info.character != null)
         {
-            heroMenuManager.UpdateCurrentHero(_info);
+            _UIManager.ToggleMenuBar(false);
+            _UIManager.TogglePlayerInfo(false);
+            _idx = idx;
+            _info = info;
+            Initialize();
+            if (heroMenuManager != null)
+            {
+                heroMenuManager.UpdateCurrentHero(_info);
+            }
+
+            traitManager.SetCurrentHero(_info);
+            attributeUI.UpdateHeroAttributes(info);
+            if (heroPotion != null)
+            {
+                heroPotion.UpdateCurrentHero(info);  // HeroPotion ������Ʈ
+            }
+            transform.SetAsLastSibling();
         }
 
-        traitManager.SetCurrentHero(_info);
-        attributeUI.UpdateHeroAttributes(info);
-        if (heroPotion != null)
-        {
-            heroPotion.UpdateCurrentHero(info);  // HeroPotion ������Ʈ
-        }
-        transform.SetAsLastSibling();
-        
     }
     public void Initialize()
     {
@@ -315,12 +318,11 @@ public class HeroPage : HeroScreen
 
     public void UpdatePotion()
     {
-        if(_info.potionId != "")
+        if(_info.potionId != null && _info.potionId != "")
         {
             Potion.icon.sprite = ItemCollection.active.GetItemIcon(_info.potionId)?.sprite;
-            
             Potion.background.sprite = ItemCollection.active.GetBackground(_info.potionId) ?? ItemCollection.active.backgroundBrown;
-            if(_info.potionItem == null)
+            if (_info.potionItem == null)
             {
                 Potion.icon.color = Color.grey;
                 Potion.background.color = Color.grey;
@@ -339,7 +341,9 @@ public class HeroPage : HeroScreen
             Potion.icon.color = new Color32(0, 0, 0, 100);
             Potion.background.sprite = ItemCollection.active.backgroundBrown;
             potionCount.text = "";
+            Potion.background.color = Color.white;
         }
+       
     }
 
     private void UpdateEquipment()

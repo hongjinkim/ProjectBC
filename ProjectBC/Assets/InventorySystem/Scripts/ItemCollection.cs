@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
-using UnityEditor;
 using UnityEngine;
-using static UnityEditor.Progress;
+
 
 [CreateAssetMenu(fileName = "ItemCollection", menuName = "Scriptables/ItemCollection")]
 public class ItemCollection : ScriptableObject
