@@ -4,15 +4,12 @@ using UnityEngine.UI;
 
 public class MagicPanel : MonoBehaviour, ITraitPanel
 {
-    //public TextMeshProUGUI heroNameText;
-    //public TextMeshProUGUI levelText;
-    //public Image heroImage;
-    public Button[] traitButtons; // 8개의 버튼 (레벨당 2개씩, 4개 레벨)
-    public TextMeshProUGUI[] traitDescriptions; // 8개의 설명 텍스트
-    public Image[] traitIcons; // 8개의 특성 아이콘
+    public Button[] traitButtons; // 특성 버튼 배열
+    public TextMeshProUGUI[] traitDescriptions; // 특성 설명 텍스트 배열
+    public Image[] traitIcons; // 특성 아이콘 이미지 배열
 
-    private HeroInfo currentHeroInfo;
-    private MagicTrait magicTrait;
+    private HeroInfo currentHeroInfo; // 현재 영웅 정보
+    private MagicTrait magicTrait; // 마법 특성
 
     public void Initialize(HeroInfo heroInfo)
     {
@@ -20,7 +17,7 @@ public class MagicPanel : MonoBehaviour, ITraitPanel
         magicTrait = heroInfo.traits.Find(t => t is MagicTrait) as MagicTrait;
         if (magicTrait == null)
         {
-            Debug.LogError("MagicTrait not found for this hero.");
+            Debug.LogError("이 영웅에 대한 MagicTrait를 찾을 수 없습니다.");
             return;
         }
         UpdateUI();
@@ -28,9 +25,6 @@ public class MagicPanel : MonoBehaviour, ITraitPanel
 
     private void UpdateUI()
     {
-        //heroNameText.text = currentHeroInfo.heroName;
-        //levelText.text = "Level: " + currentHeroInfo.level.ToString();
-        //heroImage.sprite = currentHeroInfo.Sprite;
         UpdateTraitButtons();
     }
 
@@ -48,20 +42,15 @@ public class MagicPanel : MonoBehaviour, ITraitPanel
         {
             int level = traitLevels[i / 2];
             bool isLeftTrait = i % 2 == 0;
-
             bool isSelected = currentHeroInfo.IsTraitSelected(TraitType.Magic, level, isLeftTrait);
             bool isOppositeSelected = currentHeroInfo.IsTraitSelected(TraitType.Magic, level, !isLeftTrait);
 
+            // 버튼 상호작용 가능 여부 업데이트
             traitButtons[i].interactable = currentHeroInfo.level >= level && !isSelected && !isOppositeSelected;
 
-            if (isSelected)
-            {
-                traitButtons[i].GetComponent<Image>().color = Color.yellow;
-            }
-            else
-            {
-                traitButtons[i].GetComponent<Image>().color = Color.white;
-            }
+            // 버튼 색상 업데이트
+            Color buttonColor = isSelected ? Color.yellow : (traitButtons[i].interactable ? Color.white : Color.gray);
+            traitButtons[i].GetComponent<Image>().color = buttonColor;
 
             if (traitDescriptions != null && i < traitDescriptions.Length)
                 traitDescriptions[i].text = traitNames[i];
@@ -74,30 +63,25 @@ public class MagicPanel : MonoBehaviour, ITraitPanel
 
     private void OnTraitButtonClicked(int level, bool isLeftTrait, int buttonIndex)
     {
-        if (!currentHeroInfo.IsTraitApplied(TraitType.Magic, level, isLeftTrait))
-        {
-            magicTrait.ChooseTrait(level, isLeftTrait);
-            if (currentHeroInfo.seungsoo == null) currentHeroInfo.seungsoo = isLeftTrait;
-            else
-            {
-                if (currentHeroInfo.seungsoo != isLeftTrait) return;
-            }
-            // Character가 있으면 즉시 적용
-            if (currentHeroInfo.character != null)
-            {
-                magicTrait.ApplyEffect(currentHeroInfo.character);
-            }
-            else
-            {
-                // Character가 없으면 HeroInfo에만 기록
-                currentHeroInfo.AddAppliedTrait(TraitType.Magic, level, isLeftTrait);
-            }
+        magicTrait.ChooseTrait(level, isLeftTrait);
 
-            UpdateTraitButtons();
-        }
-        else
+
+        if (currentHeroInfo.character != null)
         {
-            Debug.Log("This trait has already been applied.");
+
+
+            magicTrait.ApplyEffect(currentHeroInfo.character);
+
+        }
+        DisableOppositeTraitButton(buttonIndex);
+    }
+    private void DisableOppositeTraitButton(int selectedIndex)
+    {
+        int oppositeIndex = selectedIndex % 2 == 0 ? selectedIndex + 1 : selectedIndex - 1;
+        if (oppositeIndex >= 0 && oppositeIndex < traitButtons.Length)
+        {
+            traitButtons[oppositeIndex].interactable = false;
+            traitButtons[oppositeIndex].GetComponent<Image>().color = Color.gray;
         }
     }
 }

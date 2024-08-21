@@ -110,29 +110,26 @@ public class ConcentrationPanel : MonoBehaviour, ITraitPanel
 
     private void OnTraitButtonClicked(int level, bool isLeftTrait, int buttonIndex)
     {
-        if (!currentHeroInfo.IsTraitApplied(TraitType.Concentration, level, isLeftTrait))
-        {
-            concentrationTrait.ChooseTrait(level, isLeftTrait);
-            
-            if (currentHeroInfo.seungsoo == null) currentHeroInfo.seungsoo = isLeftTrait;
-            else
-            {
-                if (currentHeroInfo.seungsoo != isLeftTrait) return;
-            }
-            if (currentHeroInfo.character != null)
-            {
-                
-                
-                concentrationTrait.ApplyEffect(currentHeroInfo.character);
-            }
-           
+        
+        concentrationTrait.ChooseTrait(level, isLeftTrait);
 
-            // 특성 적용 후 UI 갱신
-            UpdateTraitButtons();
-        }
-        else
+
+        if (currentHeroInfo.character != null)
         {
-            Debug.Log("This trait has already been applied.");
+
+
+            concentrationTrait.ApplyEffect(currentHeroInfo.character);
+
+        }
+        DisableOppositeTraitButton(buttonIndex);
+    }
+    private void DisableOppositeTraitButton(int selectedIndex)
+    {
+        int oppositeIndex = selectedIndex % 2 == 0 ? selectedIndex + 1 : selectedIndex - 1;
+        if (oppositeIndex >= 0 && oppositeIndex < traitButtons.Length)
+        {
+            traitButtons[oppositeIndex].interactable = false;
+            traitButtons[oppositeIndex].GetComponent<Image>().color = Color.gray;
         }
     }
 }

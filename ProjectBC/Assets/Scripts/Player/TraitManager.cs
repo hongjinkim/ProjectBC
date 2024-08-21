@@ -128,12 +128,10 @@ public class TraitManager : MonoBehaviour
             Debug.LogError("concentrationTrait is null in TraitManager");
             return;
         }
-        Debug.Log(currentHeroInfo.seungsoo);
-        if (currentHeroInfo.seungsoo == null) currentHeroInfo.seungsoo = isLeftTrait;
-        else {
-            if (currentHeroInfo.seungsoo != isLeftTrait)  return; }
+        
+        
         concentrationTrait.ChooseTrait(level, isLeftTrait);
-
+        
         if (currentHeroInfo != null)
         {
             currentHeroInfo.ApplyTrait(concentrationTrait);

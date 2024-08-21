@@ -8,7 +8,7 @@ using static UnityEngine.ParticleSystem;
 [Serializable]
 public class HeroInfo
 {
-    public bool? seungsoo=null;
+    
     public Dictionary<TraitType, Dictionary<int, bool>> selectedTraits = new Dictionary<TraitType, Dictionary<int, bool>>();
     public Character character;
     public List<AppliedTrait> appliedTraits = new List<AppliedTrait>();
