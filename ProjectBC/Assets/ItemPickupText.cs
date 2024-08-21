@@ -39,7 +39,7 @@ public class ItemPickupText : MonoBehaviour
                 temp = $"<color=green>{text}</color>";
                 break;
             case (ItemRarity.Rare):
-                temp = $"<color=blue>{text}</color>";
+                temp = $"<color=#00698C>{text}</color>"; //blue;
                 break;
             case (ItemRarity.Epic):
                 temp = $"<color=purple>{text}</color>";

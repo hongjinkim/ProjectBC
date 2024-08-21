@@ -20,6 +20,7 @@ public class MainUIManager : MonoSingleton<MainUIManager>
     public PopUp PortalPopUp;
     public PopUp ForgePopUp;
     public PopUp ItemInfoPopUp;
+    public PopUp EquipmentInfoPopUp;
     public PopUp DungeonThemePopUp;
     public PopUp PotionPopUp;
     public PopUp SettingsPopUp;

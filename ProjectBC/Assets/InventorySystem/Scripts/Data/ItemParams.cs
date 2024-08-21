@@ -19,6 +19,7 @@ public class ItemParams
     public ItemClass Class;
     public List<ItemTag> Tags = new List<ItemTag>();
     //public List<Property> Properties = new List<Property>();
+    public string Description;
     public int Price;
     public string IconId;
     public string SpriteId;
@@ -66,6 +67,7 @@ public class ItemParams
             Class = Class,
             Tags = Tags.ToList(),
             //Properties = Properties.Select(i => i.Copy()).ToList(),
+            Description = Description,
             Price = Price,
             IconId = IconId,
             SpriteId = SpriteId,
