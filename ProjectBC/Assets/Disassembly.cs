@@ -119,27 +119,25 @@ public class Disassembly : MonoBehaviour
 
     public void ItemDisassembly()
     {
-        List<Item> itemsToDisassemble = new List<Item>();
+        Dictionary<Item, int> itemsToDisassemble = new Dictionary<Item, int>();
         int excludedCount = 0;
 
         foreach (Item item in selectedItems)
         {
             if (!item.isLocked)
             {
-                itemsToDisassemble.Add(item);
+                itemsToDisassemble.Add(item, 1);
             }
             else
             {
                 excludedCount++;
             }
         }
+        
+        GameDataManager.instance.RemoveItem(itemsToDisassemble);
+        
 
-        foreach (Item item in itemsToDisassemble)
-        {
-            GameDataManager.instance.RemoveItem(item);
-        }
-
-        DisassemblyReward(itemsToDisassemble);  // itemsToDisassemble ¸®½ºÆ® Àü´Ş
+        DisassemblyReward(itemsToDisassemble);  // itemsToDisassemble ë¦¬ìŠ¤íŠ¸ ì „ë‹¬
 
         Debug.Log($"Disassembled {itemsToDisassemble.Count} items. {excludedCount} locked items were excluded.");
 
@@ -151,40 +149,35 @@ public class Disassembly : MonoBehaviour
         inventoryBase.InitializeInventory(null);
     }
 
-    public void DisassemblyReward(List<Item> disassembledItems)
+    public void DisassemblyReward(Dictionary<Item, int> disassembledItems)
     {
         int totalGold = 0;
-        Dictionary<string, int> rewardItems = new Dictionary<string, int>();
+        Dictionary<Item, int> rewardItems = new Dictionary<Item, int>();
 
-        foreach (Item item in disassembledItems)  // selectedItems ´ë½Å disassembledItems »ç¿ë
+        foreach (var item in disassembledItems)  // selectedItems ëŒ€ì‹  disassembledItems ì‚¬ìš©
         {
-            totalGold += item.Params.Price;
-
-            RarityReward reward = rarityRewards.Find(r => r.rarity == item.Params.Rarity);
-            if (reward != null)
+            for(int i = 0; i < item.Value; i++)
             {
-                int rewardAmount = CalculateRewardAmount(reward, item.Params.Level);
-                foreach (string rewardItemId in reward.rewardItemIds)
+                totalGold += item.Key.Params.Price;
+
+                RarityReward reward = rarityRewards.Find(r => r.rarity == item.Key.Params.Rarity);
+                if (reward != null)
                 {
-                    if (!rewardItems.ContainsKey(rewardItemId))
-                        rewardItems[rewardItemId] = 0;
-                    rewardItems[rewardItemId] += rewardAmount;
+                    int rewardAmount = CalculateRewardAmount(reward, item.Key.Params.Level);
+                    foreach (string rewardItemId in reward.rewardItemIds)
+                    {
+                        rewardItems.Add(new Item(rewardItemId), rewardAmount);
+                    }
                 }
             }
         }
 
         GameDataManager.instance.playerInfo.gold += totalGold * 5;
 
-        var inventory = GameDataManager.instance.playerInfo.items;
-        foreach (var rewardItem in rewardItems)
-        {
-            GameDataManager.instance.AddItem(new Item(rewardItem.Key), rewardItem.Value);
-
-            Debug.Log($"Gained {rewardItem.Value} of reward item (ID: {rewardItem.Key})");
-        }
+        GameDataManager.instance.AddItem(rewardItems);
 
         EventManager.TriggerEvent(EventType.FundsUpdated, null);
-        EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { { "type", ItemType.Material } });
+        //EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { { "type", ItemType.Material } });
 
         inventoryBase.InitializeInventory(null);
     }
@@ -206,21 +199,21 @@ public class Disassembly : MonoBehaviour
             {
                 int rewardAmount = CalculateRewardAmount(reward, item.Params.Level);
 
-                // °ñµå Áö±Ş
+                // ê³¨ë“œ ì§€ê¸‰
                 GameDataManager.instance.playerInfo.gold += goldReward;
 
-                // Àç·á ¾ÆÀÌÅÛ Áö±Ş
+                // ì¬ë£Œ ì•„ì´í…œ ì§€ê¸‰
                 foreach (string rewardItemId in reward.rewardItemIds)
                 {
                     AddRewardItem(rewardItemId, rewardAmount);
                 }
 
-                // ¾ÆÀÌÅÛ Á¦°Å
+                // ì•„ì´í…œ ì œê±°
                 GameDataManager.instance.RemoveItem(item);
 
-                Debug.Log($"ºĞÇØ ¿Ï·á: {item.Params.Name}");
-                Debug.Log($"È¹µæÇÑ °ñµå: {goldReward}");
-                Debug.Log($"È¹µæÇÑ Àç·á: {string.Join(", ", reward.rewardItemIds)} (°¢ {rewardAmount}°³)");
+                Debug.Log($"ë¶„í•´ ì™„ë£Œ: {item.Params.Name}");
+                Debug.Log($"íšë“í•œ ê³¨ë“œ: {goldReward}");
+                Debug.Log($"íšë“í•œ ì¬ë£Œ: {string.Join(", ", reward.rewardItemIds)} (ê° {rewardAmount}ê°œ)");
 
                 EventManager.TriggerEvent(EventType.FundsUpdated, null);
                 EventManager.TriggerEvent(EventType.ItemUpdated, null);
@@ -229,16 +222,16 @@ public class Disassembly : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning($"ÇØ´ç µî±Ş({item.Params.Rarity})ÀÇ º¸»ó Á¤º¸¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+                Debug.LogWarning($"í•´ë‹¹ ë“±ê¸‰({item.Params.Rarity})ì˜ ë³´ìƒ ì •ë³´ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             }
         }
         else if (item.isLocked)
         {
-            Debug.Log($"{item.Params.Name}Àº(´Â) Àá°ÜÀÖ¾î ºĞÇØÇÒ ¼ö ¾ø½À´Ï´Ù.");
+            Debug.Log($"{item.Params.Name}ì€(ëŠ”) ì ê²¨ìˆì–´ ë¶„í•´í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         }
         else
         {
-            Debug.Log($"{item.Params.Name}Àº(´Â) ¼±ÅÃµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.Log($"{item.Params.Name}ì€(ëŠ”) ì„ íƒë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
         }
     }
 

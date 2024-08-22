@@ -309,7 +309,46 @@ public class GameDataManager : MonoSingleton<GameDataManager>
 
         EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { { "type", item.Params.Type } });
     }
+    public void AddItem(Dictionary<Item, int> itemsWithQuantities)
+    {
 
+        foreach (var kvp in itemsWithQuantities)
+        {
+            Item item = kvp.Key;
+            int amount = kvp.Value;
+
+            if (!itemDictionary.ContainsKey(item.Params.Type))
+            {
+                itemDictionary[item.Params.Type] = new List<Item>();
+            }
+
+            if (item.IsCanStacked)
+            {
+                bool hasItem = false;
+                foreach (Item _item in itemDictionary[item.Params.Type])
+                {
+                    if (item.Params.Id == _item.Params.Id)
+                    {
+                        _item.count += amount;
+                        hasItem = true;
+                        break;
+                    }
+                }
+                if (!hasItem)
+                {
+                    _playerInfo.items.Add(item);
+                    itemDictionary[item.Params.Type].Add(item);
+                }
+            }
+            else
+            {
+                _playerInfo.items.Add(item);
+                itemDictionary[item.Params.Type].Add(item);
+            }
+        }
+
+        EventManager.TriggerEvent(EventType.ItemUpdated, null);
+    }
     public void RemoveItem(Item item, int amount = 1)
     {
         if (item.IsCanStacked)
@@ -345,7 +384,70 @@ public class GameDataManager : MonoSingleton<GameDataManager>
             itemDictionary.Remove(item.Params.Type);
         }
 
-        EventManager.TriggerEvent(EventType.ItemUpdated, new Dictionary<string, object> { { "type", item.Params.Type } });
+        EventManager.TriggerEvent(EventType.ItemUpdated, null);
+    }
+    public void RemoveItem(Dictionary<Item, int> itemsWithQuantities)
+    {
+        foreach (var kvp in itemsWithQuantities)
+        {
+            Item item = kvp.Key;
+            int amount = kvp.Value;
+
+            if (itemDictionary.ContainsKey(item.Params.Type))
+            {
+                if (item.IsCanStacked)
+                {
+                    Item itemToRemove = null;
+                    foreach (Item _item in itemDictionary[item.Params.Type])
+                    {
+                        if (item.Params.Id == _item.Params.Id)
+                        {
+                            if (amount <= _item.count)
+                            {
+                                _item.count -= amount;
+                                amount = 0;
+                            }
+                            else
+                            {
+                                amount -= _item.count;
+                                _item.count = 0;
+                            }
+
+                            if (_item.count <= 0)
+                            {
+                                itemToRemove = _item;
+                            }
+                            break;
+                        }
+                    }
+
+                    if (itemToRemove != null)
+                    {
+                        _playerInfo.items.Remove(itemToRemove);
+                        itemDictionary[item.Params.Type].Remove(itemToRemove);
+                    }
+                }
+                else
+                {
+                    foreach (Item _item in itemDictionary[item.Params.Type])
+                    {
+                        if (item.Params.Id == _item.Params.Id)
+                        {
+                            _playerInfo.items.Remove(_item);
+                            itemDictionary[item.Params.Type].Remove(_item);
+                            break;
+                        }
+                    }
+                }
+
+                if (itemDictionary[item.Params.Type].Count == 0)
+                {
+                    itemDictionary.Remove(item.Params.Type);
+                }
+            }
+        }
+
+        EventManager.TriggerEvent(EventType.ItemUpdated, null);
     }
 
     public int GetItemQuantity(Item item)

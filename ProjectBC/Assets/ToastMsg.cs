@@ -37,6 +37,9 @@ public class ToastMsg : MonoSingleton<ToastMsg>
             textObject = new GameObject("ToastText");
             textObject.transform.SetParent(canvas.transform, false);
 
+            textObject.AddComponent<CanvasGroup>();
+            textObject.GetComponent<CanvasGroup>().blocksRaycasts = false;
+
             tmpText = textObject.AddComponent<TextMeshProUGUI>();
             SetFont(tmpText);
             tmpText.alignment = TextAlignmentOptions.Center;
