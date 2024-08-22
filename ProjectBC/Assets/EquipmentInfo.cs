@@ -57,7 +57,7 @@ public class EquipmentInfo : ItemInfo
         {
             if (item.stat.basic.Count > i)
             {
-                statColor = SetAdditionalStatColor(item.stat.basic[i].value, item.stat.basic[i].maxValue);
+                statColor = SetAdditionalStatColor(item.stat.basic[i].value - item.stat.basic[i].minValue, item.stat.basic[i].maxValue - item.stat.basic[i].minValue);
                 basicStats[i].text = item.stat.basic[i].value <= 0 ? null : item.stat.basic[i].name.ToString() + "  " + "+" + item.stat.basic[i].value.ToString() + $"    <color={statColor}>(+" + (item.stat.basic[i].value - item.stat.basic[i].minValue).ToString() + ")</color>";
             }
             else
